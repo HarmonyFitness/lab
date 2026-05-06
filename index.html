@@ -1,0 +1,2257 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Abonnements — Harmony Fitness</title>
+<meta name="description" content="Trois abonnements Harmony Fitness pensés pour votre usage : Access, Essential, Premium. Sans engagement ou 12 mois (−10 %). Réseau de 10 clubs en Suisse romande." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+<style>
+/* =========================================================
+   Eliptik Harmony — display typeface
+   ========================================================= */
+@font-face {
+  font-family: 'Eliptik Harmony';
+  src: url('fonts/Eliptik-Harmony-Thin.ttf') format('truetype');
+  font-weight: 100; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Eliptik Harmony';
+  src: url('fonts/Eliptik-Harmony-Light.ttf') format('truetype');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Eliptik Harmony';
+  src: url('fonts/Eliptik-Harmony-Regular.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Eliptik Harmony';
+  src: url('fonts/Eliptik-Harmony-Bold.ttf') format('truetype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+:root {
+  --brand:      #3a8fc2;
+  --brand-600:  #2b7aaa;
+  --brand-700:  #1e6390;
+  --brand-ink:  #0a3d5c;
+  --brand-deep: #0a2540;
+  --brand-300:  #8cc1de;
+  --brand-200:  #c9e0ee;
+  --brand-100:  #e4eff6;
+  --brand-50:   #f3f8fb;
+
+  --ink:   #0a1820;
+  --ink-2: #2a3a44;
+  --ink-3: #556772;
+  --ink-4: #8a99a3;
+  --ink-5: #b9c4cb;
+
+  --line:   #e6e9ec;
+  --line-2: #f1f3f5;
+  --canvas: #ffffff;
+  --soft-blue: #eff6fb;
+  --soft-warm: #f6f4f0;
+
+  --font-sans:    "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: 'Eliptik Harmony', "Geist", system-ui, sans-serif;
+  --font-mono:    "Geist Mono", ui-monospace, "SF Mono", monospace;
+
+  --grad-brand:     linear-gradient(135deg, #4aa3d8 0%, #2b7aaa 60%, #1e6390 100%);
+  --grad-premium:   linear-gradient(150deg, #1e6390 0%, #0a3d5c 55%, #0a2540 100%);
+  --grad-cta:       linear-gradient(135deg, #4aa3d8 0%, #2b7aaa 100%);
+  --grad-cta-hover: linear-gradient(135deg, #5cb3e6 0%, #3a8fc2 100%);
+}
+
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; background: var(--canvas); }
+body {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  font-size: 15px;
+  letter-spacing: -0.005em;
+}
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+a { color: inherit; text-decoration: none; }
+.num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+.mono { font-family: var(--font-mono); }
+
+.shell { max-width: 1360px; margin: 0 auto; padding: 0 40px; }
+@media (max-width: 900px) { .shell { padding: 0 20px; } }
+
+/* TOPBAR */
+.topbar {
+  position: sticky; top: 0; z-index: 30;
+  background: rgba(255,255,255,.9);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner {
+  display: flex;
+  align-items: center; justify-content: space-between;
+  height: 76px; gap: 32px;
+}
+.topbar-left { display: flex; align-items: center; gap: 48px; }
+.logo-img { height: 26px; width: auto; display: block; }
+.nav {
+  display: flex; gap: 28px;
+  font-size: 13.5px; color: var(--ink-3); font-weight: 500;
+}
+.nav a { transition: color .15s; cursor: pointer; position: relative; padding: 4px 0; }
+.nav a:hover { color: var(--ink); }
+.nav a.active { color: var(--ink); }
+.nav a.active::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -4px;
+  height: 2px; background: var(--brand); border-radius: 2px;
+}
+.topbar-cta { display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
+.login-link {
+  font-size: 12.5px; color: var(--ink-4); font-weight: 500;
+  padding: 4px 10px; transition: color .15s;
+  white-space: nowrap;
+}
+.login-link:hover { color: var(--ink-2); }
+.btn-secondary {
+  padding: 10px 16px; font-size: 13px; font-weight: 500;
+  color: var(--ink); border: 1px solid var(--line);
+  border-radius: 999px; transition: border-color .15s, background .15s;
+  white-space: nowrap;
+}
+.btn-secondary:hover { border-color: var(--ink-3); background: var(--line-2); }
+.btn-primary {
+  padding: 11px 20px; font-size: 13px; font-weight: 600;
+  background: var(--grad-cta); color: #fff;
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgba(10,37,64,.12), 0 4px 12px rgba(58,143,194,.25);
+  transition: transform .15s, box-shadow .18s;
+  white-space: nowrap;
+}
+.btn-primary:hover {
+  background: var(--grad-cta-hover);
+  box-shadow: 0 2px 4px rgba(10,37,64,.15), 0 8px 20px rgba(58,143,194,.35);
+  transform: translateY(-1px);
+}
+
+/* HERO — compact */
+.hero {
+  padding: 56px 0 24px;
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: end; gap: 48px;
+}
+@media (max-width: 900px) { .hero { grid-template-columns: 1fr; padding: 36px 0 20px; } }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--brand); font-weight: 600;
+  margin-bottom: 16px;
+}
+.eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; border-radius: 2px; }
+.hero h1 {
+  margin: 0;
+  font-weight: 600;
+  font-size: clamp(34px, 4.2vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.hero h1 em {
+  font-style: normal;
+  background: var(--grad-brand);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.hero-aside {
+  max-width: 360px;
+  color: var(--ink-3);
+  font-size: 14px; line-height: 1.55;
+  padding-bottom: 6px;
+}
+.hero-aside b { color: var(--ink); font-weight: 600; }
+
+/* PROMO BANNER — warm amber */
+:root {
+  --promo-grad: linear-gradient(135deg, #fff7e8 0%, #fbe9c9 55%, #f4d8a6 100%);
+}
+.promo-wrap { padding: 24px 0 0; }
+.promo {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 18px 18px 24px;
+  background: var(--promo-grad);
+  color: #2a1b05;
+  border: 1px solid #e8c77d;
+  border-radius: 20px;
+  box-shadow: 0 1px 2px rgba(120,80,10,.06), 0 8px 24px rgba(180,140,60,.15);
+  overflow: hidden;
+}
+.promo::before {
+  content: ""; position: absolute;
+  inset: auto -8% -80% auto;
+  width: 50%; height: 180%;
+  background: radial-gradient(circle, rgba(255,220,140,.55) 0%, transparent 70%);
+  pointer-events: none;
+}
+.promo > * { position: relative; z-index: 1; }
+.promo-mark {
+  width: 68px; height: 68px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #2a1b05 0%, #6b4a1e 100%);
+  color: #f6d98b;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: .02em;
+  box-shadow: 0 6px 16px rgba(100,60,10,.3), inset 0 1px 0 rgba(255,210,130,.3);
+}
+.promo-body { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.promo-body > * { margin: 0; }
+.promo-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 999px;
+  background: #2a1b05; color: #f6d98b;
+  width: fit-content;
+  white-space: nowrap;
+}
+.promo-chip .blink {
+  width: 6px; height: 6px; border-radius: 999px; background: #f6b84a;
+  box-shadow: 0 0 8px #f6b84a;
+  animation: promoBlink 1.4s ease-in-out infinite;
+}
+@keyframes promoBlink { 0%,100% { opacity:1 } 50% { opacity:.35 } }
+.promo-title {
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  font-size: 20px; font-weight: 700; color: #2a1b05;
+  letter-spacing: -0.015em; line-height: 1.2;
+}
+.promo-title .accent {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #6b4a1e;
+  font-size: 15px;
+}
+.promo-variants {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-top: 2px;
+}
+.promo-variant {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 11px;
+  background: rgba(255,255,255,.7);
+  border: 1px solid rgba(42,27,5,.12);
+  border-radius: 999px;
+  font-size: 12px;
+  color: #2a1b05;
+  white-space: nowrap;
+}
+.promo-variant b { font-weight: 700; }
+.promo-variant .dur { color: #6b4a1e; font-weight: 600; }
+.promo-variant .sep { color: rgba(42,27,5,.3); }
+.promo-countdown {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px;
+  background: rgba(42,27,5,.06);
+  border: 1px solid rgba(42,27,5,.12);
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-size: 12px; color: #2a1b05; font-weight: 500;
+  white-space: nowrap;
+}
+.promo-countdown .cd-label { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #6b4a1e; }
+.promo-countdown .cd-val { font-size: 14px; font-weight: 700; color: #2a1b05; }
+.promo-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 22px;
+  background: #2a1b05; color: #f6d98b;
+  border-radius: 999px;
+  font-size: 13px; font-weight: 700;
+  white-space: nowrap;
+  transition: transform .15s, box-shadow .18s, background .18s;
+  box-shadow: 0 4px 14px rgba(42,27,5,.28);
+}
+.promo-cta:hover {
+  background: #1a0f02;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(42,27,5,.4);
+}
+.promo-cta .arrow { transition: transform .2s; display: inline-flex; }
+.promo-cta:hover .arrow { transform: translateX(3px); }
+.promo-close {
+  position: absolute; top: 10px; right: 10px;
+  width: 26px; height: 26px; border-radius: 999px;
+  color: rgba(42,27,5,.45);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background .15s, color .15s;
+  z-index: 2;
+}
+.promo-close:hover { background: rgba(42,27,5,.1); color: #2a1b05; }
+
+@media (max-width: 900px) {
+  .promo { grid-template-columns: auto 1fr; grid-auto-rows: auto; gap: 14px; padding: 16px; }
+  .promo-countdown, .promo-cta { grid-column: 1 / -1; }
+  .promo-cta { justify-content: center; }
+}
+
+/* CLUB FINDER */
+.finder-wrap { padding: 40px 0 8px; scroll-margin-top: 90px; }
+.step-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--brand-ink); font-weight: 700;
+  margin-bottom: 14px;
+  scroll-margin-top: 90px;
+}
+.step-eyebrow .step-num {
+  width: 22px; height: 22px;
+  border-radius: 999px;
+  background: var(--brand); color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0;
+  box-shadow: 0 2px 6px rgba(58,143,194,.4);
+}
+.step-eyebrow.standalone { display: flex; margin: 56px 0 14px; }
+.finder {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 26px;
+  background: var(--canvas);
+  border: 1.5px solid var(--brand-100);
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(10,37,64,.04), 0 8px 24px rgba(58,143,194,.08);
+  transition: border-color .25s, box-shadow .25s;
+}
+.finder.is-required {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px var(--brand-100), 0 8px 30px rgba(58,143,194,.2);
+  animation: finderShake .45s cubic-bezier(.36,.07,.19,.97);
+}
+@keyframes finderShake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(3px); }
+  30%, 50%, 70% { transform: translateX(-5px); }
+  40%, 60% { transform: translateX(5px); }
+}
+.finder-alert {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 14px;
+  padding: 14px 18px;
+  background: var(--brand-50);
+  border: 1px solid var(--brand-200);
+  border-radius: 14px;
+  font-size: 13.5px; color: var(--brand-ink);
+  line-height: 1.5;
+  animation: alertFade .3s ease-out;
+}
+.finder-alert b { font-weight: 700; }
+.finder-alert .alert-icon {
+  flex: none;
+  width: 28px; height: 28px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+@keyframes alertFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.finder-header {
+  display: flex; align-items: center; gap: 14px;
+  min-width: 0;
+}
+.finder-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  background: var(--grad-cta);
+  color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: none;
+  box-shadow: 0 4px 12px rgba(58,143,194,.3);
+}
+.finder-text { min-width: 0; }
+.finder-title {
+  font-size: 17px; font-weight: 600; color: var(--ink);
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+}
+.finder-sub { font-size: 13px; color: var(--ink-3); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.finder-controls {
+  display: flex; align-items: center; gap: 10px;
+  flex: none;
+}
+.finder-select-wrap { position: relative; min-width: 240px; }
+.finder-map-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 18px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 13px; font-weight: 500;
+  color: var(--ink-2);
+  transition: border-color .15s, color .15s, background .15s, transform .1s;
+  white-space: nowrap;
+}
+.finder-map-btn:hover {
+  border-color: var(--brand);
+  color: var(--brand-ink);
+  background: var(--brand-50);
+  transform: translateY(-1px);
+}
+.finder-map-btn svg { color: var(--brand); }
+.finder-select {
+  appearance: none; -webkit-appearance: none;
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  font: inherit; font-size: 13.5px; font-weight: 500;
+  color: var(--ink);
+  background: var(--soft-blue);
+  border: 1px solid var(--brand-100);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.finder-select:hover { border-color: var(--brand); }
+.finder-select:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-100); }
+.finder-select-wrap::after {
+  content: ""; position: absolute;
+  right: 16px; top: 50%; width: 10px; height: 10px;
+  border-right: 1.5px solid var(--ink-3);
+  border-bottom: 1.5px solid var(--ink-3);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+.finder-result {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px 10px 12px;
+  background: var(--brand-50);
+  border: 1px solid var(--brand-100);
+  border-radius: 12px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.finder-result .level {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 9px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.finder-result .level.access    { background: #ece3d4; color: #5a4520; }
+.finder-result .level.essential { background: var(--brand-100); color: var(--brand-ink); }
+.finder-result .level.premium   { background: var(--brand-ink); color: #fff; }
+
+@media (max-width: 1100px) {
+  .finder { flex-direction: column; align-items: stretch; gap: 16px; padding: 22px; }
+  .finder-header { justify-content: flex-start; }
+  .finder-controls { flex-wrap: wrap; justify-content: center; }
+  .finder-select-wrap { min-width: 0; flex: 1 1 240px; }
+}
+@media (max-width: 700px) {
+  .finder-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .finder-map-btn { width: 100%; justify-content: center; }
+}
+
+/* MAP MODAL */
+.map-modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(10,24,32,.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 60;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  animation: mapFade .2s ease-out;
+}
+@keyframes mapFade { from { opacity: 0 } to { opacity: 1 } }
+.map-modal {
+  background: #fff;
+  border-radius: 22px;
+  width: min(960px, 100%);
+  max-height: calc(100vh - 48px);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(10,37,64,.4);
+}
+.map-modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+}
+.map-modal-head h3 {
+  margin: 0;
+  font-size: 16px; font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.map-modal-head .map-sub {
+  display: block;
+  font-size: 12px; color: var(--ink-3); font-weight: 400;
+  margin-top: 2px;
+}
+.map-modal-close {
+  width: 36px; height: 36px;
+  border-radius: 999px;
+  color: var(--ink-3);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background .15s, color .15s;
+}
+.map-modal-close:hover { background: var(--line-2); color: var(--ink); }
+.map-modal-body {
+  flex: 1;
+  min-height: 480px;
+  background: var(--brand-50);
+}
+.map-modal-foot {
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  padding: 14px 22px;
+  border-top: 1px solid var(--line);
+  font-size: 12px; color: var(--ink-3);
+}
+.map-modal-foot .legend {
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.map-modal-foot .legend .dot {
+  width: 10px; height: 10px; border-radius: 999px;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(10,37,64,.1);
+}
+.map-modal-foot .legend .dot.access    { background: #a98446; }
+.map-modal-foot .legend .dot.essential { background: var(--brand); }
+.map-modal-foot .legend .dot.premium   { background: var(--brand-ink); }
+.map-modal-foot .hint { margin-left: auto; font-size: 11.5px; color: var(--ink-4); }
+
+/* Leaflet popup styling */
+.leaflet-popup-content-wrapper { border-radius: 14px; box-shadow: 0 8px 24px rgba(10,37,64,.18); }
+.leaflet-popup-content { margin: 12px 14px; font-family: var(--font-sans); }
+.leaflet-popup-content .pop-name { font-weight: 600; font-size: 14px; color: var(--ink); }
+.leaflet-popup-content .pop-tier {
+  display: inline-block; margin-top: 4px;
+  padding: 2px 8px; border-radius: 999px;
+  font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+}
+.leaflet-popup-content .pop-tier.access    { background: #ece3d4; color: #5a4520; }
+.leaflet-popup-content .pop-tier.essential { background: var(--brand-100); color: var(--brand-ink); }
+.leaflet-popup-content .pop-tier.premium   { background: var(--brand-ink); color: #fff; }
+.leaflet-popup-content .pop-pick {
+  display: block; width: 100%; margin-top: 10px;
+  padding: 8px 10px;
+  background: var(--grad-cta); color: #fff;
+  border: 0; border-radius: 999px;
+  font: 600 12px var(--font-sans); cursor: pointer;
+  transition: background .15s;
+}
+.leaflet-popup-content .pop-pick:hover { background: var(--grad-cta-hover); }
+.club-marker {
+  width: 22px; height: 22px; border-radius: 999px;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(10,37,64,.35);
+  cursor: pointer;
+  transition: transform .15s;
+}
+.club-marker:hover { transform: scale(1.15); }
+.club-marker.access    { background: #a98446; }
+.club-marker.essential { background: var(--brand); }
+.club-marker.premium   { background: var(--brand-ink); }
+
+/* CONTROLS */
+.controls {
+  position: sticky; top: 76px; z-index: 20;
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-top: 64px;
+}
+.controls-inner { display: flex; justify-content: center; padding: 0; flex-wrap: wrap; }
+.ctrl-group {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 28px;
+  border-right: 1px solid var(--line);
+}
+.ctrl-group:last-child { border-right: 0; }
+.ctrl-label {
+  font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-4); font-weight: 600;
+}
+
+.seg {
+  position: relative; display: inline-flex; align-items: center;
+  gap: 2px; background: var(--line-2);
+  border-radius: 999px; padding: 4px;
+}
+.seg .pill {
+  position: absolute; top: 4px; bottom: 4px;
+  background: var(--canvas);
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgba(10,24,32,.08), 0 0 0 1px rgba(10,24,32,.04);
+  transition: transform .35s cubic-bezier(.22,1,.36,1), width .35s cubic-bezier(.22,1,.36,1);
+  pointer-events: none;
+  z-index: 0;
+}
+.seg button {
+  position: relative; z-index: 1;
+  padding: 9px 16px;
+  font-size: 13px; font-weight: 500;
+  color: var(--ink-4);
+  border-radius: 999px;
+  transition: color .18s;
+  display: inline-flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+}
+.seg button:hover { color: var(--ink-2); }
+.seg button.on { color: var(--ink); }
+.seg .save-chip {
+  font-size: 10.5px; font-weight: 700;
+  padding: 2px 7px; border-radius: 999px;
+  background: var(--brand); color: #fff;
+  letter-spacing: .02em;
+}
+
+/* PLANS */
+.plans-wrap { padding: 56px 0 32px; }
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+@media (max-width: 900px) { .plans { grid-template-columns: 1fr; } }
+
+.plan {
+  background: var(--soft-blue);
+  border: 1px solid var(--brand-100);
+  border-radius: 24px;
+  padding: 36px 32px 32px;
+  display: flex; flex-direction: column;
+  position: relative;
+  transition: transform .2s, box-shadow .2s;
+  min-width: 0;
+}
+.plan:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(10,37,64,.08);
+}
+.plan[data-id="access"] {
+  background: var(--soft-warm);
+  border-color: #e9e3d7;
+}
+
+.plan.featured {
+  background: var(--grad-premium);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 12px 40px rgba(10,37,64,.2);
+  overflow: hidden;
+}
+.plan.featured::before {
+  content: ""; position: absolute;
+  inset: -50% -20% auto auto;
+  width: 60%; height: 60%;
+  background: radial-gradient(circle, rgba(74,163,216,.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+.plan.featured > * { position: relative; z-index: 1; }
+
+.plan-tier {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 28px;
+  height: 26px;
+}
+.plan-tier-num {
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: .08em;
+  color: var(--ink-4); font-weight: 500;
+}
+.plan.featured .plan-tier-num { color: rgba(255,255,255,.5); }
+
+.plan-name {
+  position: relative;
+  font-weight: 600;
+  font-size: 40px;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.plan-tier-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 11px;
+  background: var(--brand-ink);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 999px;
+  white-space: nowrap;
+  line-height: 1;
+}
+.plan-tier-badge svg { display: block; flex: none; color: #f6d98b; }
+.plan.featured .plan-tier-badge { background: #fff; color: var(--brand-ink); }
+.plan.featured .plan-tier-badge svg { color: var(--brand); }
+
+.plan-tagline {
+  font-size: 14px; line-height: 1.4;
+  color: var(--ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.plan.featured .plan-tagline { color: rgba(255,255,255,.75); }
+
+.plan-price-block {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(10,24,32,.08);
+  min-height: 120px;
+}
+.plan.featured .plan-price-block { border-top-color: rgba(255,255,255,.14); }
+
+.plan-price { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.plan-price .currency { font-size: 14px; font-weight: 500; color: var(--ink-4); }
+.plan.featured .plan-price .currency { color: rgba(255,255,255,.6); }
+.plan-price .amount {
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.plan-price .per { font-size: 13.5px; color: var(--ink-3); margin-left: 4px; }
+.plan.featured .plan-price .per { color: rgba(255,255,255,.6); }
+.price-strike {
+  margin-left: 8px;
+  font-size: 13.5px; color: var(--ink-4);
+  text-decoration: line-through;
+  font-weight: 500;
+}
+.plan.featured .price-strike { color: rgba(255,255,255,.4); }
+
+.price-unavail {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 14px 16px;
+  background: var(--brand-50);
+  border: 1px dashed var(--brand-200);
+  border-radius: 12px;
+  font-size: 12.5px; color: var(--ink-2);
+  line-height: 1.5;
+}
+.price-unavail::before {
+  content: "";
+  flex-shrink: 0;
+  width: 16px; height: 16px;
+  margin-top: 1px;
+  border-radius: 999px;
+  background: var(--brand-100);
+  background-image:
+    linear-gradient(45deg, transparent 45%, var(--brand-700) 45% 55%, transparent 55%),
+    linear-gradient(-45deg, transparent 45%, var(--brand-700) 45% 55%, transparent 55%);
+  background-size: 9px 9px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.price-unavail b { color: var(--ink); font-weight: 600; }
+.plan.featured .price-unavail {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.2);
+  color: rgba(255,255,255,.85);
+}
+.plan.featured .price-unavail::before {
+  background-color: rgba(255,255,255,.15);
+  background-image:
+    linear-gradient(45deg, transparent 45%, #fff 45% 55%, transparent 55%),
+    linear-gradient(-45deg, transparent 45%, #fff 45% 55%, transparent 55%);
+}
+.plan.featured .price-unavail b { color: #fff; }
+
+.price-meta {
+  margin-top: 8px;
+  font-size: 12.5px; line-height: 1.5;
+  color: var(--ink-3);
+  min-height: 20px;
+}
+.plan.featured .price-meta { color: rgba(255,255,255,.65); }
+.price-meta b { color: var(--ink); font-weight: 600; }
+.plan.featured .price-meta b { color: #fff; }
+
+.pay-toggle {
+  margin-top: 16px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  background: rgba(10,24,32,.04);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 2px;
+}
+.plan.featured .pay-toggle { background: rgba(255,255,255,.08); }
+.pay-toggle button {
+  padding: 10px 8px;
+  font-size: 12px; font-weight: 500;
+  color: var(--ink-3);
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: background .15s, color .15s;
+  border-radius: 10px;
+}
+.plan.featured .pay-toggle button { color: rgba(255,255,255,.65); }
+.pay-toggle button.on {
+  background: #fff; color: var(--ink);
+  box-shadow: 0 1px 2px rgba(0,0,0,.06);
+}
+.plan.featured .pay-toggle button.on {
+  background: rgba(255,255,255,.16); color: #fff;
+  box-shadow: none;
+}
+.heylight-tag {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 500;
+  padding: 1px 5px; border-radius: 4px;
+  background: var(--brand-100); color: var(--brand-ink);
+}
+.plan.featured .heylight-tag { background: rgba(255,255,255,.18); color: #fff; }
+
+.plan-cta {
+  margin-top: 24px;
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 999px;
+  background: var(--grad-cta); color: #fff;
+  font-size: 14px; font-weight: 600;
+  display: inline-flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(10,37,64,.12), 0 8px 20px rgba(58,143,194,.25);
+  transition: transform .15s, box-shadow .18s, background .18s;
+}
+.plan-cta:hover {
+  background: var(--grad-cta-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(10,37,64,.18), 0 12px 28px rgba(58,143,194,.35);
+}
+.plan-cta:disabled {
+  background: var(--line); color: var(--ink-4);
+  cursor: not-allowed; box-shadow: none; transform: none;
+}
+.plan-cta.outline {
+  background: #fff; color: var(--ink);
+  border: 1px solid var(--ink);
+  box-shadow: none;
+}
+.plan-cta.outline:hover { background: var(--ink); color: #fff; transform: translateY(-1px); }
+.plan.featured .plan-cta {
+  background: #fff; color: var(--brand-ink);
+  box-shadow: 0 2px 6px rgba(0,0,0,.15), 0 10px 30px rgba(0,0,0,.25);
+}
+.plan.featured .plan-cta:hover { background: var(--brand-100); }
+.plan-cta .arrow { display: inline-flex; align-items: center; transition: transform .2s; }
+.plan-cta:hover .arrow { transform: translateX(4px); }
+
+/* Clubs block */
+.clubs-block {
+  margin-top: 32px;
+  padding: 18px;
+  background: rgba(255,255,255,.55);
+  border-radius: 16px;
+  border: 1px solid rgba(10,37,64,.06);
+}
+.plan[data-id="access"] .clubs-block {
+  background: rgba(255,255,255,.6);
+  border-color: rgba(10,37,64,.06);
+}
+.plan.featured .clubs-block {
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.12);
+}
+.clubs-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.clubs-label {
+  font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-4); font-weight: 700;
+}
+.plan.featured .clubs-label { color: rgba(255,255,255,.55); }
+.clubs-count {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 500;
+  padding: 3px 8px;
+  background: var(--brand-100); color: var(--brand-ink);
+  border-radius: 999px;
+}
+.plan.featured .clubs-count { background: rgba(255,255,255,.14); color: #fff; }
+.clubs-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.club-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 12px 6px 10px;
+  font-size: 12px; font-weight: 500;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid rgba(10,37,64,.08);
+  white-space: nowrap;
+  transition: opacity .15s;
+}
+.club-chip::before {
+  content: ""; width: 7px; height: 7px; border-radius: 999px;
+  background: #2eb872;
+  box-shadow: 0 0 0 2px rgba(46,184,114,.18);
+  flex: none;
+}
+.club-chip.is-excluded {
+  background: rgba(10,37,64,.03);
+  border-color: rgba(10,37,64,.06);
+  color: var(--ink-5);
+  text-decoration: line-through;
+  text-decoration-color: rgba(10,37,64,.2);
+}
+.club-chip.is-excluded::before { background: rgba(10,37,64,.18); box-shadow: none; }
+.plan.featured .club-chip {
+  background: rgba(255,255,255,.12);
+  color: #fff; border-color: rgba(255,255,255,.15);
+}
+.plan.featured .club-chip.is-included::before { background: #5fe6a3; box-shadow: 0 0 0 2px rgba(95,230,163,.25); }
+.plan.featured .club-chip.is-excluded {
+  background: rgba(255,255,255,.04);
+  border-color: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.35);
+  text-decoration-color: rgba(255,255,255,.2);
+}
+.plan.featured .club-chip.is-excluded::before { background: rgba(255,255,255,.2); box-shadow: none; }
+.plan.featured .club-chip::before { background: #5fe6a3; }
+
+/* Features */
+.features-block { margin-top: 24px; }
+.features-label {
+  font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-4); font-weight: 700;
+  margin-bottom: 14px;
+  display: block;
+}
+.plan.featured .features-label { color: rgba(255,255,255,.55); }
+.features-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.feat {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13.5px; line-height: 1.45;
+  color: var(--ink-2);
+}
+.plan.featured .feat { color: #fff; }
+.feat-icon {
+  flex: 0 0 18px; width: 18px; height: 18px;
+  margin-top: 1px;
+  border-radius: 999px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--brand-100); color: var(--brand-ink);
+}
+.plan.featured .feat-icon { background: rgba(255,255,255,.18); color: #fff; }
+.feat.off .feat-icon { background: rgba(10,24,32,.05); color: var(--ink-5); }
+.plan.featured .feat.off .feat-icon { background: rgba(255,255,255,.08); color: rgba(255,255,255,.4); }
+.feat.off { color: var(--ink-5); }
+.plan.featured .feat.off { color: rgba(255,255,255,.4); }
+.feat .new-mark {
+  margin-left: auto;
+  font-size: 10px; letter-spacing: .04em; font-weight: 700;
+  padding: 2px 7px; border-radius: 999px;
+  background: var(--brand); color: #fff;
+  text-transform: uppercase;
+}
+.plan.featured .feat .new-mark { background: rgba(255,255,255,.22); color: #fff; }
+
+.plan-foot {
+  margin-top: auto;
+  padding-top: 24px;
+  font-size: 11.5px;
+  color: var(--ink-4);
+  line-height: 1.5;
+}
+.plan.featured .plan-foot { color: rgba(255,255,255,.5); }
+
+/* SECTION HEADS */
+.section-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end; gap: 40px;
+  margin-bottom: 32px; padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.section-idx {
+  font-family: var(--font-mono);
+  font-size: 11px; color: var(--ink-4); letter-spacing: .08em;
+}
+.section-title {
+  font-weight: 600;
+  font-size: clamp(30px, 3.6vw, 44px);
+  letter-spacing: -0.028em;
+  line-height: 1;
+  margin: 0;
+}
+.section-sub {
+  color: var(--ink-3);
+  font-size: 14.5px; line-height: 1.5;
+  max-width: 380px;
+  text-align: right;
+  margin: 0;
+}
+
+/* COMPARE */
+.compare-section { padding: 120px 0 40px; }
+.compare-table {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--canvas);
+  box-shadow: 0 1px 2px rgba(10,37,64,.03);
+}
+.compare-row {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  min-width: 0;
+}
+.compare-row + .compare-row { border-top: 1px solid var(--line); }
+.compare-row.th { background: var(--soft-blue); font-weight: 600; }
+.compare-row.th > div { padding: 18px 22px; font-size: 13.5px; }
+.compare-row.th .col-plan {
+  text-align: center;
+  display: flex; justify-content: center; align-items: center; gap: 8px;
+  flex-direction: column;
+}
+.compare-row.th .col-plan.featured-col { background: var(--grad-premium); color: #fff; }
+.compare-row.th .plan-title { font-size: 16px; font-weight: 700; }
+.mini-badge {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 999px;
+  background: var(--brand); color: #fff;
+}
+.compare-row.th .featured-col .mini-badge { background: #fff; color: var(--brand-ink); }
+
+.compare-row.section-th {
+  background: var(--line-2);
+  font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-4); font-weight: 700;
+}
+.compare-row.section-th > div:first-child { padding: 12px 22px; }
+
+.compare-row > div {
+  padding: 14px 18px;
+  font-size: 13.5px;
+  display: flex; align-items: center;
+}
+.compare-row .col-feat {
+  color: var(--ink-2);
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.compare-row .col-feat .sub {
+  display: block; color: var(--ink-4);
+  font-size: 12px; margin-top: 3px;
+  white-space: normal;
+}
+.compare-row .col-plan { justify-content: center; color: var(--ink-2); white-space: nowrap; text-align: center; }
+.compare-row .col-plan.featured-col { background: var(--brand-50); font-weight: 500; }
+.compare-row .col-plan.off { color: var(--ink-5); }
+
+.check-mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 999px;
+  background: var(--brand-100); color: var(--brand-ink);
+}
+.check-mark.off { background: var(--line-2); color: var(--ink-5); }
+
+.compare-row.fade-foot {
+  background: linear-gradient(to bottom, rgba(10,37,64,0) 0%, rgba(10,37,64,.03) 100%);
+  font-size: 12px; color: var(--ink-4);
+}
+.compare-row.fade-foot > div { padding: 16px 22px; justify-content: center; }
+
+.compare-expand-wrap { display: flex; justify-content: center; margin-top: 28px; }
+.expand-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 22px;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 13.5px; font-weight: 600;
+  border-radius: 999px;
+  transition: border-color .15s, background .15s, transform .15s;
+}
+.expand-btn:hover { border-color: var(--ink-3); background: var(--line-2); transform: translateY(-1px); }
+.expand-btn svg { transition: transform .25s; }
+.expand-btn.open svg { transform: rotate(180deg); }
+
+.compare-select-row {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  background: var(--line-2);
+}
+.compare-select-row > div {
+  padding: 18px 22px;
+  display: flex; align-items: center; justify-content: center;
+}
+.compare-select-row .col-feat {
+  justify-content: flex-start;
+  font-size: 13.5px; font-weight: 600;
+  color: var(--ink);
+}
+.compare-select-row .featured-col { background: var(--brand-50); }
+.compare-select-btn {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-size: 12.5px; font-weight: 600;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border: 1px solid var(--ink);
+  background: #fff; color: var(--ink);
+  transition: background .15s, color .15s, transform .1s;
+}
+.compare-select-btn:hover { background: var(--ink); color: #fff; transform: translateY(-1px); }
+.compare-select-btn.disabled {
+  border-color: var(--line); color: var(--ink-4);
+  background: transparent; cursor: not-allowed;
+}
+.compare-select-btn.disabled:hover { background: transparent; color: var(--ink-4); transform: none; }
+.compare-select-btn.featured {
+  background: var(--grad-cta); color: #fff; border-color: transparent;
+  box-shadow: 0 4px 12px rgba(58,143,194,.3);
+}
+.compare-select-btn.featured:hover { background: var(--grad-cta-hover); }
+.compare-select-btn .price-inline { opacity: .8; font-weight: 500; font-size: 11.5px; }
+
+/* ADDONS */
+.addons-section { padding: 40px 0 80px; }
+.addons-intro {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12.5px; color: var(--ink-3);
+  padding: 8px 14px;
+  background: var(--brand-50);
+  border: 1px solid var(--brand-100);
+  border-radius: 999px;
+  margin-bottom: 20px;
+}
+.addons-intro .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--brand); }
+
+.addons {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+@media (max-width: 1100px) { .addons { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 700px)  { .addons { grid-template-columns: repeat(2, 1fr); } }
+
+.addon {
+  background: var(--canvas);
+  border: 1.5px solid var(--line);
+  border-radius: 18px;
+  padding: 20px 18px 18px;
+  cursor: pointer;
+  text-align: left;
+  display: flex; flex-direction: column; gap: 12px;
+  transition: border-color .18s, background .18s, transform .15s, box-shadow .15s;
+  position: relative;
+  min-height: 210px;
+}
+.addon:hover {
+  border-color: var(--brand);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(10,37,64,.08);
+}
+.addon.on {
+  border-color: var(--brand);
+  background: var(--brand-50);
+  box-shadow: 0 0 0 3px var(--brand-100), 0 6px 16px rgba(58,143,194,.15);
+}
+.addon-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 12px;
+}
+.addon-icon {
+  width: 40px; height: 40px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--brand-100);
+  color: var(--brand-ink);
+  border-radius: 12px;
+}
+.addon.on .addon-icon { background: var(--brand); color: #fff; }
+.addon-check {
+  width: 24px; height: 24px; border-radius: 999px;
+  border: 2px solid var(--line);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: all .2s;
+  color: transparent;
+  background: #fff;
+}
+.addon:hover .addon-check { border-color: var(--brand); }
+.addon.on .addon-check { background: var(--brand); border-color: var(--brand); color: #fff; }
+.addon-name { font-weight: 600; font-size: 14.5px; color: var(--ink); line-height: 1.3; }
+.addon-desc { font-size: 12px; color: var(--ink-3); line-height: 1.5; margin-top: 4px; }
+.addon-price {
+  margin-top: auto; padding-top: 8px;
+  font-size: 13.5px; font-weight: 600;
+  display: flex; align-items: baseline; gap: 4px;
+  color: var(--ink);
+}
+.addon-price .currency { font-size: 11px; color: var(--ink-4); font-weight: 500; }
+.addon-price .per { font-size: 11px; color: var(--ink-4); font-weight: 500; }
+
+/* SUMMARY bar */
+.summary {
+  position: fixed;
+  bottom: 20px; left: 50%;
+  transform: translateX(-50%) translateY(24px);
+  min-width: 580px; max-width: calc(100vw - 40px);
+  background: var(--grad-premium);
+  color: #fff;
+  border-radius: 20px;
+  padding: 14px 14px 14px 24px;
+  display: flex; align-items: center; gap: 20px;
+  box-shadow: 0 20px 60px rgba(10,37,64,.4), 0 0 0 1px rgba(10,37,64,.2);
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s, transform .35s cubic-bezier(.22,1,.36,1);
+}
+.summary.show { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+.summary-plan { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.summary-plan b { color: var(--brand-300); font-weight: 700; }
+.summary-sep { width: 1px; height: 32px; background: rgba(255,255,255,.15); }
+.summary-price { display: flex; flex-direction: column; line-height: 1.15; }
+.summary-price .big { font-size: 18px; font-weight: 700; }
+.summary-price .small { font-size: 11px; color: rgba(255,255,255,.6); margin-top: 2px; }
+.summary-addons { font-size: 12px; color: rgba(255,255,255,.7); }
+.summary-cta {
+  margin-left: auto;
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: var(--grad-cta); color: #fff;
+  font-size: 13px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 8px;
+  box-shadow: 0 4px 14px rgba(58,143,194,.4);
+  transition: background .15s, transform .15s;
+}
+.summary-cta:hover { background: var(--grad-cta-hover); transform: translateY(-1px); }
+.summary-close {
+  width: 32px; height: 32px; border-radius: 999px;
+  color: rgba(255,255,255,.55);
+  transition: background .15s, color .15s;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.summary-close:hover { background: rgba(255,255,255,.1); color: #fff; }
+
+/* PULSE */
+@keyframes priceFade {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.plan-price.pulse .amount,
+.plan-price.pulse .currency,
+.plan-price.pulse .per,
+.plan-price.pulse .price-strike,
+.price-meta.pulse { animation: priceFade .35s cubic-bezier(.22,1,.36,1); }
+
+/* LEGAL */
+.legal {
+  border-top: 1px solid var(--line);
+  padding: 48px 0 96px;
+  color: var(--ink-4);
+  font-size: 12px; line-height: 1.7;
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.legal a { text-decoration: underline; text-underline-offset: 3px; }
+.legal b { color: var(--ink-2); font-weight: 600; }
+
+@media (max-width: 900px) {
+  .compare-row, .compare-select-row { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+  .compare-row > div, .compare-select-row > div { padding: 12px 12px; font-size: 12px; }
+  .summary { min-width: 0; width: calc(100vw - 40px); padding: 12px; gap: 10px; flex-wrap: wrap; }
+  .section-head { grid-template-columns: 1fr; gap: 12px; }
+  .section-sub { text-align: left; }
+}
+</style>
+
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="env,react">
+/* =========================================================
+   DATA
+   ========================================================= */
+const PROFILES = [
+  { id: "adult",  label: "Adulte" },
+  { id: "young",  label: "Jeune" },
+  { id: "teen",   label: "Ado" },
+  { id: "senior", label: "Senior" },
+];
+
+const CLUBS = {
+  access:    ["Pâquis"],
+  essential: ["Blandonnet", "Eaux-Vives", "Gland", "Meyrin", "Signy", "Versoix"],
+  premium:   ["Denges", "La Praille", "Veyrier"],
+};
+
+const CLUB_COORDS = {
+  "Pâquis":      { lat: 46.2102, lng: 6.1469, tier: "access" },
+  "Blandonnet":  { lat: 46.2150, lng: 6.0944, tier: "essential" },
+  "Eaux-Vives":  { lat: 46.1995, lng: 6.1639, tier: "essential" },
+  "Gland":       { lat: 46.4189, lng: 6.2701, tier: "essential" },
+  "Meyrin":      { lat: 46.2330, lng: 6.0775, tier: "essential" },
+  "Signy":       { lat: 46.3650, lng: 6.2278, tier: "essential" },
+  "Versoix":     { lat: 46.2845, lng: 6.1646, tier: "essential" },
+  "Denges":      { lat: 46.5210, lng: 6.5476, tier: "premium" },
+  "La Praille":  { lat: 46.1810, lng: 6.1259, tier: "premium" },
+  "Veyrier":     { lat: 46.1697, lng: 6.1894, tier: "premium" },
+};
+
+const PRICING = {
+  access: {
+    adult:  { monthly: 69.9,  annual: 699 },
+    young:  null, teen: null, senior: null,
+  },
+  essential: {
+    adult:  { monthly: 119,   annual: 1199 },
+    young:  { monthly: 95.9,  annual: 959.2 },
+    teen:   { monthly: 83.9,  annual: 839.3 },
+    senior: { monthly: 95.9,  annual: 959 },
+  },
+  premium: {
+    adult:  { monthly: 159.9, annual: 1599 },
+    young:  { monthly: 127.9, annual: 1279 },
+    teen:   { monthly: 111.9, annual: 1119.3 },
+    senior: { monthly: 127.9, annual: 1279 },
+  },
+};
+
+const PLANS = [
+  {
+    id: "access",
+    name: "Access",
+    tagline: "L'essentiel pour s'entraîner en toute autonomie.",
+    cta: "Choisir Access",
+    includedTiers: ["access"],
+    features: [
+      { id: "cardio",   label: "Zones cardio, fonctionnelle et poids libres", included: true },
+      { id: "hours",    label: "Ouverture 06h — 23h, 7j/7", included: true },
+      { id: "app",      label: "Application Harmony (suivi & réservation)", included: true },
+      { id: "wellness", label: "Espaces wellness (sauna, hammam)", included: false },
+      { id: "classes",  label: "Cours collectifs", included: false },
+      { id: "coach",    label: "Séances de coaching", included: false },
+      { id: "aqua",     label: "Espaces aquatiques", included: false },
+    ],
+    foot: "Idéal pour un usage libre et autonome.",
+  },
+  {
+    id: "essential",
+    name: "Essential",
+    tagline: "Wellness, cours collectifs et coaching inclus.",
+    cta: "Choisir Essential",
+    includedTiers: ["access", "essential"],
+    features: [
+      { id: "fitness",  label: "Espaces fitness complets", included: true },
+      { id: "wellness", label: "Espaces wellness (sauna, hammam)", included: true, newHere: true },
+      { id: "classes",  label: "Cours collectifs (40+ / semaine)", included: true, newHere: true },
+      { id: "coach",    label: "4 séances de coaching par an", included: true, newHere: true },
+      { id: "app",      label: "Application Harmony", included: true },
+      { id: "aqua",     label: "Espaces aquatiques", included: false },
+      { id: "aqua-c",   label: "Cours aquatiques", included: false },
+      { id: "linge",    label: "Linge d'entraînement fourni", included: false },
+    ],
+    foot: "Le choix équilibré — wellness & communauté.",
+  },
+  {
+    id: "premium",
+    name: "Premium",
+    tagline: "L'expérience complète : aquatique, linge & coaching.",
+    cta: "Choisir Premium",
+    featured: true,
+    includedTiers: ["access", "essential", "premium"],
+    features: [
+      { id: "fitness",  label: "Espaces fitness complets", included: true },
+      { id: "wellness", label: "Espaces wellness (sauna, hammam)", included: true },
+      { id: "aqua",     label: "Espaces aquatiques (piscine & bassins)", included: true, newHere: true },
+      { id: "classes",  label: "Cours collectifs — sélection élargie", included: true, newHere: true },
+      { id: "aqua-c",   label: "Cours aquatiques", included: true, newHere: true },
+      { id: "linge",    label: "Linge d'entraînement fourni", included: true, newHere: true },
+      { id: "coach",    label: "6 séances de coaching par an", included: true, newHere: true },
+      { id: "app",      label: "Application Harmony", included: true },
+    ],
+    foot: "Inclus : 2 invités / mois · accès à tous les clubs.",
+  },
+];
+
+const COMPARE_PARTIAL = [
+  { title: "Clubs & horaires", rows: [
+    { label: "Clubs inclus", values: ["1 club (Pâquis)", "7 clubs", "10 clubs"] },
+    { label: "Horaires", values: ["06h–23h", "06h–23h", "24/7"] },
+  ]},
+  { title: "Entraînement", rows: [
+    { label: "Espaces fitness", values: ["Zones libres", "Complet", "Complet"] },
+    { label: "Cours collectifs", values: ["no", "40+ / sem.", "Élargis"] },
+    { label: "Coaching inclus", values: ["no", "4 / an", "6 / an"] },
+  ]},
+  { title: "Wellness & aquatique", rows: [
+    { label: "Sauna & hammam",     values: ["no", "yes", "yes"] },
+    { label: "Espaces aquatiques", values: ["no", "no", "yes"] },
+    { label: "Cours aquatiques",   values: ["no", "no", "yes"] },
+  ]},
+];
+
+const COMPARE_FULL = [
+  { title: "Clubs & accès", rows: [
+    { label: "Club Access",         sub: "Pâquis", values: ["yes", "yes", "yes"] },
+    { label: "Clubs Essential",     sub: "Blandonnet · Eaux-Vives · Gland · Meyrin · Signy · Versoix", values: ["no", "yes", "yes"] },
+    { label: "Clubs Premium",       sub: "Denges · La Praille · Veyrier", values: ["no", "no", "yes"] },
+    { label: "Accès international", sub: "50 clubs partenaires", values: ["no", "no", "yes"] },
+    { label: "Horaires", values: ["06h–23h", "06h–23h", "24/7"] },
+  ]},
+  { title: "Entraînement", rows: [
+    { label: "Zones cardio & musculation",  values: ["yes", "yes", "yes"] },
+    { label: "Zones fonctionnelles & poids libres", values: ["yes", "yes", "yes"] },
+    { label: "Cours collectifs", sub: "Pilates, Yoga, HIIT, Spinning…", values: ["no", "40+ / sem.", "Sélection élargie"] },
+    { label: "Cours aquatiques", values: ["no", "no", "yes"] },
+    { label: "Coaching inclus", values: ["no", "4 / an", "6 / an"] },
+    { label: "Bilan forme & nutrition", values: ["no", "Annuel", "Trimestriel"] },
+  ]},
+  { title: "Wellness & aquatique", rows: [
+    { label: "Sauna & hammam",     values: ["no", "yes", "yes"] },
+    { label: "Espaces aquatiques", sub: "Piscine, bassins", values: ["no", "no", "yes"] },
+    { label: "Tisanerie & détente", values: ["yes", "yes", "yes"] },
+  ]},
+  { title: "Services & avantages", rows: [
+    { label: "Linge d'entraînement fourni", values: ["no", "no", "yes"] },
+    { label: "Invités",                     values: ["no", "1 / mois", "2 / mois"] },
+    { label: "Réservation anticipée",       values: ["24 h", "5 jours", "10 jours"] },
+    { label: "Application & suivi",         values: ["yes", "yes", "yes"] },
+    { label: "Boutique Harmony",            values: ["no", "—10 %", "—20 %"] },
+  ]},
+];
+
+const ADDONS = [
+  { id: "sgt",      name: "Small Group Training", desc: "Entraînements en petits groupes de 4 à 6 personnes, coachés.", price: 75, icon: "group" },
+  { id: "linge",    name: "Linge d'entraînement", desc: "Serviette et kit propre à chaque visite, prêts au vestiaire.", price: 25, icon: "towel" },
+  { id: "pressing", name: "Service pressing",     desc: "Déposez votre tenue le soir, retrouvez-la lavée et pliée.",     price: 45, icon: "shirt" },
+  { id: "freeze",   name: "Gel d'abonnement",     desc: "Mettez votre abonnement en pause jusqu'à 3 mois / an.",         price: 15, icon: "pause" },
+  { id: "coach2",   name: "2 séances de coaching supplémentaires", desc: "Deux séances personnalisées additionnelles.",  price: 90, icon: "dumbbell" },
+];
+
+/* =========================================================
+   ICONS
+   ========================================================= */
+const Icons = {
+  check:   (p) => <svg viewBox="0 0 14 14" fill="none" width="12" height="12" {...p}><path d="M2.5 7.5 L5.5 10.5 L11.5 3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  dash:    (p) => <svg viewBox="0 0 14 14" fill="none" width="12" height="12" {...p}><path d="M3 7 L11 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>,
+  arrow:   (p) => <svg viewBox="0 0 16 16" fill="none" width="14" height="14" {...p}><path d="M3 8 H13 M9 4 L13 8 L9 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  chevron: (p) => <svg viewBox="0 0 14 14" fill="none" width="14" height="14" {...p}><path d="M3 5 L7 9 L11 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  close:   (p) => <svg viewBox="0 0 14 14" fill="none" width="14" height="14" {...p}><path d="M3 3 L11 11 M11 3 L3 11" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>,
+  star:    (p) => <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12" {...p}><path d="M12 2.5 L14.6 9.1 L21.5 9.6 L16.2 13.9 L17.9 20.5 L12 16.9 L6.1 20.5 L7.8 13.9 L2.5 9.6 L9.4 9.1 Z"/></svg>,
+  group:   (p) => <svg viewBox="0 0 24 24" fill="none" width="22" height="22" {...p}><circle cx="8" cy="9" r="3" stroke="currentColor" strokeWidth="1.6"/><circle cx="17" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.6"/><path d="M3 19 C3 16 5 14 8 14 C11 14 13 16 13 19" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/><path d="M15 19 C15 17 16 15.5 18 15.5 C20 15.5 21 17 21 19" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>,
+  towel:   (p) => <svg viewBox="0 0 24 24" fill="none" width="22" height="22" {...p}><rect x="4" y="5" width="16" height="14" rx="2" stroke="currentColor" strokeWidth="1.6"/><path d="M4 9 H20 M8 5 V19" stroke="currentColor" strokeWidth="1.6"/></svg>,
+  shirt:   (p) => <svg viewBox="0 0 24 24" fill="none" width="22" height="22" {...p}><path d="M8 4 L12 6 L16 4 L20 7 L17 10 V20 H7 V10 L4 7 Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/></svg>,
+  pause:   (p) => <svg viewBox="0 0 24 24" fill="none" width="22" height="22" {...p}><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6"/><path d="M10 9 V15 M14 9 V15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>,
+  dumbbell:(p) => <svg viewBox="0 0 24 24" fill="none" width="22" height="22" {...p}><rect x="2" y="9" width="3" height="6" rx="1" stroke="currentColor" strokeWidth="1.6"/><rect x="19" y="9" width="3" height="6" rx="1" stroke="currentColor" strokeWidth="1.6"/><rect x="5" y="10.5" width="2" height="3" stroke="currentColor" strokeWidth="1.6"/><rect x="17" y="10.5" width="2" height="3" stroke="currentColor" strokeWidth="1.6"/><path d="M7 12 H17" stroke="currentColor" strokeWidth="1.6"/></svg>,
+  pin:     (p) => <svg viewBox="0 0 24 24" width="22" height="22" fill="none" {...p}><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.6"/></svg>,
+};
+
+function smoothScrollTo(targetY) {
+  const startY = window.scrollY;
+  const distance = targetY - startY;
+  if (Math.abs(distance) < 4) return;
+  const duration = Math.min(900, Math.max(380, Math.abs(distance) * 0.55));
+  const startT = Date.now();
+  const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  function step() {
+    const t = Math.min(1, (Date.now() - startT) / duration);
+    window.scrollTo(0, startY + distance * ease(t));
+    if (t < 1) setTimeout(step, 16);
+  }
+  step();
+}
+
+function formatCHF(n) {
+  const hasDecimals = Math.abs(n - Math.round(n)) > 0.01;
+  return n.toLocaleString("fr-CH", {
+    minimumFractionDigits: hasDecimals ? 2 : 0,
+    maximumFractionDigits: hasDecimals ? 2 : 0,
+  }).replace(/ | /g, " ");
+}
+
+/* =========================================================
+   COMPONENTS
+   ========================================================= */
+function Segmented({ items, value, onChange }) {
+  const ref = React.useRef(null);
+  const [pill, setPill] = React.useState({ left: 0, width: 0, opacity: 0 });
+  const update = React.useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    const active = el.querySelector("button.on");
+    if (!active) return;
+    const cr = el.getBoundingClientRect();
+    const ar = active.getBoundingClientRect();
+    setPill({ left: ar.left - cr.left, width: ar.width, opacity: 1 });
+  }, []);
+  React.useEffect(() => { update(); }, [value, update]);
+  React.useEffect(() => {
+    const onR = () => update();
+    window.addEventListener("resize", onR);
+    const t = setTimeout(update, 80);
+    return () => { window.removeEventListener("resize", onR); clearTimeout(t); };
+  }, [update]);
+  return (
+    <div className="seg" ref={ref}>
+      <div className="pill" style={{ transform: `translateX(${pill.left - 4}px)`, width: pill.width, opacity: pill.opacity }} />
+      {items.map((it) => (
+        <button key={it.id} type="button" className={it.id === value ? "on" : ""} onClick={() => onChange(it.id)}>
+          {it.label}
+          {it.badge && <span className="save-chip">{it.badge}</span>}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function ClubsBlock({ plan }) {
+  const totalClubs = CLUBS.access.length + CLUBS.essential.length + CLUBS.premium.length;
+  const includedCount =
+    (plan.includedTiers.includes("access")    ? CLUBS.access.length    : 0) +
+    (plan.includedTiers.includes("essential") ? CLUBS.essential.length : 0) +
+    (plan.includedTiers.includes("premium")   ? CLUBS.premium.length   : 0);
+
+  const allClubs = [
+    ...CLUBS.access.map(c    => ({ name: c, tier: "access" })),
+    ...CLUBS.essential.map(c => ({ name: c, tier: "essential" })),
+    ...CLUBS.premium.map(c   => ({ name: c, tier: "premium" })),
+  ];
+
+  return (
+    <div className="clubs-block">
+      <div className="clubs-head">
+        <span className="clubs-label">Clubs inclus</span>
+        <span className="clubs-count num">{includedCount} / {totalClubs}</span>
+      </div>
+      <div className="clubs-list">
+        {allClubs.map((c) => {
+          const included = plan.includedTiers.includes(c.tier);
+          return (
+            <span key={c.name} className={`club-chip ${included ? "is-included" : "is-excluded"}`}>{c.name}</span>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function PayToggle({ value, onChange }) {
+  return (
+    <div className="pay-toggle">
+      <button type="button" className={value === "annual" ? "on" : ""} onClick={() => onChange("annual")}>Payer en 1×</button>
+      <button type="button" className={value === "monthly" ? "on" : ""} onClick={() => onChange("monthly")}>12× <span className="heylight-tag">Heylight</span></button>
+    </div>
+  );
+}
+
+function PlanCard({ plan, idx, profile, commitment, payMode, onPayMode, featured, available, unavailableReason, onChoose }) {
+  const priceEntry = PRICING[plan.id][profile];
+  const [pulseKey, setPulseKey] = React.useState(0);
+  const prev = React.useRef("");
+  React.useEffect(() => {
+    const k = `${profile}-${commitment}-${payMode}`;
+    if (prev.current && prev.current !== k) setPulseKey(x => x + 1);
+    prev.current = k;
+  }, [profile, commitment, payMode]);
+
+  const unavailableProfile = !priceEntry;
+  const blockedByClub = !available;
+  const unavailable = unavailableProfile || blockedByClub;
+
+  let priceNode, metaNode;
+  if (blockedByClub) {
+    const includedClubs = [
+      ...(plan.includedTiers.includes("access")    ? CLUBS.access    : []),
+      ...(plan.includedTiers.includes("essential") ? CLUBS.essential : []),
+      ...(plan.includedTiers.includes("premium")   ? CLUBS.premium   : []),
+    ];
+    priceNode = (
+      <div className="price-unavail">
+        <div>
+          <b>{unavailableReason || "Non disponible avec votre club de référence."}</b>
+          <div style={{ marginTop: 4 }}>
+            Pour accéder à <b>{plan.name}</b>, choisissez un club de référence parmi : <b>{includedClubs.join(" · ")}</b>.
+          </div>
+        </div>
+      </div>
+    );
+    metaNode = null;
+  } else if (unavailableProfile) {
+    priceNode = <div className="price-unavail">Non disponible pour ce profil. Essayez l'abonnement <b>Essential</b> ou <b>Premium</b>.</div>;
+    metaNode = null;
+  } else {
+    const monthly = commitment === "annual" ? priceEntry.annual / 12 : priceEntry.monthly;
+    const annualTotal = priceEntry.annual;
+    const showAnnualBig = commitment === "annual" && payMode === "annual";
+    let metaText;
+    if (commitment === "annual") {
+      if (payMode === "annual") metaText = <>Soit <b className="num">CHF {formatCHF(monthly)}</b> / mois · économie 10 %.</>;
+      else metaText = <>Total annuel · <b className="num">CHF {formatCHF(annualTotal)}</b> · sans frais.</>;
+    } else {
+      metaText = "Sans engagement · mensualisation libre.";
+    }
+    priceNode = (
+      <div key={pulseKey} className={`plan-price ${pulseKey ? "pulse" : ""}`}>
+        <span className="currency">CHF</span>
+        <span className="amount num">{showAnnualBig ? formatCHF(annualTotal) : formatCHF(monthly)}</span>
+        <span className="per">{showAnnualBig ? "/an" : "/mois"}</span>
+        {commitment === "annual" && !showAnnualBig && priceEntry.monthly && plan.id !== "premium" && (
+          <span className="price-strike num">CHF {formatCHF(priceEntry.monthly)}</span>
+        )}
+      </div>
+    );
+    metaNode = <div className={`price-meta ${pulseKey ? "pulse" : ""}`}>{metaText}</div>;
+  }
+
+  return (
+    <div className={`plan ${featured ? "featured" : ""}`} data-id={plan.id}>
+      <div className="plan-tier">
+        <span className="plan-tier-num">{String(idx + 1).padStart(2, "0")} · Abonnement</span>
+        {featured && <span className="plan-tier-badge"><Icons.star /> Le plus choisi</span>}
+      </div>
+
+      <div className="plan-name">{plan.name}</div>
+      <div className="plan-tagline">{plan.tagline}</div>
+
+      <div className="plan-price-block">
+        {priceNode}
+        {metaNode}
+        {!unavailable && commitment === "annual" && <PayToggle value={payMode} onChange={onPayMode} />}
+      </div>
+
+      <button className={`plan-cta ${featured ? "" : "outline"}`} onClick={onChoose} disabled={unavailable}>
+        <span>{unavailable ? "Non disponible" : plan.cta}</span>
+        {!unavailable && <span className="arrow"><Icons.arrow /></span>}
+      </button>
+
+      <ClubsBlock plan={plan} />
+
+      <div className="features-block">
+        <span className="features-label">Inclus dans {plan.name}</span>
+        <ul className="features-list">
+          {plan.features.map((f) => (
+            <li key={f.id} className={`feat ${f.included ? "" : "off"}`}>
+              <span className="feat-icon">{f.included ? <Icons.check /> : <Icons.dash />}</span>
+              <span style={{ flex: 1 }}>{f.label}</span>
+              {f.included && f.newHere && <span className="new-mark">Nouveau</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="plan-foot">{plan.foot}</div>
+    </div>
+  );
+}
+
+function CompareTable({ open, onToggle, featured, profile, commitment, onSelectPlan }) {
+  const cell = (v) => {
+    if (v === "yes")  return <span className="check-mark"><Icons.check /></span>;
+    if (v === "no")   return <span className="check-mark off"><Icons.dash /></span>;
+    return <span className="num">{v}</span>;
+  };
+  const sections = open ? COMPARE_FULL : COMPARE_PARTIAL;
+  return (
+    <section className="compare-section">
+      <div className="section-head">
+        <h2 className="section-title">Chaque avantage,<br/>côte à côte.</h2>
+        <p className="section-sub">{open ? "Toutes les inclusions visibles, par catégorie." : "Un aperçu des différences clés. Ouvrez le tableau complet pour tout voir."}</p>
+      </div>
+      <div className="compare-table">
+        <div className="compare-row th">
+          <div className="col-feat">Comparaison</div>
+          {PLANS.map(p => (
+            <div key={p.id} className={`col-plan ${p.id === featured ? "featured-col" : ""}`}>
+              <span className="plan-title">{p.name}</span>
+              {p.id === featured && <span className="mini-badge">Le plus choisi</span>}
+            </div>
+          ))}
+        </div>
+        {sections.map((section) => (
+          <React.Fragment key={section.title}>
+            <div className="compare-row section-th">
+              <div>{section.title}</div>
+              <div /><div /><div />
+            </div>
+            {section.rows.map((row, i) => (
+              <div key={i} className="compare-row">
+                <div className="col-feat">
+                  <span>{row.label}</span>
+                  {row.sub && <span className="sub">{row.sub}</span>}
+                </div>
+                {row.values.map((v, j) => {
+                  const planId = PLANS[j].id;
+                  const isFeaturedCol = planId === featured;
+                  return (
+                    <div key={j} className={`col-plan ${v === "no" ? "off" : ""} ${isFeaturedCol ? "featured-col" : ""}`}>
+                      {cell(v)}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </React.Fragment>
+        ))}
+        {!open && (
+          <div className="compare-row fade-foot">
+            <div>+ horaires détaillés, services, boutique, accès international…</div>
+            <div /><div /><div />
+          </div>
+        )}
+        <div className="compare-select-row">
+          <div className="col-feat">Choisir un abonnement</div>
+          {PLANS.map(p => {
+            const entry = PRICING[p.id][profile];
+            const isFeaturedCol = p.id === featured;
+            if (!entry) {
+              return (
+                <div key={p.id} className={`${isFeaturedCol ? "featured-col" : ""}`}>
+                  <button className="compare-select-btn disabled" disabled>Non disponible</button>
+                </div>
+              );
+            }
+            const monthly = commitment === "annual" ? entry.annual / 12 : entry.monthly;
+            return (
+              <div key={p.id} className={`${isFeaturedCol ? "featured-col" : ""}`}>
+                <button className={`compare-select-btn ${isFeaturedCol ? "featured" : ""}`} onClick={() => onSelectPlan(p.id)}>
+                  <span>Choisir {p.name}</span>
+                  <span className="price-inline num">· CHF {formatCHF(monthly)}</span>
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div className="compare-expand-wrap">
+        <button className={`expand-btn ${open ? "open" : ""}`} onClick={onToggle}>
+          {open ? "Masquer le tableau complet" : "Afficher le tableau complet"}
+          <Icons.chevron />
+        </button>
+      </div>
+    </section>
+  );
+}
+
+const AddonsGrid = React.forwardRef(function AddonsGrid({ selected, onToggle }, ref) {
+  return (
+    <section className="addons-section" ref={ref}>
+      <div className="section-head">
+        <h2 className="section-title">Personnalisez<br/>votre abonnement.</h2>
+        <p className="section-sub">Sélectionnez un ou plusieurs compléments — ils s'ajoutent au tarif de votre abonnement.</p>
+      </div>
+      <div className="addons-intro">
+        <span className="dot" />
+        Cliquez pour ajouter · tous les compléments sont combinables
+      </div>
+      <div className="addons">
+        {ADDONS.map((a) => {
+          const Ic = Icons[a.icon] || Icons.star;
+          const on = selected.includes(a.id);
+          return (
+            <button key={a.id} type="button" className={`addon ${on ? "on" : ""}`} onClick={() => onToggle(a.id)} aria-pressed={on}>
+              <div className="addon-head">
+                <span className="addon-icon"><Ic /></span>
+                <span className="addon-check">{on && <Icons.check />}</span>
+              </div>
+              <div>
+                <div className="addon-name">{a.name}</div>
+                <div className="addon-desc">{a.desc}</div>
+              </div>
+              <div className="addon-price">
+                <span className="currency">+ CHF</span>
+                <span className="num">{formatCHF(a.price)}</span>
+                <span className="per">/mois</span>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+});
+
+function SummaryBar({ selectedPlanId, profile, commitment, payMode, addons, onDismiss, onCheckout }) {
+  const visible = !!selectedPlanId;
+  const plan = PLANS.find(p => p.id === selectedPlanId) || PLANS[0];
+  const entry = PRICING[plan.id][profile];
+  const monthly = entry ? (commitment === "annual" ? entry.annual / 12 : entry.monthly) : 0;
+  const addonsTotal = addons.reduce((s, id) => s + (ADDONS.find(x => x.id === id)?.price || 0), 0);
+  const monthlyTotal = monthly + addonsTotal;
+
+  let bigPrice, sub;
+  if (commitment === "annual" && payMode === "annual") {
+    bigPrice = `CHF ${formatCHF(monthlyTotal * 12)}`;
+    sub = "pour 12 mois · économie 10 %";
+  } else if (commitment === "annual") {
+    bigPrice = `CHF ${formatCHF(monthlyTotal)} /mois`;
+    sub = "12× via Heylight · sans frais";
+  } else {
+    bigPrice = `CHF ${formatCHF(monthlyTotal)} /mois`;
+    sub = "sans engagement";
+  }
+
+  return (
+    <div className={`summary ${visible ? "show" : ""}`}>
+      <div className="summary-plan">Harmony <b>{plan.name}</b></div>
+      <div className="summary-sep" />
+      <div className="summary-price">
+        <span className="big num">{bigPrice}</span>
+        <span className="small">{sub}</span>
+      </div>
+      {addons.length > 0 && (
+        <>
+          <div className="summary-sep" />
+          <div className="summary-addons">+ {addons.length} complément{addons.length > 1 ? "s" : ""}</div>
+        </>
+      )}
+      <button className="summary-cta" onClick={onCheckout}>S'abonner <Icons.arrow /></button>
+      <button className="summary-close" onClick={onDismiss} aria-label="Fermer"><Icons.close /></button>
+    </div>
+  );
+}
+
+function PromoBanner({ onDismiss, dismissed }) {
+  const [now, setNow] = React.useState(() => Date.now());
+  React.useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, []);
+  const end = React.useMemo(() => {
+    const d = new Date();
+    return new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59).getTime();
+  }, []);
+  const diff = Math.max(0, end - now);
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const mins = Math.floor((diff / (1000 * 60)) % 60);
+
+  if (dismissed) return null;
+
+  return (
+    <div className="promo-wrap">
+      <div className="promo" role="complementary" aria-label="Offre promotionnelle">
+        <div className="promo-mark">444</div>
+        <div className="promo-body">
+          <span className="promo-chip"><span className="blink" /> Offre limitée</span>
+          <div className="promo-title">
+            <span>Offre <b>444</b></span>
+            <span className="accent">· CHF 444</span>
+          </div>
+          <div className="promo-variants">
+            <span className="promo-variant"><b>Essential</b> <span className="sep">·</span> <span className="dur">4 mois + 4 semaines</span></span>
+            <span className="promo-variant"><b>Premium</b> <span className="sep">·</span> <span className="dur">4 mois</span></span>
+          </div>
+        </div>
+        <div className="promo-countdown" aria-label="Fin de l'offre">
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <span className="cd-label">Se termine dans</span>
+            <span className="cd-val num">{days}j · {String(hours).padStart(2,"0")}h {String(mins).padStart(2,"0")}m</span>
+          </div>
+        </div>
+        <a className="promo-cta" href="#" onClick={(e) => e.preventDefault()}>
+          Découvrir l'offre <span className="arrow"><Icons.arrow /></span>
+        </a>
+        <button className="promo-close" onClick={onDismiss} aria-label="Fermer la promotion"><Icons.close /></button>
+      </div>
+    </div>
+  );
+}
+
+function MapPickerModal({ open, onClose, onPick }) {
+  const mapRef = React.useRef(null);
+  const mapInstance = React.useRef(null);
+  const onPickRef = React.useRef(onPick);
+  const onCloseRef = React.useRef(onClose);
+  React.useEffect(() => { onPickRef.current = onPick; onCloseRef.current = onClose; });
+
+  const labelFor = (lvl) => lvl === "access" ? "Access" : lvl === "essential" ? "Essential" : "Premium";
+
+  React.useEffect(() => {
+    if (!open || !mapRef.current || mapInstance.current || !window.L) return;
+
+    const map = window.L.map(mapRef.current, {
+      scrollWheelZoom: true,
+      zoomControl: true,
+    }).setView([46.32, 6.32], 9);
+
+    window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 18,
+    }).addTo(map);
+
+    const bounds = [];
+    Object.entries(CLUB_COORDS).forEach(([name, c]) => {
+      const icon = window.L.divIcon({
+        className: "",
+        html: `<div class="club-marker ${c.tier}" title="${name}"></div>`,
+        iconSize: [22, 22],
+        iconAnchor: [11, 11],
+      });
+      const marker = window.L.marker([c.lat, c.lng], { icon }).addTo(map);
+      const html = `
+        <div>
+          <div class="pop-name">${name}</div>
+          <span class="pop-tier ${c.tier}">${labelFor(c.tier)}</span>
+          <button class="pop-pick" data-club="${name}">Choisir ce club</button>
+        </div>`;
+      marker.bindPopup(html);
+      marker.on("popupopen", (e) => {
+        const btn = e.popup.getElement().querySelector(".pop-pick");
+        if (btn) btn.addEventListener("click", () => {
+          onPickRef.current(name);
+          onCloseRef.current();
+        }, { once: true });
+      });
+      bounds.push([c.lat, c.lng]);
+    });
+
+    map.fitBounds(bounds, { padding: [40, 40] });
+    setTimeout(() => map.invalidateSize(), 80);
+    mapInstance.current = map;
+  }, [open]);
+
+  React.useEffect(() => {
+    if (!open && mapInstance.current) {
+      mapInstance.current.remove();
+      mapInstance.current = null;
+    }
+  }, [open]);
+
+  React.useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+  return (
+    <div className="map-modal-backdrop" onClick={onClose} role="dialog" aria-modal="true">
+      <div className="map-modal" onClick={(e) => e.stopPropagation()}>
+        <header className="map-modal-head">
+          <div>
+            <h3>Choisissez votre club sur la carte</h3>
+            <span className="map-sub">10 clubs en Suisse romande — cliquez un point pour le sélectionner.</span>
+          </div>
+          <button className="map-modal-close" onClick={onClose} aria-label="Fermer la carte"><Icons.close /></button>
+        </header>
+        <div className="map-modal-body" ref={mapRef} />
+        <footer className="map-modal-foot">
+          <span className="legend"><span className="dot access" /> Access</span>
+          <span className="legend"><span className="dot essential" /> Essential</span>
+          <span className="legend"><span className="dot premium" /> Premium</span>
+          <span className="hint">Cartographie © OpenStreetMap</span>
+        </footer>
+      </div>
+    </div>
+  );
+}
+
+function ClubFinder({ value, onChange, onPick, required }) {
+  const items = [
+    ...CLUBS.access.map(c    => ({ club: c, level: "access" })),
+    ...CLUBS.essential.map(c => ({ club: c, level: "essential" })),
+    ...CLUBS.premium.map(c   => ({ club: c, level: "premium" })),
+  ];
+  const sel = items.find(i => i.club === value);
+  const labelFor = (lvl) => lvl === "access" ? "Access" : lvl === "essential" ? "Essential" : "Premium";
+  const [mapOpen, setMapOpen] = React.useState(false);
+
+  const pickByName = (name) => {
+    const item = items.find(i => i.club === name);
+    if (!item) return;
+    onChange(name);
+    onPick(item.level);
+  };
+
+  return (
+    <div className="finder-wrap" id="club-finder">
+      <div className="step-eyebrow">
+        <span className="step-num">1</span>
+        Étape 1 · Sélection du club
+      </div>
+      <div className={`finder ${required ? "is-required" : ""}`}>
+        <div className="finder-header">
+          <span className="finder-icon"><Icons.pin /></span>
+          <div className="finder-text">
+            <div className="finder-title">Votre club de référence</div>
+            <div className="finder-sub">Détermine les abonnements disponibles pour vous.</div>
+          </div>
+        </div>
+        <div className="finder-controls">
+          <div className="finder-select-wrap">
+            <select className="finder-select" value={value || ""} onChange={(e) => {
+              const v = e.target.value;
+              onChange(v);
+              const item = items.find(i => i.club === v);
+              if (item) onPick(item.level);
+            }}>
+              <option value="">Choisir un club…</option>
+              <optgroup label="Access">
+                {CLUBS.access.map(c => <option key={c} value={c}>{c} (Access)</option>)}
+              </optgroup>
+              <optgroup label="Essential">
+                {CLUBS.essential.map(c => <option key={c} value={c}>{c} (Essential)</option>)}
+              </optgroup>
+              <optgroup label="Premium">
+                {CLUBS.premium.map(c => <option key={c} value={c}>{c} (Premium)</option>)}
+              </optgroup>
+            </select>
+          </div>
+          <button type="button" className="finder-map-btn" onClick={() => setMapOpen(true)}>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+              <path d="M9 4 L3 6 V20 L9 18 L15 20 L21 18 V4 L15 6 Z M9 4 V18 M15 6 V20" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/>
+            </svg>
+            Voir sur la carte
+          </button>
+          {sel && (
+            <div className="finder-result">
+              <b>{sel.club}</b>
+              <span className={`level ${sel.level}`}>{labelFor(sel.level)}</span>
+            </div>
+          )}
+        </div>
+      </div>
+      {required && !value && (
+        <div className="finder-alert" role="alert">
+          <span className="alert-icon">
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none">
+              <path d="M8 4 V9 M8 11.5 V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </span>
+          <span>
+            <b>Choisissez d'abord votre club de référence.</b> Il détermine les abonnements disponibles avant de pouvoir choisir une formule.
+          </span>
+        </div>
+      )}
+      <MapPickerModal open={mapOpen} onClose={() => setMapOpen(false)} onPick={pickByName} />
+    </div>
+  );
+}
+
+/* =========================================================
+   APP
+   ========================================================= */
+const { useState, useEffect, useRef } = React;
+
+function HarmonyLogo() {
+  return <img src="https://souscription.harmony.ch/wp-content/uploads/logo-harmony.png" alt="Harmony Fitness" className="logo-img" />;
+}
+
+function App() {
+  const [profile, setProfile] = useState("adult");
+  const [commitment, setCommitment] = useState("annual");
+  const [payMode, setPayMode] = useState("monthly");
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [addons, setAddons] = useState([]);
+  const [compareOpen, setCompareOpen] = useState(false);
+  const [userClub, setUserClub] = useState("");
+  const [featured, setFeatured] = useState("premium");
+  const [clubRequired, setClubRequired] = useState(false);
+
+  const addonsRef = useRef(null);
+
+  useEffect(() => {
+    if (!userClub) return;
+    setClubRequired(false);
+    const el = document.getElementById("step-plans");
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 90;
+      smoothScrollTo(top);
+    }
+  }, [userClub]);
+
+  const [promoDismissed, setPromoDismissed] = useState(() => {
+    try { return localStorage.getItem("harmony_promo_444_dismissed") === "1"; }
+    catch { return false; }
+  });
+  const dismissPromo = () => {
+    setPromoDismissed(true);
+    try { localStorage.setItem("harmony_promo_444_dismissed", "1"); } catch {}
+  };
+
+  useEffect(() => { if (commitment === "monthly") setPayMode("monthly"); }, [commitment]);
+  useEffect(() => {
+    if (selectedPlan && !PRICING[selectedPlan][profile]) setSelectedPlan(null);
+  }, [profile, selectedPlan]);
+
+  const toggleAddon = (id) => setAddons(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
+
+  const handleSelectPlan = (id) => {
+    if (!userClub) {
+      setClubRequired(true);
+      const finder = document.getElementById("club-finder");
+      if (finder) {
+        const top = finder.getBoundingClientRect().top + window.scrollY - 90;
+        smoothScrollTo(top);
+      }
+      return;
+    }
+    if (!PRICING[id][profile]) return;
+    setSelectedPlan(id);
+    const target = document.getElementById("step-addons") || addonsRef.current;
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.scrollY - 90;
+      smoothScrollTo(top);
+    }
+  };
+
+  const userClubLevel = userClub
+    ? (CLUBS.access.includes(userClub) ? "access"
+      : CLUBS.essential.includes(userClub) ? "essential"
+      : "premium")
+    : null;
+
+  const isPlanAvailable = (planId) => {
+    if (!userClubLevel) return true;
+    if (userClubLevel === "access")    return true;
+    if (userClubLevel === "essential") return planId !== "access";
+    if (userClubLevel === "premium")   return planId === "premium";
+    return true;
+  };
+
+  return (
+    <>
+      <header className="topbar">
+        <div className="shell topbar-inner">
+          <div className="topbar-left">
+            <HarmonyLogo />
+            <nav className="nav">
+              <a>Clubs</a>
+              <a>Activités</a>
+              <a>Wellness</a>
+              <a className="active">Abonnements</a>
+              <a>Entreprise</a>
+            </nav>
+          </div>
+          <div className="topbar-cta">
+            <a className="login-link">Se connecter</a>
+            <button className="btn-secondary">Séance d'essai</button>
+            <button className="btn-primary">S'abonner</button>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div className="shell">
+          <section className="hero">
+            <div>
+              <div className="eyebrow">Nos abonnements</div>
+              <h1>Trouvez votre<br/><em>équilibre.</em></h1>
+            </div>
+            <div className="hero-aside">
+              Un réseau de <b>10 clubs</b> en Suisse romande.
+              Trois abonnements pensés pour votre usage, de l'essentiel au wellness complet.
+              <br/><br/>
+              Choisissez votre profil et votre engagement pour découvrir votre tarif.
+            </div>
+          </section>
+
+          <PromoBanner dismissed={promoDismissed} onDismiss={dismissPromo} />
+          <ClubFinder value={userClub} onChange={setUserClub} onPick={(level) => setFeatured(level)} required={clubRequired} />
+          <div className="step-eyebrow standalone" id="step-plans">
+            <span className="step-num">2</span>
+            Étape 2 · Sélection de l'abonnement
+          </div>
+        </div>
+
+        <div className="controls">
+          <div className="shell">
+            <div className="controls-inner">
+              <div className="ctrl-group">
+                <span className="ctrl-label">Profil</span>
+                <Segmented items={PROFILES.map(p => ({ id: p.id, label: p.label }))} value={profile} onChange={setProfile} />
+              </div>
+              <div className="ctrl-group">
+                <span className="ctrl-label">Engagement</span>
+                <Segmented items={[
+                  { id: "monthly", label: "Sans engagement" },
+                  { id: "annual",  label: "12 mois", badge: "−10%" },
+                ]} value={commitment} onChange={setCommitment} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="shell">
+          <section className="plans-wrap">
+            <div className="plans">
+              {PLANS.map((p, i) => (
+                <PlanCard
+                  key={p.id}
+                  plan={p}
+                  idx={i}
+                  profile={profile}
+                  commitment={commitment}
+                  payMode={payMode}
+                  onPayMode={setPayMode}
+                  featured={p.id === featured}
+                  available={isPlanAvailable(p.id)}
+                  unavailableReason={!isPlanAvailable(p.id) && userClub ? `Non disponible avec ${userClub}` : null}
+                  onChoose={() => handleSelectPlan(p.id)}
+                />
+              ))}
+            </div>
+          </section>
+
+          <CompareTable open={compareOpen} onToggle={() => setCompareOpen(x => !x)} featured={featured} profile={profile} commitment={commitment} onSelectPlan={handleSelectPlan} />
+          <div className="step-eyebrow standalone" id="step-addons">
+            <span className="step-num">3</span>
+            Étape 3 · Services supplémentaires
+          </div>
+          <AddonsGrid ref={addonsRef} selected={addons} onToggle={toggleAddon} />
+        </div>
+
+        <div className="shell">
+          <div className="legal">
+            Tous les prix s'entendent TTC en francs suisses (CHF). L'engagement 12 mois permet un paiement en une fois
+            ou en 12 mensualités <b>sans frais</b> via notre partenaire <b>Heylight</b>. Aucun frais de dossier.
+            Résiliation en ligne à l'échéance.
+            <br/>
+            <a>Conditions générales</a> · <a>Mentions légales</a> · <a>Contact</a>
+          </div>
+        </div>
+      </main>
+
+      <SummaryBar
+        selectedPlanId={selectedPlan}
+        profile={profile}
+        commitment={commitment}
+        payMode={payMode}
+        addons={addons}
+        onDismiss={() => setSelectedPlan(null)}
+        onCheckout={() => alert("Simulation — pas de checkout réel sur ce prototype.")}
+      />
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+</script>
+</body>
+</html>
