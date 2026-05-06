@@ -2086,12 +2086,12 @@ function App() {
   }, [userClub]);
 
   const [promoDismissed, setPromoDismissed] = useState(() => {
-    try { return localStorage.getItem("harmony_promo_444_dismissed") === "1"; }
+    try { return sessionStorage.getItem("harmony_promo_444_dismissed") === "1"; }
     catch { return false; }
   });
   const dismissPromo = () => {
     setPromoDismissed(true);
-    try { localStorage.setItem("harmony_promo_444_dismissed", "1"); } catch {}
+    try { sessionStorage.setItem("harmony_promo_444_dismissed", "1"); } catch {}
   };
 
   useEffect(() => { if (commitment === "monthly") setPayMode("monthly"); }, [commitment]);
@@ -2136,9 +2136,6 @@ function App() {
 
   return (
     <>
-      <div className="shell">
-        <PromoBanner dismissed={promoDismissed} onDismiss={dismissPromo} />
-      </div>
       <header className="topbar">
         <div className="shell topbar-inner">
           <div className="topbar-left">
@@ -2161,6 +2158,7 @@ function App() {
 
       <main>
         <div className="shell">
+          <PromoBanner dismissed={promoDismissed} onDismiss={dismissPromo} />
           <section className="hero">
             <div>
               <div className="eyebrow">Nos abonnements</div>
