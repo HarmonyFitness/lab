@@ -2136,6 +2136,9 @@ function App() {
 
   return (
     <>
+      <div className="shell">
+        <PromoBanner dismissed={promoDismissed} onDismiss={dismissPromo} />
+      </div>
       <header className="topbar">
         <div className="shell topbar-inner">
           <div className="topbar-left">
@@ -2171,7 +2174,6 @@ function App() {
             </div>
           </section>
 
-          <PromoBanner dismissed={promoDismissed} onDismiss={dismissPromo} />
           <ClubFinder value={userClub} onChange={setUserClub} onPick={(level) => setFeatured(level)} required={clubRequired} />
           <div className="step-eyebrow standalone" id="step-plans">
             <span className="step-num">2</span>
