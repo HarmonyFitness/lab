@@ -2085,14 +2085,8 @@ function App() {
     }
   }, [userClub]);
 
-  const [promoDismissed, setPromoDismissed] = useState(() => {
-    try { return sessionStorage.getItem("harmony_promo_444_dismissed") === "1"; }
-    catch { return false; }
-  });
-  const dismissPromo = () => {
-    setPromoDismissed(true);
-    try { sessionStorage.setItem("harmony_promo_444_dismissed", "1"); } catch {}
-  };
+  const [promoDismissed, setPromoDismissed] = useState(false);
+  const dismissPromo = () => setPromoDismissed(true);
 
   useEffect(() => { if (commitment === "monthly") setPayMode("monthly"); }, [commitment]);
   useEffect(() => {
