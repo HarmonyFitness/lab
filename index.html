@@ -983,6 +983,22 @@ a { color: inherit; text-decoration: none; }
 }
 .plan.featured .heylight-tag { background: rgba(255,255,255,.18); color: #fff; }
 
+.no-fees {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 14px;
+  font-size: 12.5px; color: var(--ink-2);
+  font-weight: 500;
+}
+.no-fees .check-bullet {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px;
+  border-radius: 999px;
+  background: #d4f7e1; color: #1f9d5f;
+  flex: none;
+}
+.plan.featured .no-fees { color: rgba(255,255,255,.88); }
+.plan.featured .no-fees .check-bullet { background: rgba(95,230,163,.18); color: #5fe6a3; }
+
 .plan-cta {
   margin-top: 24px;
   width: 100%;
@@ -1780,9 +1796,6 @@ function PlanCard({ plan, idx, profile, commitment, payMode, onPayMode, featured
         <span className="currency">CHF</span>
         <span className="amount num">{showAnnualBig ? formatCHF(annualTotal) : formatCHF(monthly)}</span>
         <span className="per">{showAnnualBig ? "/an" : "/mois"}</span>
-        {commitment === "annual" && !showAnnualBig && priceEntry.monthly && plan.id !== "premium" && (
-          <span className="price-strike num">CHF {formatCHF(priceEntry.monthly)}</span>
-        )}
       </div>
     );
     metaNode = <div className={`price-meta ${pulseKey ? "pulse" : ""}`}>{metaText}</div>;
@@ -1802,6 +1815,12 @@ function PlanCard({ plan, idx, profile, commitment, payMode, onPayMode, featured
         {priceNode}
         {metaNode}
         {!unavailable && commitment === "annual" && <PayToggle value={payMode} onChange={onPayMode} />}
+        {!unavailable && (
+          <div className="no-fees">
+            <span className="check-bullet"><Icons.check /></span>
+            Aucun frais d'inscription
+          </div>
+        )}
       </div>
 
       <button className={`plan-cta ${featured ? "" : "outline"}`} onClick={onChoose} disabled={unavailable}>
