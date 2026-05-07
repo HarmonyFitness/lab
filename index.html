@@ -214,15 +214,25 @@ a { color: inherit; text-decoration: none; }
   margin-top: 32px;
   border-radius: 24px;
   overflow: hidden;
-  background: linear-gradient(rgba(255,255,255,.92) 0%, rgba(255,255,255,.78) 100%),
-              url("https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=2400&q=80") center / cover no-repeat;
-  box-shadow: 0 1px 2px rgba(10,37,64,.04), 0 12px 40px rgba(10,37,64,.08);
+  background:
+    linear-gradient(135deg, rgba(10,37,64,.78) 0%, rgba(10,24,32,.88) 60%, rgba(10,37,64,.92) 100%),
+    url("https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=2400&q=80") center / cover no-repeat;
+  box-shadow: 0 1px 2px rgba(10,37,64,.06), 0 16px 50px rgba(10,37,64,.18);
 }
 .hero-wrap::after {
   content: ""; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 80% 30%, rgba(58,143,194,.18) 0%, transparent 55%);
+  background: radial-gradient(ellipse at 75% 25%, rgba(74,163,216,.30) 0%, transparent 55%);
   pointer-events: none;
 }
+.hero-wrap .hero h1 { color: #fff; }
+.hero-wrap .hero h1 em {
+  background: linear-gradient(135deg, #8cc1de 0%, #4aa3d8 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.hero-wrap .hero .eyebrow { color: var(--brand-300); }
+.hero-wrap .hero-aside { color: rgba(255,255,255,.82); }
+.hero-wrap .hero-aside b { color: #fff; }
 .hero {
   position: relative; z-index: 1;
   padding: 88px 56px 80px;
@@ -263,9 +273,9 @@ a { color: inherit; text-decoration: none; }
 }
 .hero-aside b { color: var(--ink); font-weight: 600; }
 
-/* PROMO BANNER — warm amber */
+/* PROMO BANNER — deep blue */
 :root {
-  --promo-grad: linear-gradient(135deg, #fff7e8 0%, #fbe9c9 55%, #f4d8a6 100%);
+  --promo-grad: linear-gradient(135deg, #2b7aaa 0%, #0a3d5c 55%, #0a2540 100%);
 }
 .promo-wrap { padding: 32px 0 8px; }
 .promo {
@@ -276,31 +286,31 @@ a { color: inherit; text-decoration: none; }
   gap: 20px;
   padding: 18px 18px 18px 24px;
   background: var(--promo-grad);
-  color: #2a1b05;
-  border: 1px solid #e8c77d;
+  color: #fff;
+  border: 1px solid rgba(74,163,216,.25);
   border-radius: 20px;
-  box-shadow: 0 1px 2px rgba(120,80,10,.06), 0 8px 24px rgba(180,140,60,.15);
+  box-shadow: 0 1px 2px rgba(10,37,64,.08), 0 12px 32px rgba(10,37,64,.25);
   overflow: hidden;
 }
 .promo::before {
   content: ""; position: absolute;
   inset: auto -8% -80% auto;
   width: 50%; height: 180%;
-  background: radial-gradient(circle, rgba(255,220,140,.55) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(74,163,216,.32) 0%, transparent 70%);
   pointer-events: none;
 }
 .promo > * { position: relative; z-index: 1; }
 .promo-mark {
   width: 68px; height: 68px;
   border-radius: 16px;
-  background: linear-gradient(135deg, #2a1b05 0%, #6b4a1e 100%);
-  color: #f6d98b;
+  background: linear-gradient(135deg, #4aa3d8 0%, #1e6390 100%);
+  color: #fff;
   display: inline-flex; align-items: center; justify-content: center;
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 22px;
   letter-spacing: .02em;
-  box-shadow: 0 6px 16px rgba(100,60,10,.3), inset 0 1px 0 rgba(255,210,130,.3);
+  box-shadow: 0 6px 16px rgba(10,37,64,.4), inset 0 1px 0 rgba(255,255,255,.18);
 }
 .promo-body { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
 .promo-body > * { margin: 0; }
@@ -308,9 +318,10 @@ a { color: inherit; text-decoration: none; }
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
   padding: 4px 10px; border-radius: 999px;
-  background: #2a1b05; color: #f6d98b;
+  background: rgba(255,255,255,.14); color: #fff;
   width: fit-content;
   white-space: nowrap;
+  backdrop-filter: blur(6px);
 }
 .promo-chip .blink {
   width: 6px; height: 6px; border-radius: 999px; background: #f6b84a;
@@ -320,13 +331,13 @@ a { color: inherit; text-decoration: none; }
 @keyframes promoBlink { 0%,100% { opacity:1 } 50% { opacity:.35 } }
 .promo-title {
   display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
-  font-size: 20px; font-weight: 700; color: #2a1b05;
+  font-size: 20px; font-weight: 700; color: #fff;
   letter-spacing: -0.015em; line-height: 1.2;
 }
 .promo-title .accent {
   font-family: var(--font-mono);
   font-weight: 700;
-  color: #6b4a1e;
+  color: var(--brand-300);
   font-size: 15px;
 }
 .promo-variants {
@@ -335,54 +346,54 @@ a { color: inherit; text-decoration: none; }
 .promo-variant {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 5px 11px;
-  background: rgba(255,255,255,.7);
-  border: 1px solid rgba(42,27,5,.12);
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.18);
   border-radius: 999px;
   font-size: 12px;
-  color: #2a1b05;
+  color: #fff;
   white-space: nowrap;
 }
 .promo-variant b { font-weight: 700; }
-.promo-variant .dur { color: #6b4a1e; font-weight: 600; }
-.promo-variant .sep { color: rgba(42,27,5,.3); }
+.promo-variant .dur { color: var(--brand-300); font-weight: 600; }
+.promo-variant .sep { color: rgba(255,255,255,.3); }
 .promo-countdown {
   display: flex; align-items: center; gap: 8px;
   padding: 10px 14px;
-  background: rgba(42,27,5,.06);
-  border: 1px solid rgba(42,27,5,.12);
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
   border-radius: 12px;
   font-family: var(--font-mono);
-  font-size: 12px; color: #2a1b05; font-weight: 500;
+  font-size: 12px; color: #fff; font-weight: 500;
   white-space: nowrap;
 }
-.promo-countdown .cd-label { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #6b4a1e; }
-.promo-countdown .cd-val { font-size: 14px; font-weight: 700; color: #2a1b05; }
+.promo-countdown .cd-label { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+.promo-countdown .cd-val { font-size: 14px; font-weight: 700; color: #fff; }
 .promo-cta {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 13px 22px;
-  background: #2a1b05; color: #f6d98b;
+  background: #fff; color: var(--brand-ink);
   border-radius: 999px;
   font-size: 13px; font-weight: 700;
   white-space: nowrap;
   transition: transform .15s, box-shadow .18s, background .18s;
-  box-shadow: 0 4px 14px rgba(42,27,5,.28);
+  box-shadow: 0 4px 14px rgba(0,0,0,.25);
 }
 .promo-cta:hover {
-  background: #1a0f02;
+  background: var(--brand-100);
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(42,27,5,.4);
+  box-shadow: 0 6px 20px rgba(0,0,0,.35);
 }
 .promo-cta .arrow { transition: transform .2s; display: inline-flex; }
 .promo-cta:hover .arrow { transform: translateX(3px); }
 .promo-close {
   position: absolute; top: 10px; right: 10px;
   width: 26px; height: 26px; border-radius: 999px;
-  color: rgba(42,27,5,.45);
+  color: rgba(255,255,255,.55);
   display: inline-flex; align-items: center; justify-content: center;
   transition: background .15s, color .15s;
   z-index: 2;
 }
-.promo-close:hover { background: rgba(42,27,5,.1); color: #2a1b05; }
+.promo-close:hover { background: rgba(255,255,255,.12); color: #fff; }
 
 @media (max-width: 900px) {
   .promo { grid-template-columns: auto 1fr; grid-auto-rows: auto; gap: 14px; padding: 16px; }
@@ -2254,7 +2265,6 @@ function App() {
 
       <main>
         <div className="shell">
-          <PromoBanner dismissed={promoDismissed} onDismiss={dismissPromo} />
           <div className="hero-wrap">
             <section className="hero">
               <div>
@@ -2269,6 +2279,7 @@ function App() {
               </div>
             </section>
           </div>
+          <PromoBanner dismissed={promoDismissed} onDismiss={dismissPromo} />
 
           <ClubFinder value={userClub} onChange={setUserClub} onPick={(level) => setFeatured(level)} required={clubRequired} />
           <div className="step-eyebrow standalone" id="step-plans">
