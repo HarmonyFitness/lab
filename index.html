@@ -172,13 +172,82 @@ a { color: inherit; text-decoration: none; }
 .nav {
   display: flex; gap: 28px;
   font-size: 13.5px; color: var(--ink-3); font-weight: 500;
+  align-items: center;
 }
-.nav a { transition: color .15s; cursor: pointer; position: relative; padding: 4px 0; }
+.nav a { transition: color .15s; cursor: pointer; position: relative; padding: 4px 0; display: inline-flex; align-items: center; gap: 4px; }
 .nav a:hover { color: var(--ink); }
 .nav a.active { color: var(--ink); }
 .nav a.active::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: -4px;
   height: 2px; background: var(--brand); border-radius: 2px;
+}
+.nav-dropdown {
+  position: relative;
+  padding-bottom: 16px;
+  margin-bottom: -16px;
+}
+.nav-dropdown > a .dd-arrow {
+  display: inline-flex; align-items: center;
+  transition: transform .2s;
+  color: var(--ink-4);
+}
+.nav-dropdown:hover > a .dd-arrow { transform: rotate(180deg); color: var(--ink); }
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% - 4px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  min-width: 280px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 1px 2px rgba(10,37,64,.04), 0 16px 40px rgba(10,37,64,.14);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .15s, transform .2s, visibility .15s;
+  z-index: 50;
+}
+.nav-dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.dropdown-menu a {
+  display: flex !important; align-items: flex-start;
+  flex-direction: column; gap: 2px;
+  padding: 10px 14px !important;
+  border-radius: 10px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  font-weight: 500;
+  transition: background .15s, color .15s;
+  white-space: nowrap;
+}
+.dropdown-menu a::after { display: none !important; }
+.dropdown-menu a:hover { background: var(--line-2); color: var(--ink); }
+.dropdown-menu a.active {
+  background: var(--brand-50);
+  color: var(--brand-ink);
+}
+.dropdown-menu a.active::after { display: none !important; }
+.dropdown-menu .dd-title {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-weight: 600; font-size: 13.5px;
+  color: var(--ink);
+}
+.dropdown-menu a.active .dd-title { color: var(--brand-ink); }
+.dropdown-menu .dd-meta {
+  font-size: 12px; color: var(--ink-4);
+  font-weight: 400;
+  white-space: normal;
+}
+.dropdown-menu .dd-tag {
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 999px;
+  background: var(--brand); color: #fff;
+  line-height: 1;
 }
 .topbar-cta { display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
 .login-link {
@@ -2251,7 +2320,30 @@ function App() {
               <a>Clubs</a>
               <a>Activités</a>
               <a>Wellness</a>
-              <a className="active">Abonnements</a>
+              <span className="nav-dropdown">
+                <a className="active" aria-haspopup="true">
+                  Offres
+                  <span className="dd-arrow">
+                    <svg viewBox="0 0 14 14" width="10" height="10" fill="none">
+                      <path d="M3 5 L7 9 L11 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                </a>
+                <div className="dropdown-menu" role="menu">
+                  <a className="active" role="menuitem" aria-current="page">
+                    <span className="dd-title">Abonnements</span>
+                    <span className="dd-meta">3 formules · sans engagement ou 12 mois</span>
+                  </a>
+                  <a role="menuitem">
+                    <span className="dd-title">Offre 444 <span className="dd-tag">Limitée</span></span>
+                    <span className="dd-meta">CHF 444 · 4 mois Essential ou Premium</span>
+                  </a>
+                  <a role="menuitem">
+                    <span className="dd-title">Séance d'essai</span>
+                    <span className="dd-meta">CHF 25 · découvrir un club</span>
+                  </a>
+                </div>
+              </span>
               <a>Entreprise</a>
             </nav>
           </div>
