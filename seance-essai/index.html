@@ -1,0 +1,1040 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Séance d'essai — Harmony Fitness</title>
+<meta name="description" content="Réservez votre séance d'essai Harmony Fitness à CHF 20 — bilan forme, coaching individuel et accès fitness & wellness. Remboursée à la souscription d'un abonnement 12 mois." />
+
+<link rel="icon" type="image/png" href="../favicon.png" />
+<link rel="apple-touch-icon" href="../favicon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
+
+<style>
+/* =========================================================
+   Eliptik Harmony — display typeface
+   ========================================================= */
+@font-face {
+  font-family: 'Eliptik Harmony';
+  src: url('../fonts/Eliptik-Harmony-Thin.ttf') format('truetype');
+  font-weight: 100; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Eliptik Harmony';
+  src: url('../fonts/Eliptik-Harmony-Light.ttf') format('truetype');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Eliptik Harmony';
+  src: url('../fonts/Eliptik-Harmony-Regular.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Eliptik Harmony';
+  src: url('../fonts/Eliptik-Harmony-Bold.ttf') format('truetype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+:root {
+  --brand:      #3a8fc2;
+  --brand-600:  #2b7aaa;
+  --brand-700:  #1e6390;
+  --brand-ink:  #0a3d5c;
+  --brand-deep: #0a2540;
+  --brand-300:  #8cc1de;
+  --brand-200:  #c9e0ee;
+  --brand-100:  #e4eff6;
+  --brand-50:   #f3f8fb;
+
+  --ink:   #0a1820;
+  --ink-2: #2a3a44;
+  --ink-3: #556772;
+  --ink-4: #8a99a3;
+  --ink-5: #b9c4cb;
+
+  --line:   #e6e9ec;
+  --line-2: #f1f3f5;
+  --canvas: #ffffff;
+  --soft-blue: #eff6fb;
+  --soft-warm: #f6f4f0;
+
+  --font-sans:    "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: 'Eliptik Harmony', "Geist", system-ui, sans-serif;
+  --font-mono:    "Geist Mono", ui-monospace, "SF Mono", monospace;
+
+  --grad-brand:     linear-gradient(135deg, #4aa3d8 0%, #2b7aaa 60%, #1e6390 100%);
+  --grad-cta:       linear-gradient(135deg, #4aa3d8 0%, #2b7aaa 100%);
+  --grad-cta-hover: linear-gradient(135deg, #5cb3e6 0%, #3a8fc2 100%);
+}
+
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; background: var(--canvas); }
+body {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+  letter-spacing: -0.005em;
+}
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+a { color: inherit; text-decoration: none; }
+.num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+.mono { font-family: var(--font-mono); }
+
+.shell { max-width: 1360px; margin: 0 auto; padding: 0 40px; }
+@media (max-width: 900px) { .shell { padding: 0 20px; } }
+
+/* GROUP NAV */
+.group-bar { background: #f7f8fa; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--ink-3); }
+.group-bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 36px; }
+.group-label { display: inline-flex; align-items: center; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-4); font-weight: 600; white-space: nowrap; cursor: pointer; transition: color .15s; }
+.group-label:hover { color: var(--ink-2); }
+.group-nav { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.group-nav a { position: relative; padding: 8px 12px; font-size: 12.5px; color: var(--ink-3); font-weight: 500; border-radius: 6px; transition: color .15s, background .15s; white-space: nowrap; cursor: pointer; }
+.group-nav a:hover { color: var(--ink); background: rgba(10,37,64,.04); }
+.group-nav a.active { color: var(--brand-ink); background: var(--brand-100); }
+.group-nav a.active::before { content: ""; width: 5px; height: 5px; border-radius: 999px; background: var(--brand); display: inline-block; margin-right: 6px; vertical-align: middle; margin-top: -2px; }
+@media (max-width: 700px) {
+  .group-bar-inner { height: auto; padding: 8px 0; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .group-nav { gap: 2px; }
+  .group-nav a { padding: 6px 10px; font-size: 12px; }
+}
+
+/* TOPBAR */
+.topbar { position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,.9); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); border-bottom: 1px solid var(--line); }
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 32px; }
+.topbar-left { display: flex; align-items: center; gap: 48px; }
+.logo-wrap { display: inline-flex; align-items: center; gap: 12px; }
+.logo-img { height: 26px; width: auto; display: block; }
+.logo-vertical { display: inline-block; padding-left: 12px; border-left: 1px solid var(--line); font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--brand-ink); white-space: nowrap; }
+.nav { display: flex; gap: 28px; font-size: 14.5px; color: var(--ink-3); font-weight: 500; align-items: center; }
+.nav a { transition: color .15s; cursor: pointer; position: relative; padding: 4px 0; display: inline-flex; align-items: center; gap: 4px; }
+.nav a:hover { color: var(--ink); }
+.nav a.active { color: var(--ink); }
+.nav a.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px; background: var(--brand); border-radius: 2px; }
+.nav-dropdown { position: relative; padding-bottom: 16px; margin-bottom: -16px; }
+.nav-dropdown > a .dd-arrow { display: inline-flex; align-items: center; transition: transform .2s; color: var(--ink-4); }
+.nav-dropdown:hover > a .dd-arrow { transform: rotate(180deg); color: var(--ink); }
+.dropdown-menu { position: absolute; top: calc(100% - 4px); left: 50%; transform: translateX(-50%) translateY(-6px); min-width: 280px; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 8px; box-shadow: 0 1px 2px rgba(10,37,64,.04), 0 16px 40px rgba(10,37,64,.14); opacity: 0; visibility: hidden; transition: opacity .15s, transform .2s, visibility .15s; z-index: 50; }
+.nav-dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.dropdown-menu a { display: flex !important; align-items: flex-start; flex-direction: column; gap: 2px; padding: 10px 14px !important; border-radius: 10px; font-size: 13.5px; color: var(--ink-2); font-weight: 500; transition: background .15s, color .15s; white-space: nowrap; }
+.dropdown-menu a::after { display: none !important; }
+.dropdown-menu a:hover { background: var(--line-2); color: var(--ink); }
+.dropdown-menu a.active { background: var(--brand-50); color: var(--brand-ink); }
+.dropdown-menu a.active::after { display: none !important; }
+.dropdown-menu .dd-title { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13.5px; color: var(--ink); }
+.dropdown-menu a.active .dd-title { color: var(--brand-ink); }
+.dropdown-menu .dd-meta { font-size: 12px; color: var(--ink-4); font-weight: 400; white-space: normal; }
+.dropdown-menu .dd-tag { font-size: 9.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 7px; border-radius: 999px; background: var(--brand); color: #fff; line-height: 1; }
+.topbar-cta { display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
+.login-link { font-size: 13.5px; color: var(--ink-4); font-weight: 500; padding: 4px 10px; transition: color .15s; white-space: nowrap; }
+.login-link:hover { color: var(--ink-2); }
+.btn-secondary { display: inline-flex; align-items: center; padding: 10px 16px; font-size: 13.5px; font-weight: 500; color: var(--ink); border: 1px solid var(--line); border-radius: 999px; transition: border-color .15s, background .15s; white-space: nowrap; }
+.btn-secondary:hover { border-color: var(--ink-3); background: var(--line-2); }
+.btn-primary { display: inline-flex; align-items: center; padding: 11px 20px; font-size: 13.5px; font-weight: 600; background: var(--grad-cta); color: #fff; border-radius: 999px; box-shadow: 0 1px 2px rgba(10,37,64,.12), 0 4px 12px rgba(58,143,194,.25); transition: transform .15s, box-shadow .18s; white-space: nowrap; }
+.btn-primary:hover { background: var(--grad-cta-hover); box-shadow: 0 2px 4px rgba(10,37,64,.15), 0 8px 20px rgba(58,143,194,.35); transform: translateY(-1px); }
+
+/* HERO */
+.hero-wrap {
+  position: relative;
+  margin-top: 32px;
+  border-radius: 24px;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(10,37,64,.78) 0%, rgba(10,24,32,.88) 60%, rgba(10,37,64,.92) 100%),
+    url("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=2400&q=80") center / cover no-repeat;
+  box-shadow: 0 1px 2px rgba(10,37,64,.06), 0 16px 50px rgba(10,37,64,.18);
+}
+.hero-wrap::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 75% 25%, rgba(74,163,216,.30) 0%, transparent 55%);
+  pointer-events: none;
+}
+.hero {
+  position: relative; z-index: 1;
+  padding: 88px 56px 80px;
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: end; gap: 56px;
+}
+.hero h1 {
+  margin: 0;
+  font-weight: 600;
+  font-size: clamp(34px, 4.2vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, #8cc1de 0%, #4aa3d8 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.hero .eyebrow { color: var(--brand-300); }
+.hero-aside { max-width: 420px; color: rgba(255,255,255,.82); font-size: 16.5px; line-height: 1.6; padding-bottom: 6px; }
+.hero-aside b { color: #fff; font-weight: 600; }
+@media (max-width: 900px) {
+  .hero-wrap { margin-top: 20px; }
+  .hero { grid-template-columns: 1fr; padding: 56px 28px 48px; gap: 28px; }
+}
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--brand); font-weight: 600;
+  margin-bottom: 16px;
+}
+.eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; border-radius: 2px; }
+
+/* PRICE CALLOUT */
+.price-callout-wrap { padding: 32px 0 8px; }
+.price-callout {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 28px;
+  background: var(--soft-blue);
+  border: 1px solid var(--brand-100);
+  border-radius: 18px;
+}
+.price-callout .price-tag {
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 88px; height: 88px;
+  border-radius: 18px;
+  background: var(--grad-cta);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(58,143,194,.32);
+  flex: none;
+}
+.price-callout .price-currency { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; opacity: .85; }
+.price-callout .price-value { font-family: var(--font-mono); font-size: 28px; font-weight: 700; line-height: 1; margin-top: 2px; }
+.price-callout .price-body h3 { margin: 0 0 4px; font-size: 17px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+.price-callout .price-body p { margin: 0; font-size: 14.5px; line-height: 1.55; color: var(--ink-3); }
+.price-callout .price-body p b { color: var(--brand-ink); font-weight: 600; }
+.price-callout .price-cta {
+  flex: none;
+  padding: 13px 22px;
+  background: var(--brand-deep); color: #c9e0ee;
+  border-radius: 999px;
+  font-size: 13px; font-weight: 700;
+  white-space: nowrap;
+  transition: transform .15s, box-shadow .18s, background .18s, color .18s;
+  box-shadow: 0 4px 14px rgba(10,37,64,.32);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.price-callout .price-cta:hover { background: #051a2f; color: #fff; transform: translateY(-1px); }
+@media (max-width: 800px) {
+  .price-callout { grid-template-columns: auto 1fr; gap: 16px; padding: 18px; }
+  .price-callout .price-cta { grid-column: 1 / -1; justify-content: center; }
+}
+
+/* SECTION */
+.section { padding: 80px 0 8px; }
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--brand-ink); font-weight: 700;
+  margin-bottom: 14px;
+}
+.section-eyebrow .step-num {
+  width: 22px; height: 22px;
+  border-radius: 999px;
+  background: var(--brand); color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 700;
+  box-shadow: 0 2px 6px rgba(58,143,194,.4);
+}
+.section h2 {
+  margin: 0 0 14px;
+  font-weight: 600;
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  max-width: 720px;
+}
+.section h2 em {
+  font-style: normal;
+  background: var(--grad-brand);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.section-lede {
+  max-width: 700px;
+  font-size: 16.5px; line-height: 1.65;
+  color: var(--ink-3);
+  margin: 0 0 24px;
+}
+
+/* INCLUDES GRID */
+.includes-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+.include-card {
+  padding: 24px;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+.include-card:hover {
+  border-color: var(--brand-200);
+  transform: translateY(-2px);
+  box-shadow: 0 1px 2px rgba(10,37,64,.04), 0 12px 30px rgba(58,143,194,.12);
+}
+.include-card .ic-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--brand-50);
+  color: var(--brand);
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.include-card h3 {
+  margin: 0 0 6px;
+  font-size: 15.5px; font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.include-card p {
+  margin: 0;
+  font-size: 13.5px; line-height: 1.55;
+  color: var(--ink-3);
+}
+@media (max-width: 900px) {
+  .includes-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 540px) {
+  .includes-grid { grid-template-columns: 1fr; }
+}
+
+/* PITCH */
+.pitch {
+  margin: 24px 0 0;
+  padding: 28px 32px;
+  background: var(--soft-blue);
+  border: 1px solid var(--brand-100);
+  border-radius: 18px;
+  font-size: 16px; line-height: 1.7;
+  color: var(--ink-2);
+  max-width: 900px;
+}
+.pitch p { margin: 0 0 12px; }
+.pitch p:last-child { margin: 0; }
+
+/* SCHEDULE TIMELINE */
+.timeline { margin-top: 32px; max-width: 880px; }
+.tl-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  padding: 18px 0;
+  position: relative;
+}
+.tl-step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 21px;
+  top: 60px;
+  bottom: -10px;
+  width: 2px;
+  background: var(--brand-100);
+}
+.tl-num {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--canvas);
+  border: 1.5px solid var(--brand-200);
+  color: var(--brand);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700; font-size: 15px;
+  flex: none;
+  z-index: 1;
+}
+.tl-body h3 {
+  margin: 8px 0 6px;
+  font-size: 17px; font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.tl-body p {
+  margin: 0;
+  font-size: 14.5px; line-height: 1.6;
+  color: var(--ink-3);
+}
+
+/* BOOKING FORM */
+.booking-wrap {
+  margin-top: 36px;
+  scroll-margin-top: 90px;
+}
+.booking {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 40px;
+  padding: 36px;
+  background: var(--canvas);
+  border: 1.5px solid var(--brand-100);
+  border-radius: 24px;
+  box-shadow: 0 1px 2px rgba(10,37,64,.04), 0 16px 50px rgba(58,143,194,.10);
+}
+@media (max-width: 900px) {
+  .booking { grid-template-columns: 1fr; padding: 24px; gap: 28px; }
+}
+.booking-form { display: flex; flex-direction: column; gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 540px) {
+  .field-row { grid-template-columns: 1fr; }
+}
+.field label {
+  font-size: 13px; font-weight: 500;
+  color: var(--ink-2);
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.field label .req { color: var(--brand); font-weight: 700; }
+.field input,
+.field select,
+.field textarea {
+  appearance: none; -webkit-appearance: none;
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit; font-size: 14.5px;
+  color: var(--ink);
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.field input::placeholder,
+.field textarea::placeholder { color: var(--ink-4); }
+.field input:hover,
+.field select:hover,
+.field textarea:hover { border-color: var(--ink-5); }
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none; border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-100);
+}
+.field select {
+  background: var(--soft-blue);
+  border-color: var(--brand-100);
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-3) 50%), linear-gradient(135deg, var(--ink-3) 50%, transparent 50%);
+  background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}
+.field textarea { resize: vertical; min-height: 88px; line-height: 1.5; }
+.field input[type="date"] { font-family: var(--font-mono); font-size: 13.5px; }
+.field-help { font-size: 12px; color: var(--ink-4); margin-top: 2px; }
+.consent {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px;
+  background: var(--line-2);
+  border-radius: 10px;
+  font-size: 13px; line-height: 1.5; color: var(--ink-3);
+}
+.consent input[type="checkbox"] {
+  appearance: none; -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--ink-5);
+  border-radius: 5px;
+  background: #fff;
+  cursor: pointer;
+  flex: none;
+  margin-top: 1px;
+  position: relative;
+  transition: border-color .15s, background .15s;
+}
+.consent input[type="checkbox"]:hover { border-color: var(--brand); }
+.consent input[type="checkbox"]:checked {
+  border-color: var(--brand); background: var(--brand);
+}
+.consent input[type="checkbox"]:checked::after {
+  content: ""; position: absolute;
+  left: 5px; top: 2px;
+  width: 5px; height: 9px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(45deg);
+}
+.consent a { color: var(--brand-ink); text-decoration: underline; text-decoration-color: var(--brand-200); text-underline-offset: 2px; }
+.form-error {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  font-size: 13px; line-height: 1.5; color: #991b1b;
+}
+.btn-submit {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 22px;
+  background: var(--grad-cta); color: #fff;
+  border-radius: 12px;
+  font-size: 14.5px; font-weight: 600;
+  box-shadow: 0 1px 2px rgba(10,37,64,.12), 0 4px 12px rgba(58,143,194,.25);
+  transition: transform .15s, box-shadow .18s;
+  margin-top: 6px;
+}
+.btn-submit:hover {
+  background: var(--grad-cta-hover);
+  box-shadow: 0 2px 4px rgba(10,37,64,.15), 0 8px 20px rgba(58,143,194,.35);
+  transform: translateY(-1px);
+}
+
+/* BOOKING SIDEBAR */
+.booking-side {
+  padding: 24px;
+  background: var(--brand-50);
+  border-radius: 18px;
+  align-self: start;
+}
+.booking-side h3 {
+  margin: 0 0 14px;
+  font-size: 14px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--brand-ink);
+}
+.booking-side ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.booking-side li {
+  display: flex; gap: 10px;
+  font-size: 14px; line-height: 1.5;
+  color: var(--ink-2);
+}
+.booking-side li svg { flex: none; color: var(--brand); margin-top: 2px; }
+.booking-side .side-note {
+  margin-top: 18px;
+  padding: 14px;
+  background: rgba(255,255,255,.7);
+  border-radius: 12px;
+  font-size: 12.5px; line-height: 1.55;
+  color: var(--ink-3);
+}
+.booking-side .side-note b { color: var(--brand-ink); font-weight: 600; }
+
+/* SUCCESS */
+.form-success {
+  text-align: center;
+  padding: 48px 32px;
+}
+.form-success .check {
+  width: 72px; height: 72px;
+  border-radius: 999px;
+  background: var(--grad-cta);
+  color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(58,143,194,.32);
+}
+.form-success h2 {
+  margin: 0 0 12px;
+  font-size: clamp(24px, 3vw, 32px); font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.form-success p {
+  margin: 0 auto;
+  max-width: 520px;
+  font-size: 16px; line-height: 1.6;
+  color: var(--ink-3);
+}
+.form-success p b { color: var(--ink); font-weight: 600; }
+
+/* LEGAL */
+.legal {
+  margin: 80px 0 60px;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+  font-size: 12.5px; line-height: 1.6;
+  color: var(--ink-4);
+  text-align: center;
+}
+.legal a { color: var(--ink-3); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; transition: color .15s; }
+.legal a:hover { color: var(--brand-ink); text-decoration-color: var(--brand-200); }
+.legal b { color: var(--ink-2); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+const CLUBS = {
+  access:    ["Pâquis"],
+  essential: ["Blandonnet", "Eaux-Vives", "Gland", "Meyrin", "Signy", "Versoix"],
+  premium:   ["Denges", "La Praille", "Veyrier"],
+};
+
+function HarmonyLogo() {
+  return (
+    <a href="../abonnements/" className="logo-wrap">
+      <img src="https://souscription.harmony.ch/wp-content/uploads/logo-harmony.png" alt="Harmony Fitness" className="logo-img" />
+      <span className="logo-vertical">Fitness</span>
+    </a>
+  );
+}
+
+function Topbar() {
+  return (
+    <>
+      <div className="group-bar">
+        <div className="shell group-bar-inner">
+          <a className="group-label">Groupe Harmony</a>
+          <nav className="group-nav" aria-label="Univers Harmony">
+            <a className="active" aria-current="page">Fitness</a>
+            <a>Arts Martiaux</a>
+            <a>Natation</a>
+            <a>Famille</a>
+          </nav>
+        </div>
+      </div>
+      <header className="topbar">
+        <div className="shell topbar-inner">
+          <div className="topbar-left">
+            <HarmonyLogo />
+            <nav className="nav">
+              <a>Clubs</a>
+              <a>Activités</a>
+              <a>Wellness</a>
+              <span className="nav-dropdown">
+                <a className="active" aria-haspopup="true">
+                  Offres
+                  <span className="dd-arrow">
+                    <svg viewBox="0 0 14 14" width="10" height="10" fill="none">
+                      <path d="M3 5 L7 9 L11 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                </a>
+                <div className="dropdown-menu" role="menu">
+                  <a role="menuitem" href="../abonnements/">
+                    <span className="dd-title">Abonnements</span>
+                    <span className="dd-meta">3 formules · sans engagement ou 12 mois</span>
+                  </a>
+                  <a role="menuitem">
+                    <span className="dd-title">Offre 444 <span className="dd-tag">Limitée</span></span>
+                    <span className="dd-meta">CHF 444 · 4 mois Essential ou Premium</span>
+                  </a>
+                  <a className="active" role="menuitem" aria-current="page">
+                    <span className="dd-title">Séance d'essai</span>
+                    <span className="dd-meta">CHF 20 · découvrir un club</span>
+                  </a>
+                </div>
+              </span>
+              <a>Entreprise</a>
+            </nav>
+          </div>
+          <div className="topbar-cta">
+            <a className="login-link">Se connecter</a>
+            <a className="btn-primary" href="../abonnements/">S'abonner</a>
+          </div>
+        </div>
+      </header>
+    </>
+  );
+}
+
+function Hero({ onScrollToForm }) {
+  return (
+    <div className="hero-wrap">
+      <section className="hero">
+        <div>
+          <div className="eyebrow">Séance d'essai</div>
+          <h1>Découvrez Harmony,<br/><em>en une séance.</em></h1>
+        </div>
+        <div className="hero-aside">
+          <b>1 à 2 heures</b> avec un coach pour faire connaissance avec le club, faire le point sur votre forme et tester un entraînement adapté.
+          <br/><br/>
+          Un premier pas concret avant de choisir votre abonnement.
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function PriceCallout({ onClick }) {
+  return (
+    <div className="price-callout-wrap">
+      <div className="price-callout">
+        <div className="price-tag">
+          <span className="price-currency">CHF</span>
+          <span className="price-value">20</span>
+        </div>
+        <div className="price-body">
+          <h3>Une séance d'essai à CHF 20</h3>
+          <p>
+            Le tarif couvre l'accueil, le bilan et la session avec un coach.
+            <b> Intégralement remboursée</b> à la souscription d'un abonnement avec engagement 12 mois.
+          </p>
+        </div>
+        <a className="price-cta" onClick={onClick}>
+          Réserver maintenant
+          <span style={{display:"inline-flex"}}>
+            <svg viewBox="0 0 14 14" width="14" height="14" fill="none">
+              <path d="M2 7 L11 7 M7 3 L11 7 L7 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function Includes() {
+  const items = [
+    {
+      title: "Accueil personnalisé",
+      desc: "Une visite guidée du club et un échange sur votre démarche.",
+      icon: (
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+          <path d="M12 12 a4 4 0 1 0 0-8 a4 4 0 0 0 0 8 z M4 21 c0-4 4-7 8-7 s8 3 8 7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+    },
+    {
+      title: "Bilan forme",
+      desc: "Un point sur votre niveau, vos habitudes et vos objectifs.",
+      icon: (
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+          <path d="M3 12 L7 12 L9 6 L13 18 L15 12 L21 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+    },
+    {
+      title: "Coaching individuel",
+      desc: "Une session encadrée par un coach, calibrée à votre niveau.",
+      icon: (
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+          <path d="M5 8 L5 16 M3 10 L3 14 M7 6 L7 18 M9 9 L9 15 M21 6 L21 18 M19 9 L19 15 M17 8 L17 16 M15 10 L15 14 M9 12 L15 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+    },
+    {
+      title: "Accès fitness & wellness",
+      desc: "Profitez librement des espaces, sauna et hammam compris.",
+      icon: (
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+          <path d="M4 14 c4-4 12-4 16 0 M2 18 c5-5 15-5 20 0 M8 8 a2 2 0 1 0 0-4 a2 2 0 0 0 0 4 z M16 8 a2 2 0 1 0 0-4 a2 2 0 0 0 0 4 z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+    },
+  ];
+  return (
+    <div className="includes-grid">
+      {items.map((it, i) => (
+        <div key={i} className="include-card">
+          <div className="ic-icon">{it.icon}</div>
+          <h3>{it.title}</h3>
+          <p>{it.desc}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Schedule() {
+  const steps = [
+    {
+      title: "Accueil et découverte du club",
+      desc: "Présentation des espaces et échange sur votre démarche.",
+    },
+    {
+      title: "Bilan forme",
+      desc: "Évaluation rapide de votre condition actuelle et de vos objectifs.",
+    },
+    {
+      title: "Session guidée personnalisée",
+      desc: "Mise en mouvement encadrée par un coach.",
+    },
+    {
+      title: "Entraînement libre avec supervision",
+      desc: "Accès aux espaces fitness et wellness, avec disponibilité du coach si nécessaire.",
+    },
+    {
+      title: "Bilan en fin de séance",
+      desc: "Retour sur vos sensations et échanges sur les prochaines étapes possibles.",
+    },
+  ];
+  return (
+    <div className="timeline">
+      {steps.map((s, i) => (
+        <div key={i} className="tl-step">
+          <div className="tl-num">{String(i + 1).padStart(2, "0")}</div>
+          <div className="tl-body">
+            <h3>{s.title}</h3>
+            <p>{s.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function BookingForm() {
+  const today = new Date();
+  const fmtISO = d => {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  };
+  const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1);
+  const max      = new Date(today); max.setDate(today.getDate() + 7);
+
+  const [club, setClub] = useState("");
+  const [date, setDate] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [error, setError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const allClubs = [
+    ...CLUBS.access.map(c => ({ name: c, tier: "Access" })),
+    ...CLUBS.essential.map(c => ({ name: c, tier: "Essential" })),
+    ...CLUBS.premium.map(c => ({ name: c, tier: "Premium" })),
+  ].sort((a, b) => a.name.localeCompare(b.name, "fr"));
+
+  const validateEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError("");
+    if (!club)        return setError("Sélectionnez un club.");
+    if (!date)        return setError("Choisissez une date.");
+    if (!firstName.trim() || !lastName.trim()) return setError("Indiquez votre prénom et votre nom.");
+    if (!validateEmail(email))                  return setError("Adresse e-mail invalide.");
+    if (!phone.trim())                          return setError("Indiquez un numéro de téléphone.");
+    if (!consent)                               return setError("Veuillez accepter les conditions pour continuer.");
+
+    // TODO: brancher un backend (Formspree, Web3Forms, ou API custom)
+    // Exemple Formspree :
+    //   fetch("https://formspree.io/f/xxxxxxxx", {
+    //     method: "POST", headers: { "Accept": "application/json" },
+    //     body: new FormData(e.target),
+    //   });
+    console.log("Trial booking submission:", { club, date, firstName, lastName, email, phone, message });
+    setSubmitted(true);
+  };
+
+  if (submitted) {
+    const formattedDate = new Date(date).toLocaleDateString("fr-CH", {
+      weekday: "long", day: "numeric", month: "long",
+    });
+    return (
+      <div className="form-success">
+        <div className="check">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="none">
+            <path d="M5 12 L10 17 L19 8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+        <h2>Demande envoyée</h2>
+        <p>
+          Merci <b>{firstName}</b>. Nous revenons vers vous sous 24 h pour confirmer votre séance d'essai
+          au club <b>{club}</b> le <b>{formattedDate}</b>.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <form className="booking-form" onSubmit={handleSubmit} noValidate>
+      <div className="field-row">
+        <div className="field">
+          <label htmlFor="club">Club <span className="req">*</span></label>
+          <select id="club" name="club" value={club} onChange={e => setClub(e.target.value)} required>
+            <option value="" disabled>Choisir un club…</option>
+            {allClubs.map(c => (
+              <option key={c.name} value={c.name}>{c.name} — {c.tier}</option>
+            ))}
+          </select>
+        </div>
+        <div className="field">
+          <label htmlFor="date">Date <span className="req">*</span></label>
+          <input
+            id="date" name="date" type="date"
+            min={fmtISO(tomorrow)} max={fmtISO(max)}
+            value={date} onChange={e => setDate(e.target.value)}
+            required
+          />
+          <span className="field-help">Du lendemain au {max.toLocaleDateString("fr-CH", { day: "numeric", month: "long" })}.</span>
+        </div>
+      </div>
+
+      <div className="field-row">
+        <div className="field">
+          <label htmlFor="firstName">Prénom <span className="req">*</span></label>
+          <input id="firstName" name="firstName" type="text" autoComplete="given-name" value={firstName} onChange={e => setFirstName(e.target.value)} required />
+        </div>
+        <div className="field">
+          <label htmlFor="lastName">Nom <span className="req">*</span></label>
+          <input id="lastName" name="lastName" type="text" autoComplete="family-name" value={lastName} onChange={e => setLastName(e.target.value)} required />
+        </div>
+      </div>
+
+      <div className="field-row">
+        <div className="field">
+          <label htmlFor="email">E-mail <span className="req">*</span></label>
+          <input id="email" name="email" type="email" autoComplete="email" placeholder="vous@exemple.ch" value={email} onChange={e => setEmail(e.target.value)} required />
+        </div>
+        <div className="field">
+          <label htmlFor="phone">Téléphone <span className="req">*</span></label>
+          <input id="phone" name="phone" type="tel" autoComplete="tel" placeholder="+41 …" value={phone} onChange={e => setPhone(e.target.value)} required />
+        </div>
+      </div>
+
+      <div className="field">
+        <label htmlFor="message">Message (optionnel)</label>
+        <textarea id="message" name="message" placeholder="Une info utile pour le coach (objectif, contrainte, horaire préféré…)" value={message} onChange={e => setMessage(e.target.value)} />
+      </div>
+
+      <label className="consent">
+        <input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} />
+        <span>
+          J'accepte que mes données soient utilisées pour traiter ma demande, conformément aux <a>conditions générales</a> et à la <a>politique de confidentialité</a>.
+        </span>
+      </label>
+
+      {error && (
+        <div className="form-error" role="alert">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" style={{flex:"none", marginTop:"1px"}}>
+            <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
+            <path d="M8 4 V9 M8 11.5 V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+          <span>{error}</span>
+        </div>
+      )}
+
+      <button type="submit" className="btn-submit">
+        Réserver ma séance d'essai
+        <svg viewBox="0 0 14 14" width="14" height="14" fill="none">
+          <path d="M2 7 L11 7 M7 3 L11 7 L7 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
+    </form>
+  );
+}
+
+function BookingSidebar() {
+  const items = [
+    "Durée : 1 à 2 heures selon votre rythme",
+    "Coach diplômé · suivi individuel",
+    "Tenue de sport et baskets propres",
+    "Vestiaires, douches et serviette à disposition",
+  ];
+  return (
+    <aside className="booking-side">
+      <h3>Bon à savoir</h3>
+      <ul>
+        {items.map((t, i) => (
+          <li key={i}>
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none">
+              <path d="M3 8 L7 12 L13 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>{t}</span>
+          </li>
+        ))}
+      </ul>
+      <div className="side-note">
+        <b>Vous hésitez sur le club ?</b> Choisissez celui le plus proche de chez vous ou de votre travail — vous pourrez basculer librement vers un autre club au moment de l'inscription.
+      </div>
+    </aside>
+  );
+}
+
+function App() {
+  const formRef = useRef(null);
+  const scrollToForm = () => {
+    if (!formRef.current) return;
+    const top = formRef.current.getBoundingClientRect().top + window.scrollY - 90;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
+  return (
+    <>
+      <Topbar />
+      <main>
+        <div className="shell">
+          <Hero />
+          <PriceCallout onClick={scrollToForm} />
+
+          <section className="section">
+            <div className="section-eyebrow"><span className="step-num">01</span> Ce qui est inclus</div>
+            <h2>Tout ce qu'il faut pour bien <em>commencer.</em></h2>
+            <p className="section-lede">
+              Une séance pensée comme un premier pas structuré : on prend le temps de comprendre vos objectifs avant de vous mettre en mouvement.
+            </p>
+            <Includes />
+            <div className="pitch">
+              <p>
+                Cette séance d'essai est conçue comme un <b>premier pas structuré</b> dans votre parcours.
+                Pendant 1 à 2 heures, vous découvrez le club, échangez avec un coach et expérimentez un entraînement adapté à votre niveau et à vos objectifs.
+              </p>
+              <p>
+                Un moment pour comprendre où vous en êtes et comment progresser durablement.
+              </p>
+            </div>
+          </section>
+
+          <section className="section">
+            <div className="section-eyebrow"><span className="step-num">02</span> Le déroulé</div>
+            <h2>Comment se passe <em>votre séance.</em></h2>
+            <p className="section-lede">
+              Cinq temps clairs, pour que vous repartiez avec une vision concrète de la suite.
+            </p>
+            <Schedule />
+          </section>
+
+          <section className="section booking-wrap" ref={formRef} id="reserver">
+            <div className="section-eyebrow"><span className="step-num">03</span> Réservation</div>
+            <h2>Choisissez votre <em>jour.</em></h2>
+            <p className="section-lede">
+              Vous pouvez réserver du lendemain jusqu'à 7 jours à l'avance. Nous confirmons sous 24 h.
+            </p>
+            <div className="booking">
+              <BookingForm />
+              <BookingSidebar />
+            </div>
+          </section>
+
+          <div className="legal">
+            Tarif TTC en francs suisses (CHF). La séance d'essai est <b>remboursée intégralement</b> en cas de
+            souscription d'un abonnement avec engagement 12 mois dans les 30 jours suivant la séance.
+            <br/>
+            <a>Conditions générales</a> · <a>Mentions légales</a> · <a>Contact</a>
+          </div>
+        </div>
+      </main>
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+</script>
+</body>
+</html>
