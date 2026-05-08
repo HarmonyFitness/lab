@@ -1,6 +1,6 @@
 # Harmony Pricing
 
-Page d'abonnements pour Harmony Fitness — déployée sur https://lab.harmony.ch/abonnements/
+Page d'abonnements pour Harmony Fitness — déployée sur https://lab.harmony.ch/fitness/abonnements/
 
 ## Stack
 - HTML/CSS/JS dans un seul fichier (`index.html`)
