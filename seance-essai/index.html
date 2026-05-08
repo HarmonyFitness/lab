@@ -71,7 +71,8 @@
 }
 
 * { box-sizing: border-box; }
-html, body { margin:0; padding:0; background: var(--canvas); }
+html, body { margin:0; padding:0; background: #f7f8fa; }
+body { overflow-x: hidden; }
 body {
   font-family: var(--font-sans);
   color: var(--ink);
@@ -233,20 +234,49 @@ a { color: inherit; text-decoration: none; }
 
 /* SECTION */
 .section { padding: 80px 0 8px; }
+.section-tinted {
+  /* full-bleed tinted band */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background: linear-gradient(180deg, var(--soft-blue) 0%, #e8f1f8 100%);
+  padding: 80px 0;
+  margin-top: 80px;
+}
+.section-tinted .shell { padding-top: 0; padding-bottom: 0; }
+.section-dark {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background: linear-gradient(180deg, var(--brand-deep) 0%, #061a2e 100%);
+  padding: 96px 0 96px;
+  margin-top: 96px;
+  position: relative;
+  overflow: hidden;
+}
+.section-dark::before {
+  content: ""; position: absolute;
+  top: -10%; right: -5%;
+  width: 50%; height: 60%;
+  background: radial-gradient(circle, rgba(74,163,216,.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.section-dark .section-eyebrow { color: var(--brand-300); }
+.section-dark h2 { color: #fff; }
+.section-dark h2 em {
+  background: linear-gradient(135deg, #8cc1de 0%, #4aa3d8 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.section-dark .section-lede { color: rgba(255,255,255,.72); }
 .section-eyebrow {
   display: inline-flex; align-items: center; gap: 10px;
   font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
   color: var(--brand-ink); font-weight: 700;
   margin-bottom: 14px;
 }
-.section-eyebrow .step-num {
-  width: 22px; height: 22px;
-  border-radius: 999px;
-  background: var(--brand); color: #fff;
-  display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono);
-  font-size: 11px; font-weight: 700;
-  box-shadow: 0 2px 6px rgba(58,143,194,.4);
+.section-eyebrow::before {
+  content: ""; width: 28px; height: 2px;
+  background: currentColor; border-radius: 2px;
+  display: inline-block;
 }
 .section h2 {
   margin: 0 0 14px;
@@ -317,58 +347,127 @@ a { color: inherit; text-decoration: none; }
 
 /* PITCH */
 .pitch {
-  margin: 24px 0 0;
-  padding: 28px 32px;
-  background: var(--soft-blue);
+  margin: 28px 0 0;
+  padding: 32px 36px;
+  background: #fff;
   border: 1px solid var(--brand-100);
-  border-radius: 18px;
+  border-radius: 20px;
   font-size: 16px; line-height: 1.7;
   color: var(--ink-2);
   max-width: 900px;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(10,37,64,.04), 0 12px 32px rgba(58,143,194,.10);
+}
+.pitch::before {
+  content: '"';
+  position: absolute;
+  top: 8px; left: 18px;
+  font-family: var(--font-display);
+  font-size: 64px; line-height: 1;
+  color: var(--brand-200);
+  font-weight: 700;
+  pointer-events: none;
 }
 .pitch p { margin: 0 0 12px; }
 .pitch p:last-child { margin: 0; }
 
-/* SCHEDULE TIMELINE */
-.timeline { margin-top: 32px; max-width: 880px; }
-.tl-step {
+/* SCHEDULE — full-bleed photo cards */
+.schedule-header {
+  max-width: 1360px;
+  margin: 0 auto 48px;
+  padding: 0 40px;
+}
+.schedule-cards {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 24px;
-  padding: 18px 0;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  padding: 0 40px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.sched-card {
   position: relative;
+  aspect-ratio: 3 / 4.2;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--brand-700);
+  cursor: default;
+  transition: transform .35s cubic-bezier(.4,.0,.2,1), box-shadow .35s;
+  box-shadow: 0 4px 12px rgba(0,0,0,.18), 0 16px 40px rgba(10,37,64,.30);
 }
-.tl-step:not(:last-child)::before {
-  content: "";
-  position: absolute;
-  left: 21px;
-  top: 60px;
-  bottom: -10px;
-  width: 2px;
-  background: var(--brand-100);
+.sched-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.25), 0 24px 60px rgba(10,37,64,.45);
 }
-.tl-num {
-  width: 44px; height: 44px;
-  border-radius: 12px;
-  background: var(--canvas);
-  border: 1.5px solid var(--brand-200);
-  color: var(--brand);
-  display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono);
-  font-weight: 700; font-size: 15px;
-  flex: none;
+.sched-card .ph-bg {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform .8s cubic-bezier(.4,.0,.2,1);
+}
+.sched-card:hover .ph-bg { transform: scale(1.06); }
+.sched-card::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    rgba(10,37,64,.20) 0%,
+    rgba(10,37,64,.55) 55%,
+    rgba(6,17,32,.92) 100%);
+}
+.sched-card .ph-content {
+  position: absolute; inset: 0;
+  padding: 22px;
+  display: flex; flex-direction: column; justify-content: space-between;
   z-index: 1;
 }
-.tl-body h3 {
-  margin: 8px 0 6px;
-  font-size: 17px; font-weight: 600;
-  color: var(--ink);
-  letter-spacing: -0.01em;
+.sched-card .ph-num {
+  align-self: flex-start;
+  width: 38px; height: 38px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700; font-size: 13px;
+  color: #fff;
+  letter-spacing: .02em;
 }
-.tl-body p {
+.sched-card h3 {
+  margin: 0 0 8px;
+  font-size: 17px; font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  color: #fff;
+}
+.sched-card p {
   margin: 0;
-  font-size: 14.5px; line-height: 1.6;
-  color: var(--ink-3);
+  font-size: 13px; line-height: 1.5;
+  color: rgba(255,255,255,.78);
+}
+
+@media (max-width: 1100px) {
+  .schedule-cards {
+    grid-template-columns: repeat(5, 78%);
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 24px;
+    /* tail padding so last card has breathing space */
+    padding-right: 40px;
+  }
+  .sched-card { scroll-snap-align: start; aspect-ratio: 4 / 5; }
+}
+@media (max-width: 700px) {
+  .schedule-cards {
+    grid-template-columns: repeat(5, 84%);
+    gap: 12px;
+    padding: 0 20px 24px;
+  }
+  .schedule-header { padding: 0 20px; margin-bottom: 36px; }
+  .sched-card h3 { font-size: 16px; }
+  .sched-card p { font-size: 12.5px; }
 }
 
 /* BOOKING FORM */
@@ -754,38 +853,47 @@ function Includes() {
 }
 
 function Schedule() {
+  // Photo URLs are Unsplash placeholders — swap with brand photos when available.
   const steps = [
     {
       title: "Accueil et découverte du club",
       desc: "Présentation des espaces et échange sur votre démarche.",
+      photo: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1200&q=80",
     },
     {
       title: "Bilan forme",
       desc: "Évaluation rapide de votre condition actuelle et de vos objectifs.",
+      photo: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1200&q=80",
     },
     {
       title: "Session guidée personnalisée",
       desc: "Mise en mouvement encadrée par un coach.",
+      photo: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80",
     },
     {
       title: "Entraînement libre avec supervision",
       desc: "Accès aux espaces fitness et wellness, avec disponibilité du coach si nécessaire.",
+      photo: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80",
     },
     {
       title: "Bilan en fin de séance",
       desc: "Retour sur vos sensations et échanges sur les prochaines étapes possibles.",
+      photo: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1200&q=80",
     },
   ];
   return (
-    <div className="timeline">
+    <div className="schedule-cards">
       {steps.map((s, i) => (
-        <div key={i} className="tl-step">
-          <div className="tl-num">{String(i + 1).padStart(2, "0")}</div>
-          <div className="tl-body">
-            <h3>{s.title}</h3>
-            <p>{s.desc}</p>
+        <article key={i} className="sched-card">
+          <div className="ph-bg" style={{ backgroundImage: `url(${s.photo})` }} />
+          <div className="ph-content">
+            <div className="ph-num">{String(i + 1).padStart(2, "0")}</div>
+            <div>
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+            </div>
           </div>
-        </div>
+        </article>
       ))}
     </div>
   );
@@ -981,9 +1089,11 @@ function App() {
         <div className="shell">
           <Hero />
           <PriceCallout onClick={scrollToForm} />
+        </div>
 
-          <section className="section">
-            <div className="section-eyebrow"><span className="step-num">01</span> Ce qui est inclus</div>
+        <section className="section-tinted">
+          <div className="shell">
+            <div className="section-eyebrow">Ce qui est inclus</div>
             <h2>Tout ce qu'il faut pour bien <em>commencer.</em></h2>
             <p className="section-lede">
               Une séance pensée comme un premier pas structuré : on prend le temps de comprendre vos objectifs avant de vous mettre en mouvement.
@@ -998,19 +1108,23 @@ function App() {
                 Un moment pour comprendre où vous en êtes et comment progresser durablement.
               </p>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section className="section">
-            <div className="section-eyebrow"><span className="step-num">02</span> Le déroulé</div>
+        <section className="section-dark">
+          <div className="schedule-header">
+            <div className="section-eyebrow">Le déroulé</div>
             <h2>Comment se passe <em>votre séance.</em></h2>
             <p className="section-lede">
               Cinq temps clairs, pour que vous repartiez avec une vision concrète de la suite.
             </p>
-            <Schedule />
-          </section>
+          </div>
+          <Schedule />
+        </section>
 
+        <div className="shell">
           <section className="section booking-wrap" ref={formRef} id="reserver">
-            <div className="section-eyebrow"><span className="step-num">03</span> Réservation</div>
+            <div className="section-eyebrow">Réservation</div>
             <h2>Choisissez votre <em>jour.</em></h2>
             <p className="section-lede">
               Vous pouvez réserver du lendemain jusqu'à 7 jours à l'avance. Nous confirmons sous 24 h.
