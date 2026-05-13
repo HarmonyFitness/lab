@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           port: 21
-          server-dir: /sites/lab.harmony.ch/fitness/
+          server-dir: /sites/lab.harmony.ch/
           local-dir: ./
           dangerous-clean-slate: false
           exclude: |
