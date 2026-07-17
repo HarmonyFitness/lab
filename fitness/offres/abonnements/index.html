@@ -6,8 +6,8 @@
 <title>Abonnements — Harmony Fitness</title>
 <meta name="description" content="Trois abonnements Harmony Fitness pensés pour votre usage : Access, Essential, Premium. Sans engagement ou 12 mois (−10 %). Réseau de 10 clubs en Suisse romande." />
 
-<link rel="icon" type="image/png" href="../favicon.png" />
-<link rel="apple-touch-icon" href="../favicon.png" />
+<link rel="icon" type="image/png" href="../../favicon.png" />
+<link rel="apple-touch-icon" href="../../favicon.png" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,22 +20,22 @@
    ========================================================= */
 @font-face {
   font-family: 'Eliptik Harmony';
-  src: url('../fonts/Eliptik-Harmony-Thin.ttf') format('truetype');
+  src: url('../../fonts/Eliptik-Harmony-Thin.ttf') format('truetype');
   font-weight: 100; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Eliptik Harmony';
-  src: url('../fonts/Eliptik-Harmony-Light.ttf') format('truetype');
+  src: url('../../fonts/Eliptik-Harmony-Light.ttf') format('truetype');
   font-weight: 300; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Eliptik Harmony';
-  src: url('../fonts/Eliptik-Harmony-Regular.ttf') format('truetype');
+  src: url('../../fonts/Eliptik-Harmony-Regular.ttf') format('truetype');
   font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Eliptik Harmony';
-  src: url('../fonts/Eliptik-Harmony-Bold.ttf') format('truetype');
+  src: url('../../fonts/Eliptik-Harmony-Bold.ttf') format('truetype');
   font-weight: 700; font-style: normal; font-display: swap;
 }
 
@@ -2325,8 +2325,8 @@ function App() {
           <a className="group-label">Groupe Harmony</a>
           <nav className="group-nav" aria-label="Univers Harmony">
             <a className="active" aria-current="page">Fitness</a>
-            <a>Arts Martiaux</a>
-            <a>Natation</a>
+            <a>MAA</a>
+            <a>Aqua</a>
             <a>Famille</a>
           </nav>
         </div>
@@ -2336,9 +2336,7 @@ function App() {
           <div className="topbar-left">
             <HarmonyLogo />
             <nav className="nav">
-              <a>Clubs</a>
-              <a>Activités</a>
-              <a>Wellness</a>
+              <a>Accueil</a>
               <span className="nav-dropdown">
                 <a className="active" aria-haspopup="true">
                   Offres
@@ -2354,16 +2352,22 @@ function App() {
                     <span className="dd-meta">3 formules · sans engagement ou 12 mois</span>
                   </a>
                   <a role="menuitem">
-                    <span className="dd-title">Offre 444 <span className="dd-tag">Limitée</span></span>
-                    <span className="dd-meta">CHF 444 · 4 mois Essential ou Premium</span>
+                    <span className="dd-title">Offre du moment <span className="dd-tag">Limitée</span></span>
+                    <span className="dd-meta">L'offre en cours et ses conditions</span>
                   </a>
                   <a role="menuitem" href="../seance-essai/">
                     <span className="dd-title">Séance d'essai</span>
-                    <span className="dd-meta">CHF 20 · découvrir un club</span>
+                    <span className="dd-meta">Demandez à être rappelé pour votre visite</span>
+                  </a>
+                  <a role="menuitem">
+                    <span className="dd-title">Offre entreprise</span>
+                    <span className="dd-meta">Solutions B2B pour vos collaborateurs</span>
                   </a>
                 </div>
               </span>
-              <a>Entreprise</a>
+              <a>Clubs</a>
+              <a>Sport</a>
+              <a>Bien-être</a>
             </nav>
           </div>
           <div className="topbar-cta">
@@ -2452,7 +2456,7 @@ function App() {
             ou en 12 mensualités <b>sans frais</b> via notre partenaire <b>Heylight</b>. Aucun frais de dossier.
             Résiliation en ligne à l'échéance.
             <br/>
-            <a>Conditions générales</a> · <a>Mentions légales</a> · <a>Contact</a>
+            <a>Besoin d'aide ?</a> · <a>Mentions légales</a> · <a>Confidentialité</a>
           </div>
         </div>
       </main>

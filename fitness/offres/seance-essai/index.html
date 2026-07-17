@@ -4,10 +4,10 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Séance d'essai — Harmony Fitness</title>
-<meta name="description" content="Réservez votre séance d'essai Harmony Fitness à CHF 20 — bilan forme, coaching individuel et accès fitness & wellness. Remboursée à la souscription d'un abonnement 12 mois." />
+<meta name="description" content="Demandez à être rappelé pour votre séance d'essai Harmony Fitness (CHF 20) — un coach du club sélectionné vous contacte sous 24 h pour caler un créneau. Remboursée à la souscription d'un abonnement 12 mois." />
 
-<link rel="icon" type="image/png" href="../favicon.png" />
-<link rel="apple-touch-icon" href="../favicon.png" />
+<link rel="icon" type="image/png" href="../../favicon.png" />
+<link rel="apple-touch-icon" href="../../favicon.png" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,22 +19,22 @@
    ========================================================= */
 @font-face {
   font-family: 'Eliptik Harmony';
-  src: url('../fonts/Eliptik-Harmony-Thin.ttf') format('truetype');
+  src: url('../../fonts/Eliptik-Harmony-Thin.ttf') format('truetype');
   font-weight: 100; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Eliptik Harmony';
-  src: url('../fonts/Eliptik-Harmony-Light.ttf') format('truetype');
+  src: url('../../fonts/Eliptik-Harmony-Light.ttf') format('truetype');
   font-weight: 300; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Eliptik Harmony';
-  src: url('../fonts/Eliptik-Harmony-Regular.ttf') format('truetype');
+  src: url('../../fonts/Eliptik-Harmony-Regular.ttf') format('truetype');
   font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Eliptik Harmony';
-  src: url('../fonts/Eliptik-Harmony-Bold.ttf') format('truetype');
+  src: url('../../fonts/Eliptik-Harmony-Bold.ttf') format('truetype');
   font-weight: 700; font-style: normal; font-display: swap;
 }
 
@@ -703,8 +703,8 @@ function Topbar() {
           <a className="group-label">Groupe Harmony</a>
           <nav className="group-nav" aria-label="Univers Harmony">
             <a className="active" aria-current="page">Fitness</a>
-            <a>Arts Martiaux</a>
-            <a>Natation</a>
+            <a>MAA</a>
+            <a>Aqua</a>
             <a>Famille</a>
           </nav>
         </div>
@@ -714,9 +714,7 @@ function Topbar() {
           <div className="topbar-left">
             <HarmonyLogo />
             <nav className="nav">
-              <a>Clubs</a>
-              <a>Activités</a>
-              <a>Wellness</a>
+              <a>Accueil</a>
               <span className="nav-dropdown">
                 <a className="active" aria-haspopup="true">
                   Offres
@@ -732,16 +730,22 @@ function Topbar() {
                     <span className="dd-meta">3 formules · sans engagement ou 12 mois</span>
                   </a>
                   <a role="menuitem">
-                    <span className="dd-title">Offre 444 <span className="dd-tag">Limitée</span></span>
-                    <span className="dd-meta">CHF 444 · 4 mois Essential ou Premium</span>
+                    <span className="dd-title">Offre du moment <span className="dd-tag">Limitée</span></span>
+                    <span className="dd-meta">L'offre en cours et ses conditions</span>
                   </a>
                   <a className="active" role="menuitem" aria-current="page">
                     <span className="dd-title">Séance d'essai</span>
-                    <span className="dd-meta">CHF 20 · découvrir un club</span>
+                    <span className="dd-meta">Demandez à être rappelé pour votre visite</span>
+                  </a>
+                  <a role="menuitem">
+                    <span className="dd-title">Offre entreprise</span>
+                    <span className="dd-meta">Solutions B2B pour vos collaborateurs</span>
                   </a>
                 </div>
               </span>
-              <a>Entreprise</a>
+              <a>Clubs</a>
+              <a>Sport</a>
+              <a>Bien-être</a>
             </nav>
           </div>
           <div className="topbar-cta">
@@ -788,7 +792,7 @@ function PriceCallout({ onClick }) {
           </p>
         </div>
         <a className="price-cta" onClick={onClick}>
-          Réserver maintenant
+          Demander à être rappelé
           <span style={{display:"inline-flex"}}>
             <svg viewBox="0 0 14 14" width="14" height="14" fill="none">
               <path d="M2 7 L11 7 M7 3 L11 7 L7 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -908,10 +912,19 @@ function BookingForm() {
     return `${y}-${m}-${day}`;
   };
   const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1);
-  const max      = new Date(today); max.setDate(today.getDate() + 7);
+  const max      = new Date(today); max.setDate(today.getDate() + 14);
+
+  const REASONS = [
+    "Découverte du club",
+    "Bilan forme personnalisé",
+    "Reprise d'activité",
+    "Recherche d'un nouveau club",
+    "Autre",
+  ];
 
   const [club, setClub] = useState("");
   const [date, setDate] = useState("");
+  const [reason, setReason] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -933,7 +946,8 @@ function BookingForm() {
     e.preventDefault();
     setError("");
     if (!club)        return setError("Sélectionnez un club.");
-    if (!date)        return setError("Choisissez une date.");
+    if (!date)        return setError("Choisissez une date indicative.");
+    if (!reason)      return setError("Indiquez le motif de votre venue.");
     if (!firstName.trim() || !lastName.trim()) return setError("Indiquez votre prénom et votre nom.");
     if (!validateEmail(email))                  return setError("Adresse e-mail invalide.");
     if (!phone.trim())                          return setError("Indiquez un numéro de téléphone.");
@@ -945,7 +959,7 @@ function BookingForm() {
     //     method: "POST", headers: { "Accept": "application/json" },
     //     body: new FormData(e.target),
     //   });
-    console.log("Trial booking submission:", { club, date, firstName, lastName, email, phone, message });
+    console.log("Callback request:", { club, date, reason, firstName, lastName, email, phone, message });
     setSubmitted(true);
   };
 
@@ -962,8 +976,8 @@ function BookingForm() {
         </div>
         <h2>Demande envoyée</h2>
         <p>
-          Merci <b>{firstName}</b>. Nous revenons vers vous sous 24 h pour confirmer votre séance d'essai
-          au club <b>{club}</b> le <b>{formattedDate}</b>.
+          Merci <b>{firstName}</b>. Un coach du club <b>{club}</b> vous rappelle sous 24 h
+          pour caler votre séance autour du <b>{formattedDate}</b>.
         </p>
       </div>
     );
@@ -982,15 +996,23 @@ function BookingForm() {
           </select>
         </div>
         <div className="field">
-          <label htmlFor="date">Date <span className="req">*</span></label>
+          <label htmlFor="date">Date indicative <span className="req">*</span></label>
           <input
             id="date" name="date" type="date"
             min={fmtISO(tomorrow)} max={fmtISO(max)}
             value={date} onChange={e => setDate(e.target.value)}
             required
           />
-          <span className="field-help">Du lendemain au {max.toLocaleDateString("fr-CH", { day: "numeric", month: "long" })}.</span>
+          <span className="field-help">Du lendemain au {max.toLocaleDateString("fr-CH", { day: "numeric", month: "long" })}. Le coach vous rappellera pour caler le créneau exact.</span>
         </div>
+      </div>
+
+      <div className="field">
+        <label htmlFor="reason">Motif de votre venue <span className="req">*</span></label>
+        <select id="reason" name="reason" value={reason} onChange={e => setReason(e.target.value)} required>
+          <option value="" disabled>Choisir un motif…</option>
+          {REASONS.map(r => <option key={r} value={r}>{r}</option>)}
+        </select>
       </div>
 
       <div className="field-row">
@@ -1038,7 +1060,7 @@ function BookingForm() {
       )}
 
       <button type="submit" className="btn-submit">
-        Réserver ma séance d'essai
+        Envoyer ma demande de rappel
         <svg viewBox="0 0 14 14" width="14" height="14" fill="none">
           <path d="M2 7 L11 7 M7 3 L11 7 L7 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
@@ -1124,10 +1146,10 @@ function App() {
 
         <div className="shell">
           <section className="section booking-wrap" ref={formRef} id="reserver">
-            <div className="section-eyebrow">Réservation</div>
-            <h2>Choisissez votre <em>jour.</em></h2>
+            <div className="section-eyebrow">Demander à être rappelé</div>
+            <h2>Choisissez votre <em>jour idéal.</em></h2>
             <p className="section-lede">
-              Vous pouvez réserver du lendemain jusqu'à 7 jours à l'avance. Nous confirmons sous 24 h.
+              Indiquez une date entre le lendemain et J+14 — un coach du club sélectionné vous rappelle sous 24 h pour caler un créneau précis.
             </p>
             <div className="booking">
               <BookingForm />
@@ -1139,7 +1161,7 @@ function App() {
             Tarif TTC en francs suisses (CHF). La séance d'essai est <b>remboursée intégralement</b> en cas de
             souscription d'un abonnement avec engagement 12 mois dans les 30 jours suivant la séance.
             <br/>
-            <a>Conditions générales</a> · <a>Mentions légales</a> · <a>Contact</a>
+            <a>Besoin d'aide ?</a> · <a>Mentions légales</a> · <a>Confidentialité</a>
           </div>
         </div>
       </main>

@@ -4,10 +4,12 @@ Pages publiques sous **https://lab.harmony.ch/** — un repo pour toutes les ver
 
 | Verticale | Pages |
 |---|---|
-| **Fitness** (`fitness/`) | [Abonnements](https://lab.harmony.ch/fitness/abonnements/) · [Séance d'essai](https://lab.harmony.ch/fitness/seance-essai/) |
-| Arts Martiaux (`arts-martiaux/`) | _à venir_ |
-| Natation (`natation/`) | _à venir_ |
+| **Fitness** (`fitness/`) | [Abonnements](https://lab.harmony.ch/fitness/offres/abonnements/) · [Séance d'essai](https://lab.harmony.ch/fitness/offres/seance-essai/) |
+| MAA (`maa/`) | _à venir_ |
+| Aqua (`aqua/`) | _à venir_ |
 | Famille (`famille/`) | _à venir_ |
+
+L'arborescence des pages Fitness suit la sitemap officielle (voir Annexe B — Notion) : `/offres/`, `/clubs/`, `/sport/`, `/bien-etre/`, `/aide`.
 
 ## Stack
 - HTML/CSS/JS self-contained (un fichier par page)
@@ -21,5 +23,5 @@ Auto via GitHub Actions à chaque push sur `main`. Le repo entier est uploadé �
 ## Développement local
 ```bash
 python3 -m http.server 8000
-# puis http://localhost:8000/fitness/abonnements/ ou /fitness/seance-essai/
+# puis http://localhost:8000/fitness/offres/abonnements/ ou /fitness/offres/seance-essai/
 ```
