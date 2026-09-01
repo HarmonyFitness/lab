@@ -211,8 +211,12 @@ img { display: block; max-width: 100%; }
   display: flex; align-items: center; justify-content: center;
 }
 .hero-media { position: absolute; inset: 0; }
-.hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: center 32%; }
+.hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: center 14%; }
 .hero-media .asset { position: absolute; inset: 0; }
+.hero-media::after {          /* voile : garde le titre lisible sur une photo claire */
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(28, 15, 10, .34) 0%, rgba(28, 15, 10, .20) 45%, rgba(28, 15, 10, .38) 100%);
+}
 .hero-media .asset-photo {                 /* teintes de l'aperçu encodé dans le site source */
   background: linear-gradient(100deg, #7a605c 0%, #8c7873 22%, #6b6f78 46%, #6d94a7 72%, #7299ac 100%);
 }
@@ -552,9 +556,9 @@ const A = {
   facebook:   "assets/icon-facebook.svg",     // node 1:430 — 32 × 32
   appStore:   "assets/badge-app-store.svg",   // node 1:385 — 150 × 55.26
   googlePlay: "assets/badge-google-play.svg", // node 1:389 — 150 × 55.26
-  hero:       "assets/hero.png",              // node 1:6   — 1920 × 396
+  hero:       "assets/hero.jpg",              // photo de couverture — 1845 × 1365
   appBand:    "assets/app-band.png",          // node 1:379 — 1920 × 500
-  cover:      "assets/cover.jpg",             // photo commune : hero + cartes
+  cover:      "assets/hero.jpg",              // photo commune : hero + cartes
 };
 
 /* Photo utilisée par défaut partout où aucune image propre n'est définie.

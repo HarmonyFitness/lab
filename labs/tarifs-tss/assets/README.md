@@ -23,15 +23,17 @@ est bloqué par le proxy réseau de l'environnement. Deux façons de les obtenir
 | `icon-facebook.svg` | `1:430` | SVG | 32 × 32 |
 | `badge-app-store.svg` | `1:385` | SVG | 150 × 55,26 |
 | `badge-google-play.svg` | `1:389` | SVG | 150 × 55,26 |
-| `hero.png` | `1:6` | PNG | 1920 × 396 |
+| `hero.jpg` | photo fournie | JPEG | 1845 × 1365 — **présent**, sert de couverture au hero et aux 16 cartes |
 | `app-band.png` | `1:379` | PNG | 1920 × 500 |
 
 ## Images de carte
 
-Chaque carte a sa propre photo dans la maquette. Elles ne sont pas encore
-câblées : ajoutez le chemin dans le champ `img` de l'entrée correspondante
-(`PACK_RENTREE`, `ABOS`, `DECOUVERTE`, `CARNETS`, `CADEAUX`) et déposez le
-fichier ici.
+Toutes les cartes affichent `hero.jpg` par défaut, via la constante `COVER` en
+haut du script. Pour donner sa propre photo à une carte, déposez le fichier ici
+et renseignez le champ `img` de son entrée (`PACK_RENTREE`, `ABOS`,
+`DECOUVERTE`, `CARNETS`, `CADEAUX`) — il prend le pas sur la couverture.
+
+Dimensions d'origine dans la maquette :
 
 | Carte | Nœud Figma | Dimensions |
 |---|---|---|
