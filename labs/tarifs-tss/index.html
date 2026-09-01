@@ -80,21 +80,18 @@ img { display: block; max-width: 100%; }
   display: flex; align-items: center; justify-content: space-between; gap: 32px;
 }
 
-/* Logo — node 1:461, 132.24 × 60 */
-.logo { display: block; width: 132.24px; height: 60px; flex: none; }
-.logo img { width: 132.24px; height: 60px; }
+/* Logo Harmony + étiquette de verticale (repris de fitness/offres/) */
+.logo { display: inline-flex; align-items: center; gap: 12px; flex: none; }
+.logo img { width: auto; height: 30px; }
 .logo-fallback {
-  width: 132.24px; height: 60px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  color: var(--primary); line-height: 1;
+  display: inline-flex; align-items: center; height: 30px;
+  color: var(--primary); font-size: 21px; font-weight: 700; letter-spacing: -.015em;
 }
-.logo-fallback .l1 { font-size: 21px; font-weight: 700; letter-spacing: -.015em; }
-.logo-fallback .l2 {
-  display: inline-flex; align-items: center; gap: 7px;
-  font-family: var(--font-serif); font-style: italic; font-size: 17px; margin-top: 3px;
-}
-.logo-fallback .l2::before, .logo-fallback .l2::after {
-  content: ""; display: block; width: 13px; height: 1px; background: currentColor;
+.logo-vertical {
+  display: inline-block; padding-left: 12px;
+  border-left: 1px solid #e6e9ec;
+  font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--primary); white-space: nowrap;
 }
 
 /* Navigation — node 1:482, écart 31.8px entre entrées */
@@ -104,6 +101,7 @@ img { display: block; max-width: 100%; }
   color: var(--primary);
   font-size: 16px; font-weight: 700; line-height: 24px;
   text-transform: uppercase; white-space: nowrap;
+  display: inline-flex; align-items: center;
   transition: opacity .15s;
 }
 .nav-link:hover { opacity: .7; }
@@ -116,6 +114,39 @@ img { display: block; max-width: 100%; }
   font-size: 22px; line-height: 33px; text-transform: none;
 }
 
+/* Déroulant « Offres » */
+.nav-dropdown { position: relative; padding-bottom: 16px; margin-bottom: -16px; }
+.nav-dropdown > .nav-link { gap: 5px; }
+.dd-arrow { display: inline-flex; align-items: center; transition: transform .2s; }
+.nav-dropdown:hover .dd-arrow { transform: rotate(180deg); }
+.dropdown-menu {
+  position: absolute; top: calc(100% - 4px); left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  min-width: 292px; padding: 8px;
+  background: #fff; border: 1px solid #e6e9ec; border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(28, 15, 10, .05), 0 16px 40px rgba(28, 15, 10, .14);
+  opacity: 0; visibility: hidden;
+  transition: opacity .15s, transform .2s, visibility .15s;
+  z-index: 70;
+}
+.nav-dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.dropdown-menu a {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  padding: 10px 14px; border-radius: 10px;
+  text-transform: none; letter-spacing: 0; white-space: nowrap;
+  transition: background .15s;
+}
+.dropdown-menu a:hover { background: #f1f3f5; }
+.dd-title {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 700; line-height: 20px; color: var(--ink);
+}
+.dd-meta { font-size: 12.5px; font-weight: 400; line-height: 17px; color: var(--grey-text2); white-space: normal; }
+.dd-tag {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 999px; background: var(--primary); color: #fff; line-height: 1;
+}
+
 .nav-icons { display: flex; align-items: center; gap: 22px; margin-left: 10.2px; }
 .icon-link {
   position: relative;
@@ -125,15 +156,6 @@ img { display: block; max-width: 100%; }
 }
 .icon-link:hover { opacity: .7; }
 .icon-link img, .icon-link svg { width: 20px; height: 20px; }
-.cart-count {
-  position: absolute; top: 2px; right: 1px;
-  min-width: 16px; height: 16px; padding: 0 4px;
-  border-radius: 999px; background: var(--primary); color: var(--cream);
-  font-size: 10px; font-weight: 700; line-height: 1;
-  display: inline-flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 0 2px #fff;
-}
-
 /* Bouton Réserver — node 1:501 : 116.78 × 36, rayon 2px */
 .btn-book {
   display: inline-flex; align-items: center; justify-content: center;
@@ -155,7 +177,9 @@ img { display: block; max-width: 100%; }
   .btn-book { width: auto; padding: 0 14px; margin-left: 0; font-size: 12.5px; }
   .nav-icons { gap: 8px; margin-left: 0; }
   .header-inner { gap: 12px; padding: 0 18px; }
-  .logo, .logo img, .logo-fallback { width: 104px; height: 47px; }
+  .logo { gap: 8px; }
+  .logo img { height: 24px; }
+  .logo-vertical { padding-left: 8px; font-size: 9.5px; letter-spacing: .14em; }
 }
 
 /* Menu mobile — node 1:437 */
@@ -172,7 +196,7 @@ img { display: block; max-width: 100%; }
   padding: 12px 24px; color: var(--primary);
   font-size: 20px; font-weight: 700; line-height: 27px; text-transform: capitalize;
 }
-.mobile-nav a.serif { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 22px; }
+.mobile-nav a.mobile-sub { font-size: 15px; font-weight: 500; text-transform: none; padding: 8px 24px; opacity: .8; }
 .mobile-nav .mobile-cta {
   display: inline-flex; align-items: center; justify-content: center;
   width: 199.28px; height: 40px; margin-bottom: 16px;
@@ -549,9 +573,8 @@ const { useState, useRef, useEffect, useLayoutEffect } = React;
    leur place. Voir la table des assets dans labs/README.md.
    ========================================================= */
 const A = {
-  logo:       "assets/logo-header.svg",       // node 1:461 — 132.24 × 60
+  logo:       "https://souscription.harmony.ch/wp-content/uploads/logo-harmony.png",  // logo Harmony
   logoFooter: "assets/logo-footer.svg",       // node 1:402 — 156.96 × 163
-  cart:       "assets/icon-cart.svg",         // node 1:492 — 20 × 20
   account:    "assets/icon-account.svg",      // node 1:497 — 20 × 20
   instagram:  "assets/icon-instagram.svg",    // node 1:426 — 32 × 32
   facebook:   "assets/icon-facebook.svg",     // node 1:430 — 32 × 32
@@ -594,23 +617,20 @@ function Photo({ src, alt = "", className = "" }) {
 /* =========================================================
    DONNÉES — relevées sur la maquette Figma
    ========================================================= */
-const NAV = [
-  { label: "STUDIO" },
-  { label: "COURS" },
-  { label: "TARIFS", active: true },
-  { label: "PLANNING" },
-  { label: "EVENTS" },
-  { label: "CONTACT" },
-  { label: "Journal", serif: true },
+/* Menu Harmony, repris des pages fitness/offres/ */
+const OFFRES = [
+  { label: "Abonnements", meta: "3 formules \u00b7 sans engagement ou 12 mois", href: "../../fitness/offres/abonnements/" },
+  { label: "Offre du moment", meta: "L'offre en cours et ses conditions", tag: "Limitée" },
+  { label: "Séance d'essai", meta: "Demandez à être rappelé pour votre visite", href: "../../fitness/offres/seance-essai/" },
+  { label: "Offre entreprise", meta: "Solutions B2B pour vos collaborateurs" },
 ];
 
-/* Menu mobile — node 1:437 */
-const NAV_MOBILE = [
-  { label: "Studio" },
-  { label: "Tarifs" },
-  { label: "Planning" },
-  { label: "Contact" },
-  { label: "Journal", serif: true },
+const NAV = [
+  { label: "Accueil" },
+  { label: "Offres", active: true, items: OFFRES },
+  { label: "Clubs" },
+  { label: "Sport" },
+  { label: "Bien-être" },
 ];
 
 /* Bandeau — node 1:503 : deux messages en alternance */
@@ -646,6 +666,11 @@ const ENGAGEMENTS = [
 ];
 
 const DECOUVERTE = [
+  {
+    id: "essai", title: "Séance d'essai", sub: "1 à 2 heures avec un coach", price: 20,
+    details: "Accueil au club, bilan de votre forme et test d'un entraînement adapté, accompagné par un coach.",
+    validite: "Intégralement remboursée à la souscription d'un abonnement avec engagement 12 mois.",
+  },
   {
     id: "duo", title: "1 cours acheté = 1 cours offert", price: 39,
     details: "Deux places pour le prix d'une, sur le format de votre choix. La seconde place peut être offerte.",
@@ -822,37 +847,50 @@ function Tabs({ items, value, onChange }) {
 /* =========================================================
    EN-TÊTE
    ========================================================= */
-function Header({ cart, menuOpen, onToggleMenu }) {
+function Header({ menuOpen, onToggleMenu }) {
   return (
     <>
       <header className="header">
         <div className="header-inner">
-          <a className="logo" href="#" aria-label="The Sport Society, accueil">
+          <a className="logo" href="../../fitness/offres/abonnements/" aria-label="Harmony Fitness, accueil">
             <Asset
-              src={A.logo} w={132.24} h={60} alt="The Sport Society"
-              fallback={
-                <span className="logo-fallback">
-                  <span className="l1">The Sport</span>
-                  <span className="l2">Society</span>
-                </span>
-              }
+              src={A.logo} w={132} h={30} alt="Harmony Fitness" className="logo-img"
+              fallback={<span className="logo-fallback">Harmony</span>}
             />
+            <span className="logo-vertical">Fitness</span>
           </a>
 
           <nav className="nav" aria-label="Navigation principale">
             {NAV.map((n) => (
-              <a key={n.label} href="#"
-                 className={"nav-link" + (n.serif ? " serif" : "") + (n.active ? " active" : "")}
-                 aria-current={n.active ? "page" : undefined}>
-                {n.label}
-              </a>
+              n.items ? (
+                <span className="nav-dropdown" key={n.label}>
+                  <a href="#" className={"nav-link" + (n.active ? " active" : "")}
+                     aria-haspopup="true" aria-current={n.active ? "page" : undefined}>
+                    {n.label}
+                    <span className="dd-arrow" aria-hidden="true">
+                      <svg viewBox="0 0 14 14" width="10" height="10" fill="none">
+                        <path d="M3 5 L7 9 L11 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </span>
+                  </a>
+                  <div className="dropdown-menu" role="menu">
+                    {n.items.map((it) => (
+                      <a key={it.label} role="menuitem" href={it.href || "#"}>
+                        <span className="dd-title">
+                          {it.label}
+                          {it.tag ? <span className="dd-tag">{it.tag}</span> : null}
+                        </span>
+                        <span className="dd-meta">{it.meta}</span>
+                      </a>
+                    ))}
+                  </div>
+                </span>
+              ) : (
+                <a key={n.label} href="#" className="nav-link">{n.label}</a>
+              )
             ))}
 
             <span className="nav-icons">
-              <a className="icon-link" href="#" aria-label={`Panier : ${cart} article${cart > 1 ? "s" : ""}`}>
-                <Asset src={A.cart} w={20} h={20} alt="" />
-                {cart > 0 ? <span className="cart-count">{cart}</span> : null}
-              </a>
               <a className="icon-link" href="#" aria-label="Mon compte">
                 <Asset src={A.account} w={20} h={20} alt="" />
               </a>
@@ -875,8 +913,9 @@ function Header({ cart, menuOpen, onToggleMenu }) {
         <div>
           <nav aria-label="Navigation mobile">
             <a className="mobile-cta" href="#">Réserver un cours</a>
-            {NAV_MOBILE.map((n) => (
-              <a key={n.label} href="#" className={n.serif ? "serif" : ""}>{n.label}</a>
+            {NAV.map((n) => <a key={n.label} href="#">{n.label}</a>)}
+            {OFFRES.map((it) => (
+              <a key={it.label} href={it.href || "#"} className="mobile-sub">{it.label}</a>
             ))}
           </nav>
         </div>
@@ -1008,15 +1047,15 @@ function ToTop() {
    PAGE
    ========================================================= */
 function App() {
-  const [cart, setCart] = useState(0);
   const [engagement, setEngagement] = useState("3");
   const [carnet, setCarnet] = useState("tous");
   const [menuOpen, setMenuOpen] = useState(false);
-  const add = () => setCart((c) => c + 1);
+  /* Point d'accroche pour un vrai panier ; le bouton gère seul son retour visuel. */
+  const add = () => {};
 
   return (
     <>
-      <Header cart={cart} menuOpen={menuOpen} onToggleMenu={() => setMenuOpen((o) => !o)} />
+      <Header menuOpen={menuOpen} onToggleMenu={() => setMenuOpen((o) => !o)} />
       <Marquee />
       <Hero />
 
