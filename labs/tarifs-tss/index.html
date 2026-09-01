@@ -236,7 +236,13 @@ img { display: block; max-width: 100%; }
   display: flex; align-items: center; justify-content: center;
 }
 .hero-media { position: absolute; inset: 0; }
-.hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: center 14%; }
+/* Calque zoomé au scroll ; le voile reste sur .hero-media, hors transformation */
+.hero-zoom {
+  position: absolute; inset: 0;
+  transform-origin: center 50%;
+  will-change: transform;
+}
+.hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: center 50%; }
 .hero-media .asset { position: absolute; inset: 0; }
 .hero-media::after {          /* voile : garde le titre lisible sur une photo claire */
   content: ""; position: absolute; inset: 0;
@@ -331,6 +337,13 @@ main { padding-bottom: 120px; }
    CARTE PRODUIT — nodes 1:43, 1:119, 1:165, 1:243
    contour 1px #1c0f0a, rayon 16px, marge intérieure 10px
    ========================================================= */
+/* Apparition des cartes à l'entrée dans le viewport */
+.reveal { opacity: 0; transform: translateY(14px) scale(.985); }
+.reveal.in { opacity: 1; transform: none; transition: opacity .55s ease, transform .55s cubic-bezier(.22, 1, .36, 1); }
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal.in { opacity: 1; transform: none; transition: none; }
+}
+
 .card {
   position: relative;
   display: flex; flex-direction: column;
@@ -449,22 +462,6 @@ main { padding-bottom: 120px; }
 .pill-tab:hover { opacity: .85; }
 .pill-tab.on { border-color: #000; opacity: 1; }
 
-/* =========================================================
-   CARTE CADEAU — node 1:321 : pastille de montant, sans prix
-   ========================================================= */
-.gift-title {
-  margin: 17px 0 0; text-align: center;
-  font-size: 24px; font-weight: 700; line-height: 32px;
-  letter-spacing: -.6px; text-transform: uppercase; color: var(--ink);
-}
-.gift-amount {
-  display: inline-flex; align-items: center;
-  height: 36px; padding: 0 16px; margin: 8px auto 0;
-  border-radius: 8px; background: var(--ink); color: #fff;
-  font-size: 15.5px; font-weight: 700; line-height: 28px;
-}
-.gift .accs { margin-top: 16px; }
-.gift .btn-cart { margin-top: 16px; }
 
 /* =========================================================
    BANDEAU APPLICATION — node 1:378 : 500px, fond var(--primary)
@@ -580,9 +577,10 @@ const A = {
   facebook:   "assets/icon-facebook.svg",     // node 1:430 — 32 × 32
   appStore:   "assets/badge-app-store.svg",   // node 1:385 — 150 × 55.26
   googlePlay: "assets/badge-google-play.svg", // node 1:389 — 150 × 55.26
-  hero:       "assets/hero.jpg",              // photo de couverture — 1845 × 1365
+  hero:       "assets/hero-cours-collectifs-1920.jpg",  // bandeau du hero — 1920 × 1280
+                                              // source pleine résolution : hero-cours-collectifs.jpg (3456 × 2304)
   appBand:    "assets/app-band.png",          // node 1:379 — 1920 × 500
-  cover:      "assets/hero.jpg",              // photo commune : hero + cartes
+  cover:      "assets/hero.jpg",              // photo des 16 cartes — 1845 × 1365
 };
 
 /* Photo utilisée par défaut partout où aucune image propre n'est définie.
@@ -642,7 +640,6 @@ const ANNONCES = [
 const DETAILS = "Accès à l'ensemble de nos salles. Réservation des créneaux depuis l'application, annulation gratuite jusqu'à 12 h avant le cours.";
 const VALIDITE_ABO = "Reconduction automatique à échéance. Résiliable après la période d'engagement, avec un préavis d'un mois.";
 const VALIDITE_CARNET = "Cours à utiliser dans les 12 mois suivant l'achat. Crédits nominatifs, non remboursables.";
-const VALIDITE_CADEAU = "Valable 12 mois à compter de l'achat, sur l'ensemble des formats et des salles.";
 
 const PACK_RENTREE = {
   id: "pack-rentree",
@@ -663,24 +660,6 @@ const ABOS = [
 const ENGAGEMENTS = [
   { id: "3",  label: "3 mois",  key: "p3",  save: "- 10%" },
   { id: "12", label: "12 mois", key: "p12", save: "- 20%" },
-];
-
-const DECOUVERTE = [
-  {
-    id: "essai", title: "Séance d'essai", sub: "1 à 2 heures avec un coach", price: 20,
-    details: "Accueil au club, bilan de votre forme et test d'un entraînement adapté, accompagné par un coach.",
-    validite: "Intégralement remboursée à la souscription d'un abonnement avec engagement 12 mois.",
-  },
-  {
-    id: "duo", title: "1 cours acheté = 1 cours offert", price: 39,
-    details: "Deux places pour le prix d'une, sur le format de votre choix. La seconde place peut être offerte.",
-    validite: "Les deux cours sont à consommer dans les 30 jours suivant l'achat.",
-  },
-  {
-    id: "semaine", title: "Semaine Exclusive", sub: "Accès à toutes les salles pendant 7j", price: 69,
-    details: "Accès libre à tous les cours et à toutes les salles pendant sept jours consécutifs.",
-    validite: "La semaine démarre au premier cours réservé. Offre réservée aux nouveaux venus.",
-  },
 ];
 
 /* L'onglet « Cours sur tapis » n'est pas exposé par la maquette : montants à confirmer. */
@@ -704,13 +683,6 @@ const CARNETS = {
     ],
   },
 };
-
-/* Montants relevés sur la maquette — nodes 1:324, 1:343, 1:362 */
-const CADEAUX = [
-  { id: "g30",  title: "Carte cadeau", amount: 30  },
-  { id: "g50",  title: "Carte Cadeau", amount: 50  },
-  { id: "g100", title: "Carte Cadeau", amount: 100 },
-];
 
 const eur = (n) => `${n} €`;
 
@@ -743,8 +715,9 @@ function CartButton({ onAdd }) {
 }
 
 function Card({ item, unit, badges, onAdd }) {
+  const reveal = useReveal();
   return (
-    <article className="card">
+    <article className="card reveal" ref={reveal}>
       <div className="card-media">
         <Photo src={item.img} />
         {badges && badges.length ? (
@@ -794,21 +767,6 @@ function AboCard({ abo, engagement, onAdd }) {
       badges={[{ text: `Engagement ${eng.label}` }, { text: eng.save, save: true }]}
       onAdd={onAdd}
     />
-  );
-}
-
-function GiftCard({ gift, onAdd }) {
-  return (
-    <article className="card gift">
-      <div className="card-media"><Photo src={gift.img} /></div>
-      <h3 className="gift-title">{gift.title}</h3>
-      <span className="gift-amount">{eur(gift.amount)}</span>
-      <div className="accs">
-        <Accordion label="Détails">Carte cadeau nominative, utilisable sur l'ensemble de nos formats et de nos salles.</Accordion>
-        <Accordion label="Validité">{VALIDITE_CADEAU}</Accordion>
-      </div>
-      <div className="card-foot"><CartButton onAdd={onAdd} /></div>
-    </article>
   );
 }
 
@@ -941,14 +899,59 @@ function Marquee() {
 }
 
 function Hero() {
+  const zoom = useRef(null);
+
+  /* La photo grossit de 8 % le temps que le hero quitte l'écran. */
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = null;
+    const apply = () => {
+      raf = null;
+      const el = zoom.current;
+      if (!el) return;
+      const h = el.parentElement.offsetHeight || 1;
+      const p = Math.min(1, Math.max(0, window.scrollY / h));
+      el.style.transform = "scale(" + (1 + p * 0.08).toFixed(4) + ")";
+    };
+    const onScroll = () => { if (raf === null) raf = requestAnimationFrame(apply); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    apply();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf !== null) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-media" aria-hidden="true">
-        <Photo src={COVER || A.hero} />
+        <div className="hero-zoom" ref={zoom}>
+          <Photo src={A.hero} />
+        </div>
       </div>
       <h1 className="hero-title" id="hero-title">Consultez <em>nos tarifs</em></h1>
     </section>
   );
+}
+
+/* Ajoute la classe « in » quand l'élément entre dans le viewport. */
+function useReveal() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (!("IntersectionObserver" in window) ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.classList.add("in");
+      return;
+    }
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { el.classList.add("in"); io.disconnect(); }
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return ref;
 }
 
 /* =========================================================
@@ -1086,14 +1089,6 @@ function App() {
             </div>
           </section>
 
-          {/* Offres découverte — node 1:115 */}
-          <section className="section">
-            <SectionHead emoji="🚀" title="Offres découverte" note="Accès à toutes les salles" />
-            <div className="cards w280" style={{ marginTop: 32 }}>
-              {DECOUVERTE.map((d) => <Card key={d.id} item={d} onAdd={add} />)}
-            </div>
-          </section>
-
           {/* Abonnements — node 1:156 */}
           <section className="section">
             <SectionHead emoji="🔄" title="Abonnements" note="Accès à toutes les salles" />
@@ -1123,14 +1118,6 @@ function App() {
               {CARNETS[carnet].items.map((c) => (
                 <Card key={c.id} item={{ ...c, validite: VALIDITE_CARNET }} unit={{ now: c.unit }} onAdd={add} />
               ))}
-            </div>
-          </section>
-
-          {/* Cartes cadeaux — node 1:319 */}
-          <section className="section">
-            <SectionHead emoji="🎁" title="Cartes cadeaux" />
-            <div className="cards w280" style={{ marginTop: 32 }}>
-              {CADEAUX.map((g) => <GiftCard key={g.id} gift={g} onAdd={add} />)}
             </div>
           </section>
 
