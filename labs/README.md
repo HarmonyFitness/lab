@@ -19,7 +19,7 @@ logo viennent de la maquette.
 
 | Rôle | Valeur | Nœud |
 |---|---|---|
-| Bordeaux — nav, bouton Réserver, badge engagement, pied de page, bandeau app | `#801624` | `1:483`, `1:501`, `1:63`, `1:400` |
+| Bleu — nav, bouton Réserver, badge engagement, pied de page, bandeau app | `#204D6E` | `1:483`, `1:501`, `1:63`, `1:400` — la maquette donne `#801624`, écart voulu |
 | Terracotta — bandeau d'annonces | `#aa6440` | `1:503` |
 | Encre — texte, contour des cartes, badge remise | `#1c0f0a` | `1:44`, `1:43`, `1:65` |
 | Noir bouton — « Ajouter au panier » | `#09090b` | `1:60` |
