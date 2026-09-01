@@ -10,34 +10,50 @@ et n'apparaît dans aucune navigation du site.
 
 ## tarifs-tss
 
-Reprend la structure de la page tarifs de The Sport Society (studio à Bordeaux),
-rendue avec la charte Harmony : police Eliptik Harmony, palette bleue, barre
-groupe et topbar du repo.
+Clone de la page tarifs de The Sport Society (studio à Bordeaux), reconstruit
+d'après une capture PDF de la page. Le design system Harmony n'est pas utilisé
+ici : palette, typographie, menu et logo sont ceux du modèle.
+
+**Palette relevée sur le modèle**
+
+| Rôle | Valeur |
+|---|---|
+| Bordeaux (logo, nav, boutons) | `#801624` |
+| Texte principal | `#1c0f0a` |
+| Texte secondaire | `#3f3f47` |
+| Prix barré, texte discret | `#9f9fa9` |
+| Bandeau d'annonces | `#ababab` |
+
+**Typographie** : Libre Franklin (reprise libre de Franklin Gothic, la police du
+modèle) pour le sans-serif, DM Serif Text pour les italiques (logo, « Journal »,
+titre du hero, titre du bandeau app).
 
 **Sections, dans l'ordre du modèle**
 
-1. Bandeau d'annonces défilant
-2. Hero pleine largeur, titre « Consultez *nos tarifs* »
-3. Offres saisonnières — Pack rentrée + 3 abonnements, avec étiquettes verticales
-4. Offres découverte — 2 cartes
-5. Abonnements — sélecteur d'engagement 3 / 12 mois
-6. Carnets de cours — sélecteur Tous les cours / Cours sur tapis
-7. Cartes cadeaux
-8. Bandeau application mobile
-9. Pied de page
+1. En-tête fixe : logo, menu, panier, compte, bouton Réserver
+2. Bandeau d'annonces défilant
+3. Hero 421 px, titre « Consultez *nos tarifs* »
+4. Offres saisonnières — Pack rentrée + 3 abonnements, étiquettes verticales
+5. Offres découverte — 2 cartes
+6. Abonnements — onglets d'engagement 3 / 12 mois
+7. Carnets de cours — onglets Tous les cours / Cours sur tapis
+8. Cartes cadeaux
+9. Bandeau application mobile
+10. Pied de page
 
-**Écarts assumés par rapport au modèle**
+**Écarts par rapport au modèle**
 
-- **Photos** remplacées par des aplats dégradés de la palette Harmony.
-- **Devise** : montants du modèle, affichés en CHF pour rester cohérent avec le
-  reste du repo. Basculez la constante `CUR` sur `"€"` pour revenir au modèle.
+- **Photos** remplacées par des aplats dégradés dans les tons du modèle
+  (terracotta, beige, bleu-gris). Les couleurs du hero viennent de l'image
+  d'aperçu encodée dans le HTML du site.
+- **Fonds des boutons** : l'export PDF n'imprime pas les couleurs de fond.
+  « Réserver » et « Ajouter au panier » sont rendus en bordeaux plein avec texte
+  blanc, d'après les classes `bg-primary` relevées dans le HTML du site.
 - **Engagement 12 mois** : le modèle n'expose que les tarifs à 3 mois. Ceux à
   12 mois sont une projection à −20 % (`p12` dans `ABOS`).
-- **Carnets « Cours sur tapis »** : onglet non capturé sur le modèle, montants à
+- **Carnets « Cours sur tapis »** : onglet non chargé sur la capture, montants à
   confirmer.
-- **Cartes cadeaux** : la section existe sur le modèle mais son contenu n'était
-  pas chargé à la capture. Trois montants ont été posés.
-- **Marque** : logo, nom de l'application et pied de page sont ceux d'Harmony,
-  puisque la coque vient du design system du repo.
+- **Cartes cadeaux** : section présente sur le modèle, contenu non chargé à la
+  capture. Trois montants ont été posés.
 
 Toutes ces valeurs sont regroupées en haut du bloc `<script type="text/babel">`.
