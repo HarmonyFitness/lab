@@ -211,7 +211,7 @@ img { display: block; max-width: 100%; }
   display: flex; align-items: center; justify-content: center;
 }
 .hero-media { position: absolute; inset: 0; }
-.hero-media img { width: 100%; height: 100%; object-fit: cover; }
+.hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: center 32%; }
 .hero-media .asset { position: absolute; inset: 0; }
 .hero-media .asset-photo {                 /* teintes de l'aperçu encodé dans le site source */
   background: linear-gradient(100deg, #7a605c 0%, #8c7873 22%, #6b6f78 46%, #6d94a7 72%, #7299ac 100%);
@@ -313,7 +313,7 @@ main { padding-bottom: 120px; }
 .card:hover { box-shadow: 0 12px 30px rgba(28, 15, 10, .1); }
 
 .card-media { position: relative; aspect-ratio: 258 / 135.44; border-radius: 10px; overflow: hidden; }
-.card-media img { width: 100%; height: 100%; object-fit: cover; }
+.card-media img { width: 100%; height: 100%; object-fit: cover; object-position: center 38%; }
 .card-media .asset { position: absolute; inset: 0; }
 
 /* Badges — node 1:63 (bordeaux) et 1:65 (encre), rayon 6px, hauteur 28px */
@@ -554,7 +554,12 @@ const A = {
   googlePlay: "assets/badge-google-play.svg", // node 1:389 — 150 × 55.26
   hero:       "assets/hero.png",              // node 1:6   — 1920 × 396
   appBand:    "assets/app-band.png",          // node 1:379 — 1920 × 500
+  cover:      "assets/cover.jpg",             // photo commune : hero + cartes
 };
+
+/* Photo utilisée par défaut partout où aucune image propre n'est définie.
+   Mettre à null pour revenir aux aplats. */
+const COVER = A.cover;
 
 /* Rend l'asset s'il est présent, sinon un aplat aux mêmes dimensions. */
 function Asset({ src, w, h, alt = "", className = "", fallback = null }) {
@@ -572,11 +577,13 @@ function Asset({ src, w, h, alt = "", className = "", fallback = null }) {
   );
 }
 
-/* Image de contenu : remplit son cadre, aplat photo en secours. */
-function Photo({ src, alt = "" }) {
+/* Image de contenu : remplit son cadre. Sans src propre, retombe sur la photo
+   de couverture commune, puis sur un aplat si le fichier manque. */
+function Photo({ src, alt = "", className = "" }) {
   const [failed, setFailed] = useState(false);
-  if (failed || !src) return <div className="asset asset-photo" aria-hidden="true" />;
-  return <img src={src} alt={alt} onError={() => setFailed(true)} />;
+  const url = src || COVER;
+  if (failed || !url) return <div className="asset asset-photo" aria-hidden="true" />;
+  return <img src={url} alt={alt} className={className} onError={() => setFailed(true)} />;
 }
 
 /* =========================================================
@@ -723,8 +730,11 @@ function Card({ item, unit, badges, onAdd }) {
       {item.sub ? <p className="card-sub">{item.sub}</p> : null}
       {unit ? (
         <p className="card-unit">
-          {unit.was ? <span className="was">{unit.was}€</span> : null}
-          {unit.was ? " " : null}{unit.now}€ par séance
+          {/* un seul enfant : en flex, un nœud de texte blanc serait supprimé */}
+          <span>
+            {unit.was ? <span className="was">{unit.was}€ </span> : null}
+            {unit.now}€ par séance
+          </span>
         </p>
       ) : null}
 
@@ -890,7 +900,7 @@ function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-media" aria-hidden="true">
-        <Photo src={A.hero} />
+        <Photo src={COVER || A.hero} />
       </div>
       <h1 className="hero-title" id="hero-title">Consultez <em>nos tarifs</em></h1>
     </section>
