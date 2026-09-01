@@ -8,6 +8,9 @@ Pages publiques sous **https://lab.harmony.ch/** — un repo pour toutes les ver
 | MAA (`maa/`) | _à venir_ |
 | Aqua (`aqua/`) | _à venir_ |
 | Famille (`famille/`) | _à venir_ |
+| **Labs** (`labs/`) | [Tarifs (maquette d'après The Sport Society)](https://lab.harmony.ch/labs/tarifs-tss/) |
+
+`labs/` regroupe des maquettes hors sitemap (`noindex`), voir [labs/README.md](labs/README.md).
 
 L'arborescence des pages Fitness suit la sitemap officielle (voir Annexe B — Notion) : `/offres/`, `/clubs/`, `/sport/`, `/bien-etre/`, `/aide`.
 
