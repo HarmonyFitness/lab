@@ -8,7 +8,7 @@ Pages publiques sous **https://lab.harmony.ch/** — un repo pour toutes les ver
 | MAA (`maa/`) | _à venir_ |
 | Aqua (`aqua/`) | _à venir_ |
 | Famille (`famille/`) | _à venir_ |
-| **Labs** (`labs/`) | [Tarifs (clone The Sport Society)](https://lab.harmony.ch/labs/tarifs-tss/) |
+| **Labs** (`labs/`) | [Tarifs (implémentation Figma, The Sport Society)](https://lab.harmony.ch/labs/tarifs-tss/) |
 
 `labs/` regroupe des maquettes hors sitemap (`noindex`), voir [labs/README.md](labs/README.md).
 
