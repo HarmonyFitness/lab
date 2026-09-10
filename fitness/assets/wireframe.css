@@ -182,8 +182,8 @@ a { color: var(--accent); }
 
 .carte { position: relative; background: var(--gris-20); border-radius: var(--rayon);
   min-height: 300px; overflow: hidden; }
-.carte__fond { position: absolute; inset: 0; display: flex; align-items: center;
-  justify-content: center; color: var(--gris-60); font-size: 12px; }
+.carte__fond { position: absolute; left: 8px; top: 8px;
+  color: var(--gris-60); font-size: 11px; }
 .carte__repere { position: absolute; transform: translate(-50%, -50%);
   width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 700; color: #fff; background: var(--gris-80);
@@ -258,9 +258,12 @@ a { color: var(--accent); }
   padding: 12px 14px; margin-bottom: 8px;
 }
 .extra__corps { flex: 1 1 220px; }
-.extra__marque { font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .05em; border: 1px solid var(--gris-80); border-radius: var(--rayon);
-  padding: 0 6px; }
+/* Pas de text-transform : B.3 impose un seul mot, "Extra", identique en
+   club, dans l'appli, sur le site et dans Echino. Le CSS ne doit pas le
+   réécrire en EXTRA. */
+.extra__marque { font-size: 11px; font-weight: 700;
+  border: 1px solid var(--gris-80); border-radius: var(--rayon);
+  padding: 0 6px; white-space: nowrap; }
 .extra__droite { display: flex; align-items: center; gap: 12px; margin-left: auto; }
 
 .indispo {
@@ -309,10 +312,10 @@ a { color: var(--accent); }
 .filtres select { font: inherit; font-size: 13px; padding: 5px 7px;
   border: 1px solid var(--gris-40); border-radius: var(--rayon); background: #fff; }
 
-.planning { width: 100%; border-collapse: collapse; background: #fff; font-size: 14px; }
-.planning th, .planning td { text-align: left; padding: 9px 11px;
+.tableau, .planning { width: 100%; border-collapse: collapse; background: #fff; font-size: 14px; }
+.tableau th, .tableau td, .planning th, .planning td { text-align: left; padding: 9px 11px;
   border-bottom: 1px solid var(--gris-10); vertical-align: top; }
-.planning th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+.tableau th, .planning th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
   color: var(--gris-60); background: var(--gris-05); }
 .planning__jour td { background: var(--gris-05); font-weight: 700; }
 .planning__vide { padding: 16px; background: #fff; color: var(--gris-60); font-size: 14px; }
@@ -349,6 +352,23 @@ a { color: var(--accent); }
 /* ------------------------------------------------------------------ */
 .mobile-seulement { display: none; }
 
+/* Hub /clubs : cartes à gauche, carte géographique à droite (B.3). */
+.hub-clubs { display: grid; grid-template-columns: 2fr 1fr; gap: var(--gouttiere);
+  align-items: start; }
+.hub-clubs__carte { position: sticky; top: 16px; }
+.hub-clubs__carte .carte { height: 420px; }
+
+/* Barre rapide de la page club : fixe en bas d'écran sur mobile. */
+.barre-rapide { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
+  background: #fff; border: 1px solid var(--gris-20); border-radius: var(--rayon);
+  padding: 11px 14px; margin: 16px 0; }
+.barre-rapide a { font-weight: 600; }
+
+.hero-club { display: grid; grid-template-columns: 3fr 2fr; gap: var(--gouttiere);
+  align-items: start; margin-top: 8px; }
+.hero-club__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+  margin-top: 14px; }
+
 /* ------------------------------------------------------------------ */
 /* Mobile : 375 px                                                      */
 /* ------------------------------------------------------------------ */
@@ -360,11 +380,20 @@ a { color: var(--accent); }
   .choix-club .carte-bloc { display: none; }
   .ordi-seulement { display: none; }
   .mobile-seulement { display: block; }
+  .hub-clubs { grid-template-columns: 1fr; }
+  .hub-clubs__carte { display: none; }
+  .hero-club { grid-template-columns: 1fr; }
+  /* B.3 > Trame de la page club > 2 : fixe en bas d'écran sur mobile. */
+  .barre-rapide { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+    margin: 0; border-radius: 0; border-left: 0; border-right: 0;
+    overflow-x: auto; white-space: nowrap; flex-wrap: nowrap; }
+  body.a-barre-rapide { padding-bottom: 64px; }
   .grille--3, .grille--2 { grid-template-columns: 1fr; }
   .coachs { grid-template-columns: repeat(2, 1fr); }
   .pied__cols { grid-template-columns: repeat(2, 1fr); }
   .entete__nav { display: none; }
   .planning th:nth-child(4), .planning td:nth-child(4) { display: none; }
+  .tableau-large { display: block; overflow-x: auto; }
 }
 
 /* Carte en plein écran sur mobile, ouverte par "Voir sur la carte".

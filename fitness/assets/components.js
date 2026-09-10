@@ -181,19 +181,62 @@ window.HF = (function () {
   function spec(ref) { return '<span class="wf-spec">' + esc(ref) + '</span>'; }
   function aValider(cond) { return cond ? '<span class="wf-avalider">à valider par Harmony</span>' : ''; }
 
-  /* Position d'un repère sur la carte, calculée depuis les coordonnées
-     des clubs. La carte du wireframe n'est pas une vraie carte : elle
-     situe les repères les uns par rapport aux autres. */
-  function position(c) {
+  /* Positions des repères sur la carte, calculées depuis les coordonnées
+     des clubs. La carte du wireframe n'est pas une vraie carte : elle situe
+     les repères les uns par rapport aux autres.
+
+     Les clubs genevois sont trop proches pour que leurs repères se
+     distinguent à cette échelle. Une passe d'écartement les sépare, sinon
+     la règle "forme et lettre, jamais la couleur seule" ne sert à rien :
+     un repère caché sous un autre n'est lisible d'aucune façon. Le calcul
+     est déterministe, la carte ne bouge pas d'un affichage à l'autre. */
+  var ECART_MIN = 8;   /* en % de la largeur de la carte */
+  var _positions = null;
+
+  function positions() {
+    if (_positions) return _positions;
     var lats = D.clubs.map(function (x) { return x.gps.lat; });
     var lngs = D.clubs.map(function (x) { return x.gps.lng; });
     var minLat = Math.min.apply(null, lats), maxLat = Math.max.apply(null, lats);
     var minLng = Math.min.apply(null, lngs), maxLng = Math.max.apply(null, lngs);
-    return {
-      x: 8 + ((c.gps.lng - minLng) / (maxLng - minLng)) * 84,
-      y: 92 - ((c.gps.lat - minLat) / (maxLat - minLat)) * 84
-    };
+
+    var pts = D.clubs.map(function (c) {
+      return {
+        id: c.id,
+        x: 10 + ((c.gps.lng - minLng) / (maxLng - minLng)) * 80,
+        y: 90 - ((c.gps.lat - minLat) / (maxLat - minLat)) * 80
+      };
+    });
+
+    for (var pas = 0; pas < 60; pas++) {
+      var bouge = false;
+      for (var i = 0; i < pts.length; i++) {
+        for (var j = i + 1; j < pts.length; j++) {
+          var dx = pts[j].x - pts[i].x, dy = pts[j].y - pts[i].y;
+          var d = Math.sqrt(dx * dx + dy * dy);
+          if (d >= ECART_MIN) continue;
+          bouge = true;
+          /* Deux repères exactement confondus : on les sépare sur un axe
+             fixe, pour rester déterministe. */
+          if (d < 0.001) { dx = 1; dy = 0; d = 1; }
+          var pousse = (ECART_MIN - d) / 2;
+          pts[i].x -= (dx / d) * pousse; pts[i].y -= (dy / d) * pousse;
+          pts[j].x += (dx / d) * pousse; pts[j].y += (dy / d) * pousse;
+        }
+      }
+      pts.forEach(function (pt) {
+        pt.x = Math.min(94, Math.max(6, pt.x));
+        pt.y = Math.min(94, Math.max(6, pt.y));
+      });
+      if (!bouge) break;
+    }
+
+    _positions = {};
+    pts.forEach(function (pt) { _positions[pt.id] = { x: pt.x, y: pt.y }; });
+    return _positions;
   }
+
+  function position(c) { return positions()[c.id] || { x: 50, y: 50 }; }
 
   return {
     data: D,
@@ -201,7 +244,7 @@ window.HF = (function () {
     produit: produit, coach: coach, tarif: tarif, engagement: engagement,
     regles: regles,
     prixTexte: prixTexte, texte: texte, esc: esc, spec: spec,
-    aValider: aValider, position: position
+    aValider: aValider, position: position, positions: positions
   };
 })();
 
@@ -330,7 +373,7 @@ window.HF.vues = (function () {
     var o = opts || {};
     return '<div class="carte-bloc">' +
       '<div class="carte">' +
-      '<div class="carte__fond">Carte des 10 clubs</div>' +
+      '<div class="carte__fond">Carte des ' + D.clubs.length + ' clubs</div>' +
       D.clubs.map(function (c) {
         var cat = H.categorie(c.categorie), p = H.position(c);
         var actif = etat.club === c.id || etat.survol === c.id;
@@ -950,5 +993,250 @@ Object.assign(window.HF, (function () {
     etatInitial: etatInitial, majUrl: majUrl, urlSimulee: urlSimulee,
     actions: actions, brancher: brancher,
     selecteurEtat: selecteurEtat, brancherSelecteur: brancherSelecteur
+  };
+})());
+
+/* ------------------------------------------------------------------ */
+/* Règles et composants de la branche Clubs                             */
+/* ------------------------------------------------------------------ */
+Object.assign(window.HF.regles, (function () {
+  'use strict';
+  var H = window.HF, D = H.data, R = H.regles;
+
+  /* B.3 > Trame de la page club > 8 : "socle de la catégorie + En plus à
+     [club]". Le socle n'est pas saisi : c'est ce que tous les clubs de la
+     catégorie ont en commun. Une saisie de moins, une divergence de moins. */
+  function equipementsSocle(idCat) {
+    var clubs = D.clubs.filter(function (c) { return c.categorie === idCat; });
+    if (!clubs.length) return [];
+    return clubs[0].equipements.filter(function (e) {
+      return clubs.every(function (c) { return c.equipements.indexOf(e) !== -1; });
+    });
+  }
+
+  function equipementsEnPlus(idClub) {
+    var c = H.club(idClub); if (!c) return [];
+    var socle = equipementsSocle(c.categorie);
+    return c.equipements.filter(function (e) { return socle.indexOf(e) === -1; });
+  }
+
+  function equipement(id) {
+    return D.referentiels.equipements.find(function (e) { return e.id === id; }) || null;
+  }
+
+  /* Espaces bien-être du club, déduits de ses équipements. */
+  function bienEtreDuClub(idClub) {
+    var c = H.club(idClub); if (!c) return [];
+    return c.equipements.map(equipement).filter(function (e) { return e && e.bienEtre; });
+  }
+
+  /* B.3 > Trame de la page club > 5 : liste compacte rangée par les 6
+     objectifs. Les Small Group Training ne sont pas des cours inclus. */
+  function coursParObjectif(idClub) {
+    var liste = R.coursDuClub(idClub).filter(function (co) { return !co.estExtra; });
+    return D.referentiels.objectifs.map(function (o) {
+      return { objectif: o, cours: liste.filter(function (co) { return co.objectif === o.id; }) };
+    }).filter(function (g) { return g.cours.length; });
+  }
+
+  /* Formules qui donnent accès au club, dans l'ordre de B.3. */
+  function formulesDuClub(idClub) {
+    return R.produitsVisibles('formule', idClub);
+  }
+
+  /* Offres en cours accessibles depuis ce club (bloc masqué s'il n'y en a pas). */
+  function offresDuClub(idClub) {
+    return R.produitsVisibles('offre', idClub);
+  }
+
+  /* Filtres du hub /clubs : Ma formule, Équipements, Un cours précis. */
+  function filtrerClubs(f) {
+    return D.clubs.filter(function (c) {
+      if (f.formule) {
+        var p = H.produit(f.formule);
+        if (!p || !R.produitDisponible(p, c.id)) return false;
+      }
+      if (f.equipement && c.equipements.indexOf(f.equipement) === -1) return false;
+      if (f.cours && !R.seancesDuClub(c.id).some(function (s) { return s.cours === f.cours; })) return false;
+      return true;
+    });
+  }
+
+  function parCanton(liste) {
+    var cantons = [];
+    liste.forEach(function (c) { if (cantons.indexOf(c.canton) === -1) cantons.push(c.canton); });
+    return cantons.map(function (canton) {
+      return {
+        canton: canton,
+        titre: canton === 'Vaud' ? 'Nos clubs dans le canton de Vaud' : 'Nos clubs à ' + canton,
+        clubs: liste.filter(function (c) { return c.canton === canton; })
+          .sort(function (a, b) { return a.nom.localeCompare(b.nom, 'fr'); })
+      };
+    });
+  }
+
+  return {
+    equipementsSocle: equipementsSocle, equipementsEnPlus: equipementsEnPlus,
+    equipement: equipement, bienEtreDuClub: bienEtreDuClub,
+    coursParObjectif: coursParObjectif, formulesDuClub: formulesDuClub,
+    offresDuClub: offresDuClub, filtrerClubs: filtrerClubs, parCanton: parCanton
+  };
+})());
+
+Object.assign(window.HF.vues, (function () {
+  'use strict';
+  var H = window.HF, D = H.data, R = H.regles, V = H.vues;
+  var esc = H.esc, prixTexte = H.prixTexte, texte = H.texte, aValider = H.aValider;
+
+  /* B.3 > Trame de la page club > 2. Fixe en bas d'écran sur mobile. */
+  function barreRapide(c) {
+    var liens = [
+      { nom: 'Planning', href: '#planning' },
+      { nom: 'Horaires', href: '#infos' },
+      { nom: 'Itinéraire', href: '#infos' },
+      { nom: 'Appeler', href: '#infos' }
+    ];
+    return '<div class="barre-rapide" data-spec="B.3 > Trame de la page club > 2">' +
+      liens.map(function (l) {
+        return '<a href="' + l.href + '">' + esc(l.nom) + '</a>';
+      }).join('') +
+      '<span class="mention">Ouvert aujourd\'hui jusqu\'à [heure]</span></div>';
+  }
+
+  /* B.3 > Trame de la page club > 3. Identiques à la fiche Google. */
+  function infosPratiques(c) {
+    var lignes = [
+      ['Adresse', texte(c.adresse, '[adresse]')],
+      ['Horaires', texte(c.horaires, '[horaires, jours fériés compris]')],
+      ['Transports', '[transports]'],
+      ['Parking', c.equipements.indexOf('parking') !== -1 ? '[détail parking]' : 'Pas de parking'],
+      ['Téléphone', texte(c.tel, '[téléphone]')],
+      ['E-mail', texte(c.email, '[e-mail]')]
+    ];
+    return '<section id="infos" data-spec="B.3 > Trame de la page club > 3">' +
+      '<h2>Infos pratiques</h2>' +
+      '<table class="tableau"><tbody>' + lignes.map(function (l) {
+        return '<tr><th style="width:160px">' + esc(l[0]) + '</th><td>' + esc(l[1]) + '</td></tr>';
+      }).join('') + '</tbody></table>' +
+      '<p class="mention">Coordonnées strictement identiques à la fiche Google Business du club.</p>' +
+      '</section>';
+  }
+
+  /* B.3 > Trame de la page club > 5. Texte stable et indexable : c'est lui
+     qui capte "[cours] [commune]". */
+  function coursDuClub(c) {
+    var groupes = R.coursParObjectif(c.id);
+    if (!groupes.length) return '';
+    return '<section data-spec="B.3 > Trame de la page club > 5">' +
+      '<h2>Les cours de ' + esc(c.nom) + '</h2>' +
+      '<div class="grille grille--3">' + groupes.map(function (g) {
+        return '<div><h3>' + esc(g.objectif.nom) + '</h3><ul>' +
+          g.cours.map(function (co) {
+            return '<li><a href="../../cours/fiche/?cours=' + co.id + '">' + esc(co.nom) + '</a></li>';
+          }).join('') + '</ul></div>';
+      }).join('') + '</div></section>';
+  }
+
+  /* B.3 > Trame de la page club > 6. Partie extras masquée si le club n'en a pas. */
+  function formulesEtExtras(c, etat) {
+    var formules = R.formulesDuClub(c.id);
+    var extras = R.extrasDuClub(c.id);
+    var estGym = c.categorie === 'gym';
+    return '<section data-spec="B.3 > Trame de la page club > ' + (estGym ? '5 (variante GYM)' : '6') + '">' +
+      '<h2>Formules et Extras</h2>' +
+      '<div class="grille grille--3">' + formules.map(function (p) {
+        return '<div class="produit"><h3>' + esc(p.nom) + '</h3>' +
+          '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
+          '<p class="mention">Tarif adulte dès ' +
+          prixTexte(R.prix(p, 'adulte', 'sans').valeur) + ' / mois</p></div>';
+      }).join('') + '</div>' +
+      (extras.length
+        ? '<h3 style="margin-top:24px">Les Extras de ' + esc(c.nom) + '</h3>' +
+          extras.map(function (e) { return V.carteExtra(e, { club: c.id, extrasChoisis: [] }); }).join('')
+        : '') +
+      '<p style="margin-top:14px"><a class="btn" href="../../tarifs/?club=' + c.id +
+      '&amp;source=page-club">Voir les tarifs</a></p></section>';
+  }
+
+  /* B.3 > Trame de la page club > 8 */
+  function equipementsBloc(c) {
+    var cat = H.categorie(c.categorie);
+    var socle = R.equipementsSocle(c.categorie).map(R.equipement).filter(Boolean);
+    var enPlus = R.equipementsEnPlus(c.id).map(R.equipement).filter(Boolean);
+    function liste(items) {
+      return '<ul>' + items.map(function (e) {
+        return '<li>' + esc(e.nom) + aValider(e.aValider) + '</li>';
+      }).join('') + '</ul>';
+    }
+    return '<section data-spec="B.3 > Trame de la page club > 8">' +
+      '<h2>Équipements</h2>' +
+      '<div class="grille grille--2">' +
+      '<div><h3>Le socle des clubs ' + esc(cat.nom) + '</h3>' + liste(socle) + '</div>' +
+      (enPlus.length ? '<div><h3>En plus à ' + esc(c.nom) + '</h3>' + liste(enPlus) + '</div>' : '') +
+      '</div></section>';
+  }
+
+  /* B.3 > Trame de la page club > 9 */
+  function bienEtreBloc(c) {
+    var espaces = R.bienEtreDuClub(c.id);
+    if (!espaces.length) return '';
+    return '<section data-spec="B.3 > Trame de la page club > 9">' +
+      '<h2>Bien-être</h2>' +
+      '<ul>' + espaces.map(function (e) { return '<li>' + esc(e.nom) + '</li>'; }).join('') + '</ul>' +
+      '<p><a class="lien-texte" href="#">Voir nos espaces bien-être</a></p></section>';
+  }
+
+  /* B.3 > Trame de la page club > 10 : une carte, un lien vers le site de
+     l'école de natation, aucun contenu natation sur la page fitness. */
+  function passerelleNatation(c) {
+    if (!c.bassin) return '';
+    return '<section data-spec="B.3 > Trame de la page club > 10">' +
+      '<div class="produit"><h2>École de natation</h2>' +
+      '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.</p>' +
+      '<p><a class="btn btn--secondaire" href="#">Voir ' + esc(c.nom) +
+      ' sur le site de l\'école de natation</a></p>' +
+      '<p class="mention">Aquagym et aquabike restent au planning fitness.</p>' +
+      '</div></section>';
+  }
+
+  /* Variante GYM : passerelle secondaire vers les cours collectifs. */
+  function passerelleCoursCollectifs(c) {
+    if (c.categorie !== 'gym') return '';
+    return '<section data-spec="B.3 > Variante GYM">' +
+      '<div class="produit"><h2>Envie de cours collectifs ?</h2>' +
+      '<p>Ils sont inclus dès la formule Essential.</p>' +
+      '<p><a class="btn btn--secondaire" href="../../tarifs/?club=' + c.id +
+      '">Voir les formules</a></p></div></section>';
+  }
+
+  /* B.3 > Trame de la page club > 14 : 2 ou 3 clubs avec leur catégorie. */
+  function clubsProximite(c, etat) {
+    var liste = c.proximite.map(H.club).filter(Boolean);
+    if (!liste.length) return '';
+    return '<section data-spec="B.3 > Trame de la page club > 14">' +
+      '<h2>Clubs à proximité</h2>' +
+      '<div class="grille grille--3">' + liste.map(function (v) {
+        return V.carteClub(v, etat, { base: '../../', source: 'page-club' });
+      }).join('') + '</div></section>';
+  }
+
+  /* B.3 > Trame de la page club > 12 : masqué s'il n'y a aucune offre. */
+  function offreDuClub(c, etat) {
+    if (!etat.offreActive) return '';
+    var offres = R.offresDuClub(c.id);
+    if (!offres.length) return '';
+    return '<section data-spec="B.3 > Trame de la page club > 12">' +
+      '<h2>Offre du moment</h2>' +
+      '<div class="grille grille--2">' + offres.map(function (p) {
+        return V.carteProduit(p, { club: c.id, tarif: 'adulte', engagement: 'sans', produitChoisi: null });
+      }).join('') + '</div></section>';
+  }
+
+  return {
+    barreRapide: barreRapide, infosPratiques: infosPratiques, coursDuClub: coursDuClub,
+    formulesEtExtras: formulesEtExtras, equipementsBloc: equipementsBloc,
+    bienEtreBloc: bienEtreBloc, passerelleNatation: passerelleNatation,
+    passerelleCoursCollectifs: passerelleCoursCollectifs,
+    clubsProximite: clubsProximite, offreDuClub: offreDuClub
   };
 })());

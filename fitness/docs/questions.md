@@ -207,3 +207,29 @@ même lien « Modifier » apparaissent deux fois à quelques centimètres l'un d
 l'autre. À arbitrer par le designer : garder les deux, ou alléger la barre
 collante une fois le bloc visible à l'écran.
 
+## Relevées en construisant les Clubs (étape 4)
+
+### Q19 · H1 et title du hub /clubs
+**Statut :** à valider par Harmony
+**Source :** B.3 donne les H1, sous-titres et titles de la branche Sport dans un
+tableau dédié, et ceux de la page club dans « SEO des pages clubs » (H1
+« Harmony [club] », title « Salle de sport à [commune] … | Harmony [club] »).
+Rien n'est donné pour le hub /clubs.
+**Proposé dans les maquettes, à valider :**
+- H1 : « Nos clubs »
+- Sous-titre : « Dix clubs à Genève et dans le canton de Vaud. Trouvez le vôtre
+  et voyez avec quelle formule y aller. »
+- Title : « Nos clubs de fitness à Genève et Vaud | Harmony »
+
+Les titres de section de la liste viennent bien de B.3 : « Nos clubs à Genève »
+et « Nos clubs dans le canton de Vaud ».
+
+### Q20 · Plage horaire élargie des clubs GYM
+**Statut :** ouverte
+**Source :** B.3 > Catégories de clubs (« Plateau fitness complet, horaires
+élargis ») et B.3 > Variante GYM (« Le hero met en avant les horaires
+élargis »).
+La plage n'est donnée nulle part, alors que c'est l'argument central du hero
+d'un club GYM.
+**Placeholder :** « Horaires élargis : [plage horaire GYM]. »
+

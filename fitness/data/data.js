@@ -83,11 +83,11 @@ window.DATA = {
       { id: 'fonctionnel',  nom: 'Espace fonctionnel',  aValider: true },
       { id: 'cross',        nom: 'Cross training',      aValider: true },
       { id: 'salle-cours',  nom: 'Salle de cours',      aValider: true },
-      { id: 'piscine',      nom: 'Piscine',             aValider: true },
-      { id: 'sauna',        nom: 'Sauna',               aValider: true },
-      { id: 'hammam',       nom: 'Hammam',              aValider: true },
-      { id: 'jacuzzi',      nom: 'Jacuzzi',             aValider: true },
-      { id: 'jets',         nom: 'Jets massants',       aValider: true },
+      { id: 'piscine',      nom: 'Piscine',             aValider: true, bienEtre: true },
+      { id: 'sauna',        nom: 'Sauna',               aValider: true, bienEtre: true },
+      { id: 'hammam',       nom: 'Hammam',              aValider: true, bienEtre: true },
+      { id: 'jacuzzi',      nom: 'Jacuzzi',             aValider: true, bienEtre: true },
+      { id: 'jets',         nom: 'Jets massants',       aValider: true, bienEtre: true },
       { id: 'parking',      nom: 'Parking',             aValider: true }
     ],
 

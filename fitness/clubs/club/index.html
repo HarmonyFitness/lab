@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Salle de sport | Harmony</title>
+<link rel="icon" href="../../favicon.png">
+<link rel="stylesheet" href="../../assets/wireframe.css">
+</head>
+<body class="a-barre-rapide">
+
+<div x-data="pageClub" x-init="init()">
+
+  <div x-html="HF.selecteurEtat(etat, { gabarit: 'club', base: '../../' })"></div>
+  <div class="conteneur">
+    <p class="wf-note">
+      Un seul gabarit pour les 10 clubs, le club passé en paramètre :
+      <code>clubs/club/?club=meyrin</code> représente <code>/clubs/meyrin</code>.
+      Trois clubs à regarder :
+      <a href="?club=meyrin">Meyrin (Essential)</a> ·
+      <a href="?club=geneve-la-praille">Genève · La Praille (Premium, avec la passerelle école de natation)</a> ·
+      <a href="?club=geneve-paquis">Genève · Pâquis (variante GYM)</a>.
+      Le title est construit selon B.3 : « Salle de sport à [commune] … | Harmony [club] ».
+    </p>
+  </div>
+
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('Clubs', '../../')"></div>
+
+  <template x-if="!club">
+    <main class="conteneur" style="padding-top:28px">
+      <h1>Club inconnu</h1>
+      <p>Choisissez un club dans le sélecteur d'état, ou revenez au
+         <a href="../">hub des clubs</a>.</p>
+    </main>
+  </template>
+
+  <template x-if="club">
+    <div>
+      <main class="conteneur">
+
+        <div x-html="HF.vues.filAriane([
+          { nom: 'Accueil', href: '../../' },
+          { nom: 'Clubs', href: '../' },
+          { nom: club.nom }
+        ])"></div>
+
+        <!-- ================================================== BLOC 1 -->
+        <section data-spec="B.3 &gt; Trame de la page club &gt; 1">
+          <div class="hero-club">
+            <div>
+              <h1 x-text="'Harmony ' + club.nom"></h1>
+              <p x-text="sousTitre()"></p>
+              <p x-html="HF.vues.badgeCategorie(club.categorie, { ouvert: etat.catOuverte === club.categorie })"></p>
+              <p class="mention" x-show="club.categorie === 'gym'">
+                Horaires élargis : [plage horaire GYM].
+              </p>
+              <div class="hero-club__actions">
+                <a class="btn" :href="'../../tarifs/?club=' + club.id + '&source=page-club'">S'abonner</a>
+                <span class="mention" x-text="'Tarif adulte dès ' + HF.prixTexte(HF.regles.desParMois(club.id)) + ' / mois'"></span>
+                <a class="btn btn--secondaire" href="../../seance-essai/">Demander une séance d'essai</a>
+              </div>
+            </div>
+            <div x-html="HF.vues.blocImage('Photo du club ' + club.nom, 'large')"></div>
+          </div>
+        </section>
+
+        <!-- ================================================== BLOC 2 -->
+        <div x-html="HF.vues.barreRapide(club)"></div>
+
+        <!-- ================================================== BLOC 3 -->
+        <div x-html="HF.vues.infosPratiques(club)"></div>
+
+        <!-- ================================================== BLOC 4 -->
+        <div style="margin-top:36px" x-html="HF.vues.planning(club.id, etat)"></div>
+        <p class="mention" x-show="club.categorie === 'gym'" data-spec="B.3 &gt; Variante GYM">
+          Pas de cours collectifs dans un club GYM : seuls les Small Group
+          Training apparaissent au planning, marqués « Extra ».
+        </p>
+
+        <!-- ============================ BLOC 5, remplacé en variante GYM -->
+        <div style="margin-top:36px" x-html="HF.vues.coursDuClub(club)"></div>
+        <div style="margin-top:36px" x-html="HF.vues.passerelleCoursCollectifs(club)"></div>
+
+        <!-- ================================================== BLOC 6 -->
+        <div style="margin-top:36px" x-html="HF.vues.formulesEtExtras(club, etat)"></div>
+
+        <!-- ================================================== BLOC 7 -->
+        <section style="margin-top:36px" data-spec="B.3 &gt; Trame de la page club &gt; 7">
+          <h2 x-text="'L\'équipe de ' + club.nom"></h2>
+          <div x-html="HF.vues.grilleCoachs(HF.regles.coachsDuClub(club.id), etat)"></div>
+          <p class="mention">Pas de page coach dédiée au lancement.</p>
+        </section>
+
+        <!-- ================================================== BLOC 8 -->
+        <div style="margin-top:36px" x-html="HF.vues.equipementsBloc(club)"></div>
+
+        <!-- ================================================== BLOC 9 -->
+        <div style="margin-top:36px" x-html="HF.vues.bienEtreBloc(club)"></div>
+
+        <!-- ================================================= BLOC 10 -->
+        <div style="margin-top:36px" x-html="HF.vues.passerelleNatation(club)"></div>
+
+        <!-- ================================================= BLOC 11 -->
+        <section style="margin-top:36px" data-spec="B.3 &gt; Trame de la page club &gt; 11">
+          <h2>En images</h2>
+          <div class="grille grille--3">
+            <div x-html="HF.vues.blocImage('Photo plateau musculation', 'large')"></div>
+            <div x-html="HF.vues.blocImage('Photo salle de cours', 'large')"></div>
+            <div x-html="HF.vues.blocImage('Photo vestiaires', 'large')"></div>
+          </div>
+          <h2 style="margin-top:28px">Ils viennent ici</h2>
+          <div x-html="HF.vues.temoignages(3)"></div>
+        </section>
+
+        <!-- ================================================= BLOC 12 -->
+        <div style="margin-top:36px" x-html="HF.vues.offreDuClub(club, etat)"></div>
+
+        <!-- ================================================= BLOC 13 -->
+        <section style="margin-top:36px" data-spec="B.3 &gt; Trame de la page club &gt; 13">
+          <h2>Questions sur ce club</h2>
+          <div x-html="HF.vues.faq(faqLocale(), etat)"></div>
+        </section>
+
+        <!-- ================================================= BLOC 14 -->
+        <div style="margin-top:36px" x-html="HF.vues.clubsProximite(club, etat)"></div>
+
+        <!-- ================================================= BLOC 15 -->
+        <div style="margin-top:36px" x-html="HF.vues.ctaEssai('../../')"></div>
+
+      </main>
+
+      <div x-html="HF.vues.pied()"></div>
+    </div>
+  </template>
+
+</div>
+
+<script src="../../data/data.js"></script>
+<script src="../../assets/components.js"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('pageClub', function () {
+    return {
+      etat: HF.etatInitial(),
+      get club() { return this.etat.club ? HF.club(this.etat.club) : null; },
+      init: function () {
+        /* Ce gabarit se lit toujours pour un club : sans paramètre, on ouvre
+           le premier de la liste plutôt qu'une page vide. */
+        if (!this.etat.club) { this.etat.club = HF.data.clubs[0].id; HF.majUrl(this.etat); }
+        HF.brancher(this.$el, this.etat);
+        HF.brancherSelecteur(this.$el, this.etat);
+        this.$watch('etat.club', function () { this.majTitre(); }.bind(this));
+        this.majTitre();
+      },
+      /* B.3 > SEO des pages clubs : requête générique dans le title. */
+      majTitre: function () {
+        var c = this.club;
+        document.title = c
+          ? 'Salle de sport à ' + c.ville + ' [complément] | Harmony ' + c.nom
+          : 'Salle de sport | Harmony';
+      },
+      /* B.3 > SEO des pages clubs : "salle de sport" dans le sous-titre. */
+      sousTitre: function () {
+        var c = this.club;
+        return 'Votre salle de sport à ' + c.ville +
+          (c.quartier ? ', quartier ' + c.quartier : '') +
+          '. Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.';
+      },
+      /* B.3 > Trame de la page club > 13 : parking, vestiaires, enfants, piscine. */
+      faqLocale: function () {
+        var c = this.club, q = [
+          { q: 'Y a-t-il un parking ?', r: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.' },
+          { q: 'Comment sont les vestiaires ?', r: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.' },
+          { q: 'Les enfants sont-ils acceptés ?', r: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.' }
+        ];
+        if (c.bassin) q.push({ q: 'La piscine est-elle accessible ?', r: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.' });
+        return q;
+      }
+    };
+  });
+});
+</script>
+<script defer src="../../assets/alpine.min.js"></script>
+
+</body>
+</html>

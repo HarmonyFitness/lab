@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Nos clubs de fitness à Genève et Vaud | Harmony</title>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/wireframe.css">
+</head>
+<body>
+
+<div x-data="pageClubs" x-init="init()">
+
+  <div x-html="HF.selecteurEtat(etat, { gabarit: 'club', base: '../' })"></div>
+  <div class="conteneur">
+    <p class="wf-note">
+      B.3 &gt; Clubs. Pas de géolocalisation ni de recherche : 10 clubs, zone de
+      chalandise restreinte, et on choisit souvent un club près de son travail
+      plutôt que de chez soi. Liste en HTML groupée par canton, pas seulement
+      dans la carte : c'est elle qui porte le SEO local (données structurées
+      ItemList). Le H1 et le title de ce hub ne sont pas donnés par B.3, voir
+      questions.md &gt; Q19.
+    </p>
+  </div>
+
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('Clubs', '../')"></div>
+
+  <main class="conteneur">
+
+    <section data-spec="B.3 &gt; Clubs &gt; Clubs (hub)" style="padding-top:28px">
+      <h1>Nos clubs <span class="wf-avalider">à valider par Harmony</span></h1>
+      <p>Dix clubs à Genève et dans le canton de Vaud. Trouvez le vôtre et
+         voyez avec quelle formule y aller.</p>
+    </section>
+
+    <section style="margin-top:24px" data-spec="B.3 &gt; Clubs &gt; Clubs (hub) &gt; Filtres">
+      <div class="filtres">
+        <span><strong>Filtrer</strong></span>
+        <label>Ma formule
+          <select x-model="filtres.formule">
+            <option value="">Toutes les formules</option>
+            <template x-for="p in HF.regles.produitsVisibles('formule', null)" :key="p.id">
+              <option :value="p.id" x-text="p.nom"></option>
+            </template>
+          </select>
+        </label>
+        <label>Équipements
+          <select x-model="filtres.equipement">
+            <option value="">Tous les équipements</option>
+            <template x-for="e in HF.data.referentiels.equipements" :key="e.id">
+              <option :value="e.id" x-text="e.nom"></option>
+            </template>
+          </select>
+        </label>
+        <label>Un cours précis
+          <select x-model="filtres.cours">
+            <option value="">Tous les cours</option>
+            <template x-for="c in coursListe()" :key="c.id">
+              <option :value="c.id" x-text="c.nom"></option>
+            </template>
+          </select>
+        </label>
+        <button type="button" class="lien-texte" style="background:none;border:0;font:inherit"
+                @click="filtres = { formule: '', equipement: '', cours: '' }"
+                x-show="filtres.formule || filtres.equipement || filtres.cours">Tout afficher</button>
+      </div>
+      <p class="mention" x-text="resultats().length + ' club' + (resultats().length > 1 ? 's' : '')"></p>
+    </section>
+
+    <div class="hub-clubs" style="margin-top:16px">
+      <div>
+        <template x-for="g in groupes()" :key="g.canton">
+          <section style="margin-bottom:28px">
+            <h2 x-text="g.titre"></h2>
+            <div class="grille grille--2">
+              <template x-for="c in g.clubs" :key="c.id">
+                <div x-html="HF.vues.carteClub(c, etat, { base: '../' })"></div>
+              </template>
+            </div>
+          </section>
+        </template>
+        <p class="mention" x-show="resultats().length === 0">
+          Aucun club ne correspond à ces filtres.
+        </p>
+      </div>
+      <div class="hub-clubs__carte" x-html="HF.vues.carte(etat)"></div>
+    </div>
+
+    <div class="mobile-seulement" style="margin-top:16px">
+      <button type="button" class="btn btn--secondaire btn--bloc" data-act="ouvrir-carte">
+        Voir sur la carte</button>
+    </div>
+
+    <div style="margin-top:44px" x-html="HF.vues.moduleCategories({})"></div>
+
+    <section style="margin-top:40px" data-spec="B.3 &gt; Clubs &gt; Clubs (hub) &gt; FAQ courte">
+      <h2>Questions fréquentes</h2>
+      <div x-html="HF.vues.faq(faqClubs, etat)"></div>
+    </section>
+
+    <div style="margin-top:40px" x-html="HF.vues.ctaEssai('../')"></div>
+
+  </main>
+
+  <div x-html="HF.vues.pied()"></div>
+
+  <template x-if="etat.carteOuverte">
+    <div x-html="HF.vues.cartePleinEcran(etat, { fixe: true })"></div>
+  </template>
+
+</div>
+
+<script src="../data/data.js"></script>
+<script src="../assets/components.js"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('pageClubs', function () {
+    return {
+      etat: HF.etatInitial(),
+      filtres: { formule: '', equipement: '', cours: '' },
+      faqClubs: [
+        { q: "Puis-je aller dans plusieurs clubs ?", r: "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt." },
+        { q: "Comment changer de club référent ?", r: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip." },
+        { q: "Les horaires sont-ils les mêmes partout ?", r: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat." }
+      ],
+      init: function () {
+        HF.brancher(this.$el, this.etat);
+        HF.brancherSelecteur(this.$el, this.etat);
+      },
+      coursListe: function () {
+        return HF.data.cours.filter(function (c) { return !c.estExtra; });
+      },
+      resultats: function () { return HF.regles.filtrerClubs(this.filtres); },
+      groupes: function () { return HF.regles.parCanton(this.resultats()); }
+    };
+  });
+});
+</script>
+<script defer src="../assets/alpine.min.js"></script>
+
+</body>
+</html>
