@@ -49,6 +49,7 @@ Cours collectifs : le volume de pages n'est pas tranché (voir "À réconcilier"
 ## Technique
 
 - HTML + CSS + Alpine.js, sans build. Doit s'ouvrir en local sans serveur et marcher tel quel sur lab.harmony.ch/fitness/.
+- Alpine est une copie locale dans `fitness/assets/alpine.min.js`, pas un CDN : aucune page ne dépend du réseau. Version notée dans le commentaire du fichier qui l'appelle.
 - Arborescence qui reproduit le site map : `fitness/index.html`, `fitness/tarifs/index.html`, `fitness/clubs/index.html`, `fitness/clubs/club/index.html`, `fitness/sport/plateau-fitness/index.html`, etc. Les URL du lab se lisent comme celles du futur site.
 - Pages à gabarit (club, état club de Tarifs, fiche cours) : un seul fichier, le club passé en paramètre. `tarifs/?club=geneve-la-praille` représente `/tarifs/geneve-la-praille`, `clubs/club/?club=meyrin` représente `/clubs/meyrin`, `cours/fiche/?cours=yoga` représente `/cours/yoga` (la fiche cours est à la racine du site, pas sous `/sport`).
 - Données dans `fitness/data/data.js` (objet global), qui reproduit le modèle CMS de la section 7 :

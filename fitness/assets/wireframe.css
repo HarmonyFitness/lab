@@ -1,0 +1,376 @@
+/* Harmony Fitness : styles du lab de wireframes.
+   Niveaux de gris, une seule couleur d'accent réservée aux éléments
+   cliquables, typo système. Pas de design de marque, pas d'effets. */
+
+:root {
+  --gris-00: #ffffff;
+  --gris-05: #f6f6f6;
+  --gris-10: #ededed;
+  --gris-20: #dcdcdc;
+  --gris-40: #a8a8a8;
+  --gris-60: #6e6e6e;
+  --gris-80: #3d3d3d;
+  --gris-95: #1a1a1a;
+
+  --accent: #1f5fd0;          /* réservé aux éléments cliquables */
+  --accent-fond: #e8effb;
+
+  --ui: #7a3fb8;              /* outillage du wireframe, jamais la maquette */
+  --ui-fond: #f3ecfa;
+
+  --police: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --rayon: 3px;
+  --gouttiere: 24px;
+  --large: 1280px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--police);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--gris-95);
+  background: var(--gris-05);
+}
+
+h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.25; font-weight: 700; }
+h1 { font-size: 30px; }
+h2 { font-size: 22px; }
+h3 { font-size: 17px; }
+h4 { font-size: 15px; }
+p  { margin: 0 0 1em; }
+ul { margin: 0 0 1em; padding-left: 1.2em; }
+
+a { color: var(--accent); }
+
+.conteneur { max-width: var(--large); margin: 0 auto; padding: 0 var(--gouttiere); }
+
+/* ------------------------------------------------------------------ */
+/* Boutons : l'accent ne sert qu'ici et sur les liens                   */
+/* ------------------------------------------------------------------ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .4em;
+  font: inherit; font-weight: 600; text-decoration: none; cursor: pointer;
+  padding: 9px 16px; border-radius: var(--rayon);
+  border: 1px solid var(--accent); background: var(--accent); color: #fff;
+}
+.btn--secondaire { background: transparent; color: var(--accent); }
+.btn--discret {
+  background: transparent; color: var(--gris-80); border-color: var(--gris-20);
+}
+.btn--petit { padding: 5px 10px; font-size: 13px; }
+.btn--bloc { width: 100%; }
+.lien-texte { color: var(--accent); text-decoration: underline; cursor: pointer; }
+
+/* ------------------------------------------------------------------ */
+/* Outillage du wireframe : violet, jamais confondu avec la maquette    */
+/* ------------------------------------------------------------------ */
+.wf-barre {
+  position: sticky; top: 0; z-index: 60;
+  background: var(--ui-fond); border-bottom: 2px solid var(--ui);
+  font-size: 13px; color: var(--gris-95);
+}
+.wf-barre__inner { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center;
+  max-width: var(--large); margin: 0 auto; padding: 9px var(--gouttiere); }
+.wf-barre__titre { font-weight: 700; color: var(--ui); text-transform: uppercase;
+  letter-spacing: .06em; font-size: 11px; }
+.wf-champ { display: flex; align-items: center; gap: 5px; }
+.wf-champ > label { color: var(--gris-60); }
+.wf-champ select, .wf-champ input[type="checkbox"] { font: inherit; font-size: 13px; }
+.wf-champ select { padding: 3px 5px; border: 1px solid var(--gris-40);
+  border-radius: var(--rayon); background: #fff; }
+
+.wf-spec {
+  font-size: 10px; letter-spacing: .04em; color: var(--ui);
+  background: var(--ui-fond); border: 1px dashed var(--ui);
+  border-radius: var(--rayon); padding: 1px 6px; display: inline-block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.wf-note {
+  font-size: 12px; color: var(--ui); background: var(--ui-fond);
+  border-left: 3px solid var(--ui); padding: 7px 10px; margin: 0 0 12px;
+}
+.wf-avalider {
+  font-size: 11px; font-weight: 600; color: #8a5a00; background: #fdf2d8;
+  border: 1px solid #e6c98a; border-radius: var(--rayon); padding: 1px 6px;
+  white-space: nowrap; margin-left: 6px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Bloc image : gris avec sa légende                                    */
+/* ------------------------------------------------------------------ */
+.img {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  background: var(--gris-20); color: var(--gris-60);
+  font-size: 12px; padding: 10px; border-radius: var(--rayon); min-height: 90px;
+}
+.img--large { aspect-ratio: 16 / 7; }
+.img--carre { aspect-ratio: 1 / 1; }
+.img--portrait { aspect-ratio: 3 / 4; }
+
+/* ------------------------------------------------------------------ */
+/* Structure : barre groupe, header, footer                             */
+/* ------------------------------------------------------------------ */
+.barre-groupe { background: var(--gris-95); color: var(--gris-10); font-size: 12px; }
+.barre-groupe__inner { display: flex; flex-wrap: wrap; gap: 4px 18px;
+  max-width: var(--large); margin: 0 auto; padding: 7px var(--gouttiere); }
+.barre-groupe a { color: var(--gris-10); text-decoration: none; }
+.barre-groupe a[aria-current] { font-weight: 700; text-decoration: underline; }
+
+.entete { background: #fff; border-bottom: 1px solid var(--gris-20); }
+.entete__inner { display: flex; align-items: center; gap: 20px;
+  max-width: var(--large); margin: 0 auto; padding: 13px var(--gouttiere); }
+.entete__logo { font-weight: 700; font-size: 17px; text-decoration: none; color: var(--gris-95); }
+.entete__nav { display: flex; gap: 18px; margin-left: auto; }
+.entete__nav a { text-decoration: none; color: var(--gris-95); font-weight: 500; }
+.entete__nav a[aria-current] { text-decoration: underline; }
+
+.pied { background: var(--gris-95); color: var(--gris-10); margin-top: 40px; }
+.pied__inner { max-width: var(--large); margin: 0 auto; padding: 26px var(--gouttiere); }
+.pied__cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.pied a { color: var(--gris-10); }
+.pied__bas { border-top: 1px solid var(--gris-80); margin-top: 20px; padding-top: 14px;
+  font-size: 12px; color: var(--gris-40); }
+
+/* ------------------------------------------------------------------ */
+/* Badge catégorie et ligne d'accès                                     */
+/* ------------------------------------------------------------------ */
+.badge-cat {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700;
+  border: 1px solid var(--gris-80); border-radius: var(--rayon);
+  padding: 2px 8px; background: #fff; cursor: pointer; font-family: inherit;
+}
+.badge-cat__forme { width: 13px; height: 13px; display: inline-block;
+  background: var(--gris-80); flex: none; }
+.badge-cat__forme--cercle { border-radius: 50%; }
+.badge-cat__forme--carre { border-radius: 1px; }
+.badge-cat__forme--triangle { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.ligne-acces { font-size: 13px; color: var(--gris-60); }
+.panneau-cat {
+  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
+  padding: 12px 14px; margin-top: 8px; max-width: 460px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Choix du club et carte                                               */
+/* ------------------------------------------------------------------ */
+.choix-club { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gouttiere);
+  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon); padding: 16px; }
+.choix-club__canton { font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .05em; color: var(--gris-60); margin: 14px 0 6px; }
+.choix-club__canton:first-child { margin-top: 0; }
+.club-ligne {
+  display: flex; align-items: flex-start; gap: 10px; width: 100%; text-align: left;
+  border: 1px solid var(--gris-20); border-radius: var(--rayon); background: #fff;
+  padding: 9px 11px; margin-bottom: 6px; cursor: pointer; font: inherit; color: inherit;
+}
+.club-ligne:hover, .club-ligne--survol { border-color: var(--accent); background: var(--accent-fond); }
+.club-ligne[aria-pressed="true"] { border-color: var(--gris-95); border-width: 2px; }
+.club-ligne__nom { font-weight: 600; }
+.club-ligne__meta { font-size: 12px; color: var(--gris-60); }
+
+.carte { position: relative; background: var(--gris-20); border-radius: var(--rayon);
+  min-height: 300px; overflow: hidden; }
+.carte__fond { position: absolute; inset: 0; display: flex; align-items: center;
+  justify-content: center; color: var(--gris-60); font-size: 12px; }
+.carte__repere { position: absolute; transform: translate(-50%, -50%);
+  width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff; background: var(--gris-80);
+  border: 2px solid #fff; cursor: pointer; }
+.carte__repere--cercle { border-radius: 50%; }
+.carte__repere--carre { border-radius: 2px; }
+.carte__repere--triangle { clip-path: polygon(50% 0, 100% 100%, 0 100%); border: none;
+  outline: 2px solid #fff; }
+.carte__repere--actif { background: var(--accent); }
+.carte-bloc { display: flex; flex-direction: column; }
+.carte-bloc .carte { flex: 1; }
+.carte__legende { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px;
+  padding: 8px 2px 0; color: var(--gris-60); }
+.carte__legende span { display: flex; align-items: center; gap: 6px; }
+
+.club-replie {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
+  padding: 11px 14px;
+}
+.pastilles { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* ------------------------------------------------------------------ */
+/* Sélecteurs : tarif, engagement                                       */
+/* ------------------------------------------------------------------ */
+.segments { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--gris-40);
+  border-radius: var(--rayon); overflow: hidden; background: #fff; }
+.segments button {
+  font: inherit; font-size: 13px; padding: 7px 13px; border: 0; cursor: pointer;
+  background: #fff; color: var(--accent); border-right: 1px solid var(--gris-20);
+}
+.segments button:last-child { border-right: 0; }
+.segments button[aria-pressed="true"] { background: var(--gris-95); color: #fff; font-weight: 600; }
+.mention { font-size: 12px; color: var(--gris-60); }
+
+/* ------------------------------------------------------------------ */
+/* Cartes produit, extra, club                                          */
+/* ------------------------------------------------------------------ */
+.grille { display: grid; gap: var(--gouttiere); align-items: stretch; }
+.grille--3 { grid-template-columns: repeat(3, 1fr); }
+.grille--2 { grid-template-columns: repeat(2, 1fr); }
+/* Les cartes remplissent leur cellule, que la vue soit posée directement
+   dans la grille ou enveloppée dans un conteneur. Sans ça, les boutons ne
+   s'alignent pas d'une carte à l'autre. */
+.grille > *:not(template) { min-width: 0; display: flex; flex-direction: column; }
+.grille .produit, .grille .carte-club, .grille .temoignage { height: 100%; }
+
+.produit {
+  display: flex; flex-direction: column;
+  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon); padding: 16px;
+}
+.produit--choisi { border-color: var(--gris-95); border-width: 2px; padding: 15px; }
+.produit__acces { font-size: 13px; color: var(--gris-60); margin-bottom: 10px; }
+.produit__inclus { list-style: none; padding: 0; margin: 0 0 14px; font-size: 13px; }
+.produit__inclus li { display: flex; gap: 8px; padding: 4px 0;
+  border-bottom: 1px solid var(--gris-10); }
+.produit__inclus li:last-child { border-bottom: 0; }
+.produit__inclus .non { color: var(--gris-40); }
+.produit__marque { flex: none; width: 14px; font-weight: 700; }
+.produit__prix { font-size: 26px; font-weight: 700; line-height: 1.1; }
+.produit__prix-unite { font-size: 13px; font-weight: 400; color: var(--gris-60); }
+.produit__total { font-size: 13px; color: var(--gris-60); margin-bottom: 4px; }
+.produit__duree { font-size: 15px; font-weight: 700; }
+.produit__pied { margin-top: auto; padding-top: 12px; }
+.produit__barre { text-decoration: line-through; color: var(--gris-40); font-size: 15px; }
+.pastille-remise { display: inline-block; font-size: 11px; font-weight: 700; color: #fff;
+  background: var(--gris-95); border-radius: var(--rayon); padding: 1px 7px; }
+
+.extra {
+  display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap;
+  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
+  padding: 12px 14px; margin-bottom: 8px;
+}
+.extra__corps { flex: 1 1 220px; }
+.extra__marque { font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .05em; border: 1px solid var(--gris-80); border-radius: var(--rayon);
+  padding: 0 6px; }
+.extra__droite { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+
+.indispo {
+  border: 1px solid var(--gris-20); background: var(--gris-05);
+  border-radius: var(--rayon); padding: 12px 14px; font-size: 13px; margin-top: 14px;
+}
+
+.carte-club { position: relative; display: flex; flex-direction: column;
+  border: 1px solid var(--gris-20); background: #fff;
+  border-radius: var(--rayon); padding: 16px; }
+.carte-club > p { margin-bottom: .6em; }
+.carte-club:hover { border-color: var(--accent); }
+.carte-club__lien::after { content: ""; position: absolute; inset: 0; }
+.carte-club__titre { margin: 0 0 6px; }
+.carte-club__titre a { text-decoration: none; color: var(--gris-95); }
+.carte-club__cours { font-size: 13px; color: var(--gris-60); }
+.carte-club__pied { position: relative; z-index: 1; display: flex; align-items: center;
+  gap: 14px; flex-wrap: wrap; margin-top: auto; padding-top: 12px; }
+
+/* ------------------------------------------------------------------ */
+/* Barres collante et récap                                             */
+/* ------------------------------------------------------------------ */
+.barre-collante {
+  position: sticky; top: 0; z-index: 40; background: #fff;
+  border-bottom: 1px solid var(--gris-20);
+}
+.barre-collante__inner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  max-width: var(--large); margin: 0 auto; padding: 10px var(--gouttiere); font-size: 14px; }
+
+.barre-recap {
+  position: sticky; bottom: 0; z-index: 50; background: var(--gris-95); color: #fff;
+}
+.barre-recap__inner { display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  max-width: var(--large); margin: 0 auto; padding: 12px var(--gouttiere); }
+.barre-recap__detail { font-size: 13px; color: var(--gris-20); }
+.barre-recap__total { font-size: 19px; font-weight: 700; margin-left: auto; }
+.barre-recap .btn { background: #fff; color: var(--gris-95); border-color: #fff; }
+.barre-recap__message { font-size: 12px; background: var(--gris-80); color: #fff;
+  padding: 6px var(--gouttiere); }
+
+/* ------------------------------------------------------------------ */
+/* Planning, coachs, FAQ, témoignages                                   */
+/* ------------------------------------------------------------------ */
+.filtres { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center;
+  margin-bottom: 14px; font-size: 13px; }
+.filtres select { font: inherit; font-size: 13px; padding: 5px 7px;
+  border: 1px solid var(--gris-40); border-radius: var(--rayon); background: #fff; }
+
+.planning { width: 100%; border-collapse: collapse; background: #fff; font-size: 14px; }
+.planning th, .planning td { text-align: left; padding: 9px 11px;
+  border-bottom: 1px solid var(--gris-10); vertical-align: top; }
+.planning th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--gris-60); background: var(--gris-05); }
+.planning__jour td { background: var(--gris-05); font-weight: 700; }
+.planning__vide { padding: 16px; background: #fff; color: var(--gris-60); font-size: 14px; }
+
+.coachs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.coach { border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
+  padding: 10px; text-align: left; font: inherit; cursor: pointer; }
+.coach__prenom { font-weight: 600; margin-top: 8px; }
+.coach__badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+.coach__badge { font-size: 11px; border: 1px solid var(--gris-20); border-radius: var(--rayon);
+  padding: 0 6px; color: var(--gris-60); }
+
+.faq { border-top: 1px solid var(--gris-20); }
+.faq__q { width: 100%; text-align: left; font: inherit; font-weight: 600; cursor: pointer;
+  background: none; border: 0; border-bottom: 1px solid var(--gris-20); padding: 12px 0;
+  display: flex; justify-content: space-between; gap: 12px; }
+.faq__r { padding: 4px 0 14px; border-bottom: 1px solid var(--gris-20);
+  font-size: 14px; color: var(--gris-80); }
+
+.temoignage { border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
+  padding: 14px; font-size: 14px; }
+.temoignage__auteur { font-size: 12px; color: var(--gris-60); margin-top: 8px; }
+
+.compteur { display: inline-flex; gap: 8px; font-size: 13px; }
+.compteur span { background: var(--gris-95); color: #fff; border-radius: var(--rayon);
+  padding: 3px 8px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.cta-essai { border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
+  padding: 20px; text-align: center; }
+
+.fil { font-size: 12px; color: var(--gris-60); padding: 10px 0; }
+.fil a { color: var(--gris-60); }
+
+/* ------------------------------------------------------------------ */
+/* Mobile : 375 px                                                      */
+/* ------------------------------------------------------------------ */
+@media (max-width: 760px) {
+  :root { --gouttiere: 16px; }
+  h1 { font-size: 24px; }
+  h2 { font-size: 19px; }
+  .choix-club { grid-template-columns: 1fr; }
+  .choix-club .carte-bloc { display: none; }
+  .grille--3, .grille--2 { grid-template-columns: 1fr; }
+  .coachs { grid-template-columns: repeat(2, 1fr); }
+  .pied__cols { grid-template-columns: repeat(2, 1fr); }
+  .entete__nav { display: none; }
+  .planning th:nth-child(4), .planning td:nth-child(4) { display: none; }
+}
+
+/* Carte en plein écran sur mobile, ouverte par "Voir sur la carte".
+   absolute par défaut, pour rester contenue dans un cadre de démonstration.
+   Les pages qui l'utilisent vraiment ajoutent --fixe. */
+.carte-plein { position: absolute; inset: 0; z-index: 80; background: #fff;
+  display: flex; flex-direction: column; }
+.carte-plein--fixe { position: fixed; }
+.carte-plein__barre { display: flex; align-items: center; gap: 12px;
+  padding: 10px var(--gouttiere); border-bottom: 1px solid var(--gris-20); }
+.carte-plein .carte-bloc { flex: 1; }
+.carte-plein .carte { border-radius: 0; }
+.carte-plein .carte__legende { padding: 8px var(--gouttiere); }
+.carte-plein__fiche { border-top: 1px solid var(--gris-20); padding: 14px var(--gouttiere); }
+
+/* Cadres de prévisualisation de components/index.html */
+.apercu { display: grid; grid-template-columns: 1fr 375px; gap: var(--gouttiere);
+  align-items: start; }
+.apercu__mobile { border: 1px solid var(--gris-40); border-radius: var(--rayon);
+  overflow: hidden; background: #fff; }
+.apercu__etiquette { font-size: 11px; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--gris-60); margin-bottom: 6px; }
+@media (max-width: 1100px) { .apercu { grid-template-columns: 1fr; } }

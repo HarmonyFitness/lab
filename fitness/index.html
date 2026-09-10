@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Sommaire · Lab Harmony Fitness</title>
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+
+<div class="wf-barre"><div class="wf-barre__inner">
+  <span class="wf-barre__titre">Wireframe</span>
+  <span>Sommaire du lab</span>
+</div></div>
+
+<div class="conteneur" style="padding-top:24px;padding-bottom:40px">
+
+  <h1>Lab Harmony Fitness</h1>
+  <p class="wf-note">
+    Wireframes mi-fidélité de fitness.harmony.ch. Référence pour le designer UI
+    et le développeur. Source de vérité : <code>docs/cdc/B3-fitness.md</code>.
+    Rien ici n'est du design de marque : niveaux de gris, typo système, une
+    seule couleur d'accent pour ce qui est cliquable.
+  </p>
+
+  <h2>Composants</h2>
+  <table class="planning">
+    <thead><tr><th>Page</th><th>Ce qu'elle montre</th><th>État</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="components/">Composants partagés</a></td>
+        <td>Les 20 composants et leurs états, pilotés par le sélecteur d'état</td>
+        <td>Fait</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 style="margin-top:32px">Pages du périmètre</h2>
+  <p class="mention">Périmètre défini dans CLAUDE.md, trames dans B.3.</p>
+  <table class="planning">
+    <thead><tr><th>URL du futur site</th><th>Fichier du lab</th><th>État</th></tr></thead>
+    <tbody>
+      <tr><td>/tarifs</td><td>tarifs/</td><td>À construire</td></tr>
+      <tr><td>/tarifs/[club]</td><td>tarifs/?club=geneve-la-praille</td><td>À construire</td></tr>
+      <tr><td>/clubs</td><td>clubs/</td><td>À construire</td></tr>
+      <tr><td>/clubs/[club]</td><td>clubs/club/?club=meyrin</td><td>À construire</td></tr>
+      <tr><td>/offre-du-moment</td><td>offre-du-moment/</td><td>À construire</td></tr>
+      <tr><td>/seance-essai</td><td>seance-essai/</td><td>À construire</td></tr>
+      <tr><td>/sport</td><td>sport/</td><td>À construire</td></tr>
+      <tr><td>/sport/plateau-fitness</td><td>sport/plateau-fitness/</td><td>À construire</td></tr>
+      <tr><td>/sport/cours-collectifs</td><td>sport/cours-collectifs/</td><td>À construire</td></tr>
+      <tr><td>/sport/cours-collectifs/[catégorie]</td><td>sport/cours-collectifs/categorie/?categorie=cardio-renforcement</td><td>À construire</td></tr>
+      <tr><td>/cours/[cours]</td><td>cours/fiche/?cours=yoga</td><td>À construire</td></tr>
+      <tr><td>/sport/small-group-training</td><td>sport/small-group-training/</td><td>À construire</td></tr>
+      <tr><td>/sport/coaching-personnel</td><td>sport/coaching-personnel/</td><td>À construire</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="margin-top:32px">États à tester sur chaque page</h2>
+  <table class="planning">
+    <thead><tr><th>Axe</th><th>Valeurs</th><th>Ce que ça change</th></tr></thead>
+    <tbody>
+      <tr><td>Club référent</td><td>sans club · Pâquis (GYM) · Meyrin (Essential) · La Praille (Premium)</td>
+          <td>Boutons de souscription, ligne « Pas disponible », extras, URL</td></tr>
+      <tr><td>Tarif</td><td>Adulte · Ado · Jeune · Senior</td>
+          <td>Prix affichés, mention « Pas de tarif [x], prix adulte ». Ne grise jamais</td></tr>
+      <tr><td>Engagement</td><td>Sans engagement · 12 mois</td><td>Prix par mois et total</td></tr>
+      <tr><td>Offre</td><td>active · inactive</td><td>Section Offre, page Offre du moment, entrée de menu</td></tr>
+      <tr><td>Largeur</td><td>1280 · 375</td><td>Carte à droite ou plein écran, barre rapide en bas sur mobile</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="margin-top:32px">La combinaison qui compte</h2>
+  <p>
+    Club Premium et tarif Jeune. Elle montre les deux mécaniques ensemble, et
+    surtout qu'elles ne se mélangent pas : GYM et Essential passent dans la ligne
+    « Pas disponible depuis Genève · La Praille », pendant que les carnets restent
+    visibles au prix adulte avec leur mention.
+  </p>
+
+  <h2 style="margin-top:32px">Documents internes</h2>
+  <p class="mention">
+    <code>docs/cdc/</code> porte le cahier des charges, <code>docs/questions.md</code>
+    les questions ouvertes. Ce dossier est exclu du déploiement : il n'existe pas
+    en ligne.
+  </p>
+
+</div>
+
+</body>
+</html>
