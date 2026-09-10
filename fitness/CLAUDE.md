@@ -37,9 +37,11 @@ Cours collectifs : le volume de pages n'est pas tranché (voir "À réconcilier"
 ## Fidélité attendue
 
 - Niveaux de gris, une seule couleur d'accent réservée aux éléments cliquables
-- Typo système, hiérarchie claire, vraies structures, vraie copy tirée de B.3
+- Typo système, hiérarchie claire, vraies structures
 - Images : blocs gris avec une légende ("Photo plateau musculation")
-- Pas de lorem ipsum, pas de design de marque, pas d'effets
+- Copy : celle de B.3 partout où B.3 la donne (H1, sous-titres, titles, libellés de boutons, mentions obligatoires). Pour le texte de remplissage que B.3 ne fournit pas (paragraphes de description, corps de FAQ, témoignages), lorem ipsum, à une longueur réaliste par rapport au vrai texte attendu.
+- Donnée manquante (prix, adresse, nombre) : placeholder visible entre crochets, jamais du lorem ipsum et jamais une valeur inventée
+- Pas de design de marque, pas d'effets
 - Chaque page en desktop (1280 px) et mobile (375 px), les deux sont obligatoires
 
 ## Technique
