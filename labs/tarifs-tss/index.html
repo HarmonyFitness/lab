@@ -84,7 +84,7 @@ img { display: block; max-width: 100%; }
 .header-inner > .nav { justify-self: center; }
 .header-actions { justify-self: end; display: flex; align-items: center; gap: 16px; }
 
-/* Logo Harmony + étiquette de verticale (repris de fitness/offres/) */
+/* Logo Harmony + étiquette de verticale (repris des anciennes pages fitness/offres/) */
 .logo { display: inline-flex; align-items: center; gap: 12px; flex: none; }
 .logo img { width: auto; height: 30px; }
 .logo-fallback {
@@ -620,11 +620,11 @@ function Photo({ src, alt = "", className = "" }) {
 /* =========================================================
    DONNÉES — relevées sur la maquette Figma
    ========================================================= */
-/* Menu Harmony, repris des pages fitness/offres/ */
+/* Menu Harmony, repris des anciennes pages fitness/offres/ */
 const OFFRES = [
-  { label: "Abonnements", meta: "3 formules \u00b7 sans engagement ou 12 mois", href: "../../fitness/offres/abonnements/" },
+  { label: "Abonnements", meta: "3 formules \u00b7 sans engagement ou 12 mois" },
   { label: "Offre du moment", meta: "L'offre en cours et ses conditions", tag: "Limitée" },
-  { label: "Séance d'essai", meta: "Demandez à être rappelé pour votre visite", href: "../../fitness/offres/seance-essai/" },
+  { label: "Séance d'essai", meta: "Demandez à être rappelé pour votre visite" },
   { label: "Offre entreprise", meta: "Solutions B2B pour vos collaborateurs" },
 ];
 
@@ -814,7 +814,7 @@ function Header({ menuOpen, onToggleMenu }) {
     <>
       <header className="header">
         <div className="header-inner">
-          <a className="logo" href="../../fitness/offres/abonnements/" aria-label="Harmony Fitness, accueil">
+          <a className="logo" href="#" aria-label="Harmony Fitness, accueil">
             <Asset
               src={A.logo} w={132} h={30} alt="Harmony Fitness" className="logo-img"
               fallback={<span className="logo-fallback">Harmony</span>}
@@ -859,7 +859,7 @@ function Header({ menuOpen, onToggleMenu }) {
               <Asset src={A.account} w={20} h={20} alt="" />
             </a>
 
-            <a className="btn-secondary" href="../../fitness/offres/seance-essai/">Séance d'essai</a>
+            <a className="btn-secondary" href="#">Séance d'essai</a>
             <a className="btn-book" href="#">S'abonner</a>
 
             <button className="burger" onClick={onToggleMenu} aria-label="Menu" aria-expanded={menuOpen}>

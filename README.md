@@ -4,7 +4,7 @@ Pages publiques sous **https://lab.harmony.ch/** — un repo pour toutes les ver
 
 | Verticale | Pages |
 |---|---|
-| **Fitness** (`fitness/`) | [Abonnements](https://lab.harmony.ch/fitness/offres/abonnements/) · [Séance d'essai](https://lab.harmony.ch/fitness/offres/seance-essai/) |
+| **Fitness** (`fitness/`) | _wireframes en cours de reconstruction_ |
 | MAA (`maa/`) | _à venir_ |
 | Aqua (`aqua/`) | _à venir_ |
 | Famille (`famille/`) | _à venir_ |
@@ -26,5 +26,5 @@ Auto via GitHub Actions à chaque push sur `main`. Le repo entier est uploadé �
 ## Développement local
 ```bash
 python3 -m http.server 8000
-# puis http://localhost:8000/fitness/offres/abonnements/ ou /fitness/offres/seance-essai/
+# puis http://localhost:8000/fitness/
 ```
