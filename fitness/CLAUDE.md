@@ -20,6 +20,7 @@ Consultant et décideur sur la structure : Hugo.
 - `docs/cdc/B3-fitness.md` : site map, trames de pages et règles de Fitness. Ce fichier fait foi.
 - `docs/cdc/07-modele-contenu.md` : collections Club, Produit, Extra, Cours, Coach.
 - `docs/cdc/A-composants.md` : composants partagés.
+- `docs/cdc/cours-collectifs.md` : nommage, objectifs, intensités et formats des cours. Fait foi sur ces listes dès qu'il est déposé.
 - Ces fichiers sont dans `fitness/docs/cdc/` et en lecture seule. Ne jamais les modifier.
 - `fitness/docs/` ne doit jamais être publié sur lab.harmony.ch (document interne). Vérifier comment le déploiement l'exclut, sinon le signaler avant tout commit.
 - Ne jamais ajouter une page, un bloc ou une fonctionnalité absent de B.3.
@@ -30,6 +31,7 @@ Consultant et décideur sur la structure : Hugo.
 - `/clubs` (hub) et `/clubs/[slug]` (gabarit club + variante GYM)
 - `/tarifs` : état sans club et état `/tarifs/[slug]` avec club référent choisi
 - `/offre-du-moment`
+- `/seance-essai`
 - `/sport`, `/sport/plateau-fitness`, `/sport/cours-collectifs` (+ un hub de catégorie + une fiche cours), `/sport/small-group-training` (+ une fiche), `/sport/coaching-personnel`
 
 Cours collectifs : le volume de pages n'est pas tranché (voir "À réconcilier" dans B.3). On maquette les gabarits (hub, hub de catégorie, fiche), pas toutes les pages.
@@ -48,7 +50,7 @@ Cours collectifs : le volume de pages n'est pas tranché (voir "À réconcilier"
 
 - HTML + CSS + Alpine.js, sans build. Doit s'ouvrir en local sans serveur et marcher tel quel sur lab.harmony.ch/fitness/.
 - Arborescence qui reproduit le site map : `fitness/index.html`, `fitness/tarifs/index.html`, `fitness/clubs/index.html`, `fitness/clubs/club/index.html`, `fitness/sport/plateau-fitness/index.html`, etc. Les URL du lab se lisent comme celles du futur site.
-- Pages à gabarit (club, état club de Tarifs, fiche cours) : un seul fichier, le club passé en paramètre. `tarifs/?club=geneve-la-praille` représente `/tarifs/geneve-la-praille`, `clubs/club/?club=meyrin` représente `/clubs/meyrin`.
+- Pages à gabarit (club, état club de Tarifs, fiche cours) : un seul fichier, le club passé en paramètre. `tarifs/?club=geneve-la-praille` représente `/tarifs/geneve-la-praille`, `clubs/club/?club=meyrin` représente `/clubs/meyrin`, `cours/fiche/?cours=yoga` représente `/cours/yoga` (la fiche cours est à la racine du site, pas sous `/sport`).
 - Données dans `fitness/data/data.js` (objet global), qui reproduit le modèle CMS de la section 7 :
   clubs, produits (formules, offres, carnets), extras, cours, coachs.
 - Aucune donnée en dur dans les pages : tout est lu depuis `data.js`. Si une info change, elle change partout.
@@ -65,6 +67,7 @@ Clubs et catégories
 - Accès : Premium couvre tous les clubs, Essential couvre Essential et GYM, GYM couvre Pâquis.
 - Les prix dépendent de la catégorie, jamais du club.
 - Listes de clubs groupées par canton (Genève, Vaud), ordre alphabétique, catégorie affichée à côté du nom.
+- Carte d'un club GYM : le nombre de cours par semaine est remplacé par "Pas de cours collectifs · Small Group Training en Extra". La ligne n'est jamais masquée.
 
 Page Tarifs
 - Une page, deux états, même gabarit. `/tarifs/[slug]` = même page avec le club référent présélectionné.
@@ -75,6 +78,8 @@ Page Tarifs
 - Tarif par âge : Adulte (défaut), Ado · 16-18 ans, Jeune · 19-25 ans, Senior · 65 ans et +. Il ne grise jamais. Un produit sans ce tarif s'affiche au prix adulte avec "Pas de tarif [x], prix adulte". Tarifs réduits : Essential et Premium seulement.
 - Ordre des sections : Offre du moment, Abonnements (Extras juste en dessous), Carnets d'entrées.
 - Carte formule : accès en nombre de clubs (calculé depuis les données), ce qui est inclus, prix par mois, bouton "Choisir [formule]".
+- Les 3 cartes formule affichent les mêmes lignes d'inclusion, dans le même ordre, avec "Non inclus" quand la formule ne couvre pas la ligne. Une ligne n'est jamais retirée : les cartes restent comparables ligne à ligne. Pas de séances de coaching incluses en GYM.
+- Le sélecteur d'engagement accepte 2 ou 3 valeurs sans que la carte formule change de forme. Le nombre d'engagements se lit dans les données, jamais en dur dans la mise en page.
 - Extras vendus en ligne : prix + "Ajouter". Extras vendus en club : "Sur demande en club", sans prix ni bouton.
 - Offres promo : durée aussi visible que le prix, "soit env. CHF X.– par mois".
 - Barre récap en bas d'écran quand un produit est choisi, bouton "Finaliser mon abonnement". Une seule barre collante en haut. Pas de barre d'ancres.
@@ -94,6 +99,7 @@ Composants partagés
 - Le nom "Echino" n'apparaît jamais à l'écran.
 - H1, sous-titres et titles : reprendre exactement ceux de B.3.
 - Donnée inconnue : placeholder visible entre crochets, par exemple "[adresse]", "[X] séances", "[nom de l'application]".
+- Texte rédigé mais pas encore validé par Harmony : affiché tel quel, avec le marqueur "à valider par Harmony". Ne pas le remplacer par un placeholder, le texte existe.
 
 ## Méthode de travail
 
