@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Coach sportif à Genève et Vaud | Harmony</title>
+<link rel="icon" href="../../favicon.png">
+<link rel="stylesheet" href="../../assets/wireframe.css">
+</head>
+<body>
+<div x-data="page" x-init="init()">
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../../' })"></div>
+  <div class="conteneur"><p class="wf-note">
+    H1, sous-titre et title repris tels quels de B.3. On ne vend rien en ligne
+    ici : les séances incluses font partie des formules, les séances en plus se
+    prennent en club. Trois placeholders en attente :
+    <code>[X] séances</code> (Q2), <code>[nom de l'application]</code> (Q3) et
+    la liste des programmes, à fournir par Harmony.
+  </p></div>
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('Sport', '../../')"></div>
+
+  <main class="conteneur">
+    <div x-html="HF.vues.filAriane([{nom:'Accueil',href:'../../'},{nom:'Sport',href:'../'},{nom:'Coaching personnel'}])"></div>
+
+    <!-- ================================================== BLOC 1 -->
+    <section data-spec="B.3 &gt; Page Coaching personnel &gt; 1">
+      <div class="hero-club">
+        <div>
+          <h1>Coaching personnel : un coach et un programme pour vous</h1>
+          <p>Des séances incluses dans les formules Essential et Premium, un
+             suivi dans l'application [nom de l'application].</p>
+          <div class="hero-club__actions">
+            <a class="btn" href="../../tarifs/">Voir les formules</a>
+            <a class="btn btn--secondaire" href="../../seance-essai/">Demander une séance d'essai</a>
+          </div>
+        </div>
+        <div x-html="HF.vues.blocImage('Photo séance de coaching', 'large')"></div>
+      </div>
+    </section>
+
+    <!-- ================================================== BLOC 2 -->
+    <section style="margin-top:36px" data-spec="B.3 &gt; Page Coaching personnel &gt; 2">
+      <h2>Comment ça marche</h2>
+      <div class="grille grille--3">
+        <template x-for="e in etapes" :key="e.titre">
+          <div class="produit"><h3 x-text="e.titre"></h3><p x-text="e.texte"></p></div>
+        </template>
+      </div>
+      <div class="produit" style="margin-top:16px">
+        <h3>Ce qui est inclus</h3>
+        <p>[X] séances dans les formules Essential et Premium.</p>
+        <p class="mention">Pas de séances de coaching incluses dans la formule GYM.</p>
+        <h3 style="margin-top:14px">Envie de plus</h3>
+        <p>Séances supplémentaires en <span class="extra__marque">Extra</span>,
+           sur demande en club. Elles ne se vendent pas en ligne.</p>
+      </div>
+    </section>
+
+    <!-- ================================================== BLOC 3 -->
+    <section style="margin-top:36px" data-spec="B.3 &gt; Page Coaching personnel &gt; 3">
+      <h2>Les programmes</h2>
+      <p class="mention">Liste à fournir par Harmony, un programme par objectif.</p>
+      <table class="tableau tableau-large">
+        <thead><tr><th>Programme</th><th>Durée</th><th>Rythme</th><th>Pour qui</th></tr></thead>
+        <tbody>
+          <template x-for="o in HF.data.referentiels.objectifs" :key="o.id">
+            <tr>
+              <td x-text="o.nom"></td>
+              <td>[durée]</td>
+              <td>[rythme]</td>
+              <td>[pour qui]</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ================================================== BLOC 4 -->
+    <section style="margin-top:36px" data-spec="B.3 &gt; Page Coaching personnel &gt; 4">
+      <h2>L'application de suivi</h2>
+      <p>Votre programme, vos séances et vos progrès dans l'application
+         [nom de l'application].</p>
+      <div class="grille grille--3">
+        <div x-html="HF.vues.blocImage('Capture : le programme', 'portrait')"></div>
+        <div x-html="HF.vues.blocImage('Capture : les séances', 'portrait')"></div>
+        <div x-html="HF.vues.blocImage('Capture : les progrès', 'portrait')"></div>
+      </div>
+      <p style="margin-top:14px">
+        <a class="btn btn--secondaire" href="#">[Lien App Store]</a>
+        <a class="btn btn--secondaire" href="#">[Lien Google Play]</a>
+      </p>
+      <p class="mention">Nom et fonctionnalités à compléter.</p>
+    </section>
+
+    <!-- ================================================== BLOC 5 -->
+    <section style="margin-top:36px" data-spec="B.3 &gt; Page Coaching personnel &gt; 5">
+      <h2>Les coachs</h2>
+      <div class="filtres">
+        <label>Club
+          <select x-model="filtreClub">
+            <option value="">Tous les clubs</option>
+            <template x-for="c in HF.data.clubs" :key="c.id">
+              <option :value="c.id" x-text="c.nom"></option>
+            </template>
+          </select>
+        </label>
+        <label>Spécialité
+          <select x-model="filtreBadge">
+            <option value="">Toutes les spécialités</option>
+            <template x-for="b in badges()" :key="b">
+              <option :value="b" x-text="b"></option>
+            </template>
+          </select>
+        </label>
+      </div>
+      <div x-html="HF.vues.grilleCoachs(coachs(), etat)"></div>
+      <p class="mention" x-show="coachs().length === 0">
+        Aucun coach personnel ne correspond à ces filtres.
+      </p>
+    </section>
+
+    <!-- ================================================== BLOC 6 -->
+    <section style="margin-top:36px" data-spec="B.3 &gt; Page Coaching personnel &gt; 6">
+      <h2>Leurs résultats</h2>
+      <div x-html="HF.vues.temoignages(3)"></div>
+      <p class="mention">Accord écrit du membre avant publication.</p>
+    </section>
+
+    <!-- ================================================== BLOC 7 -->
+    <section style="margin-top:36px" data-spec="B.3 &gt; Page Coaching personnel &gt; 7">
+      <h2>Questions sur le coaching</h2>
+      <div x-html="HF.vues.faq(faqCoaching, etat)"></div>
+    </section>
+
+    <!-- ================================================== BLOC 8 -->
+    <div style="margin-top:36px" x-html="HF.vues.ctaEssai('../../', 'B.3 > Page Coaching personnel > 8')"></div>
+  </main>
+  <div x-html="HF.vues.pied()"></div>
+</div>
+<script src="../../data/data.js"></script>
+<script src="../../assets/components.js"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('page', function () {
+    return {
+      etat: HF.etatInitial(),
+      filtreClub: '',
+      filtreBadge: '',
+      etapes: [
+        { titre: 'Un bilan avec un coach', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.' },
+        { titre: 'Un programme personnalisé', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.' },
+        { titre: 'Un suivi dans l\'application', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat.' }
+      ],
+      /* B.3 > Page Coaching personnel > 7 : combien de séances incluses,
+         comment les réserver, changer de coach, séances en plus, formule GYM. */
+      faqCoaching: [
+        { q: 'Combien de séances sont incluses ?', r: '[X] séances dans les formules Essential et Premium. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
+        { q: 'Comment réserver une séance ?', r: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.' },
+        { q: 'Puis-je changer de coach ?', r: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.' },
+        { q: 'Comment prendre des séances en plus ?', r: "Sur demande en club : c'est un Extra, il ne se vend pas en ligne. Excepteur sint occaecat cupidatat non proident." },
+        { q: 'Et avec la formule GYM ?', r: "La formule GYM n'inclut pas de séances de coaching. Sed ut perspiciatis unde omnis iste natus error sit voluptatem." }
+      ],
+      init: function () { HF.brancher(this.$el, this.etat); HF.brancherSelecteur(this.$el, this.etat); },
+      badges: function () {
+        var vus = [];
+        HF.regles.coachsPersonnels().forEach(function (k) {
+          k.badges.forEach(function (b) { if (vus.indexOf(b) === -1) vus.push(b); });
+        });
+        return vus.sort();
+      },
+      coachs: function () {
+        var cl = this.filtreClub, bg = this.filtreBadge;
+        return HF.regles.coachsPersonnels().filter(function (k) {
+          if (cl && k.lieux.indexOf(cl) === -1) return false;
+          if (bg && k.badges.indexOf(bg) === -1) return false;
+          return true;
+        });
+      }
+    };
+  });
+});
+</script>
+<script defer src="../../assets/alpine.min.js"></script>
+</body>
+</html>

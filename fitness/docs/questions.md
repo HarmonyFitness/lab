@@ -233,3 +233,29 @@ La plage n'est donnée nulle part, alors que c'est l'argument central du hero
 d'un club GYM.
 **Placeholder :** « Horaires élargis : [plage horaire GYM]. »
 
+## Relevées en construisant la branche Sport (étape 5)
+
+### Q21 · H1 et title des hubs de catégorie et des fiches cours
+**Statut :** à valider par Harmony
+**Source :** B.3 > Titres de la branche Sport donne les H1, sous-titres et titles
+des 5 pages principales de la branche. Rien n'est donné pour les 3 hubs de
+catégorie ni pour les 9 fiches cours, qui sont pourtant les pages SEO les plus
+nombreuses de la branche.
+**Proposé dans les maquettes, à valider :**
+- Hub de catégorie : H1 = nom de la catégorie (« Cardio & renforcement »),
+  title = « [Catégorie] à Genève et Vaud | Harmony »
+- Fiche cours : H1 = nom du cours (« Yoga »), title = « [Cours] à Genève et
+  Vaud | Harmony »
+
+B.3 dit que ces titles sont à valider avec la Search Console et les termes de
+recherche Google Ads avant la mise en ligne : la règle vaut pour ces pages
+aussi.
+
+### Q22 · Contenu des programmes de coaching
+**Statut :** ouverte
+**Source :** B.3 > Page Coaching personnel > bloc 3 : « Les programmes : par
+objectif (liste à fournir par Harmony), chacun avec sa durée, son rythme et
+pour qui il est fait ».
+La liste n'existe pas. Les maquettes montrent le tableau avec les 6 objectifs
+provisoires de Q7 en lignes, et [durée], [rythme], [pour qui] en colonnes.
+

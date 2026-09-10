@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Small Group Training et Hyrox à Genève | Harmony</title>
+<link rel="icon" href="../../favicon.png">
+<link rel="stylesheet" href="../../assets/wireframe.css">
+</head>
+<body>
+<div x-data="page" x-init="init()">
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../../' })"></div>
+  <div class="conteneur"><p class="wf-note">
+    H1, sous-titre et title repris tels quels de B.3. Le title ne mentionne
+    Hyrox que s'il est proposé au lancement. B.3 note aussi que s'il n'y a
+    qu'un Small Group Training au lancement, ce hub peut attendre : sa fiche
+    suffit. Le gabarit est maquetté pour le cas où il y en aurait plusieurs.
+  </p></div>
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('Sport', '../../')"></div>
+
+  <main class="conteneur">
+    <div x-html="HF.vues.filAriane([{nom:'Accueil',href:'../../'},{nom:'Sport',href:'../'},{nom:'Small Group Training'}])"></div>
+
+    <section data-spec="B.3 &gt; Titres de la branche Sport">
+      <h1>Small Group Training : l'entraînement en petit groupe</h1>
+      <p>Un coach pour quelques personnes, en Extra de votre abonnement.</p>
+      <p><span class="extra__marque">Extra</span>
+         <span class="mention"> Ces cours ne sont inclus dans aucune formule.</span></p>
+    </section>
+
+    <section style="margin-top:28px" data-spec="B.3 &gt; Sport &gt; Small Group Training (hub)">
+      <h2>Le principe</h2>
+      <div class="grille grille--3">
+        <template x-for="b in principe" :key="b.titre">
+          <div class="produit"><h3 x-text="b.titre"></h3><p x-text="b.texte"></p></div>
+        </template>
+      </div>
+    </section>
+
+    <section style="margin-top:40px" data-spec="B.3 &gt; Sport &gt; Small Group Training (hub)">
+      <h2>Nos Small Group Training</h2>
+      <div class="grille grille--2">
+        <template x-for="e in sgt()" :key="e.id">
+          <div class="produit">
+            <h3>
+              <a :href="'../../cours/fiche/?cours=' + e.cours" x-text="e.nom"></a>
+              <span class="extra__marque">Extra</span>
+            </h3>
+            <p x-text="e.description"></p>
+            <p class="mention" x-text="'Proposé à : ' + clubsDe(e)"></p>
+            <div class="produit__prix" x-text="HF.prixTexte(e.prix)"></div>
+            <div class="produit__pied">
+              <a class="btn btn--secondaire" :href="'../../cours/fiche/?cours=' + e.cours">Voir le cours</a>
+            </div>
+          </div>
+        </template>
+      </div>
+      <p class="mention" style="margin-top:12px">
+        Clubs et prix sont saisis une seule fois, sur l'Extra : la fiche club,
+        la page Tarifs et la fiche cours lisent la même donnée.
+      </p>
+    </section>
+
+    <section style="margin-top:32px">
+      <p><a class="btn" href="../../tarifs/">Voir les tarifs</a></p>
+    </section>
+
+    <div style="margin-top:40px" x-html="HF.vues.ctaEssai('../../', 'B.3 > Sport > Small Group Training (hub)')"></div>
+  </main>
+  <div x-html="HF.vues.pied()"></div>
+</div>
+<script src="../../data/data.js"></script>
+<script src="../../assets/components.js"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('page', function () {
+    return {
+      etat: HF.etatInitial(),
+      principe: [
+        { titre: 'Un coach', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' },
+        { titre: 'Quelques personnes', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.' },
+        { titre: 'Un objectif', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.' }
+      ],
+      init: function () { HF.brancher(this.$el, this.etat); HF.brancherSelecteur(this.$el, this.etat); },
+      sgt: function () { return HF.regles.smallGroupTrainings(); },
+      clubsDe: function (e) {
+        return e.clubs.map(function (id) { var c = HF.club(id); return c ? c.nom : id; }).join(', ');
+      }
+    };
+  });
+});
+</script>
+<script defer src="../../assets/alpine.min.js"></script>
+</body>
+</html>

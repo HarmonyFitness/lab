@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Cours collectifs | Harmony</title>
+<link rel="icon" href="../../../favicon.png">
+<link rel="stylesheet" href="../../../assets/wireframe.css">
+</head>
+<body>
+<div x-data="page" x-init="init()">
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../../../' })"></div>
+  <div class="conteneur"><p class="wf-note">
+    Gabarit de hub de catégorie, la catégorie passée en paramètre.
+    <a href="?categorie=cardio-renforcement">Cardio &amp; renforcement</a> ·
+    <a href="?categorie=yoga-pilates-doux">Yoga, Pilates &amp; doux</a> ·
+    <a href="?categorie=lesmills">LesMills</a>.
+    B.3 ne donne ni H1 ni title pour ces hubs : voir questions.md &gt; Q21.
+  </p></div>
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('Sport', '../../../')"></div>
+
+  <template x-if="!cat">
+    <main class="conteneur"><h1>Catégorie inconnue</h1>
+      <p><a href="../">Retour aux cours collectifs</a></p></main>
+  </template>
+
+  <template x-if="cat">
+    <div>
+      <main class="conteneur">
+        <div x-html="HF.vues.filAriane([
+          {nom:'Accueil',href:'../../../'},{nom:'Sport',href:'../../'},
+          {nom:'Cours collectifs',href:'../'},{nom:cat.nom}])"></div>
+
+        <section data-spec="B.3 &gt; Sport &gt; Hub de catégorie">
+          <h1 x-text="cat.nom"></h1>
+          <span class="wf-avalider">H1 et title à valider par Harmony</span>
+          <p style="margin-top:10px">Lorem ipsum dolor sit amet, consectetur
+             adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+             dolore magna aliqua, quis nostrud exercitation ullamco laboris.</p>
+        </section>
+
+        <section style="margin-top:28px" data-spec="B.3 &gt; Sport &gt; Hub de catégorie">
+          <h2>Les cours de cette catégorie</h2>
+          <div class="grille grille--3">
+            <template x-for="co in cours()" :key="co.id">
+              <div class="produit">
+                <h3><a :href="'../../../cours/fiche/?cours=' + co.id" x-text="co.nom"></a></h3>
+                <p class="mention" x-text="intensite(co) + ' · ' + objectif(co)"></p>
+                <p x-text="co.description"></p>
+              </div>
+            </template>
+          </div>
+        </section>
+
+        <section style="margin-top:40px" data-spec="B.3 &gt; Sport &gt; Hub de catégorie">
+          <h2>Les clubs qui les proposent</h2>
+          <div class="grille grille--3">
+            <template x-for="c in clubs()" :key="c.id">
+              <div x-html="HF.vues.carteClub(c, etat, { base: '../../../' })"></div>
+            </template>
+          </div>
+        </section>
+
+        <!-- Passerelle vers Bien-être, prévue par B.3 pour cette catégorie -->
+        <template x-if="cat.id === 'yoga-pilates-doux'">
+          <section style="margin-top:40px" data-spec="B.3 &gt; Sport &gt; Hub Yoga, Pilates &amp; doux">
+            <div class="produit">
+              <h2>Et pour récupérer</h2>
+              <p>Sauna, hammam, jacuzzi : nos espaces bien-être prolongent la séance.</p>
+              <p><a class="btn btn--secondaire" href="#">Voir nos espaces bien-être</a></p>
+            </div>
+          </section>
+        </template>
+
+        <div style="margin-top:40px" x-html="HF.vues.ctaEssai('../../../', 'B.3 > Sport > Hub de catégorie')"></div>
+      </main>
+      <div x-html="HF.vues.pied()"></div>
+    </div>
+  </template>
+</div>
+<script src="../../../data/data.js"></script>
+<script src="../../../assets/components.js"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('page', function () {
+    return {
+      etat: HF.etatInitial(),
+      slug: new URLSearchParams(window.location.search).get('categorie') || 'cardio-renforcement',
+      get cat() {
+        var s = this.slug;
+        return HF.data.referentiels.categoriesCours.find(function (c) { return c.slug === s; }) || null;
+      },
+      init: function () {
+        HF.brancher(this.$el, this.etat);
+        HF.brancherSelecteur(this.$el, this.etat);
+        if (this.cat) document.title = this.cat.nom + ' à Genève et Vaud | Harmony';
+      },
+      cours: function () { return HF.regles.coursDeCategorie(this.cat.id); },
+      clubs: function () { return HF.regles.clubsDeCategorieCours(this.cat.id); },
+      intensite: function (co) {
+        var i = HF.data.referentiels.intensites.find(function (x) { return x.id === co.intensite; });
+        return i ? i.nom : '';
+      },
+      objectif: function (co) {
+        var o = HF.data.referentiels.objectifs.find(function (x) { return x.id === co.objectif; });
+        return o ? o.nom : '';
+      }
+    };
+  });
+});
+</script>
+<script defer src="../../../assets/alpine.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Salle de musculation à Genève et Vaud | Harmony</title>
+<link rel="icon" href="../../favicon.png">
+<link rel="stylesheet" href="../../assets/wireframe.css">
+</head>
+<body>
+<div x-data="page" x-init="init()">
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../../' })"></div>
+  <div class="conteneur"><p class="wf-note">
+    H1 et title repris tels quels de B.3. Cette page remplace l'ancienne page
+    Équipement : le mot « équipements » ne garde qu'un sens, la liste fermée de
+    la fiche club. Slug par défaut <code>/sport/plateau-fitness</code>,
+    <code>/sport/musculation</code> si les données de recherche le justifient.
+  </p></div>
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('Sport', '../../')"></div>
+
+  <main class="conteneur">
+    <div x-html="HF.vues.filAriane([{nom:'Accueil',href:'../../'},{nom:'Sport',href:'../'},{nom:'Plateau fitness'}])"></div>
+
+    <section data-spec="B.3 &gt; Titres de la branche Sport">
+      <h1>Plateau fitness : musculation, cardio et fonctionnel</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+         tempor incididunt ut labore et dolore magna aliqua ut enim ad minim.</p>
+      <p class="mention"><strong>Inclus dans toutes les formules, GYM comprise.</strong></p>
+    </section>
+
+    <section style="margin-top:28px" data-spec="B.3 &gt; Sport &gt; Plateau fitness">
+      <h2>Les zones du plateau</h2>
+      <div class="grille grille--2">
+        <template x-for="z in zones" :key="z.nom">
+          <div class="produit">
+            <div x-html="HF.vues.blocImage(z.photo, 'large')"></div>
+            <h3 style="margin-top:14px" x-text="z.nom"></h3>
+            <p x-text="z.texte"></p>
+            <h4>Matériel</h4>
+            <p class="mention" x-text="z.materiel"></p>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <section style="margin-top:40px" data-spec="B.3 &gt; Sport &gt; Plateau fitness">
+      <h2>Le plateau dans chaque club</h2>
+      <p>Le détail du matériel se lit sur la page de chaque club, dans le bloc
+         Équipements.</p>
+      <div class="grille grille--3">
+        <template x-for="c in HF.data.clubs.slice(0, 3)" :key="c.id">
+          <div x-html="HF.vues.carteClub(c, etat, { base: '../../' })"></div>
+        </template>
+      </div>
+      <p style="margin-top:14px"><a class="lien-texte" href="../../clubs/">Voir les 10 clubs</a></p>
+    </section>
+
+    <section style="margin-top:40px">
+      <p><a class="btn" href="../../tarifs/">Voir les tarifs</a></p>
+    </section>
+
+    <div style="margin-top:40px" x-html="HF.vues.ctaEssai('../../', 'B.3 > Sport > Plateau fitness')"></div>
+  </main>
+  <div x-html="HF.vues.pied()"></div>
+</div>
+<script src="../../data/data.js"></script>
+<script src="../../assets/components.js"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('page', function () {
+    return {
+      etat: HF.etatInitial(),
+      zones: [
+        { nom: 'Musculation', photo: 'Photo plateau musculation', materiel: '[liste du matériel]',
+          texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.' },
+        { nom: 'Cardio', photo: 'Photo zone cardio', materiel: '[liste du matériel]',
+          texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.' },
+        { nom: 'Fonctionnel', photo: 'Photo espace fonctionnel', materiel: '[liste du matériel]',
+          texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat.' },
+        { nom: 'Cross training', photo: 'Photo zone cross training', materiel: '[liste du matériel]',
+          texte: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.' }
+      ],
+      init: function () { HF.brancher(this.$el, this.etat); HF.brancherSelecteur(this.$el, this.etat); }
+    };
+  });
+});
+</script>
+<script defer src="../../assets/alpine.min.js"></script>
+</body>
+</html>

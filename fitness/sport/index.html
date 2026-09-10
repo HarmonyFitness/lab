@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Musculation, cours collectifs et coaching | Harmony</title>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/wireframe.css">
+</head>
+<body>
+<div x-data="page" x-init="init()">
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../' })"></div>
+  <div class="conteneur"><p class="wf-note">
+    H1 et title repris tels quels de B.3 &gt; Titres de la branche Sport.
+    L'ordre des blocs suit ce qui est inclus : plateau fitness (toutes les
+    formules), cours collectifs (dès Essential), Small Group Training (Extra
+    payant), coaching personnel (séances incluses en Essential et Premium).
+  </p></div>
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('Sport', '../')"></div>
+
+  <main class="conteneur">
+    <section data-spec="B.3 &gt; Titres de la branche Sport" style="padding-top:28px">
+      <h1>Le sport chez Harmony</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+         tempor incididunt ut labore et dolore magna aliqua.</p>
+    </section>
+
+    <section style="margin-top:28px" data-spec="B.3 &gt; Sport &gt; Sport (hub)">
+      <div class="grille grille--2">
+        <template x-for="p in piliers" :key="p.href">
+          <div class="produit">
+            <div x-html="HF.vues.blocImage(p.photo, 'large')"></div>
+            <h2 style="margin-top:14px" x-text="p.titre"></h2>
+            <p x-text="p.texte"></p>
+            <p class="mention"><strong x-text="p.inclus"></strong></p>
+            <div class="produit__pied">
+              <a class="btn btn--secondaire" :href="p.href" x-text="p.lien"></a>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <section style="margin-top:40px" data-spec="B.3 &gt; Sport &gt; Sport (hub) &gt; teaser planning">
+      <h2>Le planning des cours</h2>
+      <p>Retrouvez le planning type de tous les clubs, filtrable par club, type
+         et intensité.</p>
+      <p><a class="btn" href="cours-collectifs/#planning">Voir le planning</a></p>
+    </section>
+
+    <div style="margin-top:40px" x-html="HF.vues.ctaEssai('../', 'B.3 > Sport > Sport (hub)')"></div>
+  </main>
+
+  <div x-html="HF.vues.pied()"></div>
+</div>
+<script src="../data/data.js"></script>
+<script src="../assets/components.js"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('page', function () {
+    return {
+      etat: HF.etatInitial(),
+      piliers: [
+        { titre: 'Plateau fitness', href: 'plateau-fitness/', lien: 'Voir le plateau fitness',
+          photo: 'Photo plateau musculation',
+          inclus: 'Inclus dans toutes les formules',
+          texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.' },
+        { titre: 'Cours collectifs', href: 'cours-collectifs/', lien: 'Voir les cours collectifs',
+          photo: 'Photo cours collectif en salle',
+          inclus: 'Inclus dès la formule Essential',
+          texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.' },
+        { titre: 'Small Group Training', href: 'small-group-training/', lien: 'Voir le Small Group Training',
+          photo: 'Photo entraînement en petit groupe',
+          inclus: 'En Extra de votre abonnement',
+          texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.' },
+        { titre: 'Coaching personnel', href: 'coaching-personnel/', lien: 'Voir le coaching personnel',
+          photo: 'Photo séance de coaching',
+          inclus: 'Des séances incluses dans les formules Essential et Premium',
+          texte: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.' }
+      ],
+      init: function () { HF.brancher(this.$el, this.etat); HF.brancherSelecteur(this.$el, this.etat); }
+    };
+  });
+});
+</script>
+<script defer src="../assets/alpine.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Cours collectifs fitness à Genève et Vaud | Harmony</title>
+<link rel="icon" href="../../favicon.png">
+<link rel="stylesheet" href="../../assets/wireframe.css">
+</head>
+<body>
+<div x-data="page" x-init="init()">
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../../' })"></div>
+  <div class="conteneur"><p class="wf-note">
+    H1, sous-titre et title repris tels quels de B.3. Le volume de pages n'est
+    pas tranché (B.3 &gt; « À réconcilier », questions.md &gt; Q6) : on maquette
+    les trois gabarits, hub, hub de catégorie et fiche, pas toutes les pages.
+  </p></div>
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('Sport', '../../')"></div>
+
+  <main class="conteneur">
+    <div x-html="HF.vues.filAriane([{nom:'Accueil',href:'../../'},{nom:'Sport',href:'../'},{nom:'Cours collectifs'}])"></div>
+
+    <section data-spec="B.3 &gt; Titres de la branche Sport">
+      <h1>Cours collectifs</h1>
+      <p><strong>Inclus dès la formule Essential</strong></p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod
+         tempor incididunt ut labore et dolore magna aliqua.</p>
+    </section>
+
+    <div style="margin-top:32px" x-html="HF.vues.catalogueCours('../../')"></div>
+    <div style="margin-top:40px" x-html="HF.vues.planningType(etat, '../../')"></div>
+
+    <section style="margin-top:40px">
+      <h2>Ils y vont</h2>
+      <div x-html="HF.vues.temoignages(3)"></div>
+    </section>
+
+    <div style="margin-top:40px" x-html="HF.vues.ctaEssai('../../', 'B.3 > Sport > Cours collectifs (hub)')"></div>
+  </main>
+  <div x-html="HF.vues.pied()"></div>
+</div>
+<script src="../../data/data.js"></script>
+<script src="../../assets/components.js"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('page', function () {
+    return {
+      etat: HF.etatInitial(),
+      init: function () { HF.brancher(this.$el, this.etat); HF.brancherSelecteur(this.$el, this.etat); }
+    };
+  });
+});
+</script>
+<script defer src="../../assets/alpine.min.js"></script>
+</body>
+</html>

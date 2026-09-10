@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Cours | Harmony</title>
+<link rel="icon" href="../../favicon.png">
+<link rel="stylesheet" href="../../assets/wireframe.css">
+</head>
+<body>
+<div x-data="page" x-init="init()">
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../../' })"></div>
+  <div class="conteneur"><p class="wf-note">
+    Gabarit de fiche cours, le cours passé en paramètre.
+    <code>cours/fiche/?cours=yoga</code> représente <code>/cours/yoga</code> :
+    les fiches sont à la racine du site, pas sous <code>/sport</code>
+    (questions.md &gt; Q9). Le fil d'Ariane garde Sport &gt; Cours collectifs &gt; [cours].
+    Deux cas à regarder : <a href="?cours=yoga">Yoga</a> (cours inclus) et
+    <a href="?cours=hyrox">Hyrox</a> (Small Group Training, en Extra).
+  </p></div>
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('Sport', '../../')"></div>
+
+  <template x-if="!cours">
+    <main class="conteneur"><h1>Cours inconnu</h1>
+      <p><a href="../../sport/cours-collectifs/">Retour aux cours collectifs</a></p></main>
+  </template>
+
+  <template x-if="cours">
+    <div>
+      <main class="conteneur">
+        <div x-html="HF.vues.filAriane([
+          {nom:'Accueil',href:'../../'},{nom:'Sport',href:'../../sport/'},
+          {nom:'Cours collectifs',href:'../../sport/cours-collectifs/'},{nom:cours.nom}])"></div>
+
+        <section data-spec="B.3 &gt; Sport &gt; Fiches cours dédiées">
+          <div class="hero-club">
+            <div>
+              <h1 x-text="cours.nom"></h1>
+              <p x-show="cours.estExtra">
+                <span class="extra__marque">Extra</span>
+                <span class="mention"> Ce cours n'est inclus dans aucune formule.</span>
+              </p>
+              <p x-text="cours.description"></p>
+              <p class="mention" x-text="'Intensité : ' + intensite() + ' · Objectif : ' + objectif() + ' · Format : ' + format()"></p>
+            </div>
+            <div x-html="HF.vues.blocImage('Photo cours ' + cours.nom, 'large')"></div>
+          </div>
+        </section>
+
+        <section style="margin-top:32px" x-show="cours.benefices.length"
+                 data-spec="B.3 &gt; Sport &gt; Fiches cours dédiées">
+          <h2>Ce que ça vous apporte</h2>
+          <ul><template x-for="b in cours.benefices" :key="b"><li x-text="b"></li></template></ul>
+        </section>
+
+        <!-- Small Group Training : clubs et prix lus sur l'Extra, une seule saisie -->
+        <div style="margin-top:32px" x-html="HF.vues.blocExtraDuCours(cours, '../../')"></div>
+
+        <div style="margin-top:32px" x-html="HF.vues.creneauxCours(cours.id, '../../')"></div>
+
+        <section style="margin-top:32px" x-show="coachs().length"
+                 data-spec="B.3 &gt; Sport &gt; Fiches cours dédiées">
+          <h2>Les coachs</h2>
+          <div x-html="HF.vues.grilleCoachs(coachs(), etat)"></div>
+        </section>
+
+        <section style="margin-top:32px" data-spec="B.3 &gt; Sport &gt; Fiches cours dédiées">
+          <h2>Questions sur ce cours</h2>
+          <div x-html="HF.vues.faq(faq(), etat)"></div>
+        </section>
+
+        <section style="margin-top:32px">
+          <p><a class="btn" href="../../tarifs/">Voir les tarifs</a></p>
+        </section>
+
+        <div style="margin-top:32px" x-html="HF.vues.ctaEssai('../../', 'B.3 > Sport > Fiches cours dédiées')"></div>
+      </main>
+      <div x-html="HF.vues.pied()"></div>
+    </div>
+  </template>
+</div>
+<script src="../../data/data.js"></script>
+<script src="../../assets/components.js"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('page', function () {
+    return {
+      etat: HF.etatInitial(),
+      id: new URLSearchParams(window.location.search).get('cours') || 'yoga',
+      get cours() { return HF.cours(this.id); },
+      init: function () {
+        HF.brancher(this.$el, this.etat);
+        HF.brancherSelecteur(this.$el, this.etat);
+        if (this.cours) document.title = this.cours.nom + ' à Genève et Vaud | Harmony';
+      },
+      intensite: function () {
+        var i = HF.data.referentiels.intensites.find(function (x) { return x.id === this.cours.intensite; }.bind(this));
+        return i ? i.nom : '';
+      },
+      objectif: function () {
+        var o = HF.data.referentiels.objectifs.find(function (x) { return x.id === this.cours.objectif; }.bind(this));
+        return o ? o.nom : '';
+      },
+      format: function () {
+        var f = HF.data.referentiels.formats.find(function (x) { return x.id === this.cours.format; }.bind(this));
+        return f ? f.nom : '';
+      },
+      coachs: function () { return HF.regles.coachsDuCours(this.cours.id); },
+      faq: function () {
+        var q = [
+          { q: 'Faut-il réserver ?', r: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.' },
+          { q: 'Faut-il un niveau particulier ?', r: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.' },
+          { q: 'Que faut-il apporter ?', r: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.' }
+        ];
+        if (this.cours.estExtra) {
+          q.unshift({ q: 'Ce cours est-il inclus dans mon abonnement ?',
+            r: "Non : c'est un Extra, à ajouter à votre abonnement depuis la page Tarifs, dans les clubs qui le proposent." });
+        }
+        return q;
+      }
+    };
+  });
+});
+</script>
+<script defer src="../../assets/alpine.min.js"></script>
+</body>
+</html>
