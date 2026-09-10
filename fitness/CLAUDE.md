@@ -79,7 +79,8 @@ Page Tarifs
 - Ordre des sections : Offre du moment, Abonnements (Extras juste en dessous), Carnets d'entrées.
 - Carte formule : accès en nombre de clubs (calculé depuis les données), ce qui est inclus, prix par mois, bouton "Choisir [formule]".
 - Les 3 cartes formule affichent les mêmes lignes d'inclusion, dans le même ordre, avec "Non inclus" quand la formule ne couvre pas la ligne. Une ligne n'est jamais retirée : les cartes restent comparables ligne à ligne. Pas de séances de coaching incluses en GYM.
-- Le sélecteur d'engagement accepte 2 ou 3 valeurs sans que la carte formule change de forme. Le nombre d'engagements se lit dans les données, jamais en dur dans la mise en page.
+- Deux engagements : "Sans engagement" et "12 mois", dans cet ordre, "Sans engagement" présélectionné. Le sélecteur accepte 2 ou 3 valeurs sans que la carte formule change de forme : le nombre d'engagements se lit dans les données, jamais en dur dans la mise en page.
+- Pas de pastille ni de pourcentage de remise sur l'engagement : les deux prix s'affichent, c'est tout. Le prix barré est réservé à une remise de l'offre du moment sur un produit existant.
 - Extras vendus en ligne : prix + "Ajouter". Extras vendus en club : "Sur demande en club", sans prix ni bouton.
 - Offres promo : durée aussi visible que le prix, "soit env. CHF X.– par mois".
 - Barre récap en bas d'écran quand un produit est choisi, bouton "Finaliser mon abonnement". Une seule barre collante en haut. Pas de barre d'ancres.

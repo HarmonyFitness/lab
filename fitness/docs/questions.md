@@ -55,18 +55,22 @@ n'est jamais retirée d'une carte : les trois cartes restent comparables ligne
 à ligne.
 
 ### Q5 · Valeurs du sélecteur d'engagement
-**Statut :** ouverte
+**Statut :** tranchée
 **Source :** B.3 > Page Tarifs > trame, bloc 4 (« sélecteur d'engagement »).
 B.3 impose le sélecteur mais ne liste jamais les engagements possibles. La
-section 7.3 parle d'« engagements ou durée » sans valeurs. L'ancienne maquette
-du lab utilisait « sans engagement » et « 12 mois (−10 %) », mais ce n'est pas
-une source de vérité.
-**Placeholder :** deux engagements « Sans engagement » et « 12 mois », marqués
-comme hypothèse dans le sélecteur d'état.
-**Contrainte (Hugo, étape 1) :** la question reste ouverte, mais le sélecteur
-d'engagement doit accepter 2 ou 3 valeurs sans changer la forme de la carte
-formule. Le nombre d'engagements se lit dans les données, il n'est jamais
-écrit en dur dans la mise en page.
+section 7.3 parle d'« engagements ou durée » sans valeurs.
+**Réponse (Hugo, étape 1) :** deux engagements, « Sans engagement » et
+« 12 mois ».
+**Contrainte de forme (Hugo, étape 1) :** le sélecteur doit accepter 2 ou 3
+valeurs sans changer la forme de la carte formule. Le nombre d'engagements se
+lit dans les données, il n'est jamais écrit en dur dans la mise en page.
+**Reste à confirmer, non bloquant :**
+- Lequel des deux est présélectionné à l'ouverture de la page. Retenu par
+  défaut dans les maquettes : « Sans engagement », le premier de la liste.
+- B.3 ne prévoit aucune pastille de remise sur l'engagement. Le prix barré et
+  la pastille sont réservés à une remise de l'offre du moment sur un produit
+  existant (B.3 > Page Tarifs > trame, bloc 3). Les maquettes affichent donc
+  deux prix, sans pourcentage. Les montants restent en « CHF XX.– » (Q11).
 
 ### Q6 · Volume des pages Cours collectifs
 **Statut :** tranchée pour les wireframes
