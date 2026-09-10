@@ -158,3 +158,52 @@ placeholder.
 **Source :** B.3 > Accueil contre CLAUDE.md > Périmètre.
 **Réponse :** l'accueil du site n'est pas maquetté. `fitness/index.html` sert de
 sommaire du lab, pas de maquette de la page d'accueil.
+
+---
+
+## Relevées en construisant les composants (étape 2)
+
+### Q15 · Liste fermée des équipements
+**Statut :** ouverte
+**Source :** B.3 > Fiche club dans le CMS (« Équipements (liste fermée, cases à
+cocher) ») et section 7.3 (« équipements (liste fermée) »).
+Les deux documents imposent une liste fermée sans jamais la donner. Elle sert
+aux icônes de la page club, aux filtres de /clubs et au tableau de
+/bien-etre/espaces. B.3 justifie la fermeture : « sinon un manager écrit
+"Sauna", un autre "sauna finlandais", et les filtres ne marchent plus ».
+**Provisoire dans les maquettes :** 11 entrées reconstituées depuis les
+mentions de B.3 (zones du plateau, espaces wellness, FAQ locale), toutes
+marquées `aValider` dans `data/data.js` : Plateau musculation, Zone cardio,
+Espace fonctionnel, Cross training, Salle de cours, Piscine, Sauna, Hammam,
+Jacuzzi, Jets massants, Parking.
+
+### Q16 · Clubs où le service linge et les séances de coaching sont proposés
+**Statut :** ouverte
+**Source :** aucune. Les extras ont été fournis sans leur liste de clubs.
+Hyrox est posé (Pâquis et Meyrin). Pour les deux autres, la répartition est
+une hypothèse, marquée `clubsAValider` dans `data/data.js` : service linge
+dans les 3 clubs Premium, séances de coaching en plus dans les 9 clubs hors
+GYM. Elle a été choisie pour que les maquettes montrent des cas contrastés,
+pas parce qu'elle est juste.
+
+## Relevées en construisant la page Tarifs (étape 3)
+
+### Q17 · Icônes des formats de cours dans la liste de clubs
+**Statut :** ouverte
+**Source :** B.3 > Page Tarifs > trame > 2 : la ligne de club sur ordinateur
+porte « nom + catégorie + adresse + icônes des formats de cours ».
+Les trois premiers sont faits. Les icônes ne le sont pas : B.3 ne dit pas quels
+formats méritent une icône ni à quoi elles ressemblent, et une icône sans
+libellé irait contre la règle « jamais la couleur ou la forme seule ». À
+préciser avec le designer.
+
+### Q18 · Redondance entre la barre collante et le bloc club replié
+**Statut :** ouverte
+**Source :** B.3 > Page Tarifs > Règles (barre collante : « Club référent :
+[club] · Modifier ») et B.3 > Page Tarifs > trame > 2 (bloc replié : « Club
+référent : [club] · Tarif [x] · Modifier »).
+Les deux sont respectés à la lettre, et de ce fait la même information et le
+même lien « Modifier » apparaissent deux fois à quelques centimètres l'un de
+l'autre. À arbitrer par le designer : garder les deux, ou alléger la barre
+collante une fois le bloc visible à l'écran.
+

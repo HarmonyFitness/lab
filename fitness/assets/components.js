@@ -362,14 +362,17 @@ window.HF.vues = (function () {
         return '<div class="choix-club__canton">' + esc(g.canton) + '</div>' +
           g.clubs.map(function (c) {
             var cat = H.categorie(c.categorie);
-            return '<button type="button" class="club-ligne' +
+            /* Vrai lien vers l'état du club, pas un bouton : la page marche
+               même si le script ne se charge pas (B.3 > Page Tarifs). */
+            return '<a class="club-ligne' +
               (etat.survol === c.id ? ' club-ligne--survol' : '') + '"' +
+              ' href="?club=' + c.id + '"' +
               ' data-act="choisir-club" data-id="' + c.id + '"' +
-              ' data-survol="' + c.id + '" aria-pressed="false">' +
+              ' data-survol="' + c.id + '">' +
               forme(cat, 'badge-cat__forme') +
               '<span><span class="club-ligne__nom">' + esc(c.nom) + '</span>' +
               '<span class="club-ligne__meta"> · ' + esc(cat.nom) + '<br>' +
-              esc(texte(c.adresse, '[adresse]')) + '</span></span></button>';
+              esc(texte(c.adresse, '[adresse]')) + '</span></span></a>';
           }).join('');
       }).join('') +
       '<button type="button" class="btn btn--secondaire btn--bloc" data-act="ouvrir-carte" ' +
@@ -395,9 +398,9 @@ window.HF.vues = (function () {
         return '<div class="choix-club__canton">' + esc(g.canton) + '</div>' +
           '<div class="pastilles">' + g.clubs.map(function (c) {
             var cat = H.categorie(c.categorie);
-            return '<button type="button" class="btn btn--discret btn--petit" ' +
+            return '<a class="btn btn--discret btn--petit" href="?club=' + c.id + '" ' +
               'data-act="choisir-club" data-id="' + c.id + '">' +
-              esc(c.nom) + ' · ' + esc(cat.nom) + '</button>';
+              esc(c.nom) + ' · ' + esc(cat.nom) + '</a>';
           }).join('') + '</div>';
       }).join('') +
       '<button type="button" class="btn btn--secondaire btn--bloc" data-act="ouvrir-carte" ' +
@@ -907,7 +910,8 @@ Object.assign(window.HF, (function () {
       }).join('');
     }
     var url = urlSimulee(etat, o.gabarit);
-    return '<div class="wf-barre"><div class="wf-barre__inner">' +
+    return '<div class="wf-barre' + (o.collante ? ' wf-barre--collante' : '') +
+      '"><div class="wf-barre__inner">' +
       '<span class="wf-barre__titre">Wireframe</span>' +
       '<span class="wf-champ"><label>Club</label><select data-etat="club">' +
       select('club', 'Sans club', D.clubs.map(function (c) {

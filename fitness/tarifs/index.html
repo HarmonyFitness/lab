@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Tarifs et abonnements fitness à Genève et Vaud | Harmony</title>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/wireframe.css">
+</head>
+<body>
+
+<div x-data="pageTarifs" x-init="init()">
+
+  <!-- Outillage du wireframe, hors maquette -->
+  <div x-html="HF.selecteurEtat(etat, { gabarit: 'tarifs', base: '../' })"></div>
+  <div class="conteneur">
+    <p class="wf-note">
+      SEO (B.3 &gt; Page Tarifs &gt; SEO) : <code>/tarifs</code> est la seule page
+      indexable, avec tout le catalogue en HTML. Les états
+      <code>/tarifs/[club]</code> portent un canonical vers <code>/tarifs</code>
+      et sortent du sitemap XML, sans noindex en plus. Ici l'état du club est
+      simulé par <code>?club=[slug]</code>, l'URL simulée s'affiche ci-dessus.
+      Le paramètre <code>?tarif=jeune</code> présélectionne le tarif.
+    </p>
+  </div>
+
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('Tarifs', '../')"></div>
+
+  <!-- Une seule barre collante en haut. Pas de barre d'ancres. -->
+  <div x-html="HF.vues.barreCollante(etat)"></div>
+
+  <main class="conteneur">
+
+    <!-- ====================================================== BLOC 1 -->
+    <section data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 1" style="padding-top:28px">
+      <h1 x-text="etat.club ? 'Tarifs à ' + HF.club(etat.club).nom : 'Tarifs Harmony Fitness'"></h1>
+      <p>Le prix dépend des clubs que vous voulez fréquenter.</p>
+    </section>
+
+    <!-- ====================================================== BLOC 2 -->
+    <section style="margin-top:28px">
+      <div class="ordi-seulement" x-html="HF.vues.choixClub(etat, {})"></div>
+      <div class="mobile-seulement"
+           x-html="etat.club ? HF.vues.clubReplie(etat, {}) : HF.vues.pastillesMobile(etat)"></div>
+
+      <div style="margin-top:16px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 2">
+        <h3>Votre tarif</h3>
+        <div x-html="HF.vues.selecteurTarif(etat)"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================== BLOC 3 -->
+    <section style="margin-top:40px" x-show="etat.offreActive"
+             data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 3">
+      <h2>Offre du moment</h2>
+      <div x-html="HF.vues.compteur(HF.produit('bf-premium').validite.fin)"></div>
+      <div x-html="HF.vues.ligneSansClub(etat)" style="margin-top:12px"></div>
+      <div class="grille grille--2" style="margin-top:12px">
+        <template x-for="p in visibles('offre')" :key="p.id">
+          <div x-html="HF.vues.carteProduit(p, etat)"></div>
+        </template>
+      </div>
+      <div x-html="HF.vues.ligneIndisponible(tous('offre'), etat)"></div>
+      <p style="margin-top:12px">
+        <a class="lien-texte" href="../offre-du-moment/">Voir le détail de l'offre</a>
+      </p>
+    </section>
+
+    <!-- ====================================================== BLOC 4 -->
+    <section style="margin-top:40px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 4">
+      <h2>Abonnements</h2>
+      <div style="margin-bottom:14px" x-html="HF.vues.selecteurEngagement(etat)"></div>
+      <div x-html="HF.vues.ligneSansClub(etat)"></div>
+      <div class="grille grille--3" style="margin-top:12px">
+        <template x-for="p in visibles('formule')" :key="p.id">
+          <div x-html="HF.vues.carteProduit(p, etat)"></div>
+        </template>
+      </div>
+      <div x-html="HF.vues.ligneIndisponible(tous('formule'), etat)"></div>
+
+      <!-- Extras juste en dessous des abonnements -->
+      <h3 style="margin-top:28px">Extras</h3>
+      <p class="mention" x-show="!etat.club">
+        Choisissez votre club : les Extras proposés dépendent du club.
+      </p>
+      <template x-for="e in extras()" :key="e.id">
+        <div x-html="HF.vues.carteExtra(e, etat)"></div>
+      </template>
+      <p class="mention" x-show="etat.club && extras().length === 0">
+        Aucun Extra proposé depuis ce club.
+      </p>
+    </section>
+
+    <!-- ====================================================== BLOC 5 -->
+    <section style="margin-top:40px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 5">
+      <h2>Carnets d'entrées</h2>
+      <div class="filtres" x-show="!etat.club">
+        <span>Filtrer :</span>
+        <template x-for="cat in HF.data.categories" :key="cat.id">
+          <button type="button" class="btn btn--discret btn--petit"
+                  @click="filtreCarnet = (filtreCarnet === cat.id ? null : cat.id)"
+                  :aria-pressed="filtreCarnet === cat.id"
+                  x-text="cat.nom"></button>
+        </template>
+      </div>
+      <div x-html="HF.vues.ligneSansClub(etat)"></div>
+      <div class="grille grille--3" style="margin-top:12px">
+        <template x-for="p in carnets()" :key="p.id">
+          <div x-html="HF.vues.carteProduit(p, etat)"></div>
+        </template>
+      </div>
+      <div x-html="HF.vues.ligneIndisponible(tous('carnet'), etat)"></div>
+    </section>
+
+    <!-- ====================================================== BLOC 6 -->
+    <div style="margin-top:44px" x-html="HF.vues.moduleCategories({ court: true })"></div>
+
+    <section style="margin-top:40px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 6">
+      <h2>Nos engagements</h2>
+      <div class="grille grille--3">
+        <template x-for="r in reassurance" :key="r.titre">
+          <div class="produit">
+            <h3 x-text="r.titre"></h3>
+            <p x-text="r.texte"></p>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <section style="margin-top:40px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 6">
+      <h2>Questions sur les tarifs</h2>
+      <div x-html="HF.vues.faq(faqTarifs, etat)"></div>
+    </section>
+
+    <div style="margin-top:40px" x-html="HF.vues.ctaEssai('../')"></div>
+
+  </main>
+
+  <div x-html="HF.vues.pied()"></div>
+
+  <!-- Barre récap : apparaît dès qu'un produit est choisi -->
+  <div x-html="HF.vues.barreRecap(etat)"></div>
+
+  <!-- Carte en plein écran sur mobile -->
+  <template x-if="etat.carteOuverte">
+    <div x-html="HF.vues.cartePleinEcran(etat, { fixe: true })"></div>
+  </template>
+
+</div>
+
+<script src="../data/data.js"></script>
+<script src="../assets/components.js"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('pageTarifs', function () {
+    return {
+      etat: HF.etatInitial(),
+      filtreCarnet: null,
+      /* B.3 > Page Tarifs > trame > 6 : engagement, frais d'inscription,
+         résiliation, pause, accord parental pour les moins de 18 ans. */
+      faqTarifs: [
+        { q: "Y a-t-il un engagement ?",
+          r: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
+        { q: "Y a-t-il des frais d'inscription ?",
+          r: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
+        { q: "Comment résilier mon abonnement ?",
+          r: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." },
+        { q: "Puis-je mettre mon abonnement en pause ?",
+          r: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." },
+        { q: "Mon enfant a moins de 18 ans, que faut-il ?",
+          r: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam." }
+      ],
+      reassurance: [
+        { titre: '[Engagement 1]', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' },
+        { titre: '[Engagement 2]', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.' },
+        { titre: '[Engagement 3]', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.' }
+      ],
+      init: function () {
+        HF.brancher(this.$el, this.etat);
+        HF.brancherSelecteur(this.$el, this.etat);
+      },
+      tous: function (type) {
+        return HF.data.produits.filter(function (p) { return p.type === type; });
+      },
+      visibles: function (type) {
+        return HF.regles.produitsVisibles(type, this.etat.club);
+      },
+      /* Sans club : filtres par catégorie. Avec club : seuls les carnets
+         valables, le filtre disparaît (B.3 > trame > 5). */
+      carnets: function () {
+        var liste = this.visibles('carnet');
+        if (this.etat.club || !this.filtreCarnet) return liste;
+        var f = this.filtreCarnet;
+        return liste.filter(function (p) { return p.categorie === f; });
+      },
+      extras: function () {
+        return this.etat.club ? HF.regles.extrasDuClub(this.etat.club) : HF.data.extras;
+      }
+    };
+  });
+});
+</script>
+<script defer src="../assets/alpine.min.js"></script>
+
+</body>
+</html>

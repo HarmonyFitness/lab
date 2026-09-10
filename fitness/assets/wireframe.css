@@ -67,11 +67,14 @@ a { color: var(--accent); }
 /* ------------------------------------------------------------------ */
 /* Outillage du wireframe : violet, jamais confondu avec la maquette    */
 /* ------------------------------------------------------------------ */
+/* Statique par défaut : sur une page du site, la seule barre collante en
+   haut est celle de B.3. La galerie de composants la rend collante. */
 .wf-barre {
-  position: sticky; top: 0; z-index: 60;
+  position: static; z-index: 60;
   background: var(--ui-fond); border-bottom: 2px solid var(--ui);
   font-size: 13px; color: var(--gris-95);
 }
+.wf-barre--collante { position: sticky; top: 0; }
 .wf-barre__inner { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center;
   max-width: var(--large); margin: 0 auto; padding: 9px var(--gouttiere); }
 .wf-barre__titre { font-weight: 700; color: var(--ui); text-transform: uppercase;
@@ -157,14 +160,20 @@ a { color: var(--accent); }
 /* Choix du club et carte                                               */
 /* ------------------------------------------------------------------ */
 .choix-club { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gouttiere);
+  align-items: start;
   border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon); padding: 16px; }
+/* La carte ne s'étire pas sur toute la hauteur de la liste : elle reste
+   visible pendant qu'on parcourt les clubs. */
+.choix-club .carte-bloc { position: sticky; top: 64px; }
+.choix-club .carte { height: 420px; }
 .choix-club__canton { font-size: 12px; font-weight: 700; text-transform: uppercase;
   letter-spacing: .05em; color: var(--gris-60); margin: 14px 0 6px; }
 .choix-club__canton:first-child { margin-top: 0; }
 .club-ligne {
   display: flex; align-items: flex-start; gap: 10px; width: 100%; text-align: left;
   border: 1px solid var(--gris-20); border-radius: var(--rayon); background: #fff;
-  padding: 9px 11px; margin-bottom: 6px; cursor: pointer; font: inherit; color: inherit;
+  padding: 9px 11px; margin-bottom: 6px; cursor: pointer; font: inherit;
+  color: inherit; text-decoration: none;
 }
 .club-ligne:hover, .club-ligne--survol { border-color: var(--accent); background: var(--accent-fond); }
 .club-ligne[aria-pressed="true"] { border-color: var(--gris-95); border-width: 2px; }
@@ -338,6 +347,9 @@ a { color: var(--accent); }
 .fil a { color: var(--gris-60); }
 
 /* ------------------------------------------------------------------ */
+.mobile-seulement { display: none; }
+
+/* ------------------------------------------------------------------ */
 /* Mobile : 375 px                                                      */
 /* ------------------------------------------------------------------ */
 @media (max-width: 760px) {
@@ -346,6 +358,8 @@ a { color: var(--accent); }
   h2 { font-size: 19px; }
   .choix-club { grid-template-columns: 1fr; }
   .choix-club .carte-bloc { display: none; }
+  .ordi-seulement { display: none; }
+  .mobile-seulement { display: block; }
   .grille--3, .grille--2 { grid-template-columns: 1fr; }
   .coachs { grid-template-columns: repeat(2, 1fr); }
   .pied__cols { grid-template-columns: repeat(2, 1fr); }
