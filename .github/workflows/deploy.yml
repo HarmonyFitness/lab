@@ -27,7 +27,6 @@ jobs:
             **/.git*/**
             **/.github/**
             **/README.md
-            **/CLAUDE.md
             fitness/docs
             fitness/docs/**
             **/.DS_Store
