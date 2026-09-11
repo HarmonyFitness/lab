@@ -22,7 +22,7 @@ Consultant et décideur sur la structure : Hugo.
 - `docs/cdc/A-composants.md` : composants partagés.
 - `docs/cdc/cours-collectifs.md` : nommage, objectifs, intensités et formats des cours. Fait foi sur ces listes dès qu'il est déposé.
 - Ces fichiers sont dans `fitness/docs/cdc/` et en lecture seule. Ne jamais les modifier.
-- `fitness/docs/` ne doit jamais être publié sur lab.harmony.ch (document interne). Vérifier comment le déploiement l'exclut, sinon le signaler avant tout commit.
+- `fitness/docs/` et ce fichier ne doivent jamais être publiés sur lab.harmony.ch (documents internes). Tous deux sont exclus dans `.github/workflows/deploy.yml`. Après chaque déploiement, relire le journal du workflow : un fichier interne qui apparaît en "Upload" est en ligne, et l'exclusion seule ne le retire pas, il faut un déploiement de plus.
 - Ne jamais ajouter une page, un bloc ou une fonctionnalité absent de B.3.
 - En cas de doute ou de contradiction entre deux sources : ne pas trancher. Ajouter la question dans `docs/questions.md`, poser un placeholder visible et continuer.
 
