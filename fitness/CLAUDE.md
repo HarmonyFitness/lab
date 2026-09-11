@@ -22,7 +22,8 @@ Consultant et décideur sur la structure : Hugo.
 - `docs/cdc/A-composants.md` : composants partagés.
 - `docs/cdc/cours-collectifs.md` : nommage, objectifs, intensités et formats des cours. Fait foi sur ces listes dès qu'il est déposé.
 - Ces fichiers sont dans `fitness/docs/cdc/` et en lecture seule. Ne jamais les modifier.
-- `fitness/docs/` et ce fichier ne doivent jamais être publiés sur lab.harmony.ch (documents internes). Tous deux sont exclus dans `.github/workflows/deploy.yml`. Après chaque déploiement, relire le journal du workflow : un fichier interne qui apparaît en "Upload" est en ligne, et l'exclusion seule ne le retire pas, il faut un déploiement de plus.
+- `fitness/docs/` et ce fichier ne doivent jamais être publiés sur lab.harmony.ch (documents internes). Tous deux sont exclus dans `.github/workflows/deploy.yml`.
+- Après chaque déploiement, relire le journal du workflow. Un fichier interne qui y apparaît en "Upload" est en ligne, et l'ajouter à la liste `exclude` ne le retire pas : FTP-Deploy-Action ignore les fichiers exclus des deux côtés, et le déploiement suivant réécrit l'état du serveur sans eux. Le fichier devient orphelin, présent sur le serveur et invisible pour le sync. Il faut alors le supprimer en FTPS, hors du déploiement. C'est arrivé une fois, le 2026-09-11, avec ce fichier.
 - Ne jamais ajouter une page, un bloc ou une fonctionnalité absent de B.3.
 - En cas de doute ou de contradiction entre deux sources : ne pas trancher. Ajouter la question dans `docs/questions.md`, poser un placeholder visible et continuer.
 
