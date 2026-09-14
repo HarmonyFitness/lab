@@ -323,15 +323,31 @@ window.DATA = {
       idMetier: null
     },
 
-    /* Carnets d'entrées, un par catégorie. Volume et prix inconnus (Q13). */
-    { id: 'carnet-gym', type: 'carnet', nom: "Carnet d'entrées GYM", categorie: 'gym', ordre: 1,
-      nbEntrees: null, prix: { adulte: { unique: null } },
+    /* Carnets d'entrées : deux volumes, 5 et 10 entrées, dans chacune des
+       trois catégories. Chaque carnet a une durée de validité, différente
+       selon le volume. Volumes posés par Hugo le 2026-09-14, durées et prix
+       encore inconnus, l'offre est en cours de construction (Q13, Q28).
+       "duree" est le même champ que sur les offres : une durée en toutes
+       lettres, affichée telle quelle. */
+    { id: 'carnet-gym-5', type: 'carnet', nom: 'Carnet de 5 entrées GYM', categorie: 'gym', ordre: 1,
+      nbEntrees: 5, duree: null, prix: { adulte: { unique: null } },
       conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', idMetier: null },
-    { id: 'carnet-essential', type: 'carnet', nom: "Carnet d'entrées Essential", categorie: 'essential', ordre: 2,
-      nbEntrees: null, prix: { adulte: { unique: null } },
+    { id: 'carnet-gym-10', type: 'carnet', nom: 'Carnet de 10 entrées GYM', categorie: 'gym', ordre: 2,
+      nbEntrees: 10, duree: null, prix: { adulte: { unique: null } },
+      conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', idMetier: null },
+
+    { id: 'carnet-essential-5', type: 'carnet', nom: 'Carnet de 5 entrées Essential', categorie: 'essential', ordre: 3,
+      nbEntrees: 5, duree: null, prix: { adulte: { unique: null } },
       conditions: 'Sed do eiusmod tempor incididunt ut labore et dolore magna.', idMetier: null },
-    { id: 'carnet-premium', type: 'carnet', nom: "Carnet d'entrées Premium", categorie: 'premium', ordre: 3,
-      nbEntrees: null, prix: { adulte: { unique: null } },
+    { id: 'carnet-essential-10', type: 'carnet', nom: 'Carnet de 10 entrées Essential', categorie: 'essential', ordre: 4,
+      nbEntrees: 10, duree: null, prix: { adulte: { unique: null } },
+      conditions: 'Sed do eiusmod tempor incididunt ut labore et dolore magna.', idMetier: null },
+
+    { id: 'carnet-premium-5', type: 'carnet', nom: 'Carnet de 5 entrées Premium', categorie: 'premium', ordre: 5,
+      nbEntrees: 5, duree: null, prix: { adulte: { unique: null } },
+      conditions: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco.', idMetier: null },
+    { id: 'carnet-premium-10', type: 'carnet', nom: 'Carnet de 10 entrées Premium', categorie: 'premium', ordre: 6,
+      nbEntrees: 10, duree: null, prix: { adulte: { unique: null } },
       conditions: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco.', idMetier: null }
   ],
 

@@ -587,9 +587,11 @@ Object.assign(window.HF.vues, (function () {
       var entrees = p.nbEntrees;
       var parEntree = (typeof pr.valeur === 'number' && entrees)
         ? Math.round(pr.valeur / entrees) : null;
+      /* Le volume est déjà dans le nom du carnet : ne pas le répéter. */
       corps =
         '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
-        '<p>' + esc(entrees === null ? '[X] entrées' : entrees + ' entrées') + '</p>' +
+        '<p class="mention">Valable ' + esc(texte(p.duree, '[X] mois')) +
+        ' à partir de l\'achat</p>' +
         '<div class="produit__prix">' + prixTexte(pr.valeur) + '</div>' +
         '<div class="produit__total">' + prixTexte(parEntree) + " par entrée</div>" +
         (pr.mentionRepli ? '<p class="mention">' + esc(pr.mentionRepli) + '</p>' : '');

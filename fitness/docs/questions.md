@@ -154,7 +154,7 @@ et les slugs, pas les adresses.
 **Placeholder :** « [adresse] », « [horaires] », « [téléphone] ».
 
 ### Q13 · Carnets d'entrées
-**Statut :** ouverte (confirmée ouverte par Hugo à l'étape 1)
+**Statut :** partiellement tranchée (volumes posés le 2026-09-14)
 **Source :** B.3 > Page Tarifs > trame, bloc 5 (« filtres GYM / Essential /
 Premium sans club »).
 B.3 laisse entendre au moins un carnet par catégorie, sans le dire. Trois
@@ -317,4 +317,27 @@ Deux points à reprendre quand Harmony fournit la vraie liste :
 - L'Extra « Service linge », que j'avais posé d'après la mention « les services
   (linge…) » de B.3, est remplacé par « Service Pressing », le nom donné par
   Hugo. Si les deux services sont distincts, il faut les rétablir tous les deux.
+
+### Q28 · Durée de validité et prix des carnets d'entrées
+**Statut :** ouverte
+**Source :** Hugo, 2026-09-14. « Ce sont des carnets de 5. On va aussi proposer
+des carnets de 10 entrées. Prévoir une durabilité de ces carnets. X mois pour
+10 entrées, X mois pour 5. Tout ça est une simulation, on travaille sur l'offre
+en ce moment. »
+
+Tranché : deux volumes, 5 et 10 entrées, dans chacune des trois catégories,
+soit 6 carnets. La validité est une durée par carnet, plus longue pour le
+carnet de 10 que pour celui de 5.
+
+Restent inconnus, et affichés en placeholder :
+- la durée de validité de chaque volume, « Valable [X] mois à partir de
+  l'achat »
+- les prix, « CHF XX.– », donc aussi le prix ramené à l'entrée
+- le libellé exact. B.3 fixe le vocabulaire « carnet d'entrées » sans dire
+  comment nommer un volume. Retenu dans les maquettes : « Carnet de 5 entrées
+  Essential ». À valider.
+
+B.3 ne mentionne aucune durée de validité pour les carnets. Si elle est
+retenue, elle est à ajouter à B.3 > Page Tarifs > trame > 5 et au champ
+« durée » du Produit en section 7.3.
 
