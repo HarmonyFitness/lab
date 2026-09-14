@@ -77,7 +77,12 @@ window.HF = (function () {
       if (!p || !etat || !etat.promo) return null;
       var promo = promotion(etat.promo);
       if (!promo) return null;
-      return promo.produits.indexOf(p.id) !== -1 ? promo : null;
+      if (promo.produits.indexOf(p.id) === -1) return null;
+      /* Une promo peut ne porter que sur certains engagements. engagements
+         vide ou absent : elle porte sur tous (Q29). */
+      if (promo.engagements && promo.engagements.length &&
+          promo.engagements.indexOf(etat.engagement) === -1) return null;
+      return promo;
     },
 
     /* Le prix remisé est calculé depuis le prix catalogue, jamais saisi.
@@ -144,14 +149,25 @@ window.HF = (function () {
     /* B.3 > Clubs > Carte club : prix de la formule la moins chère qui donne
        accès au club, au tarif Adulte. Tant qu'aucun prix n'est connu, la
        carte affiche le placeholder plutôt qu'un montant inventé. */
-    desParMois: function (idClub) {
+    desParMois: function (idClub, etat) {
+      return regles.desParMoisDetail(idClub, etat).valeur;
+    },
+
+    /* Même calcul, mais qui dit aussi si le montant vient d'une promo : la
+       carte club peut alors afficher la pastille. Sans quoi /clubs
+       annoncerait un prix que la page Tarifs dément. */
+    desParMoisDetail: function (idClub, etat) {
       var c = club(idClub);
-      if (!c) return null;
-      var montants = D.produits
+      if (!c) return { valeur: null, promo: null };
+      var retenu = null;
+      D.produits
         .filter(function (p) { return p.type === 'formule' && regles.produitDisponible(p, idClub); })
-        .map(function (p) { return regles.prix(p, 'adulte', 'sans').valeur; })
-        .filter(function (v) { return typeof v === 'number'; });
-      return montants.length ? Math.min.apply(null, montants) : null;
+        .forEach(function (p) {
+          var pr = regles.prix(p, 'adulte', 'sans', etat);
+          if (typeof pr.valeur !== 'number') return;
+          if (!retenu || pr.valeur < retenu.valeur) retenu = pr;
+        });
+      return retenu ? { valeur: retenu.valeur, promo: retenu.promo } : { valeur: null, promo: null };
     },
 
     /* Q8 : sur un club GYM, la ligne informe au lieu de compter. */
@@ -759,12 +775,21 @@ Object.assign(window.HF.vues, (function () {
       '</div></div>';
   }
 
+  /* "Tarif adulte dès CHF X.– / mois", avec la pastille quand le montant
+     vient d'une promo. Un seul endroit pour cette ligne : carte club, hero
+     de la page club. */
+  function desParMoisTexte(idClub, etat) {
+    var des = R.desParMoisDetail(idClub, etat);
+    return 'Tarif adulte dès ' + prixTexte(des.valeur) + ' / mois' +
+      (des.promo ? ' <span class="pastille-remise">- ' + des.promo.remise.valeur +
+        (des.promo.remise.type === 'montant' ? ' CHF' : '%') + '</span>' : '');
+  }
+
   /* B.3 > Carte club : toute la carte est cliquable, un seul bouton
      "S'abonner", un lien texte "Planning". Pas de liens imbriqués. */
   function carteClub(c, etat, opts) {
     var o = opts || {};
     var cat = H.categorie(c.categorie);
-    var des = R.desParMois(c.id);
     return '<article class="carte-club" data-spec="B.3 > Carte club">' +
       '<h3 class="carte-club__titre"><a class="carte-club__lien" href="' +
       (o.base || '') + 'clubs/club/?club=' + c.id + '">' + esc(c.nom) + '</a></h3>' +
@@ -775,7 +800,7 @@ Object.assign(window.HF.vues, (function () {
       '<div class="carte-club__pied">' +
       '<a class="btn btn--petit" href="' + (o.base || '') + 'tarifs/?club=' + c.id +
       '&amp;source=' + (o.source || 'liste-clubs') + '">S\'abonner</a>' +
-      '<span class="mention">Tarif adulte dès ' + prixTexte(des) + ' / mois</span>' +
+      '<span class="mention">' + desParMoisTexte(c.id, etat) + '</span>' +
       '<a class="lien-texte" href="' + (o.base || '') + 'clubs/club/?club=' + c.id +
       '#planning">Planning</a></div></article>';
   }
@@ -918,7 +943,8 @@ Object.assign(window.HF.vues, (function () {
     ligneIndisponible: ligneIndisponible, ligneSansClub: ligneSansClub,
     barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub,
     planning: planning, grilleCoachs: grilleCoachs, panneauCoach: panneauCoach,
-    faq: faq, temoignages: temoignages, ctaEssai: ctaEssai, compteur: compteur
+    faq: faq, temoignages: temoignages, ctaEssai: ctaEssai, compteur: compteur,
+    desParMoisTexte: desParMoisTexte
   };
 })());
 

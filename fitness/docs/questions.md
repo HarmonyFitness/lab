@@ -367,13 +367,25 @@ depuis le prix catalogue, jamais saisi.
 - peut-il y avoir deux promos en cours en même temps sur deux produits
   différents ? Sur le même produit ?
 - la remise se cumule-t-elle avec l'engagement 12 mois, ou la remplace-t-elle ?
+  Le champ `engagements` existe dans le modèle et vaut `null` partout, donc la
+  remise porte aujourd'hui sur les deux engagements. Le limiter à `['12mois']`
+  ne demande qu'une saisie, pas une reprise du code.
 - une promo sur un produit existant doit-elle aussi apparaître sur
   /offre-du-moment, qui ne présente aujourd'hui que les produits promo dédiés ?
 - la remise s'applique-t-elle à tous les tarifs (Adulte, Ado, Jeune, Senior) ?
 
 Dans les maquettes, la promo en cours est simulée par le sélecteur d'état, pas
 par les dates : on peut ainsi montrer les deux cas. Les deux campagnes du jeu
-de démonstration ne sont pas des campagnes Harmony.
+de démonstration ne sont pas des campagnes Harmony : les carnets de 10 entrées
+à -20%, et les abonnements Essential et Premium à -15%, ce second cas étant un
+abonnement simplement remisé, sans produit dédié à la Black Friday.
+
+Conséquence repérée en construisant ce second cas : la ligne « Tarif adulte dès
+CHF X.– / mois » des cartes club et du hero de la page club doit suivre la
+promo, sinon /clubs annonce un prix que /tarifs dément. Corrigé. La pastille
+n'y apparaîtra qu'une fois les prix réels connus : tant qu'ils valent tous
+« CHF XX.– », on ne sait pas laquelle des formules accessibles est la moins
+chère, donc pas laquelle porte la remise.
 
 ### Q30 · Photo d'illustration sur la carte produit
 **Statut :** tranchée par Hugo, à répercuter dans B.3

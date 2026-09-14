@@ -367,9 +367,10 @@ window.DATA = {
   /* En production, ce sont les dates de validité qui décident de la promo  */
   /* en cours. Dans le lab, c'est le sélecteur d'état qui la simule, pour   */
   /* qu'on puisse montrer les deux cas sans changer les données.           */
-  /* Exemple posé par Hugo le 2026-09-14 : tous les carnets de 10 entrées   */
-  /* à -20%. La seconde promo montre que le même modèle marche sur un       */
-  /* abonnement. Aucune n'est une vraie campagne Harmony (Q29).            */
+  /* Exemples posés par Hugo le 2026-09-14 : tous les carnets de 10 entrées */
+  /* à -20%, et les abonnements Essential et Premium à -15%. Le second cas  */
+  /* est un abonnement simplement remisé, sans produit dédié à la Black     */
+  /* Friday. Aucune des deux n'est une vraie campagne Harmony (Q29).        */
   /* ------------------------------------------------------------------ */
   promotions: [
     {
@@ -381,10 +382,14 @@ window.DATA = {
       conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
     },
     {
-      id: 'premium-12mois',
-      nom: 'Premium 12 mois à -15%',
+      id: 'abos-essential-premium',
+      nom: 'Essential et Premium à -15%',
       remise: { type: 'pourcentage', valeur: 15 },
-      produits: ['formule-premium'],
+      produits: ['formule-essential', 'formule-premium'],
+      /* engagements: null = la remise porte sur les deux engagements. Une
+         liste (par exemple ['12mois']) la limiterait à ces engagements.
+         Le cas n'est pas tranché, voir Q29. */
+      engagements: null,
       validite: { debut: '2026-09-01', fin: '2026-09-30' },
       conditions: 'Sed do eiusmod tempor incididunt ut labore et dolore magna.'
     }
