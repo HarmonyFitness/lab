@@ -272,11 +272,15 @@ a { color: var(--accent); }
    annulent le padding. La pastille de remise se pose dessus. */
 .produit__photo { position: relative; margin: -16px -16px 12px; }
 .produit__photo .img { border-radius: var(--rayon) var(--rayon) 0 0; min-height: 0; }
-/* Deux pastilles sur la photo, jamais plus : les jours restants à gauche,
-   le pourcentage de remise à droite. */
-.pastille-remise--sur-photo { position: absolute; top: 8px; right: 8px; font-size: 13px;
+/* Deux pastilles sur la photo, jamais plus : le pourcentage de remise à
+   gauche, les jours restants à droite. */
+.pastille-remise--sur-photo { position: absolute; top: 8px; left: 8px; font-size: 13px;
   padding: 3px 9px; }
-.pastille-jours { position: absolute; top: 8px; left: 8px;
+/* Campagne qui tourne mais ne porte pas sur l'engagement affiché : en
+   contour, avec sa condition. Le prix n'est pas barré, il n'est pas remisé. */
+.pastille-remise--conditionnee { background: #fff; color: var(--gris-95);
+  border: 1px solid var(--gris-95); font-size: 12px; }
+.pastille-jours { position: absolute; top: 8px; right: 8px;
   display: inline-block; font-size: 12px; font-weight: 700;
   background: #fff; color: var(--gris-95); border: 1px solid var(--gris-20);
   border-radius: var(--rayon); padding: 3px 9px; }

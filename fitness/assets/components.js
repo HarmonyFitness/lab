@@ -107,6 +107,16 @@ window.HF = (function () {
       return 'avec l\'engagement ' + noms.join(' ou ');
     },
 
+    /* Version courte, pour une pastille : "12 mois". Le séparateur évite le
+       problème de grammaire de "en Sans engagement". */
+    libelleEngagementsCourt: function (promo) {
+      if (!promo || !promo.engagements || !promo.engagements.length) return '';
+      return promo.engagements.map(function (id) {
+        var e = engagement(id);
+        return e ? e.nom : id;
+      }).join(' ou ');
+    },
+
     /* La promo simulée comme étant en cours, si au moins un de ses produits
        est accessible depuis le club choisi : annoncer une remise sur des
        produits qu'on ne peut pas acheter d'ici serait une fausse promesse. */
@@ -691,18 +701,29 @@ Object.assign(window.HF.vues, (function () {
     return p.validite ? p.validite.fin : null;
   }
 
+  function texteRemise(promo) {
+    return '- ' + promo.remise.valeur + (promo.remise.type === 'montant' ? ' CHF' : '%');
+  }
+
   /* Photo d'illustration en tête de carte : elle humanise le produit.
-     Deux pastilles se posent dessus, jamais plus : les jours restants à
-     gauche, le pourcentage de remise à droite. Une carte sans photo saisie
-     n'affiche pas de cadre vide. */
-  function photoProduit(p, pr) {
-    var jours = joursRestants(finDuProduit(p, pr));
-    var gauche = (jours === null) ? '' :
+     Deux pastilles se posent dessus, jamais plus : le pourcentage de remise
+     à gauche, les jours restants à droite.
+     La campagne peut tourner sans porter sur l'engagement affiché. La
+     pastille est alors en contour et dit sa condition ("- 15% · 12 mois") :
+     sinon une remise réservée aux 12 mois serait invisible depuis l'état par
+     défaut de la page. Le prix, lui, n'est pas barré : il n'est pas remisé.
+     Une carte sans photo saisie n'affiche pas de cadre vide. */
+  function photoProduit(p, pr, etat) {
+    var ailleurs = pr.promo ? null : R.promoAutreEngagement(p, etat);
+    var promo = pr.promo || ailleurs;
+    var jours = joursRestants(promo && promo.validite ? promo.validite.fin
+      : (p.validite ? p.validite.fin : null));
+    var gauche = !promo ? '' :
+      '<span class="pastille-remise pastille-remise--sur-photo' +
+      (ailleurs ? ' pastille-remise--conditionnee' : '') + '">' + texteRemise(promo) +
+      (ailleurs ? ' · ' + esc(R.libelleEngagementsCourt(ailleurs)) : '') + '</span>';
+    var droite = (jours === null) ? '' :
       '<span class="pastille-jours">' + jours + ' jours restants</span>';
-    var droite = pr.promo
-      ? '<span class="pastille-remise pastille-remise--sur-photo">- ' +
-        pr.promo.remise.valeur + (pr.promo.remise.type === 'montant' ? ' CHF' : '%') + '</span>'
-      : '';
     if (!gauche && !droite && !p.photo) return '';
     return '<div class="produit__photo">' +
       (p.photo ? V.blocImage(p.photo, 'large') : '') + gauche + droite + '</div>';
@@ -809,7 +830,7 @@ Object.assign(window.HF.vues, (function () {
     }
 
     return '<article class="produit' + (choisi ? ' produit--choisi' : '') + '" data-spec="' + specRef + '">' +
-      photoProduit(p, pr) +
+      photoProduit(p, pr, etat) +
       '<h3>' + esc(p.nom) + '</h3>' + corps +
       '<div class="produit__pied">' + pied + '</div></article>';
   }

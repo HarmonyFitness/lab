@@ -415,10 +415,11 @@ Conséquences à valider :
 12 mois y serait donc invisible : le visiteur ne verrait la campagne qu'en
 basculant le sélecteur, ce qu'il n'a aucune raison de faire.
 
-Retenu dans les maquettes : sur l'engagement remisé, pastille et prix barré
-normalement. Sur l'autre engagement, la campagne est dite en une ligne en
-retrait (gris, italique), sans pastille ni prix barré, puisque ce prix-là n'est
-pas remisé.
+Retenu dans les maquettes, après retour de Hugo le 2026-09-14 qui attendait de
+voir les pastilles : sur l'engagement remisé, pastille pleine et prix barré
+normalement. Sur l'autre engagement, pastille en contour qui porte sa condition
+(« - 15% · 12 mois ») et ligne en retrait, mais pas de prix barré, puisque ce
+prix-là n'est pas remisé.
 
 Tension à arbitrer : B.3 > Page Tarifs > Règles > Engagement dit « pas de
 pastille ni de pourcentage de remise sur l'engagement ». Cette règle vise
