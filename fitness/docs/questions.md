@@ -366,10 +366,11 @@ depuis le prix catalogue, jamais saisi.
 - une promo peut-elle porter sur des produits de types différents à la fois ?
 - peut-il y avoir deux promos en cours en même temps sur deux produits
   différents ? Sur le même produit ?
-- la remise se cumule-t-elle avec l'engagement 12 mois, ou la remplace-t-elle ?
-  Le champ `engagements` existe dans le modèle et vaut `null` partout, donc la
-  remise porte aujourd'hui sur les deux engagements. Le limiter à `['12mois']`
-  ne demande qu'une saisie, pas une reprise du code.
+- ~~la remise se cumule-t-elle avec l'engagement 12 mois ?~~ **Tranché par Hugo
+  le 2026-09-14 : la remise porte sur l'engagement 12 mois.** Le champ
+  `engagements` vaut `['12mois']` sur la promo d'abonnements. Reste à confirmer
+  que c'est la règle de toutes les promos d'abonnement, ou seulement de
+  celle-ci : le champ accepte les deux.
 - une promo sur un produit existant doit-elle aussi apparaître sur
   /offre-du-moment, qui ne présente aujourd'hui que les produits promo dédiés ?
 - la remise s'applique-t-elle à tous les tarifs (Adulte, Ado, Jeune, Senior) ?
@@ -404,3 +405,26 @@ Conséquences à valider :
 - une photo par produit ou une photo par catégorie de club, réutilisée par
   tous les produits de cette catégorie ? La seconde option coûte moins cher à
   produire et à maintenir.
+
+### Q31 · Dire une promo réservée à un engagement, sans la présenter comme une remise sur l'engagement
+**Statut :** posé dans les maquettes, à valider par Hugo
+**Source :** conséquence de la décision du 2026-09-14, la remise porte sur les
+12 mois.
+
+« Sans engagement » est l'état par défaut de la page. Une remise réservée aux
+12 mois y serait donc invisible : le visiteur ne verrait la campagne qu'en
+basculant le sélecteur, ce qu'il n'a aucune raison de faire.
+
+Retenu dans les maquettes : sur l'engagement remisé, pastille et prix barré
+normalement. Sur l'autre engagement, la campagne est dite en une ligne en
+retrait (gris, italique), sans pastille ni prix barré, puisque ce prix-là n'est
+pas remisé.
+
+Tension à arbitrer : B.3 > Page Tarifs > Règles > Engagement dit « pas de
+pastille ni de pourcentage de remise sur l'engagement ». Cette règle vise
+l'écart structurel entre les deux engagements, qu'on ne présente jamais comme
+une promotion. Ici il s'agit d'une campagne datée, qui se trouve conditionnée à
+un engagement : ce n'est pas la même chose, mais la ligne affichée porte quand
+même un pourcentage à côté du mot « engagement ». Si Hugo juge que c'est trop
+proche de ce que B.3 interdit, la ligne se retire en une ligne de code, et la
+campagne redevient invisible depuis l'état par défaut.

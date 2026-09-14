@@ -101,6 +101,8 @@ Page Tarifs
 - La section "Offre du moment" existe dès qu'il y a l'un ou l'autre : un produit promo dédié, ou une promotion en cours. Un produit promo dédié s'y affiche en carte, puisqu'il n'existe nulle part ailleurs. Une promotion sur des produits existants s'y annonce en une ligne ("Jusqu'au [date] : [nom de la promo]") avec un lien d'ancre vers la section où le produit vit. **Jamais de carte dupliquée** : un produit, une carte, un bouton d'achat.
 - Le compteur compte ce que la section montre en cartes, donc les offres dédiées. Quand il n'y en a pas, il compte la promotion, qui est alors la seule campagne. Jamais les deux à la fois : un compteur posé au-dessus de cartes qui n'ont pas cette échéance ment.
 - Une promotion n'est annoncée que si au moins un de ses produits est accessible depuis le club choisi.
+- Une promotion peut être conditionnée à un engagement (champ `engagements`, vide = tous). Ce n'est pas une remise sur l'engagement, que B.3 interdit d'afficher : c'est une campagne datée qui se trouve limitée à un engagement. Sur l'engagement remisé : pastille et prix barré. Sur l'autre : une ligne en retrait qui dit la campagne, sans pastille ni prix barré, sinon la campagne serait invisible depuis « Sans engagement », qui est l'état par défaut (Q31).
+- Les libellés d'engagement affichés viennent toujours du référentiel, jamais écrits en dur : une troisième valeur doit suivre sans retoucher les composants.
 - Barre récap en bas d'écran quand un produit est choisi, bouton "Finaliser mon abonnement". Une seule barre collante en haut. Pas de barre d'ancres.
 - Pas de cartes cadeaux.
 

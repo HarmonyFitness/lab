@@ -85,6 +85,28 @@ window.HF = (function () {
       return promo;
     },
 
+    /* La promo porte sur ce produit, mais pas sur l'engagement affiché.
+       Sans ça, une remise réservée aux 12 mois serait invisible tant que le
+       visiteur reste sur "Sans engagement", qui est l'état par défaut. */
+    promoAutreEngagement: function (p, etat) {
+      if (!p || !etat || !etat.promo) return null;
+      var promo = promotion(etat.promo);
+      if (!promo || promo.produits.indexOf(p.id) === -1) return null;
+      if (!promo.engagements || !promo.engagements.length) return null;
+      return promo.engagements.indexOf(etat.engagement) === -1 ? promo : null;
+    },
+
+    /* "avec l'engagement 12 mois". Le libellé vient du référentiel, jamais
+       écrit en dur : le jour où un troisième engagement arrive, ça suit. */
+    libelleEngagementsPromo: function (promo) {
+      if (!promo || !promo.engagements || !promo.engagements.length) return '';
+      var noms = promo.engagements.map(function (id) {
+        var e = engagement(id);
+        return e ? e.nom : id;
+      });
+      return 'avec l\'engagement ' + noms.join(' ou ');
+    },
+
     /* La promo simulée comme étant en cours, si au moins un de ses produits
        est accessible depuis le club choisi : annoncer une remise sur des
        produits qu'on ne peut pas acheter d'ici serait une fausse promesse. */
@@ -680,10 +702,28 @@ Object.assign(window.HF.vues, (function () {
       (unite ? ' <span class="produit__prix-unite">' + unite + '</span>' : '') + barre + '</div>';
   }
 
+  /* Une seule phrase pour dire la campagne, partout : son nom, la condition
+     d'engagement si elle en a une, sa date de fin. */
+  function phrasePromo(promo) {
+    var cond = R.libelleEngagementsPromo(promo);
+    return esc(promo.nom) + (cond ? ', ' + esc(cond) : '') +
+      ', jusqu\'au ' + esc(dateTexte(promo.validite ? promo.validite.fin : null));
+  }
+
   function ligneRemise(pr) {
     if (!pr.promo) return '';
-    return '<p class="mention produit__promo">' + esc(pr.promo.nom) +
-      ', jusqu\'au ' + esc(dateTexte(pr.promo.validite ? pr.promo.validite.fin : null)) + '</p>';
+    return '<p class="mention produit__promo">' + phrasePromo(pr.promo) + '</p>';
+  }
+
+  /* La campagne porte sur ce produit mais pas sur l'engagement affiché : on
+     le dit, sans pastille ni prix barré, puisque ce prix-là n'est pas remisé.
+     Sinon une remise réservée aux 12 mois resterait invisible sur l'état par
+     défaut de la page, qui est "Sans engagement". */
+  function ligneRemiseAilleurs(p, etat) {
+    var promo = R.promoAutreEngagement(p, etat);
+    if (!promo) return '';
+    return '<p class="mention produit__promo produit__promo--ailleurs">' +
+      phrasePromo(promo) + '</p>';
   }
 
   /* Carte produit, trois variantes : formule, offre, carnet.
@@ -705,7 +745,7 @@ Object.assign(window.HF.vues, (function () {
         blocPrix(pr, '/ mois') +
         '<div class="produit__total">Total ' +
         esc(H.engagement(etat.engagement).nom.toLowerCase()) + ' : ' + prixTexte(total) + '</div>' +
-        ligneRemise(pr) +
+        ligneRemise(pr) + ligneRemiseAilleurs(p, etat) +
         (pr.mentionRepli ? '<p class="mention">' + esc(pr.mentionRepli) + '</p>' : '');
       pied = etat.club
         ? '<button type="button" class="btn btn--bloc" data-act="choisir-produit" data-id="' +
@@ -794,9 +834,10 @@ Object.assign(window.HF.vues, (function () {
       return '<a class="lien-texte" href="' + (o.lienBase || '') + '#' + s.ancre + '">' +
         esc(s.nom) + '</a>';
     }).join(' ');
+    var cond = R.libelleEngagementsPromo(promo);
     return '<p class="annonce" data-spec="' + esc(o.spec || 'B.3 > Page Tarifs > Trame > 3') + '">' +
       '<strong>Jusqu\'au ' + esc(dateTexte(promo.validite ? promo.validite.fin : null)) +
-      '</strong> : ' + esc(promo.nom) + '. ' + liens + '</p>';
+      '</strong> : ' + esc(promo.nom) + (cond ? ', ' + esc(cond) : '') + '. ' + liens + '</p>';
   }
 
   /* Les produits non disponibles sont regroupés en une ligne en fin de
@@ -1021,6 +1062,7 @@ Object.assign(window.HF.vues, (function () {
   return {
     lignesInclusion: lignesInclusion, carteProduit: carteProduit, carteExtra: carteExtra,
     blocPrix: blocPrix, ligneRemise: ligneRemise, annoncePromo: annoncePromo,
+    ligneRemiseAilleurs: ligneRemiseAilleurs,
     ligneIndisponible: ligneIndisponible, ligneSansClub: ligneSansClub,
     barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub,
     planning: planning, grilleCoachs: grilleCoachs, panneauCoach: panneauCoach,

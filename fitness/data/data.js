@@ -386,10 +386,10 @@ window.DATA = {
       nom: 'Essential et Premium à -15%',
       remise: { type: 'pourcentage', valeur: 15 },
       produits: ['formule-essential', 'formule-premium'],
-      /* engagements: null = la remise porte sur les deux engagements. Une
-         liste (par exemple ['12mois']) la limiterait à ces engagements.
-         Le cas n'est pas tranché, voir Q29. */
-      engagements: null,
+      /* Tranché par Hugo le 2026-09-14 : la remise porte sur l'engagement
+         12 mois, pas sur le sans engagement. null vaudrait "les deux".
+         Le libellé de l'engagement se lit dans le référentiel, jamais ici. */
+      engagements: ['12mois'],
       validite: { debut: '2026-09-01', fin: '2026-09-30' },
       conditions: 'Sed do eiusmod tempor incididunt ut labore et dolore magna.'
     }
