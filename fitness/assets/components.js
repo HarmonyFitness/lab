@@ -604,29 +604,30 @@ Object.assign(window.HF.vues, (function () {
       '<div class="produit__pied">' + pied + '</div></article>';
   }
 
-  /* Carte Extra, même largeur que les cartes produit : les Extras se lisent
-     en ligne, pas en pile pleine largeur.
-     Vendus en ligne : prix + "Ajouter". Vendus en club : "Sur demande en
+  /* L'Extra est une ligne pleine largeur, empilée sous les Abonnements.
+     Ce n'est pas une carte produit : on ne le compare pas à ses voisins, on
+     le lit et on l'ajoute.
+     Vendu en ligne : prix + "Ajouter". Vendu en club : "Sur demande en
      club", sans prix ni bouton. */
   function carteExtra(e, etat) {
     var enLigne = e.modeVente === 'en-ligne';
     var ajoute = (etat.extrasChoisis || []).indexOf(e.id) !== -1;
-    return '<article class="produit extra" data-spec="B.3 > Page Tarifs > Trame > 4 (Extras)">' +
-      '<h3 class="extra__titre">' + esc(e.nom) +
-      ' <span class="extra__marque">Extra</span></h3>' +
+    return '<div class="extra" data-spec="B.3 > Page Tarifs > Trame > 4 (Extras)">' +
+      '<div class="extra__corps">' +
+      '<strong>' + esc(e.nom) + '</strong> <span class="extra__marque">Extra</span>' +
       (e.regroupeAValider
-        ? '<p><span class="wf-avalider">liste détaillée à fournir par Harmony</span></p>' : '') +
-      '<p class="mention">' + esc(e.description) + '</p>' +
-      '<div class="produit__pied">' +
+        ? ' <span class="wf-avalider">liste détaillée à fournir par Harmony</span>' : '') +
+      '<p class="mention" style="margin:4px 0 0">' + esc(e.description) + '</p></div>' +
+      '<div class="extra__droite">' +
       (enLigne
-        ? '<div class="produit__prix">' + prixTexte(e.prix) + '</div>' +
+        ? '<strong>' + prixTexte(e.prix) + '</strong>' +
           (etat.club
-            ? '<button type="button" class="btn btn--secondaire btn--bloc" data-act="' +
-              (ajoute ? 'retirer-extra' : 'ajouter-extra') + '" data-id="' + e.id +
-              '" style="margin-top:10px">' + (ajoute ? 'Retirer' : 'Ajouter') + '</button>'
+            ? '<button type="button" class="btn btn--secondaire btn--petit" data-act="' +
+              (ajoute ? 'retirer-extra' : 'ajouter-extra') + '" data-id="' + e.id + '">' +
+              (ajoute ? 'Retirer' : 'Ajouter') + '</button>'
             : '')
-        : '<p class="mention" style="margin:0">Sur demande en club</p>') +
-      '</div></article>';
+        : '<span class="mention">Sur demande en club</span>') +
+      '</div></div>';
   }
 
   /* Les produits non disponibles sont regroupés en une ligne en fin de
@@ -1188,9 +1189,7 @@ Object.assign(window.HF.vues, (function () {
       }).join('') + '</div>' +
       (extras.length
         ? '<h3 style="margin-top:24px">Les Extras de ' + esc(c.nom) + '</h3>' +
-          '<div class="grille grille--cartes">' +
-          extras.map(function (e) { return V.carteExtra(e, { club: c.id, extrasChoisis: [] }); }).join('') +
-          '</div>'
+          extras.map(function (e) { return V.carteExtra(e, { club: c.id, extrasChoisis: [] }); }).join('')
         : '') +
       '<p style="margin-top:14px"><a class="btn" href="../../tarifs/?club=' + c.id +
       '&amp;source=page-club">Voir les tarifs</a></p></section>';

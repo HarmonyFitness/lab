@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Tarifs et abonnements fitness à Genève et Vaud | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-14b">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-14c">
 </head>
 <body>
 
@@ -85,11 +85,9 @@
       <p class="mention" x-show="!etat.club">
         Choisissez votre club : les Extras proposés dépendent du club.
       </p>
-      <div class="grille grille--cartes">
-        <template x-for="e in extras()" :key="e.id">
-          <div x-html="HF.vues.carteExtra(e, etat)"></div>
-        </template>
-      </div>
+      <template x-for="e in extras()" :key="e.id">
+        <div x-html="HF.vues.carteExtra(e, etat)"></div>
+      </template>
       <p class="mention" x-show="etat.club && extras().length === 0">
         Aucun Extra proposé depuis ce club.
       </p>
@@ -152,8 +150,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-14b"></script>
-<script src="../assets/components.js?v=2026-09-14b"></script>
+<script src="../data/data.js?v=2026-09-14c"></script>
+<script src="../assets/components.js?v=2026-09-14c"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageTarifs', function () {
@@ -204,7 +202,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-14b"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-14c"></script>
 
 </body>
 </html>
