@@ -679,27 +679,47 @@ Object.assign(window.HF.vues, (function () {
     return d.getDate() + ' ' + MOIS[d.getMonth()] + ' ' + d.getFullYear();
   }
 
+  function joursRestants(fin) {
+    if (!fin) return null;
+    return Math.max(0, Math.ceil((new Date(fin) - new Date()) / 86400000));
+  }
+
+  /* Échéance qui s'applique à ce produit : celle de la campagne qui le
+     remise, ou la sienne s'il est lui-même un produit promo daté. */
+  function finDuProduit(p, pr) {
+    if (pr.promo && pr.promo.validite) return pr.promo.validite.fin;
+    return p.validite ? p.validite.fin : null;
+  }
+
   /* Photo d'illustration en tête de carte : elle humanise le produit.
-     La pastille de remise se pose dessus, en haut à droite. Une carte sans
-     photo saisie n'affiche pas de cadre vide. */
+     Deux pastilles se posent dessus, jamais plus : les jours restants à
+     gauche, le pourcentage de remise à droite. Une carte sans photo saisie
+     n'affiche pas de cadre vide. */
   function photoProduit(p, pr) {
-    var pastille = pr.promo
+    var jours = joursRestants(finDuProduit(p, pr));
+    var gauche = (jours === null) ? '' :
+      '<span class="pastille-jours">' + jours + ' jours restants</span>';
+    var droite = pr.promo
       ? '<span class="pastille-remise pastille-remise--sur-photo">- ' +
         pr.promo.remise.valeur + (pr.promo.remise.type === 'montant' ? ' CHF' : '%') + '</span>'
       : '';
-    if (!p.photo) return pastille ? '<div class="produit__photo">' + pastille + '</div>' : '';
+    if (!gauche && !droite && !p.photo) return '';
     return '<div class="produit__photo">' +
-      V.blocImage(p.photo, 'large') + pastille + '</div>';
+      (p.photo ? V.blocImage(p.photo, 'large') : '') + gauche + droite + '</div>';
   }
 
   /* B.3 > Page Tarifs > Trame > 3 : une remise sur un produit existant
-     s'affiche en pastille + prix barré. Le prix barré n'apparaît que si le
-     prix catalogue est connu : sinon on afficherait deux fois "CHF XX.–". */
+     s'affiche en pastille + prix barré. Le prix barré est toujours là quand
+     une remise s'applique, même si le prix catalogue est encore inconnu :
+     c'est un emplacement à prévoir en front, la barre et la taille le
+     distinguent du prix remisé. */
   function blocPrix(pr, unite) {
-    var barre = (pr.promo && typeof pr.valeurCatalogue === 'number')
+    var barre = pr.promo
       ? ' <span class="produit__barre">' + prixTexte(pr.valeurCatalogue) + '</span>' : '';
-    return '<div class="produit__prix">' + prixTexte(pr.valeur) +
-      (unite ? ' <span class="produit__prix-unite">' + unite + '</span>' : '') + barre + '</div>';
+    /* Prix remisé, prix barré, puis l'unité : "CHF 76.- CHF 89.- / mois".
+       L'unité en dernier porte sur les deux. */
+    return '<div class="produit__prix">' + prixTexte(pr.valeur) + barre +
+      (unite ? ' <span class="produit__prix-unite">' + unite + '</span>' : '') + '</div>';
   }
 
   /* Une seule phrase pour dire la campagne, partout : son nom, la condition
@@ -1505,7 +1525,9 @@ Object.assign(window.HF.vues, (function () {
     if (!offres.length && !annonce) return '';
     return '<section data-spec="B.3 > Trame de la page club > 12">' +
       '<h2>Offre du moment</h2>' +
-      V.compteur(R.finOffre(local)) + annonce +
+      /* Même règle que sur Tarifs : le compteur de section ne sert que
+         quand aucune carte ne porte déjà ses jours restants. */
+      (offres.length ? '' : V.compteur(R.finOffre(local))) + annonce +
       (offres.length
         ? '<div class="grille grille--cartes" style="margin-top:12px">' + offres.map(function (p) {
             return V.carteProduit(p, local);

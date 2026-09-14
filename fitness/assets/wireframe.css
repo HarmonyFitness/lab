@@ -272,8 +272,14 @@ a { color: var(--accent); }
    annulent le padding. La pastille de remise se pose dessus. */
 .produit__photo { position: relative; margin: -16px -16px 12px; }
 .produit__photo .img { border-radius: var(--rayon) var(--rayon) 0 0; min-height: 0; }
+/* Deux pastilles sur la photo, jamais plus : les jours restants à gauche,
+   le pourcentage de remise à droite. */
 .pastille-remise--sur-photo { position: absolute; top: 8px; right: 8px; font-size: 13px;
   padding: 3px 9px; }
+.pastille-jours { position: absolute; top: 8px; left: 8px;
+  display: inline-block; font-size: 12px; font-weight: 700;
+  background: #fff; color: var(--gris-95); border: 1px solid var(--gris-20);
+  border-radius: var(--rayon); padding: 3px 9px; }
 .produit--choisi .produit__photo { margin: -15px -15px 12px; }
 .produit__promo { margin: 4px 0 0; }
 /* Campagne qui porte sur un autre engagement que celui affiché : dite,

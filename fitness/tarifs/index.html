@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Tarifs et abonnements fitness à Genève et Vaud | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-14l">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-14m">
 </head>
 <body>
 
@@ -58,7 +58,11 @@
              x-show="HF.regles.offreDuMoment(etat)"
              data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 3">
       <h2>Offre du moment</h2>
-      <div x-html="HF.vues.compteur(HF.regles.finOffre(etat))"></div>
+      <!-- Chaque carte porte ses jours restants en pastille. Le compteur de
+           section ne sert donc que quand la section n'a aucune carte, c'est
+           à dire quand la campagne est une remise sur des produits qui
+           vivent ailleurs dans la page. -->
+      <div x-html="offres().length ? '' : HF.vues.compteur(HF.regles.finOffre(etat))"></div>
       <!-- Remise sur des produits existants : annoncée ici, jamais
            dupliquée en carte. La carte vit dans sa propre section. -->
       <div x-html="HF.vues.annoncePromo(etat)"></div>
@@ -157,8 +161,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-14l"></script>
-<script src="../assets/components.js?v=2026-09-14l"></script>
+<script src="../data/data.js?v=2026-09-14m"></script>
+<script src="../assets/components.js?v=2026-09-14m"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageTarifs', function () {
@@ -213,7 +217,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-14l"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-14m"></script>
 
 </body>
 </html>
