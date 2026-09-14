@@ -341,3 +341,54 @@ B.3 ne mentionne aucune durée de validité pour les carnets. Si elle est
 retenue, elle est à ajouter à B.3 > Page Tarifs > trame > 5 et au champ
 « durée » du Produit en section 7.3.
 
+
+### Q29 · La promotion n'existe pas dans le modèle de contenu
+**Statut :** ouverte
+**Source :** Hugo, 2026-09-14. « Il faut anticiper qu'on peut proposer des
+promos sur des abonnements ou sur des carnets. Ici par exemple, pour l'exemple,
+on va considérer que tous les carnets 10 entrées sont à -20%. »
+
+B.3 > Page Tarifs > trame > 3 pose déjà la règle d'affichage : « Une remise sur
+un produit existant s'affiche en pastille + prix barré sur sa carte ». Mais la
+section 7 ne décrit aucune entité qui porte cette remise. Le Produit a un type
+(formule, offre, carnet) et des dates de validité « pour les offres », rien
+d'autre. Sans entité dédiée, la seule façon de faire une promo serait de
+dupliquer le produit, ce qui casse la comparaison entre cartes et oblige à
+maintenir deux prix.
+
+Posé dans les maquettes, à valider : une collection **Promotion**, avec nom,
+remise en pourcentage ou en montant, liste des produits concernés, dates de
+validité, conditions. Le type du produit n'entre pas dans la règle : la même
+promo marche sur un abonnement et sur un carnet. Le prix remisé est calculé
+depuis le prix catalogue, jamais saisi.
+
+À trancher avec Harmony :
+- une promo peut-elle porter sur des produits de types différents à la fois ?
+- peut-il y avoir deux promos en cours en même temps sur deux produits
+  différents ? Sur le même produit ?
+- la remise se cumule-t-elle avec l'engagement 12 mois, ou la remplace-t-elle ?
+- une promo sur un produit existant doit-elle aussi apparaître sur
+  /offre-du-moment, qui ne présente aujourd'hui que les produits promo dédiés ?
+- la remise s'applique-t-elle à tous les tarifs (Adulte, Ado, Jeune, Senior) ?
+
+Dans les maquettes, la promo en cours est simulée par le sélecteur d'état, pas
+par les dates : on peut ainsi montrer les deux cas. Les deux campagnes du jeu
+de démonstration ne sont pas des campagnes Harmony.
+
+### Q30 · Photo d'illustration sur la carte produit
+**Statut :** tranchée par Hugo, à répercuter dans B.3
+**Source :** Hugo, 2026-09-14. « Pour humaniser les offres, on va prévoir
+d'avoir une photo d'illustration sur le produit (carte, abo). »
+
+B.3 > Page Tarifs > trame > 4 et 5 décrit la carte produit sans image. La photo
+est ajoutée en tête de carte, sur toute la largeur, pour les trois variantes
+(formule, offre, carnet). L'Extra n'en a pas : ce n'est pas une carte produit.
+
+Conséquences à valider :
+- la photo devient un champ du Produit en section 7.3, avec son texte
+  alternatif. Une carte sans photo saisie reste valide et n'affiche pas de
+  cadre vide.
+- il faut 11 visuels au lancement, un par produit. Qui les fournit ?
+- une photo par produit ou une photo par catégorie de club, réutilisée par
+  tous les produits de cette catégorie ? La seconde option coûte moins cher à
+  produire et à maintenir.

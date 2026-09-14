@@ -26,6 +26,7 @@ window.HF = (function () {
   function coach(id)     { return D.coachs.find(function (c) { return c.id === id; }) || null; }
   function tarif(id)     { return D.referentiels.tarifs.find(function (t) { return t.id === id; }) || null; }
   function engagement(id){ return D.referentiels.engagements.find(function (e) { return e.id === id; }) || null; }
+  function promotion(id) { return (D.promotions || []).find(function (o) { return o.id === id; }) || null; }
 
   var regles = {
 
@@ -67,15 +68,41 @@ window.HF = (function () {
       return D.extras.filter(function (e) { return e.clubs.indexOf(idClub) !== -1; });
     },
 
+    /* La promotion en cours qui porte sur ce produit, ou null. Une promo
+       s'applique à des produits qui existent déjà, abonnements ou carnets
+       indifféremment : le type du produit n'entre pas dans la règle.
+       En production c'est la date qui décide. Dans le lab, etat.promo dit
+       quelle campagne on simule. */
+    promoDuProduit: function (p, etat) {
+      if (!p || !etat || !etat.promo) return null;
+      var promo = promotion(etat.promo);
+      if (!promo) return null;
+      return promo.produits.indexOf(p.id) !== -1 ? promo : null;
+    },
+
+    /* Le prix remisé est calculé depuis le prix catalogue, jamais saisi.
+       Prix catalogue inconnu : la remise l'est aussi, on ne l'invente pas. */
+    prixRemise: function (valeur, promo) {
+      if (typeof valeur !== 'number' || !promo) return null;
+      if (promo.remise.type === 'montant') return valeur - promo.remise.valeur;
+      return Math.round(valeur * (1 - promo.remise.valeur / 100));
+    },
+
     /* Tarif par âge : ne grise jamais. Un produit sans le tarif choisi
-       s'affiche au prix adulte avec "Pas de tarif [x], prix adulte". */
-    prix: function (p, idTarif, idEngagement) {
+       s'affiche au prix adulte avec "Pas de tarif [x], prix adulte".
+       etat est facultatif : sans lui, prix catalogue, sans remise. */
+    prix: function (p, idTarif, idEngagement, etat) {
       var applique = p.prix && p.prix[idTarif] ? idTarif : 'adulte';
       var bloc = p.prix ? p.prix[applique] : null;
       var valeur = null;
       if (bloc) valeur = (idEngagement in bloc) ? bloc[idEngagement] : bloc.unique;
+      if (valeur === undefined) valeur = null;
+      var promo = regles.promoDuProduit(p, etat);
+      var remise = promo ? regles.prixRemise(valeur, promo) : null;
       return {
-        valeur: (valeur === undefined) ? null : valeur,
+        valeur: (remise === null) ? valeur : remise,
+        valeurCatalogue: valeur,
+        promo: promo,
         tarifApplique: applique,
         repli: applique !== idTarif,
         mentionRepli: applique !== idTarif
@@ -259,6 +286,7 @@ window.HF = (function () {
     data: D,
     club: club, categorie: categorie, cours: cours, extra: extra,
     produit: produit, coach: coach, tarif: tarif, engagement: engagement,
+    promotion: promotion,
     regles: regles,
     prixTexte: prixTexte, texte: texte, esc: esc, spec: spec,
     aValider: aValider, position: position, positions: positions,
@@ -544,13 +572,50 @@ Object.assign(window.HF.vues, (function () {
     }).join('') + '</ul>';
   }
 
+  var MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet',
+    'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  function dateTexte(iso) {
+    if (!iso) return '[date]';
+    var d = new Date(iso);
+    return d.getDate() + ' ' + MOIS[d.getMonth()] + ' ' + d.getFullYear();
+  }
+
+  /* Photo d'illustration en tête de carte : elle humanise le produit.
+     La pastille de remise se pose dessus, en haut à droite. Une carte sans
+     photo saisie n'affiche pas de cadre vide. */
+  function photoProduit(p, pr) {
+    var pastille = pr.promo
+      ? '<span class="pastille-remise pastille-remise--sur-photo">- ' +
+        pr.promo.remise.valeur + (pr.promo.remise.type === 'montant' ? ' CHF' : '%') + '</span>'
+      : '';
+    if (!p.photo) return pastille ? '<div class="produit__photo">' + pastille + '</div>' : '';
+    return '<div class="produit__photo">' +
+      V.blocImage(p.photo, 'large') + pastille + '</div>';
+  }
+
+  /* B.3 > Page Tarifs > Trame > 3 : une remise sur un produit existant
+     s'affiche en pastille + prix barré. Le prix barré n'apparaît que si le
+     prix catalogue est connu : sinon on afficherait deux fois "CHF XX.–". */
+  function blocPrix(pr, unite) {
+    var barre = (pr.promo && typeof pr.valeurCatalogue === 'number')
+      ? ' <span class="produit__barre">' + prixTexte(pr.valeurCatalogue) + '</span>' : '';
+    return '<div class="produit__prix">' + prixTexte(pr.valeur) +
+      (unite ? ' <span class="produit__prix-unite">' + unite + '</span>' : '') + barre + '</div>';
+  }
+
+  function ligneRemise(pr) {
+    if (!pr.promo) return '';
+    return '<p class="mention produit__promo">' + esc(pr.promo.nom) +
+      ', jusqu\'au ' + esc(dateTexte(pr.promo.validite ? pr.promo.validite.fin : null)) + '</p>';
+  }
+
   /* Carte produit, trois variantes : formule, offre, carnet.
      Sans club : aucun bouton de souscription, jamais un bouton désactivé. */
   function carteProduit(p, etat) {
     var dispo = R.produitDisponible(p, etat.club);
     if (!dispo) return '';
     var choisi = etat.produitChoisi === p.id;
-    var pr = R.prix(p, etat.tarif, etat.engagement);
+    var pr = R.prix(p, etat.tarif, etat.engagement, etat);
     var corps = '', pied = '', specRef;
 
     if (p.type === 'formule') {
@@ -560,10 +625,10 @@ Object.assign(window.HF.vues, (function () {
       corps =
         '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
         lignesInclusion(p) +
-        '<div class="produit__prix">' + prixTexte(pr.valeur) +
-        ' <span class="produit__prix-unite">/ mois</span></div>' +
+        blocPrix(pr, '/ mois') +
         '<div class="produit__total">Total ' +
         esc(H.engagement(etat.engagement).nom.toLowerCase()) + ' : ' + prixTexte(total) + '</div>' +
+        ligneRemise(pr) +
         (pr.mentionRepli ? '<p class="mention">' + esc(pr.mentionRepli) + '</p>' : '');
       pied = etat.club
         ? '<button type="button" class="btn btn--bloc" data-act="choisir-produit" data-id="' +
@@ -577,8 +642,9 @@ Object.assign(window.HF.vues, (function () {
         '<p class="produit__duree">' + esc(texte(p.duree, '[durée]')) + '</p>' +
         '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
         lignesInclusion(p) +
-        '<div class="produit__prix">' + prixTexte(pr.valeur) + '</div>' +
+        blocPrix(pr, '') +
         '<div class="produit__total">soit env. ' + prixTexte(pm) + ' par mois</div>' +
+        ligneRemise(pr) +
         (pr.mentionRepli ? '<p class="mention">' + esc(pr.mentionRepli) + '</p>' : '');
       pied = etat.club
         ? '<button type="button" class="btn btn--bloc" data-act="choisir-produit" data-id="' +
@@ -595,8 +661,9 @@ Object.assign(window.HF.vues, (function () {
         '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
         '<p class="mention">Valable ' + esc(texte(p.duree, '[X] mois')) +
         ' à partir de l\'achat</p>' +
-        '<div class="produit__prix">' + prixTexte(pr.valeur) + '</div>' +
+        blocPrix(pr, '') +
         '<div class="produit__total">' + prixTexte(parEntree) + " par entrée</div>" +
+        ligneRemise(pr) +
         (pr.mentionRepli ? '<p class="mention">' + esc(pr.mentionRepli) + '</p>' : '');
       pied = etat.club
         ? '<button type="button" class="btn btn--bloc" data-act="choisir-produit" data-id="' +
@@ -605,6 +672,7 @@ Object.assign(window.HF.vues, (function () {
     }
 
     return '<article class="produit' + (choisi ? ' produit--choisi' : '') + '" data-spec="' + specRef + '">' +
+      photoProduit(p, pr) +
       '<h3>' + esc(p.nom) + '</h3>' + corps +
       '<div class="produit__pied">' + pied + '</div></article>';
   }
@@ -674,7 +742,7 @@ Object.assign(window.HF.vues, (function () {
     if (!etat.produitChoisi) return '';
     var p = H.produit(etat.produitChoisi);
     if (!p) return '';
-    var pr = R.prix(p, etat.tarif, etat.engagement);
+    var pr = R.prix(p, etat.tarif, etat.engagement, etat);
     var extras = (etat.extrasChoisis || []).map(H.extra).filter(Boolean);
     var detail = [H.tarif(etat.tarif).nom];
     if (p.type === 'formule') detail.push(H.engagement(etat.engagement).nom);
@@ -846,6 +914,7 @@ Object.assign(window.HF.vues, (function () {
 
   return {
     lignesInclusion: lignesInclusion, carteProduit: carteProduit, carteExtra: carteExtra,
+    blocPrix: blocPrix, ligneRemise: ligneRemise,
     ligneIndisponible: ligneIndisponible, ligneSansClub: ligneSansClub,
     barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub,
     planning: planning, grilleCoachs: grilleCoachs, panneauCoach: panneauCoach,
@@ -864,11 +933,16 @@ Object.assign(window.HF, (function () {
     var params = new URLSearchParams(window.location.search);
     var club = params.get('club');
     var tarif = params.get('tarif');
+    /* Promo simulée. En production c'est la date de validité qui décide,
+       ici c'est le sélecteur d'état, pour montrer les deux cas.
+       ?promo= (vide) simule "aucune promo en cours". */
+    var promo = params.get('promo');
     return {
       club: (club && H.club(club)) ? club : null,
       tarif: (tarif && H.tarif(tarif)) ? tarif : 'adulte',
       engagement: 'sans',
       offreActive: true,
+      promo: (promo === null) ? 'carnets-10' : (H.promotion(promo) ? promo : null),
       produitChoisi: null,
       extrasChoisis: [],
       carteOuverte: false,
@@ -1003,6 +1077,8 @@ Object.assign(window.HF, (function () {
       }).join('') + '</select></span>' +
       '<span class="wf-champ"><label><input type="checkbox" data-etat="offreActive"' +
       (etat.offreActive ? ' checked' : '') + '> Offre active</label></span>' +
+      '<span class="wf-champ"><label>Promo</label><select data-etat="promo">' +
+      select('promo', 'Aucune', D.promotions || [], etat.promo) + '</select></span>' +
       (url ? '<span class="wf-champ"><label>URL simulée</label><code>' + esc(url) + '</code></span>' : '') +
       '<span class="wf-champ" style="margin-left:auto"><a href="' + (o.base || '') + '">Sommaire du lab</a></span>' +
       '</div></div>';
@@ -1187,10 +1263,15 @@ Object.assign(window.HF.vues, (function () {
     return '<section data-spec="B.3 > Trame de la page club > ' + (estGym ? '5 (variante GYM)' : '6') + '">' +
       '<h2>Formules et Extras</h2>' +
       '<div class="grille grille--cartes">' + formules.map(function (p) {
+        /* Même prix que sur /tarifs : le teaser suit la promo en cours,
+           sinon le club annoncerait un prix que la page Tarifs dément. */
+        var pr = R.prix(p, 'adulte', 'sans', etat);
         return '<div class="produit"><h3>' + esc(p.nom) + '</h3>' +
           '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
-          '<p class="mention">Tarif adulte dès ' +
-          prixTexte(R.prix(p, 'adulte', 'sans').valeur) + ' / mois</p></div>';
+          '<p class="mention">Tarif adulte dès ' + prixTexte(pr.valeur) + ' / mois' +
+          (pr.promo ? ' <span class="pastille-remise">- ' + pr.promo.remise.valeur +
+            (pr.promo.remise.type === 'montant' ? ' CHF' : '%') + '</span>' : '') +
+          '</p></div>';
       }).join('') + '</div>' +
       (extras.length
         ? '<h3 style="margin-top:24px">Les Extras de ' + esc(c.nom) + '</h3>' +
@@ -1270,7 +1351,8 @@ Object.assign(window.HF.vues, (function () {
     return '<section data-spec="B.3 > Trame de la page club > 12">' +
       '<h2>Offre du moment</h2>' +
       '<div class="grille grille--cartes">' + offres.map(function (p) {
-        return V.carteProduit(p, { club: c.id, tarif: 'adulte', engagement: 'sans', produitChoisi: null });
+        return V.carteProduit(p, { club: c.id, tarif: 'adulte', engagement: 'sans',
+          produitChoisi: null, promo: etat.promo });
       }).join('') + '</div></section>';
   }
 

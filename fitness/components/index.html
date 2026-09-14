@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Composants partagés · Lab Harmony Fitness</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-14g">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-14h">
 </head>
 <body>
 
@@ -161,7 +161,32 @@
     </div>
     <div x-html="HF.vues.ligneIndisponible(produits('carnet'), etat)"></div>
 
-    <h3 style="margin-top:28px">3.4 Carte extra</h3>
+    <h3 style="margin-top:28px">3.4 Promotion sur un produit existant</h3>
+    <p class="mention">
+      B.3 &gt; Page Tarifs &gt; Trame &gt; 3 : une remise sur un produit qui existe
+      déjà s'affiche en pastille et en prix barré sur sa carte. Ce n'est pas un
+      produit de type « offre », qui a son nom, sa durée et son prix propres :
+      ici on applique un pourcentage à une liste de produits, abonnements ou
+      carnets indifféremment. Le sélecteur « Promo » en haut de page change la
+      campagne simulée.
+    </p>
+    <p class="mention">
+      Les prix ci-dessous sont fictifs : ils servent uniquement à montrer la
+      forme du bloc et le calcul. Tant que Harmony n'a pas donné les prix, les
+      vraies cartes affichent « CHF XX.– » et le prix barré n'apparaît pas,
+      pour ne pas afficher deux fois le même placeholder.
+    </p>
+    <div class="grille grille--cartes">
+      <template x-for="d in demoRemise" :key="d.base">
+        <div class="produit">
+          <h3 x-text="'Prix catalogue CHF ' + d.base + '.–'"></h3>
+          <div x-html="HF.vues.blocPrix(d.pr, d.unite)"></div>
+          <div x-html="HF.vues.ligneRemise(d.pr)"></div>
+        </div>
+      </template>
+    </div>
+
+    <h3 style="margin-top:28px">3.5 Carte extra</h3>
     <p class="mention">
       Ligne pleine largeur, empilée : un Extra ne se compare pas à ses voisins.
       Vendu en ligne : prix et « Ajouter ». Vendu en club : « Sur demande en
@@ -175,7 +200,7 @@
       pour voir le filtrage.
     </p>
 
-    <h3 style="margin-top:28px">3.5 Ligne « Pas disponible depuis [club] »</h3>
+    <h3 style="margin-top:28px">3.6 Ligne « Pas disponible depuis [club] »</h3>
     <p class="mention">
       Les produits non accessibles sont regroupés en une ligne en fin de section,
       à contraste normal. Jamais de cartes grisées.
@@ -183,7 +208,7 @@
     <div x-html="HF.vues.ligneIndisponible(HF.data.produits, etat)"></div>
     <p class="mention" x-show="!etat.club">Choisissez un club pour voir la ligne apparaître.</p>
 
-    <h3 style="margin-top:28px">3.6 Barre collante et barre récap</h3>
+    <h3 style="margin-top:28px">3.7 Barre collante et barre récap</h3>
     <p class="mention">
       Une seule barre collante en haut, pas de barre d'ancres. La barre récap
       apparaît en bas dès qu'un produit est choisi. Choisissez une formule
@@ -266,13 +291,22 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-14g"></script>
-<script src="../assets/components.js?v=2026-09-14g"></script>
+<script src="../data/data.js?v=2026-09-14h"></script>
+<script src="../assets/components.js?v=2026-09-14h"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('galerie', function () {
     return {
       etat: HF.etatInitial(),
+      /* Démonstration du calcul de remise, prix fictifs assumés : la
+         galerie est de l'outillage de wireframe, pas une page du site. */
+      demoRemise: [100, 249].map(function (base) {
+        var promo = HF.promotion('carnets-10');
+        return {
+          base: base, unite: '',
+          pr: { valeur: HF.regles.prixRemise(base, promo), valeurCatalogue: base, promo: promo }
+        };
+      }),
       faqExemple: [
         { q: "Y a-t-il un engagement ?", r: "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor." },
         { q: "Y a-t-il des frais d'inscription ?", r: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi." },
@@ -300,7 +334,7 @@ document.addEventListener('alpine:init', function () {
 });
 </script>
 <!-- Alpine 3.14.1, copie locale : les wireframes s'ouvrent sans serveur et sans réseau. -->
-<script defer src="../assets/alpine.min.js?v=2026-09-14g"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-14h"></script>
 
 </body>
 </html>

@@ -68,6 +68,7 @@ Mise en page des cartes produit
 - Une section qui a moins de 4 cartes garde la même largeur et laisse le reste vide. Une carte fait la même taille d'une section à l'autre.
 - Au-delà de 4 cartes, la grille passe à la ligne. Pas de slider sur une liste que B.3 veut indexable : catalogue de cours, membres d'une famille, liste des cours d'un club. B.3 est explicite, "un slider de 3 ou 4 cours phares peut s'ajouter au-dessus de la liste, jamais la remplacer".
 - L'Extra n'est pas une carte produit : c'est une ligne pleine largeur, empilée. On ne compare pas un Extra à ses voisins.
+- Chaque carte produit porte une photo d'illustration en tête, sur toute la largeur de la carte : elle humanise l'offre (décision Hugo, 2026-09-14, Q30). La légende est un champ du produit dans `data.js`, jamais écrite dans la page. L'Extra n'en a pas.
 - Un encadré qui n'est pas un produit (catégorie de club, engagement de réassurance, étape, zone du plateau) porte la classe `.bloc`, pas `.produit`. Il suit la grille de sa section (`grille--3`, `grille--2`) et occupe toute la largeur disponible : un bloc catégorie GYM fait la même largeur qu'un bloc « Nos engagements ». La largeur de carte produit est réservée aux produits.
 
 ## Règles métier (non négociables)
@@ -94,6 +95,9 @@ Page Tarifs
 - Pas de pastille ni de pourcentage de remise sur l'engagement : les deux prix s'affichent, c'est tout. Le prix barré est réservé à une remise de l'offre du moment sur un produit existant.
 - Extras vendus en ligne : prix + "Ajouter". Extras vendus en club : "Sur demande en club", sans prix ni bouton.
 - Offres promo : durée aussi visible que le prix, "soit env. CHF X.– par mois".
+- Deux choses différentes, à ne jamais confondre. Un produit de type "offre" est un produit promo dédié, avec son nom, sa durée et son prix. Une **promotion** est une remise appliquée à des produits qui existent déjà, abonnements ou carnets indifféremment : elle s'affiche en pastille et en prix barré sur la carte du produit (B.3 > Page Tarifs > trame > 3), elle ne crée pas de produit.
+- La remise se saisit en pourcentage ou en montant. Le prix remisé est calculé depuis le prix catalogue, jamais saisi. Le prix barré n'apparaît que si le prix catalogue est connu : sinon la carte afficherait deux fois "CHF XX.–".
+- En production, ce sont les dates de validité qui décident de la promo en cours. Dans le lab, c'est le sélecteur d'état, pour qu'on puisse montrer les deux cas sans toucher aux données.
 - Barre récap en bas d'écran quand un produit est choisi, bouton "Finaliser mon abonnement". Une seule barre collante en haut. Pas de barre d'ancres.
 - Pas de cartes cadeaux.
 

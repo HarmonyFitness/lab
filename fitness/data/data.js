@@ -270,14 +270,14 @@ window.DATA = {
   /* ------------------------------------------------------------------ */
   produits: [
     {
-      id: 'formule-gym', type: 'formule', nom: 'GYM', categorie: 'gym', ordre: 1,
+      id: 'formule-gym', photo: 'Photo plateau musculation, ambiance libre-service', type: 'formule', nom: 'GYM', categorie: 'gym', ordre: 1,
       inclus: { plateau: true, cours: false, aqua: false, coaching: false },
       prix: { adulte: { sans: null, '12mois': null } },
       conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       idMetier: null
     },
     {
-      id: 'formule-essential', type: 'formule', nom: 'Essential', categorie: 'essential', ordre: 2,
+      id: 'formule-essential', photo: 'Photo cours collectif en salle', type: 'formule', nom: 'Essential', categorie: 'essential', ordre: 2,
       inclus: { plateau: true, cours: true, aqua: false, coaching: '[X] séances' },
       prix: {
         adulte: { sans: null, '12mois': null },
@@ -289,7 +289,7 @@ window.DATA = {
       idMetier: null
     },
     {
-      id: 'formule-premium', type: 'formule', nom: 'Premium', categorie: 'premium', ordre: 3,
+      id: 'formule-premium', photo: 'Photo bassin de natation', type: 'formule', nom: 'Premium', categorie: 'premium', ordre: 3,
       inclus: { plateau: true, cours: true, aqua: true, coaching: '[X] séances' },
       prix: {
         adulte: { sans: null, '12mois': null },
@@ -305,7 +305,7 @@ window.DATA = {
        dureeMois sert au calcul de "soit env. CHF X.– par mois", qui est
        toujours calculé, jamais saisi (B.3 > Page Tarifs > trame > 3). */
     {
-      id: 'bf-premium', type: 'offre', nom: 'Black Friday Premium', categorie: 'premium', ordre: 1,
+      id: 'bf-premium', photo: 'Photo ambiance club, visuel de campagne', type: 'offre', nom: 'Black Friday Premium', categorie: 'premium', ordre: 1,
       duree: '7 mois', dureeMois: 7,
       inclus: { plateau: true, cours: true, aqua: true, coaching: '[X] séances' },
       prix: { adulte: { unique: 777 } },
@@ -314,7 +314,7 @@ window.DATA = {
       idMetier: null
     },
     {
-      id: 'bf-essential', type: 'offre', nom: 'Black Friday Essential', categorie: 'essential', ordre: 2,
+      id: 'bf-essential', photo: 'Photo ambiance club, visuel de campagne', type: 'offre', nom: 'Black Friday Essential', categorie: 'essential', ordre: 2,
       duree: '7 mois et 7 semaines', dureeMois: 8.61,
       inclus: { plateau: true, cours: true, aqua: false, coaching: '[X] séances' },
       prix: { adulte: { unique: 777 } },
@@ -329,26 +329,65 @@ window.DATA = {
        encore inconnus, l'offre est en cours de construction (Q13, Q28).
        "duree" est le même champ que sur les offres : une durée en toutes
        lettres, affichée telle quelle. */
-    { id: 'carnet-gym-5', type: 'carnet', nom: 'Carnet de 5 entrées GYM', categorie: 'gym', ordre: 1,
+    { id: 'carnet-gym-5', photo: 'Photo entrée du club', type: 'carnet', nom: 'Carnet de 5 entrées GYM', categorie: 'gym', ordre: 1,
       nbEntrees: 5, duree: null, prix: { adulte: { unique: null } },
       conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', idMetier: null },
-    { id: 'carnet-gym-10', type: 'carnet', nom: 'Carnet de 10 entrées GYM', categorie: 'gym', ordre: 2,
+    { id: 'carnet-gym-10', photo: 'Photo entrée du club', type: 'carnet', nom: 'Carnet de 10 entrées GYM', categorie: 'gym', ordre: 2,
       nbEntrees: 10, duree: null, prix: { adulte: { unique: null } },
       conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', idMetier: null },
 
-    { id: 'carnet-essential-5', type: 'carnet', nom: 'Carnet de 5 entrées Essential', categorie: 'essential', ordre: 3,
+    { id: 'carnet-essential-5', photo: 'Photo cours collectif en salle', type: 'carnet', nom: 'Carnet de 5 entrées Essential', categorie: 'essential', ordre: 3,
       nbEntrees: 5, duree: null, prix: { adulte: { unique: null } },
       conditions: 'Sed do eiusmod tempor incididunt ut labore et dolore magna.', idMetier: null },
-    { id: 'carnet-essential-10', type: 'carnet', nom: 'Carnet de 10 entrées Essential', categorie: 'essential', ordre: 4,
+    { id: 'carnet-essential-10', photo: 'Photo cours collectif en salle', type: 'carnet', nom: 'Carnet de 10 entrées Essential', categorie: 'essential', ordre: 4,
       nbEntrees: 10, duree: null, prix: { adulte: { unique: null } },
       conditions: 'Sed do eiusmod tempor incididunt ut labore et dolore magna.', idMetier: null },
 
-    { id: 'carnet-premium-5', type: 'carnet', nom: 'Carnet de 5 entrées Premium', categorie: 'premium', ordre: 5,
+    { id: 'carnet-premium-5', photo: 'Photo cours aquatique', type: 'carnet', nom: 'Carnet de 5 entrées Premium', categorie: 'premium', ordre: 5,
       nbEntrees: 5, duree: null, prix: { adulte: { unique: null } },
       conditions: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco.', idMetier: null },
-    { id: 'carnet-premium-10', type: 'carnet', nom: 'Carnet de 10 entrées Premium', categorie: 'premium', ordre: 6,
+    { id: 'carnet-premium-10', photo: 'Photo cours aquatique', type: 'carnet', nom: 'Carnet de 10 entrées Premium', categorie: 'premium', ordre: 6,
       nbEntrees: 10, duree: null, prix: { adulte: { unique: null } },
       conditions: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco.', idMetier: null }
+  ],
+
+  /* ------------------------------------------------------------------ */
+  /* Promotions : une remise sur des produits qui existent déjà            */
+  /* (B.3 > Page Tarifs > Trame > 3 : "Une remise sur un produit existant  */
+  /* s'affiche en pastille + prix barré sur sa carte").                    */
+  /*                                                                       */
+  /* À ne pas confondre avec un produit de type "offre", qui est un produit */
+  /* promo dédié, avec son nom, sa durée et son prix propres. Ici on ne     */
+  /* crée pas de produit : on applique un pourcentage à une liste de        */
+  /* produits existants, abonnements ou carnets, indifféremment.            */
+  /*                                                                       */
+  /* La remise se saisit en pourcentage. Le prix remisé est calculé, jamais */
+  /* saisi : un prix catalogue qui change met à jour la promo tout seul.    */
+  /*                                                                       */
+  /* En production, ce sont les dates de validité qui décident de la promo  */
+  /* en cours. Dans le lab, c'est le sélecteur d'état qui la simule, pour   */
+  /* qu'on puisse montrer les deux cas sans changer les données.           */
+  /* Exemple posé par Hugo le 2026-09-14 : tous les carnets de 10 entrées   */
+  /* à -20%. La seconde promo montre que le même modèle marche sur un       */
+  /* abonnement. Aucune n'est une vraie campagne Harmony (Q29).            */
+  /* ------------------------------------------------------------------ */
+  promotions: [
+    {
+      id: 'carnets-10',
+      nom: 'Les carnets de 10 entrées à -20%',
+      remise: { type: 'pourcentage', valeur: 20 },
+      produits: ['carnet-gym-10', 'carnet-essential-10', 'carnet-premium-10'],
+      validite: { debut: '2026-09-01', fin: '2026-09-30' },
+      conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+    },
+    {
+      id: 'premium-12mois',
+      nom: 'Premium 12 mois à -15%',
+      remise: { type: 'pourcentage', valeur: 15 },
+      produits: ['formule-premium'],
+      validite: { debut: '2026-09-01', fin: '2026-09-30' },
+      conditions: 'Sed do eiusmod tempor incididunt ut labore et dolore magna.'
+    }
   ],
 
   /* ------------------------------------------------------------------ */
