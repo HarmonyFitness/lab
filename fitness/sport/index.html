@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Musculation, cours collectifs et coaching | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-14f">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-14g">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -30,7 +30,7 @@
     <section style="margin-top:28px" data-spec="B.3 &gt; Sport &gt; Sport (hub)">
       <div class="grille grille--2">
         <template x-for="p in piliers" :key="p.href">
-          <div class="produit">
+          <div class="bloc">
             <div x-html="HF.vues.blocImage(p.photo, 'large')"></div>
             <h2 style="margin-top:14px" x-text="p.titre"></h2>
             <p x-text="p.texte"></p>
@@ -55,8 +55,8 @@
 
   <div x-html="HF.vues.pied()"></div>
 </div>
-<script src="../data/data.js?v=2026-09-14f"></script>
-<script src="../assets/components.js?v=2026-09-14f"></script>
+<script src="../data/data.js?v=2026-09-14g"></script>
+<script src="../assets/components.js?v=2026-09-14g"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -85,6 +85,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-14f"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-14g"></script>
 </body>
 </html>

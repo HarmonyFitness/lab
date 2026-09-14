@@ -240,9 +240,13 @@ a { color: var(--accent); }
    dans la grille ou enveloppée dans un conteneur. Sans ça, les boutons ne
    s'alignent pas d'une carte à l'autre. */
 .grille > *:not(template) { min-width: 0; display: flex; flex-direction: column; }
-.grille .produit, .grille .carte-club, .grille .temoignage { height: 100%; }
+.grille .produit, .grille .bloc, .grille .carte-club, .grille .temoignage { height: 100%; }
 
-.produit {
+/* .bloc : encadré de contenu, à ne pas confondre avec une carte produit.
+   Même cadre, mais il ne se range pas dans la grille des cartes : il suit la
+   grille de sa section (grille--3, grille--2), donc il occupe toute la
+   largeur disponible. Catégories de clubs, engagements, étapes, zones. */
+.bloc, .produit {
   display: flex; flex-direction: column;
   border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon); padding: 16px;
 }

@@ -68,6 +68,7 @@ Mise en page des cartes produit
 - Une section qui a moins de 4 cartes garde la même largeur et laisse le reste vide. Une carte fait la même taille d'une section à l'autre.
 - Au-delà de 4 cartes, la grille passe à la ligne. Pas de slider sur une liste que B.3 veut indexable : catalogue de cours, membres d'une famille, liste des cours d'un club. B.3 est explicite, "un slider de 3 ou 4 cours phares peut s'ajouter au-dessus de la liste, jamais la remplacer".
 - L'Extra n'est pas une carte produit : c'est une ligne pleine largeur, empilée. On ne compare pas un Extra à ses voisins.
+- Un encadré qui n'est pas un produit (catégorie de club, engagement de réassurance, étape, zone du plateau) porte la classe `.bloc`, pas `.produit`. Il suit la grille de sa section (`grille--3`, `grille--2`) et occupe toute la largeur disponible : un bloc catégorie GYM fait la même largeur qu'un bloc « Nos engagements ». La largeur de carte produit est réservée aux produits.
 
 ## Règles métier (non négociables)
 

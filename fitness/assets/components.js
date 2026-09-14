@@ -369,8 +369,11 @@ window.HF.vues = (function () {
     var o = opts || {};
     return '<section id="categories" data-spec="B.3 > Module « Catégories de clubs »">' +
       '<h2>Nos catégories de clubs</h2>' +
-      '<div class="grille grille--cartes">' + D.categories.map(function (cat) {
-        return '<div class="produit">' +
+      /* Une catégorie de club n'est pas un produit : elle suit la grille de
+         la section (3 colonnes sur toute la largeur), pas la largeur des
+         cartes produit. */
+      '<div class="grille grille--3">' + D.categories.map(function (cat) {
+        return '<div class="bloc">' +
           '<h3>' + forme(cat, 'badge-cat__forme') + ' Club ' + esc(cat.nom) + '</h3>' +
           '<p>' + esc(cat.promesse) + aValider(cat.promesseAValider) + '</p>' +
           (o.court ? '' : '<ul>' + cat.socle.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ul>') +

@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Small Group Training et Hyrox à Genève | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-14f">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-14g">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -34,7 +34,7 @@
       <h2>Le principe</h2>
       <div class="grille grille--3">
         <template x-for="b in principe" :key="b.titre">
-          <div class="produit"><h3 x-text="b.titre"></h3><p x-text="b.texte"></p></div>
+          <div class="bloc"><h3 x-text="b.titre"></h3><p x-text="b.texte"></p></div>
         </template>
       </div>
     </section>
@@ -83,8 +83,8 @@
   </main>
   <div x-html="HF.vues.pied()"></div>
 </div>
-<script src="../../data/data.js?v=2026-09-14f"></script>
-<script src="../../assets/components.js?v=2026-09-14f"></script>
+<script src="../../data/data.js?v=2026-09-14g"></script>
+<script src="../../assets/components.js?v=2026-09-14g"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -104,6 +104,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-09-14f"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-09-14g"></script>
 </body>
 </html>
