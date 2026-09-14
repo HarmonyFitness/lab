@@ -22,7 +22,7 @@
   --rayon: 3px;
   --gouttiere: 24px;
   --large: 1280px;
-  --carte: 320px;      /* largeur unique d'une carte produit */
+  --cartes-par-ligne: 4;   /* cartes produit alignées sur la largeur d'une section */
 }
 
 * { box-sizing: border-box; }
@@ -227,14 +227,15 @@ a { color: var(--accent); }
 .grille--3 { grid-template-columns: repeat(3, 1fr); }
 .grille--2 { grid-template-columns: repeat(2, 1fr); }
 
-/* Cartes produit : toutes la même largeur, alignées à gauche. Une section
-   qui n'a qu'une carte ne l'étire pas sur toute la largeur, elle laisse le
-   reste vide. Deux cartes côte à côte font la même taille qu'une carte
-   seule, d'une section à l'autre. */
-.grille--cartes {
-  grid-template-columns: repeat(auto-fill, min(var(--carte), 100%));
-  justify-content: start;
-}
+/* Cartes produit : 4 par ligne sur la largeur d'une section, soit 290 px en
+   1280. Une section qui en a moins garde la même largeur de carte et laisse
+   le reste vide : une carte fait la même taille d'une section à l'autre.
+   Au-delà de 4, la grille passe à la ligne suivante. */
+.grille--cartes { grid-template-columns: repeat(var(--cartes-par-ligne), 1fr); }
+
+@media (max-width: 1099px) { :root { --cartes-par-ligne: 3; } }
+@media (max-width: 820px)  { :root { --cartes-par-ligne: 2; } }
+@media (max-width: 560px)  { :root { --cartes-par-ligne: 1; } }
 /* Les cartes remplissent leur cellule, que la vue soit posée directement
    dans la grille ou enveloppée dans un conteneur. Sans ça, les boutons ne
    s'alignent pas d'une carte à l'autre. */

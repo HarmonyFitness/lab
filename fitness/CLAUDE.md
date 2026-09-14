@@ -63,6 +63,12 @@ Cours collectifs : 2 templates seulement, le hub et le gabarit cours. On maquett
 - Traçabilité : chaque bloc porte `data-spec="B.3 > Trame page club > 4"` (section et numéro du bloc dans B.3).
 - Un sélecteur d'état visible en haut de chaque page (réservé au wireframe) pour tester : sans club / club GYM / club Essential / club Premium, tarif Adulte / Jeune, offre active ou non.
 
+Mise en page des cartes produit
+- 4 cartes par ligne sur la largeur d'une section, soit 290 px en 1280. La largeur se règle par la variable CSS `--cartes-par-ligne`, jamais carte par carte.
+- Une section qui a moins de 4 cartes garde la même largeur et laisse le reste vide. Une carte fait la même taille d'une section à l'autre.
+- Au-delà de 4 cartes, la grille passe à la ligne. Pas de slider sur une liste que B.3 veut indexable : catalogue de cours, membres d'une famille, liste des cours d'un club. B.3 est explicite, "un slider de 3 ou 4 cours phares peut s'ajouter au-dessus de la liste, jamais la remplacer".
+- L'Extra n'est pas une carte produit : c'est une ligne pleine largeur, empilée. On ne compare pas un Extra à ses voisins.
+
 ## Règles métier (non négociables)
 
 Clubs et catégories
