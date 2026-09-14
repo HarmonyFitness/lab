@@ -369,7 +369,7 @@ window.HF.vues = (function () {
     var o = opts || {};
     return '<section id="categories" data-spec="B.3 > Module « Catégories de clubs »">' +
       '<h2>Nos catégories de clubs</h2>' +
-      '<div class="grille grille--3">' + D.categories.map(function (cat) {
+      '<div class="grille grille--cartes">' + D.categories.map(function (cat) {
         return '<div class="produit">' +
           '<h3>' + forme(cat, 'badge-cat__forme') + ' Club ' + esc(cat.nom) + '</h3>' +
           '<p>' + esc(cat.promesse) + aValider(cat.promesseAValider) + '</p>' +
@@ -1176,7 +1176,7 @@ Object.assign(window.HF.vues, (function () {
     var estGym = c.categorie === 'gym';
     return '<section data-spec="B.3 > Trame de la page club > ' + (estGym ? '5 (variante GYM)' : '6') + '">' +
       '<h2>Formules et Extras</h2>' +
-      '<div class="grille grille--3">' + formules.map(function (p) {
+      '<div class="grille grille--cartes">' + formules.map(function (p) {
         return '<div class="produit"><h3>' + esc(p.nom) + '</h3>' +
           '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
           '<p class="mention">Tarif adulte dès ' +
@@ -1259,7 +1259,7 @@ Object.assign(window.HF.vues, (function () {
     if (!offres.length) return '';
     return '<section data-spec="B.3 > Trame de la page club > 12">' +
       '<h2>Offre du moment</h2>' +
-      '<div class="grille grille--2">' + offres.map(function (p) {
+      '<div class="grille grille--cartes">' + offres.map(function (p) {
         return V.carteProduit(p, { club: c.id, tarif: 'adulte', engagement: 'sans', produitChoisi: null });
       }).join('') + '</div></section>';
   }
@@ -1496,7 +1496,7 @@ Object.assign(window.HF.vues, (function () {
       '<h2>Nos cours par objectif</h2>' +
       (groupes.length ? groupes.map(function (g) {
         return '<h3 style="margin-top:24px">' + esc(g.objectif.nom) + aValider(g.aValider) + '</h3>' +
-          '<div class="grille grille--3">' + g.cours.map(function (co) {
+          '<div class="grille grille--cartes">' + g.cours.map(function (co) {
             var fam = co.famille ? H.famille(co.famille) : null;
             return '<div class="produit"><h4><a href="' + H.lienCours(co, base) + '">' +
               esc(co.nom) + '</a></h4>' +
@@ -1514,7 +1514,7 @@ Object.assign(window.HF.vues, (function () {
   function liensFamilles(base) {
     return '<section data-spec="B.3 > Sport > Cours collectifs (hub)">' +
       '<h2>Nos disciplines</h2>' +
-      '<div class="grille grille--2">' + D.referentiels.familles.map(function (f) {
+      '<div class="grille grille--cartes">' + D.referentiels.familles.map(function (f) {
         var m = R.membresRanges(f.id);
         var total = m.liens.length + m.sections.length + m.filtres.length;
         return '<div class="produit"><h3><a href="' + base + 'cours/fiche/?cours=' + f.slug + '">' +
@@ -1532,7 +1532,7 @@ Object.assign(window.HF.vues, (function () {
     var out = '<section data-spec="B.3 > Sport > Pages de famille"><h2>Les cours ' + esc(f.nom) + '</h2>';
 
     if (m.liens.length) {
-      out += '<div class="grille grille--3">' + m.liens.map(function (co) {
+      out += '<div class="grille grille--cartes">' + m.liens.map(function (co) {
         return '<div class="produit"><h3><a href="' + H.lienCours(co, base) + '">' +
           esc(co.nom) + '</a></h3>' + attributsCours(co) +
           '<p>' + esc(co.description) + '</p></div>';

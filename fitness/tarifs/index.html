@@ -57,7 +57,7 @@
       <h2>Offre du moment</h2>
       <div x-html="HF.vues.compteur(HF.produit('bf-premium').validite.fin)"></div>
       <div x-html="HF.vues.ligneSansClub(etat)" style="margin-top:12px"></div>
-      <div class="grille grille--2" style="margin-top:12px">
+      <div class="grille grille--cartes" style="margin-top:12px">
         <template x-for="p in visibles('offre')" :key="p.id">
           <div x-html="HF.vues.carteProduit(p, etat)"></div>
         </template>
@@ -73,7 +73,7 @@
       <h2>Abonnements</h2>
       <div style="margin-bottom:14px" x-html="HF.vues.selecteurEngagement(etat)"></div>
       <div x-html="HF.vues.ligneSansClub(etat)"></div>
-      <div class="grille grille--3" style="margin-top:12px">
+      <div class="grille grille--cartes" style="margin-top:12px">
         <template x-for="p in visibles('formule')" :key="p.id">
           <div x-html="HF.vues.carteProduit(p, etat)"></div>
         </template>
@@ -106,7 +106,7 @@
         </template>
       </div>
       <div x-html="HF.vues.ligneSansClub(etat)"></div>
-      <div class="grille grille--3" style="margin-top:12px">
+      <div class="grille grille--cartes" style="margin-top:12px">
         <template x-for="p in carnets()" :key="p.id">
           <div x-html="HF.vues.carteProduit(p, etat)"></div>
         </template>

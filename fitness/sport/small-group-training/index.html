@@ -41,18 +41,30 @@
 
     <section style="margin-top:40px" data-spec="B.3 &gt; Sport &gt; Small Group Training (hub)">
       <h2>Nos Small Group Training</h2>
-      <div class="grille grille--2">
+      <div class="grille grille--cartes">
         <template x-for="e in sgt()" :key="e.id">
           <div class="produit">
             <h3>
-              <a :href="'../../cours/fiche/?cours=' + e.cours" x-text="e.nom"></a>
+              <template x-if="e.cours">
+                <a :href="'../../cours/fiche/?cours=' + e.cours" x-text="e.nom"></a>
+              </template>
+              <template x-if="!e.cours"><span x-text="e.nom"></span></template>
               <span class="extra__marque">Extra</span>
             </h3>
+            <p x-show="e.regroupeAValider">
+              <span class="wf-avalider">liste détaillée à fournir par Harmony</span>
+            </p>
             <p x-text="e.description"></p>
             <p class="mention" x-text="'Proposé à : ' + clubsDe(e)"></p>
             <div class="produit__prix" x-text="HF.prixTexte(e.prix)"></div>
             <div class="produit__pied">
-              <a class="btn btn--secondaire" :href="'../../cours/fiche/?cours=' + e.cours">Voir le cours</a>
+              <template x-if="e.cours">
+                <a class="btn btn--secondaire" :href="'../../cours/fiche/?cours=' + e.cours">Voir le cours</a>
+              </template>
+              <template x-if="!e.cours">
+                <span class="mention">Pas encore de fiche : B.3 veut un Extra et
+                  une fiche par Small Group Training.</span>
+              </template>
             </div>
           </div>
         </template>

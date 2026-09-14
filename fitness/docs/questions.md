@@ -301,3 +301,20 @@ ne figure pas non plus dans les propositions de Hugo pour les trous.
 groupe « [Objectif à définir] » en fin de catalogue, visible exprès. Un cours
 sans objectif principal n'a pas sa place dans un catalogue rangé par objectif.
 
+### Q27 · Liste détaillée des Extras
+**Statut :** ouverte
+**Source :** B.3 > Catégories de clubs : « Chaque Small Group Training est un
+extra à part, et l'offre varie selon les clubs ».
+Hugo a posé une liste provisoire le 2026-09-14, en attendant celle d'Harmony :
+Small Group Training (tous sauf Hyrox), Service Pressing, Gel de l'abonnement,
+tous dans les clubs Essential et Premium, tous à « CHF XX.– ».
+
+Deux points à reprendre quand Harmony fournit la vraie liste :
+- « Small Group Training » regroupe aujourd'hui tous les autres Small Group
+  Training en un seul Extra. B.3 en veut un par Small Group Training, chacun
+  avec sa fiche cours. L'Extra est donc marqué `regroupeAValider` et n'a pas
+  de lien vers une fiche.
+- L'Extra « Service linge », que j'avais posé d'après la mention « les services
+  (linge…) » de B.3, est remplacé par « Service Pressing », le nom donné par
+  Hugo. Si les deux services sont distincts, il faut les rétablir tous les deux.
+

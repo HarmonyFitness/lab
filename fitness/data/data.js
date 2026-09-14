@@ -340,23 +340,47 @@ window.DATA = {
   /* C'est ici, et nulle part ailleurs, que se saisissent les clubs où un  */
   /* extra est proposé. La fiche club, la page Tarifs et la fiche cours    */
   /* lisent cette donnée (B.3 > Fiche club dans le CMS).                   */
+  /*                                                                      */
+  /* Liste provisoire posée par Hugo le 2026-09-14, en attendant celle     */
+  /* d'Harmony. Les trois derniers sont proposés dans les clubs Essential  */
+  /* et Premium, c'est-à-dire partout sauf Genève · Pâquis, le seul GYM.   */
   /* ------------------------------------------------------------------ */
   extras: [
+    /* Hyrox a sa propre fiche cours et ses propres clubs. */
     { id: 'hyrox', nom: 'Hyrox', type: 'sgt',
       clubs: ['geneve-paquis', 'meyrin'],
       modeVente: 'en-ligne', prix: null, idMetier: null, cours: 'hyrox',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.' },
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.' },
 
-    { id: 'service-linge', nom: 'Service linge', type: 'service',
-      clubs: ['geneve-la-praille', 'veyrier', 'denges'], clubsAValider: true,
+    /* Tous les autres Small Group Training, en attendant leur liste
+       détaillée : B.3 veut un Extra par Small Group Training, celui-ci les
+       représente tous. Voir questions.md > Q27. */
+    { id: 'small-group-training', nom: 'Small Group Training', type: 'sgt',
+      clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'meyrin',
+              'versoix', 'veyrier', 'denges', 'gland', 'signy'],
       modeVente: 'en-ligne', prix: null, idMetier: null, cours: null,
-      description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.' },
+      regroupeAValider: true,
+      description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.' },
 
+    { id: 'service-pressing', nom: 'Service Pressing', type: 'service',
+      clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'meyrin',
+              'versoix', 'veyrier', 'denges', 'gland', 'signy'],
+      modeVente: 'en-ligne', prix: null, idMetier: null, cours: null,
+      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat.' },
+
+    { id: 'gel-abonnement', nom: "Gel de l'abonnement", type: 'service',
+      clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'meyrin',
+              'versoix', 'veyrier', 'denges', 'gland', 'signy'],
+      modeVente: 'en-ligne', prix: null, idMetier: null, cours: null,
+      description: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.' },
+
+    /* B.3 > Catégories de clubs : « Les séances en plus sont un Extra vendu
+       en club uniquement. » Donc pas de prix ni de bouton. */
     { id: 'coaching-plus', nom: 'Séances de coaching en plus', type: 'service',
       clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'meyrin',
-              'versoix', 'veyrier', 'denges', 'gland', 'signy'], clubsAValider: true,
+              'versoix', 'veyrier', 'denges', 'gland', 'signy'],
       modeVente: 'en-club', prix: null, idMetier: null, cours: null,
-      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.' }
+      description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.' }
   ],
 
   /* ------------------------------------------------------------------ */
