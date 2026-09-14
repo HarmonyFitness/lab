@@ -299,6 +299,15 @@ a { color: var(--accent); }
   border-radius: var(--rayon); padding: 12px 14px; font-size: 13px; margin-top: 14px;
 }
 
+/* Annonce d'une remise sur des produits existants, dans la section Offre
+   du moment. Une ligne, pas une carte : le produit n'est jamais dupliqué. */
+.annonce {
+  border: 1px solid var(--gris-20); background: #fff;
+  border-radius: var(--rayon); padding: 12px 14px; font-size: 14px; margin-top: 12px;
+  line-height: 1.5;
+}
+.annonce a { margin-left: 10px; }
+
 .carte-club { position: relative; display: flex; flex-direction: column;
   border: 1px solid var(--gris-20); background: #fff;
   border-radius: var(--rayon); padding: 16px; }

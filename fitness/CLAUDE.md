@@ -98,6 +98,9 @@ Page Tarifs
 - Deux choses différentes, à ne jamais confondre. Un produit de type "offre" est un produit promo dédié, avec son nom, sa durée et son prix. Une **promotion** est une remise appliquée à des produits qui existent déjà, abonnements ou carnets indifféremment : elle s'affiche en pastille et en prix barré sur la carte du produit (B.3 > Page Tarifs > trame > 3), elle ne crée pas de produit.
 - La remise se saisit en pourcentage ou en montant. Le prix remisé est calculé depuis le prix catalogue, jamais saisi. Le prix barré n'apparaît que si le prix catalogue est connu : sinon la carte afficherait deux fois "CHF XX.–".
 - En production, ce sont les dates de validité qui décident de la promo en cours. Dans le lab, c'est le sélecteur d'état, pour qu'on puisse montrer les deux cas sans toucher aux données.
+- La section "Offre du moment" existe dès qu'il y a l'un ou l'autre : un produit promo dédié, ou une promotion en cours. Un produit promo dédié s'y affiche en carte, puisqu'il n'existe nulle part ailleurs. Une promotion sur des produits existants s'y annonce en une ligne ("Jusqu'au [date] : [nom de la promo]") avec un lien d'ancre vers la section où le produit vit. **Jamais de carte dupliquée** : un produit, une carte, un bouton d'achat.
+- Le compteur compte ce que la section montre en cartes, donc les offres dédiées. Quand il n'y en a pas, il compte la promotion, qui est alors la seule campagne. Jamais les deux à la fois : un compteur posé au-dessus de cartes qui n'ont pas cette échéance ment.
+- Une promotion n'est annoncée que si au moins un de ses produits est accessible depuis le club choisi.
 - Barre récap en bas d'écran quand un produit est choisi, bouton "Finaliser mon abonnement". Une seule barre collante en haut. Pas de barre d'ancres.
 - Pas de cartes cadeaux.
 

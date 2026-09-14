@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Tarifs et abonnements fitness à Genève et Vaud | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-14i">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-14j">
 </head>
 <body>
 
@@ -52,24 +52,31 @@
     </section>
 
     <!-- ====================================================== BLOC 3 -->
-    <section style="margin-top:40px" x-show="etat.offreActive"
+    <!-- La section existe dès qu'il y a l'un ou l'autre : un produit promo
+         dédié, ou une remise sur des produits qui existent déjà. -->
+    <section id="offre-du-moment" style="margin-top:40px"
+             x-show="HF.regles.offreDuMoment(etat)"
              data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 3">
       <h2>Offre du moment</h2>
-      <div x-html="HF.vues.compteur(HF.produit('bf-premium').validite.fin)"></div>
-      <div x-html="HF.vues.ligneSansClub(etat)" style="margin-top:12px"></div>
+      <div x-html="HF.vues.compteur(HF.regles.finOffre(etat))"></div>
+      <!-- Remise sur des produits existants : annoncée ici, jamais
+           dupliquée en carte. La carte vit dans sa propre section. -->
+      <div x-html="HF.vues.annoncePromo(etat)"></div>
+      <div x-html="HF.vues.ligneSansClub(etat)" style="margin-top:12px"
+           x-show="offres().length"></div>
       <div class="grille grille--cartes" style="margin-top:12px">
-        <template x-for="p in visibles('offre')" :key="p.id">
+        <template x-for="p in offres()" :key="p.id">
           <div x-html="HF.vues.carteProduit(p, etat)"></div>
         </template>
       </div>
-      <div x-html="HF.vues.ligneIndisponible(tous('offre'), etat)"></div>
+      <div x-html="etat.offreActive ? HF.vues.ligneIndisponible(tous('offre'), etat) : ''"></div>
       <p style="margin-top:12px">
         <a class="lien-texte" href="../offre-du-moment/">Voir le détail de l'offre</a>
       </p>
     </section>
 
     <!-- ====================================================== BLOC 4 -->
-    <section style="margin-top:40px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 4">
+    <section id="abonnements" style="margin-top:40px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 4">
       <h2>Abonnements</h2>
       <div style="margin-bottom:14px" x-html="HF.vues.selecteurEngagement(etat)"></div>
       <div x-html="HF.vues.ligneSansClub(etat)"></div>
@@ -94,7 +101,7 @@
     </section>
 
     <!-- ====================================================== BLOC 5 -->
-    <section style="margin-top:40px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 5">
+    <section id="carnets" style="margin-top:40px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 5">
       <h2>Carnets d'entrées</h2>
       <div class="filtres" x-show="!etat.club">
         <span>Filtrer :</span>
@@ -150,8 +157,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-14i"></script>
-<script src="../assets/components.js?v=2026-09-14i"></script>
+<script src="../data/data.js?v=2026-09-14j"></script>
+<script src="../assets/components.js?v=2026-09-14j"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageTarifs', function () {
@@ -187,6 +194,10 @@ document.addEventListener('alpine:init', function () {
       visibles: function (type) {
         return HF.regles.produitsVisibles(type, this.etat.club);
       },
+      /* Produits promo dédiés, masqués quand aucune campagne ne tourne. */
+      offres: function () {
+        return HF.regles.offresVisibles(this.etat);
+      },
       /* Sans club : filtres par catégorie. Avec club : seuls les carnets
          valables, le filtre disparaît (B.3 > trame > 5). */
       carnets: function () {
@@ -202,7 +213,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-14i"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-14j"></script>
 
 </body>
 </html>

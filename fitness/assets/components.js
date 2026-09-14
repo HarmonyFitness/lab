@@ -85,6 +85,67 @@ window.HF = (function () {
       return promo;
     },
 
+    /* La promo simulée comme étant en cours, si au moins un de ses produits
+       est accessible depuis le club choisi : annoncer une remise sur des
+       produits qu'on ne peut pas acheter d'ici serait une fausse promesse. */
+    promoVisible: function (etat) {
+      if (!etat || !etat.promo) return null;
+      var promo = promotion(etat.promo);
+      if (!promo) return null;
+      var accessible = promo.produits.some(function (id) {
+        var p = produit(id);
+        return !!p && regles.produitDisponible(p, etat.club);
+      });
+      return accessible ? promo : null;
+    },
+
+    /* Où envoyer le lecteur : une promo sur des abonnements renvoie à la
+       section Abonnements, une promo sur des carnets à la section Carnets.
+       Une promo qui porte sur les deux renvoie aux deux. Le produit n'est
+       jamais dupliqué : il vit dans sa section, et nulle part ailleurs. */
+    sectionsDePromo: function (promo) {
+      if (!promo) return [];
+      var libelles = {
+        formule: { ancre: 'abonnements', nom: 'Voir les abonnements' },
+        carnet: { ancre: 'carnets', nom: 'Voir les carnets' }
+      };
+      var vus = {}, out = [];
+      promo.produits.forEach(function (id) {
+        var p = produit(id);
+        if (!p || vus[p.type] || !libelles[p.type]) return;
+        vus[p.type] = 1;
+        out.push(libelles[p.type]);
+      });
+      return out;
+    },
+
+    /* Les produits promo dédiés réellement affichés : accessibles depuis le
+       club, et seulement si une campagne tourne (case "Offre active"). */
+    offresVisibles: function (etat) {
+      if (!etat || etat.offreActive === false) return [];
+      return regles.produitsVisibles('offre', etat.club);
+    },
+
+    /* La section Offre du moment existe dès qu'il y a l'un ou l'autre :
+       un produit promo dédié, ou une remise sur des produits existants. */
+    offreDuMoment: function (etat) {
+      return regles.offresVisibles(etat).length > 0 || !!regles.promoVisible(etat);
+    },
+
+    /* Échéance du compteur. Il compte ce que la section montre en cartes,
+       c'est-à-dire les offres dédiées. Quand il n'y en a pas, il compte la
+       promo, qui est alors la seule campagne. Jamais les deux à la fois :
+       un compteur au-dessus de cartes qui n'ont pas cette échéance ment.
+       La date de la promo reste de toute façon dans sa ligne d'annonce. */
+    finOffre: function (etat) {
+      var dates = regles.offresVisibles(etat)
+        .map(function (p) { return p.validite ? p.validite.fin : null; })
+        .filter(Boolean).sort();
+      if (dates.length) return dates[0];
+      var promo = regles.promoVisible(etat);
+      return (promo && promo.validite) ? promo.validite.fin : null;
+    },
+
     /* Le prix remisé est calculé depuis le prix catalogue, jamais saisi.
        Prix catalogue inconnu : la remise l'est aussi, on ne l'invente pas. */
     prixRemise: function (valeur, promo) {
@@ -719,6 +780,21 @@ Object.assign(window.HF.vues, (function () {
       '</div></div>';
   }
 
+  /* B.3 > Page Tarifs > Trame > 3 : une remise sur un produit existant
+     s'affiche sur la carte du produit. La section Offre du moment ne la
+     duplique donc pas en carte : elle l'annonce en une ligne et renvoie
+     à la section où le produit vit. Un seul produit, un seul bouton. */
+  function annoncePromo(etat) {
+    var promo = R.promoVisible(etat);
+    if (!promo) return '';
+    var liens = R.sectionsDePromo(promo).map(function (s) {
+      return '<a class="lien-texte" href="#' + s.ancre + '">' + esc(s.nom) + '</a>';
+    }).join(' ');
+    return '<p class="annonce" data-spec="B.3 > Page Tarifs > Trame > 3">' +
+      '<strong>Jusqu\'au ' + esc(dateTexte(promo.validite ? promo.validite.fin : null)) +
+      '</strong> : ' + esc(promo.nom) + '. ' + liens + '</p>';
+  }
+
   /* Les produits non disponibles sont regroupés en une ligne en fin de
      section, jamais affichés en cartes grisées. Contraste normal. */
   function ligneIndisponible(produits, etat) {
@@ -932,6 +1008,7 @@ Object.assign(window.HF.vues, (function () {
 
   /* Compteur lié à la date de fin de l'offre (Annexe A > A.2). */
   function compteur(fin) {
+    if (!fin) return '';
     var reste = Math.max(0, Math.ceil((new Date(fin) - new Date()) / 86400000));
     return '<div class="compteur" data-spec="Annexe A > A.2 > Compteur d\'offre">' +
       '<span>' + reste + '</span> jours restants</div>';
@@ -939,7 +1016,7 @@ Object.assign(window.HF.vues, (function () {
 
   return {
     lignesInclusion: lignesInclusion, carteProduit: carteProduit, carteExtra: carteExtra,
-    blocPrix: blocPrix, ligneRemise: ligneRemise,
+    blocPrix: blocPrix, ligneRemise: ligneRemise, annoncePromo: annoncePromo,
     ligneIndisponible: ligneIndisponible, ligneSansClub: ligneSansClub,
     barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub,
     planning: planning, grilleCoachs: grilleCoachs, panneauCoach: panneauCoach,
