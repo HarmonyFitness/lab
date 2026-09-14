@@ -2,7 +2,8 @@
 
 > Source : Notion, "B.3 — fitness.harmony.ch"
 > (Livrables / Cahier des charges : Refonte digitale Harmony Groupe / Annexe B – Site maps et mapping fonctionnel par site).
-> Export du 2026-09-10. Lecture seule : ne pas modifier ici, modifier dans Notion.
+> Export du 2026-09-14 (mise à jour de la branche cours collectifs).
+> Lecture seule : ne pas modifier ici, modifier dans Notion.
 
 Site de marque, d'acquisition et d'orientation. Aucune transaction sur le site : les abonnements et les séances d'essai renvoient vers Echino, la réservation des soins bien-être vers l'outil du prestataire. Quatre entrées dans le header (Clubs, Sport, Bien-être, Tarifs) et un bouton « Séance d'essai », plus les pages « Besoin d'aide ? » et Actualités accessibles depuis le footer. Trois niveaux de navigation.
 
@@ -21,11 +22,9 @@ fitness.harmony.ch
 │
 ├── Sport  /sport
 │   ├── Plateau fitness  /sport/plateau-fitness
-│   ├── Cours collectifs  /sport/cours-collectifs
-│   │   ├── Cardio & renforcement       (hub catégorie)
-│   │   ├── Yoga, Pilates & doux         (hub catégorie)
-│   │   ├── LesMills                     (hub marque)
-│   │   └── [9 fiches cours dédiées]  /cours/[cours]
+│   ├── Cours collectifs  /sport/cours-collectifs   (catalogue rangé par objectif)
+│   │   ├── [pages de famille]  /cours/[discipline]   Pilates, Yoga, Les Mills, Aqua
+│   │   └── [fiches cours]  /cours/[cours]
 │   ├── Small Group Training  /sport/small-group-training
 │   │   └── [fiches Small Group Training]  /cours/[cours]
 │   └── Coaching personnel  /sport/coaching-personnel
@@ -200,7 +199,7 @@ Principe : l'utile d'abord, la conviction ensuite. Une grande partie des visiteu
 2. **Barre rapide** : Planning, Horaires, Itinéraire, Appeler, « Ouvert aujourd'hui jusqu'à … ». Fixe en bas d'écran sur mobile
 3. **Infos pratiques** : adresse, horaires et jours fériés, transports, parking, téléphone, e-mail. Identiques à la fiche Google
 4. **Planning HTML** : filtres jour, objectif, intensité, format (salle, aqua, petit groupe : seuls les formats présents dans le club s'affichent, aqua uniquement en Premium), ouvert sur le jour en cours, date de dernière mise à jour. Chaque séance renvoie à la fiche du cours. Les séances de Small Group Training portent un marqueur « Extra », pour ne jamais les confondre avec les cours inclus
-5. **Les cours du club** : liste compacte rangée par les 6 objectifs, chaque cours cliquable vers sa fiche (`/cours/[cours]`). Texte stable et indexable, c'est lui qui capte « [cours] [commune] ». Un slider de 3 ou 4 cours phares peut s'ajouter au-dessus de la liste, jamais la remplacer
+5. **Les cours du club** : liste compacte rangée par les 6 objectifs, chaque cours apparaissant une seule fois, sous son objectif principal (voir « Cours collectifs : périmètre et pages retenues »). Chaque cours est cliquable vers sa destination (`/cours/[cours]`, ou la page de famille avec ancre pour une variante). Texte stable et indexable, c'est lui qui capte « [cours] [commune] ». Un slider de 3 ou 4 cours phares peut s'ajouter au-dessus de la liste, jamais la remplacer
 6. **Formules et extras du club** : les formules qui donnent accès au club (accès en nombre de clubs, « Tarif adulte dès CHF X.– / mois »), puis les Small Group Training et services proposés dans ce club, avec « Extra » et leur prix, lien vers la fiche du Small Group Training. Lien « Voir les tarifs » vers `/tarifs/[slug du club]`. Partie extras masquée si le club n'a aucun extra
 7. **L'équipe du club** : grille des coachs du club, photo + prénom + badges. Chaque badge renvoie à la fiche ou à la page famille du cours. Au clic : panneau court (phrase de présentation, clubs où le coach intervient, lien coaching personnel si badge). Pas de page coach dédiée au lancement. Option : le manager du club en tête de grille. Texte alternatif des photos : « [Prénom], coach [discipline] à [club] »
 8. **Équipements** : socle de la catégorie + « En plus à [club] »
@@ -231,10 +230,8 @@ Principe : l'utile d'abord, la conviction ensuite. Une grande partie des visiteu
 | Page | Slug | Intention | Composants clés |
 |---|---|---|---|
 | Sport (hub) | `/sport` | Présenter l'offre sportive et router vers les 3 piliers | Blocs vers plateau fitness, cours collectifs, Small Group Training et coaching personnel (dans cet ordre, avec ce que chaque formule inclut), teaser planning, CTA essai |
-| Cours collectifs (hub) | `/sport/cours-collectifs` | Présenter les cours, montrer le planning, nourrir le SEO | Catalogue par catégorie, filtres (club, type, intensité), planning type filtrable (saisi au CMS), CTA essai, témoignages |
-| Hub Cardio & renforcement | `/sport/cours-collectifs/cardio-renforcement` | Page SEO de catégorie, regrouper les cours cardio et renfo | Description catégorie, liste des cours liés, clubs concernés, CTA essai |
-| Hub Yoga, Pilates & doux | `/sport/cours-collectifs/yoga-pilates-doux` | Page SEO de catégorie, regrouper les cours doux et corps-esprit | Description catégorie, liste des cours liés, passerelle vers Bien-être, CTA essai |
-| Hub LesMills | `/sport/cours-collectifs/lesmills` | Hub de marque transverse, argument commercial et SEO | Présentation LesMills, programmes proposés, clubs concernés, CTA essai |
+| Cours collectifs (hub) | `/sport/cours-collectifs` | Présenter les cours, montrer le planning, nourrir le SEO | Catalogue rangé par les 6 objectifs, filtres (club, objectif, intensité, format), liens vers les pages de famille, planning type filtrable (saisi au CMS), CTA essai, témoignages |
+| Pages de famille (même gabarit que les fiches, 4 pages) | `/cours/[discipline]` | Capter la recherche générique (Pilates, Yoga, Les Mills, Aqua), expliquer la discipline, distribuer vers les variantes et vers les clubs | Description de la discipline, variantes en sections avec ancres, clubs qui la proposent + créneaux, coachs associés, CTA essai et lien vers /tarifs |
 | Fiches cours dédiées (1 gabarit, 9 pages) | `/cours/[cours]` | Page SEO par type de cours, convertir | Description + bénéfices, niveau/intensité, clubs qui le proposent + créneaux, coachs associés, CTA essai et lien vers /tarifs, FAQ intégrée. Pour un Small Group Training : mention « Extra », clubs où il est proposé et prix, lus sur l'Extra dans le CMS (une seule saisie) |
 | Plateau fitness | `/sport/plateau-fitness` | Présenter le cœur de l'offre, inclus dans toutes les formules et promesse de la catégorie GYM. SEO musculation et cardio | Présentation des zones (musculation, cardio, fonctionnel, cross training), matériel, photos, renvoi vers le bloc Équipements de chaque page club, lien vers /tarifs, CTA essai. Remplace la page Équipement : « équipements » ne garde qu'un sens, la liste fermée de la fiche club |
 | Small Group Training (hub) | `/sport/small-group-training` | Présenter l'entraînement en petit groupe, payant en Extra, et capter les recherches type « hyrox genève » | Principe (un coach, quelques personnes), mention « Extra » bien visible, liste des Small Group Training avec les clubs où ils sont proposés et leur prix (lus sur l'Extra), liens vers leurs fiches `/cours/[cours]`, lien vers /tarifs, CTA essai. S'il n'y a qu'un Small Group Training au lancement, le hub peut attendre : sa fiche suffit |
@@ -260,7 +257,7 @@ Objectif : montrer que l'abonnement Harmony, c'est aussi un accompagnement. On n
 
 1. **Hero** : H1, sous-titre, CTA « Voir les formules » (/tarifs) et « Demander une séance d'essai »
 2. **Comment ça marche** : bilan avec un coach, programme personnalisé, suivi dans l'application. Ce qui est inclus : [X] séances dans les formules Essential et Premium. Envie de plus : séances supplémentaires en Extra, sur demande en club
-3. **Les programmes** : par objectif (liste à fournir par Harmony), chacun avec sa durée, son rythme et pour qui il est fait
+3. **Les programmes** : rangés selon les 6 objectifs des cours collectifs, pour garder le même vocabulaire sur toute la branche Sport. Chacun avec sa durée, son rythme et pour qui il est fait. Liste des programmes à fournir par Harmony
 4. **L'application de suivi** : ce qu'elle permet (programme, séances, progrès), captures d'écran, liens vers les stores. Nom et fonctionnalités à compléter
 5. **Les coachs** : grille filtrable par club et spécialité (composant Personne, badge « Coach personnel »)
 6. **Témoignages** : idéalement avec un résultat concret, accord écrit du membre
@@ -269,31 +266,35 @@ Objectif : montrer que l'abonnement Harmony, c'est aussi un accompagnement. On n
 
 ## Cours collectifs : périmètre et pages retenues
 
-La famille cours collectifs repose sur **3 templates** à développer, déclinés en **13 pages**. Le nombre de hubs ou de fiches ne multiplie pas les templates : un même modèle est réutilisé.
+La famille cours collectifs repose sur **2 templates** à développer. Le nombre de familles ou de fiches ne multiplie pas les templates : un même modèle est réutilisé.
 
 | Template à développer | Réutilisé pour | Pages |
 |---|---|---|
 | Hub global cours collectifs | `/sport/cours-collectifs/` | 1 |
-| Hub de catégorie | Cardio & renforcement, Yoga/Pilates/doux, LesMills | 3 |
-| Fiche cours | les 9 cours retenus ci-dessous | 9 |
+| Gabarit cours | les 4 pages de famille et les fiches cours : même gabarit, la page de famille active en plus le bloc « variantes » | ~34 |
 
-**Pages cours dédiées au lancement : 9.** Critères de sélection : cours cherché par son nom sur Google, marque forte, absence de doublon. Tous les autres cours vivent en fiche riche dans leur hub de catégorie (présents au planning et aux filtres) et peuvent être promus en page dédiée plus tard sans refonte.
+**Deux axes, deux rôles.** Le rangement se fait par les 6 objectifs : hub cours collectifs, bloc « cours du club » des pages club, filtres du planning. Le SEO est porté par les fiches cours, les pages de famille et le croisement cours + commune. Le classement par objectif est un levier de compréhension et de conversion, pas un levier de trafic (voir « Cours collectifs : nommage, architecture et enjeux web », section 3).
 
-**Slugs.** Les fiches cours sont en `/cours/[cours]` : plus court, reprend le mot tapé, même chemin que le site actuel (redirections simplifiées). Le fil d'Ariane garde Sport > Cours collectifs > [cours].
+**Les 6 objectifs.** Se renforcer et sculpter, Se dépenser, Se dépasser, Bouger mieux et soulager son dos, Se détendre, Danser. Chaque cours porte un objectif principal, un objectif secondaire facultatif, une intensité (doux, modéré, intense) et un format (salle, aqua, petit groupe). Le champ est figé pour le développement, les libellés sont du contenu éditable : ils seront validés par le test d'arborescence (section 7 du doc de septembre), qui doit trancher deux doutes, la confusion entre « Se dépenser » et « Se dépasser », et la longueur de « Bouger mieux et soulager son dos ». Mapping cours par cours dans le doc de septembre.
 
-**À réconcilier.** Cette section date de juillet. Le document « Cours collectifs : nommage, architecture et enjeux web » (septembre) pose une autre logique : chaque cours garde sa fiche, pages de famille pour les disciplines à variantes, variante en page dédiée si elle coche 2 critères sur 3, soit une trentaine de pages. Périmètre, volume et slugs des hubs à trancher avant le devis final.
+**Pages de famille : 4.** Pilates, Yoga, Les Mills, Aqua. Critère : discipline à variantes multiples avec une demande générique mesurée. Stretching est un cinquième candidat, à vérifier en Search Console avant de trancher.
 
-| Cours | Type | Note |
-|---|---|---|
-| Yoga | Générique | Page ombrelle : absorbe Hatha, Vinyasa, Yoga Dos, Thérapeutique, Air Yoga |
-| Pilates | Générique | Page ombrelle : absorbe les 7 variantes (Avancé, Gym Dos, Privilège, Stretching, Swiss Ball, TRX) |
-| Indoor Cycling (RPM) | Générique | Cible « indoor cycling », présente RPM comme le format LesMills |
-| HIIT | Générique | Terme très recherché |
-| Cross Training | Générique | Terme très recherché |
-| Zumba | Grand public | Marque reconnue du grand public |
-| LesMills Body Pump | Flagship LesMills | Aussi listé dans les hubs Cardio et LesMills |
-| LesMills Body Combat | Flagship LesMills | Format fitness, distinct de la verticale MAA |
-| Hybrid Training by Harmony | Signature Harmony | Page de marque, cours différenciateur |
+**Aqua reste sur Fitness.** Aquagym et aquabike sont des cours collectifs inclus dans l'abonnement, au planning des clubs Premium, réservés dans Echino. aqua.harmony.ch vend l'apprentissage de la natation, un autre produit et un autre outil. Règle d'exclusion à tenir des deux côtés : Fitness ne parle jamais de cours de natation, Aqua ne parle jamais d'aquagym ni d'aquabike, chacun renvoie à l'autre par une passerelle (voir B.5).
+
+**Périmètre des fiches.** Deux règles, dans cet ordre :
+
+1. **On ne rétrograde pas un actif.** Toute page qui a déjà des apparitions et une position en Search Console garde sa page. La liste de 9 pages retenue en juillet laissait de côté Body Balance (28 505 apparitions, position 11,1), Circuit Training (20 161) et Core Training (19 496, position 10,2), soit des pages à portée de la première page de Google.
+2. **Pour un cours sans historique**, page dédiée seulement s'il coche 2 critères sur 3 : demande propre mesurable, compréhensible hors contexte, besoin différent. Un niveau, un format ou un accessoire n'est jamais une page : c'est une section de la page de famille, ou un filtre.
+
+Soit une trentaine de fiches au lancement, contre environ 80 pages de cours aujourd'hui.
+
+**Charge réelle.** Le gabarit est unique : 9 fiches ou 30 ne change presque rien au développement. Ce qui change, c'est le contenu. Et ces pages existent déjà : il s'agit d'une migration avec réécriture, pas d'une création. Chiffrage à annoncer sur cette base.
+
+**Multilingue.** FR complet au lancement. DE et EN sur les 4 pages de famille et les 10 fiches prioritaires, le reste en V2. À arbitrer au CODIR avec la décision Polylang ou WPML.
+
+**Slugs.** Pages de famille et fiches partagent `/cours/[...]` : plus court, reprend le mot tapé, même chemin que le site actuel (redirections simplifiées). Le fil d'Ariane garde Sport > Cours collectifs > [cours]. Redirection 301 de `/cours/yoga-pilates` vers la page de famille Pilates : cette page fait 6 728 apparitions en position 41,5, c'est le cas d'école des deux pages faibles qui se partagent un sujet.
+
+**Vocabulaire.** « Catégorie » est réservé aux clubs (GYM, Essential, Premium). Pour les cours : **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours).
 
 ## Bien-être
 
@@ -324,7 +325,7 @@ Comptage sur la langue de référence (FR). Le DE et l'EN multiplient le volume 
 |---|---|---|
 | Pages à gabarit unique | ~18 | Accueil, Tarifs, Offre du moment, Séance d'essai, Offre entreprise, hub Clubs, hub Sport, Plateau fitness, hub Cours collectifs, hub Small Group Training, Coaching personnel, hub Bien-être, Espaces, Soins, Actualités, Besoin d'aide ?, 2 légales. Les 10 états /tarifs/[club] ne sont pas des pages indexables |
 | Pages club (même gabarit) | 10 | Contenu multiplié, un seul gabarit |
-| Fiches cours dédiées (1 gabarit) | 9 | Cœur + extension, détail dans « Cours collectifs : périmètre et pages retenues » |
-| Hubs de catégorie cours | 3 | Cardio & renfo, Yoga/Pilates/doux, LesMills |
-| **Total pages indexables au lancement** | **~40** | Hors longue traîne et hors fiches Small Group Training (même gabarit que les fiches cours, nombre selon l'offre) |
-| Longue traîne de cours | ~35 | Fiches légères back-office, présentes au planning et aux filtres, non comptées comme pages SEO au lancement |
+| Pages de famille (même gabarit que les fiches) | 4 | Pilates, Yoga, Les Mills, Aqua |
+| Fiches cours (1 gabarit) | ~30 | Migration des pages qui ont déjà une position, plus les cours qui cochent 2 critères sur 3. Détail dans « Cours collectifs : périmètre et pages retenues » |
+| **Total pages indexables au lancement** | **~62** | Hors fiches Small Group Training (même gabarit que les fiches cours, nombre selon l'offre) |
+| Cours sans page propre | ~30 | Variantes absorbées en section d'une page de famille (avec ancre), ou traitées en filtre d'intensité ou de format. Présentes au planning, jamais orphelines |
