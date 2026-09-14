@@ -32,9 +32,13 @@ window.DATA = {
     ],
 
     /* questions.md > Q5 */
+    /* Ordre d'affichage inchangé (B.3), mais c'est "12 mois" qui est
+       présélectionné : c'est l'offre que Harmony met en avant, et celle que
+       les promotions d'abonnement remisent. Le défaut se lit ici, jamais
+       en dur dans un composant. */
     engagements: [
-      { id: 'sans',   nom: 'Sans engagement', defaut: true },
-      { id: '12mois', nom: '12 mois' }
+      { id: 'sans',   nom: 'Sans engagement' },
+      { id: '12mois', nom: '12 mois', defaut: true }
     ],
 
     /* B.3 > Page Tarifs > trame > 4 : "plateau fitness, cours collectifs,
@@ -386,8 +390,9 @@ window.DATA = {
       nom: 'Essential et Premium à -15%',
       remise: { type: 'pourcentage', valeur: 15 },
       produits: ['formule-essential', 'formule-premium'],
-      /* Tranché par Hugo le 2026-09-14 : la remise porte sur l'engagement
-         12 mois, pas sur le sans engagement. null vaudrait "les deux".
+      /* Tranché par Hugo le 2026-09-14, et c'est la règle pour toute promo
+         d'abonnement : la remise porte sur le 12 mois, jamais sur le sans
+         engagement. null vaudrait "les deux", on ne s'en sert pas ici.
          Le libellé de l'engagement se lit dans le référentiel, jamais ici. */
       engagements: ['12mois'],
       validite: { debut: '2026-09-01', fin: '2026-09-30' },

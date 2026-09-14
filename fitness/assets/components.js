@@ -28,6 +28,13 @@ window.HF = (function () {
   function engagement(id){ return D.referentiels.engagements.find(function (e) { return e.id === id; }) || null; }
   function promotion(id) { return (D.promotions || []).find(function (o) { return o.id === id; }) || null; }
 
+  /* L'engagement présélectionné se lit dans le référentiel, jamais en dur :
+     changer le défaut est une saisie, pas une reprise du code. */
+  function engagementDefaut() {
+    var e = D.referentiels.engagements.filter(function (x) { return x.defaut; })[0];
+    return e ? e.id : D.referentiels.engagements[0].id;
+  }
+
   var regles = {
 
     /* B.3 > Page Tarifs > Règles : Premium couvre tous les clubs,
@@ -239,6 +246,21 @@ window.HF = (function () {
       return D.coachs.filter(function (k) { return k.lieux.indexOf(idClub) !== -1; });
     },
 
+    /* Le prix le plus bas d'un produit, tous engagements confondus. "Dès"
+       veut dire le moins cher : avec une promo réservée aux 12 mois, c'est
+       le prix 12 mois remisé, pas le prix sans engagement. */
+    prixMini: function (p, idTarif, etat) {
+      var retenu = null;
+      D.referentiels.engagements.forEach(function (e) {
+        var pr = regles.prix(p, idTarif, e.id, etat);
+        if (typeof pr.valeur !== 'number') return;
+        if (!retenu || pr.valeur < retenu.valeur) retenu = pr;
+      });
+      /* Aucun prix connu : on renvoie quand même la forme, avec la promo
+         qui s'appliquerait, pour que la pastille reste possible. */
+      return retenu || regles.prix(p, idTarif, engagementDefaut(), etat);
+    },
+
     /* B.3 > Clubs > Carte club : prix de la formule la moins chère qui donne
        accès au club, au tarif Adulte. Tant qu'aucun prix n'est connu, la
        carte affiche le placeholder plutôt qu'un montant inventé. */
@@ -256,7 +278,7 @@ window.HF = (function () {
       D.produits
         .filter(function (p) { return p.type === 'formule' && regles.produitDisponible(p, idClub); })
         .forEach(function (p) {
-          var pr = regles.prix(p, 'adulte', 'sans', etat);
+          var pr = regles.prixMini(p, 'adulte', etat);
           if (typeof pr.valeur !== 'number') return;
           if (!retenu || pr.valeur < retenu.valeur) retenu = pr;
         });
@@ -395,7 +417,7 @@ window.HF = (function () {
     data: D,
     club: club, categorie: categorie, cours: cours, extra: extra,
     produit: produit, coach: coach, tarif: tarif, engagement: engagement,
-    promotion: promotion,
+    promotion: promotion, engagementDefaut: engagementDefaut,
     regles: regles,
     prixTexte: prixTexte, texte: texte, esc: esc, spec: spec,
     aValider: aValider, position: position, positions: positions,
@@ -1138,7 +1160,7 @@ Object.assign(window.HF, (function () {
     return {
       club: (club && H.club(club)) ? club : null,
       tarif: (tarif && H.tarif(tarif)) ? tarif : 'adulte',
-      engagement: 'sans',
+      engagement: H.engagementDefaut(),
       offreActive: true,
       promo: (promo === null) ? 'carnets-10' : (H.promotion(promo) ? promo : null),
       produitChoisi: null,
@@ -1482,7 +1504,7 @@ Object.assign(window.HF.vues, (function () {
       '<div class="grille grille--cartes">' + formules.map(function (p) {
         /* Même prix que sur /tarifs : le teaser suit la promo en cours,
            sinon le club annoncerait un prix que la page Tarifs dément. */
-        var pr = R.prix(p, 'adulte', 'sans', etat);
+        var pr = R.prixMini(p, 'adulte', etat);
         return '<div class="produit"><h3>' + esc(p.nom) + '</h3>' +
           '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
           '<p class="mention">Tarif adulte dès ' + prixTexte(pr.valeur) + ' / mois' +
@@ -1567,7 +1589,7 @@ Object.assign(window.HF.vues, (function () {
      correspondante de Tarifs avec ce club déjà choisi. */
   function offreDuClub(c, etat) {
     var local = {
-      club: c.id, tarif: 'adulte', engagement: 'sans', produitChoisi: null,
+      club: c.id, tarif: 'adulte', engagement: H.engagementDefaut(), produitChoisi: null,
       promo: etat.promo, offreActive: etat.offreActive
     };
     var offres = R.offresVisibles(local);

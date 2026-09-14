@@ -411,9 +411,11 @@ Conséquences à valider :
 **Source :** conséquence de la décision du 2026-09-14, la remise porte sur les
 12 mois.
 
-« Sans engagement » est l'état par défaut de la page. Une remise réservée aux
-12 mois y serait donc invisible : le visiteur ne verrait la campagne qu'en
-basculant le sélecteur, ce qu'il n'a aucune raison de faire.
+Une remise réservée aux 12 mois est invisible sur l'autre engagement. Le
+2026-09-14, Hugo a aussi tranché que « 12 mois » devient l'engagement
+présélectionné, donc le cas est devenu secondaire : il ne concerne plus que le
+visiteur qui bascule sur « Sans engagement ». La pastille conditionnée reste
+utile pour lui, elle dit que la campagne existe et à quelle condition.
 
 Retenu dans les maquettes, après retour de Hugo le 2026-09-14 qui attendait de
 voir les pastilles : sur l'engagement remisé, pastille pleine et prix barré
