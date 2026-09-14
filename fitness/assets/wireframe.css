@@ -332,6 +332,11 @@ a { color: var(--accent); }
 /* ------------------------------------------------------------------ */
 /* Barres collante et récap                                             */
 /* ------------------------------------------------------------------ */
+/* Hôte d'un composant collant rendu par x-html : sans display:contents, le
+   conteneur fait la hauteur du composant et position:sticky n'a aucune marge
+   pour coller. */
+.hote-collant { display: contents; }
+
 .barre-collante {
   position: sticky; top: 0; z-index: 40; background: #fff;
   border-bottom: 1px solid var(--gris-20);
@@ -339,9 +344,14 @@ a { color: var(--accent); }
 .barre-collante__inner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   max-width: var(--large); margin: 0 auto; padding: 10px var(--gouttiere); font-size: 14px; }
 
+/* B.3 : barre récap en bas d'écran. Fixe, donc visible dès qu'un produit
+   est choisi, sans avoir à scroller jusqu'au pied de page. L'espaceur rend
+   au document la hauteur qu'elle lui prend. */
 .barre-recap {
-  position: sticky; bottom: 0; z-index: 50; background: var(--gris-95); color: #fff;
+  position: fixed; left: 0; right: 0; bottom: 0;
+  z-index: 50; background: var(--gris-95); color: #fff;
 }
+.barre-recap__espace { height: 76px; }
 .barre-recap__inner { display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
   max-width: var(--large); margin: 0 auto; padding: 12px var(--gouttiere); }
 .barre-recap__detail { font-size: 13px; color: var(--gris-20); }
@@ -434,6 +444,8 @@ a { color: var(--accent); }
     margin: 0; border-radius: 0; border-left: 0; border-right: 0;
     overflow-x: auto; white-space: nowrap; flex-wrap: nowrap; }
   body.a-barre-rapide { padding-bottom: 64px; }
+  /* La barre récap passe sur deux lignes en mobile : l'espaceur suit. */
+  .barre-recap__espace { height: 124px; }
   .grille--3, .grille--2 { grid-template-columns: 1fr; }
   .coachs { grid-template-columns: repeat(2, 1fr); }
   .pied__cols { grid-template-columns: repeat(2, 1fr); }

@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Tarifs et abonnements fitness à Genève et Vaud | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-14m">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-14n">
 </head>
 <body>
 
@@ -28,8 +28,11 @@
   <div x-html="HF.vues.barreGroupe()"></div>
   <div x-html="HF.vues.entete('Tarifs', '../')"></div>
 
-  <!-- Une seule barre collante en haut. Pas de barre d'ancres. -->
-  <div x-html="HF.vues.barreCollante(etat)"></div>
+  <!-- Une seule barre collante en haut. Pas de barre d'ancres.
+       hote-collant : sans lui, le conteneur x-html fait exactement la
+       hauteur de la barre et position:sticky n'a aucune marge pour
+       coller. La barre partait alors avec le scroll. -->
+  <div class="hote-collant" x-html="HF.vues.barreCollante(etat)"></div>
 
   <main class="conteneur">
 
@@ -91,8 +94,9 @@
       </div>
       <div x-html="HF.vues.ligneIndisponible(tous('formule'), etat)"></div>
 
-      <!-- Extras juste en dessous des abonnements -->
-      <h3 style="margin-top:28px">Extras</h3>
+      <!-- Extras juste en dessous des abonnements. L'ancre sert à la
+           navigation automatique : choisir une formule emmène ici. -->
+      <h3 id="extras" style="margin-top:28px">Extras</h3>
       <p class="mention" x-show="!etat.club">
         Choisissez votre club : les Extras proposés dépendent du club.
       </p>
@@ -161,8 +165,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-14m"></script>
-<script src="../assets/components.js?v=2026-09-14m"></script>
+<script src="../data/data.js?v=2026-09-14n"></script>
+<script src="../assets/components.js?v=2026-09-14n"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageTarifs', function () {
@@ -217,7 +221,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-14m"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-14n"></script>
 
 </body>
 </html>

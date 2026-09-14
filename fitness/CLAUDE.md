@@ -105,7 +105,10 @@ Page Tarifs
 - Une promotion n'est annoncée que si au moins un de ses produits est accessible depuis le club choisi.
 - Une promotion peut être conditionnée à un engagement (champ `engagements`, vide = tous). Ce n'est pas une remise sur l'engagement, que B.3 interdit d'afficher : c'est une campagne datée qui se trouve limitée à un engagement. Sur l'engagement remisé : pastille et prix barré. Sur l'autre : une ligne en retrait qui dit la campagne, sans pastille ni prix barré, sinon la campagne serait invisible depuis « Sans engagement », qui est l'état par défaut (Q31).
 - Les libellés d'engagement affichés viennent toujours du référentiel, jamais écrits en dur : une troisième valeur doit suivre sans retoucher les composants.
-- Barre récap en bas d'écran quand un produit est choisi, bouton "Finaliser mon abonnement". Une seule barre collante en haut. Pas de barre d'ancres.
+- Barre récap **fixée en bas d'écran** dès qu'un produit est choisi, quel que soit son type : c'est le bouton de validation qui emmène à l'étape suivante. Libellé "Finaliser mon abonnement", sauf pour un carnet, qui s'achète et ne s'abonne pas : "Finaliser mon achat". Un espaceur de même hauteur rend au document la place qu'elle lui prend, pour que le pied de page reste atteignable.
+- Choisir un abonnement emmène automatiquement à la section Extras (ancre `#extras`) : c'est la question qu'on se pose juste après avoir choisi sa formule. Un carnet ou une offre ne déplacent personne, ils n'ont pas d'Extras. Se désélectionner ne fait jamais bouger la page. Le défilement respecte le réglage système "réduire les animations" et se décale de la hauteur de la barre collante, sinon le titre visé passe dessous.
+- Un composant collant rendu par `x-html` doit avoir un hôte en `display: contents` (classe `hote-collant`), sinon le conteneur fait exactement sa hauteur et `position: sticky` n'a aucune marge pour coller.
+- Une seule barre collante en haut. Pas de barre d'ancres.
 - Pas de cartes cadeaux.
 
 Cours

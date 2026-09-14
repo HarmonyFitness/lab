@@ -894,25 +894,33 @@ Object.assign(window.HF.vues, (function () {
   }
 
   /* Barre récap : produit, engagement, tarif, extras, total par mois.
-     Le nom Echino n'apparaît jamais. */
+     Elle est fixée en bas d'écran (B.3 : "barre récap en bas d'écran"),
+     et apparaît dès qu'un produit est choisi : c'est le bouton de
+     validation qui emmène à l'étape suivante. L'espaceur qui la précède
+     rend au document la hauteur qu'elle lui prend, pour que le pied de
+     page reste atteignable. Le nom Echino n'apparaît jamais. */
   function barreRecap(etat) {
     if (!etat.produitChoisi) return '';
     var p = H.produit(etat.produitChoisi);
     if (!p) return '';
+    /* Un carnet s'achète, il ne s'abonne pas. */
+    var libelle = (p.type === 'carnet')
+      ? 'Finaliser mon achat' : 'Finaliser mon abonnement';
     var pr = R.prix(p, etat.tarif, etat.engagement, etat);
     var extras = (etat.extrasChoisis || []).map(H.extra).filter(Boolean);
     var detail = [H.tarif(etat.tarif).nom];
     if (p.type === 'formule') detail.push(H.engagement(etat.engagement).nom);
     if (p.type === 'offre') detail.push(texte(p.duree, '[durée]'));
     if (extras.length) detail.push(extras.map(function (e) { return e.nom; }).join(', '));
-    return '<div class="barre-recap" data-spec="B.3 > Page Tarifs > Règles > Barre récap">' +
+    return '<div class="barre-recap__espace" aria-hidden="true"></div>' +
+      '<div class="barre-recap" data-spec="B.3 > Page Tarifs > Règles > Barre récap">' +
       (etat.message ? '<div class="barre-recap__message">' + esc(etat.message) + '</div>' : '') +
       '<div class="barre-recap__inner">' +
       '<div><strong>' + esc(p.nom) + '</strong>' +
       '<div class="barre-recap__detail">' + esc(detail.join(' · ')) + '</div></div>' +
       '<div class="barre-recap__total">' + prixTexte(pr.valeur) +
       (p.type === 'formule' ? ' / mois' : '') + '</div>' +
-      '<button type="button" class="btn" data-act="finaliser">Finaliser mon abonnement</button>' +
+      '<button type="button" class="btn" data-act="finaliser">' + esc(libelle) + '</button>' +
       '</div></div>';
   }
 
@@ -1166,6 +1174,22 @@ Object.assign(window.HF, (function () {
     if (p && !H.regles.produitDisponible(p, etat.club)) etat.produitChoisi = null;
   }
 
+  /* Navigation ancrée. Le décalage tient compte de la barre collante du
+     haut, sinon le titre visé passe dessous. Respecte le réglage système
+     "réduire les animations". */
+  function allerA(id) {
+    var cible = document.getElementById(id);
+    if (!cible) return;
+    var barre = document.querySelector('.barre-collante');
+    var decalage = (barre ? barre.getBoundingClientRect().height : 0) + 12;
+    var doux = !window.matchMedia ||
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({
+      top: cible.getBoundingClientRect().top + window.scrollY - decalage,
+      behavior: doux ? 'smooth' : 'auto'
+    });
+  }
+
   var actions = {
     'choisir-club': function (etat, id) {
       etat.club = id; etat.carteOuverte = false; etat.apercuClub = null;
@@ -1178,8 +1202,16 @@ Object.assign(window.HF, (function () {
     'apercu-club': function (etat, id) { etat.apercuClub = id; },
     'tarif': function (etat, id) { etat.tarif = id; majUrl(etat); },
     'engagement': function (etat, id) { etat.engagement = id; },
+    /* Choisir un abonnement emmène à l'étape suivante, les Extras : c'est
+       la question qu'on se pose juste après avoir choisi sa formule. Un
+       carnet ou une offre n'ont pas d'Extras, on ne déplace donc personne.
+       Se désélectionner ne fait jamais bouger la page. */
     'choisir-produit': function (etat, id) {
-      etat.produitChoisi = (etat.produitChoisi === id) ? null : id;
+      var deja = etat.produitChoisi === id;
+      etat.produitChoisi = deja ? null : id;
+      if (deja) return;
+      var p = H.produit(id);
+      if (p && p.type === 'formule') allerA('extras');
     },
     'ajouter-extra': function (etat, id) {
       if (etat.extrasChoisis.indexOf(id) === -1) etat.extrasChoisis.push(id);
@@ -1267,7 +1299,7 @@ Object.assign(window.HF, (function () {
 
   return {
     etatInitial: etatInitial, majUrl: majUrl, urlSimulee: urlSimulee,
-    actions: actions, brancher: brancher,
+    actions: actions, brancher: brancher, allerA: allerA,
     selecteurEtat: selecteurEtat, brancherSelecteur: brancherSelecteur
   };
 })());
