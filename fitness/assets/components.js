@@ -784,13 +784,17 @@ Object.assign(window.HF.vues, (function () {
      s'affiche sur la carte du produit. La section Offre du moment ne la
      duplique donc pas en carte : elle l'annonce en une ligne et renvoie
      à la section où le produit vit. Un seul produit, un seul bouton. */
-  function annoncePromo(etat) {
+  function annoncePromo(etat, opts) {
+    var o = opts || {};
     var promo = R.promoVisible(etat);
     if (!promo) return '';
+    /* Sur Tarifs, le lien est une ancre dans la page. Ailleurs, il renvoie
+       à la même ancre sur Tarifs, avec le club déjà choisi. */
     var liens = R.sectionsDePromo(promo).map(function (s) {
-      return '<a class="lien-texte" href="#' + s.ancre + '">' + esc(s.nom) + '</a>';
+      return '<a class="lien-texte" href="' + (o.lienBase || '') + '#' + s.ancre + '">' +
+        esc(s.nom) + '</a>';
     }).join(' ');
-    return '<p class="annonce" data-spec="B.3 > Page Tarifs > Trame > 3">' +
+    return '<p class="annonce" data-spec="' + esc(o.spec || 'B.3 > Page Tarifs > Trame > 3') + '">' +
       '<strong>Jusqu\'au ' + esc(dateTexte(promo.validite ? promo.validite.fin : null)) +
       '</strong> : ' + esc(promo.nom) + '. ' + liens + '</p>';
   }
@@ -1263,11 +1267,6 @@ Object.assign(window.HF.regles, (function () {
     return R.produitsVisibles('formule', idClub);
   }
 
-  /* Offres en cours accessibles depuis ce club (bloc masqué s'il n'y en a pas). */
-  function offresDuClub(idClub) {
-    return R.produitsVisibles('offre', idClub);
-  }
-
   /* Filtres du hub /clubs : Ma formule, Équipements, Un cours précis. */
   function filtrerClubs(f) {
     return D.clubs.filter(function (c) {
@@ -1298,7 +1297,7 @@ Object.assign(window.HF.regles, (function () {
     equipementsSocle: equipementsSocle, equipementsEnPlus: equipementsEnPlus,
     equipement: equipement, bienEtreDuClub: bienEtreDuClub,
     coursParObjectif: coursParObjectif, formulesDuClub: formulesDuClub,
-    offresDuClub: offresDuClub, filtrerClubs: filtrerClubs, parCanton: parCanton
+    filtrerClubs: filtrerClubs, parCanton: parCanton
   };
 })());
 
@@ -1446,17 +1445,31 @@ Object.assign(window.HF.vues, (function () {
       }).join('') + '</div></section>';
   }
 
-  /* B.3 > Trame de la page club > 12 : masqué s'il n'y a aucune offre. */
+  /* B.3 > Trame de la page club > 12 : les offres en cours accessibles
+     depuis ce club, bloc masqué s'il n'y en a aucune. Même règle que sur
+     Tarifs : un produit promo dédié s'affiche en carte, une remise sur des
+     produits existants s'annonce en une ligne, qui renvoie à la section
+     correspondante de Tarifs avec ce club déjà choisi. */
   function offreDuClub(c, etat) {
-    if (!etat.offreActive) return '';
-    var offres = R.offresDuClub(c.id);
-    if (!offres.length) return '';
+    var local = {
+      club: c.id, tarif: 'adulte', engagement: 'sans', produitChoisi: null,
+      promo: etat.promo, offreActive: etat.offreActive
+    };
+    var offres = R.offresVisibles(local);
+    var annonce = V.annoncePromo(local, {
+      lienBase: '../../tarifs/?club=' + c.id,
+      spec: 'B.3 > Trame de la page club > 12'
+    });
+    if (!offres.length && !annonce) return '';
     return '<section data-spec="B.3 > Trame de la page club > 12">' +
       '<h2>Offre du moment</h2>' +
-      '<div class="grille grille--cartes">' + offres.map(function (p) {
-        return V.carteProduit(p, { club: c.id, tarif: 'adulte', engagement: 'sans',
-          produitChoisi: null, promo: etat.promo });
-      }).join('') + '</div></section>';
+      V.compteur(R.finOffre(local)) + annonce +
+      (offres.length
+        ? '<div class="grille grille--cartes" style="margin-top:12px">' + offres.map(function (p) {
+            return V.carteProduit(p, local);
+          }).join('') + '</div>'
+        : '') +
+      '</section>';
   }
 
   return {
