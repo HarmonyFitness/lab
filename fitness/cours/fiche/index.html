@@ -12,62 +12,79 @@
 <div x-data="page" x-init="init()">
   <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../../' })"></div>
   <div class="conteneur"><p class="wf-note">
-    Gabarit de fiche cours, le cours passé en paramètre.
-    <code>cours/fiche/?cours=yoga</code> représente <code>/cours/yoga</code> :
-    les fiches sont à la racine du site, pas sous <code>/sport</code>
-    (questions.md &gt; Q9). Le fil d'Ariane garde Sport &gt; Cours collectifs &gt; [cours].
-    Deux cas à regarder : <a href="?cours=yoga">Yoga</a> (cours inclus) et
+    Gabarit unique des pages cours, B.3 &gt; Cours collectifs : périmètre et
+    pages retenues. Deux cas, un seul gabarit : une fiche, ou une page de
+    famille qui active en plus le bloc « variantes ».<br>
+    <strong>Familles :</strong>
+    <a href="?cours=pilates">Pilates</a> (2 liens, 2 sections, 2 filtres) ·
+    <a href="?cours=yoga">Yoga</a> ·
+    <a href="?cours=les-mills">Les Mills</a> (quasiment que des liens) ·
+    <a href="?cours=aqua">Aqua</a>.
+    <strong>Fiches :</strong>
+    <a href="?cours=hiit">HIIT</a> ·
+    <a href="?cours=les-mills-body-pump">Les Mills Body Pump</a> ·
+    <a href="?cours=pilates-gym-dos">Pilates Gym Dos</a> (membre de famille avec sa page) ·
     <a href="?cours=hyrox">Hyrox</a> (Small Group Training, en Extra).
   </p></div>
   <div x-html="HF.vues.barreGroupe()"></div>
   <div x-html="HF.vues.entete('Sport', '../../')"></div>
 
-  <template x-if="!cours">
+  <template x-if="!cible">
     <main class="conteneur"><h1>Cours inconnu</h1>
       <p><a href="../../sport/cours-collectifs/">Retour aux cours collectifs</a></p></main>
   </template>
 
-  <template x-if="cours">
+  <template x-if="cible">
     <div>
       <main class="conteneur">
         <div x-html="HF.vues.filAriane([
           {nom:'Accueil',href:'../../'},{nom:'Sport',href:'../../sport/'},
-          {nom:'Cours collectifs',href:'../../sport/cours-collectifs/'},{nom:cours.nom}])"></div>
+          {nom:'Cours collectifs',href:'../../sport/cours-collectifs/'},{nom:titre()}])"></div>
 
-        <section data-spec="B.3 &gt; Sport &gt; Fiches cours dédiées">
+        <!-- Hero. H1 = le nom du cours ou de la famille, seul. -->
+        <section data-spec="B.3 &gt; Cours collectifs &gt; H1 et title des pages cours">
           <div class="hero-club">
             <div>
-              <h1 x-text="cours.nom"></h1>
-              <p x-show="cours.estExtra">
+              <h1 x-text="titre()"></h1>
+              <p x-show="estFamille">
+                <span class="mention">Page de famille : cette discipline a
+                  plusieurs variantes, listées plus bas.</span>
+              </p>
+              <p x-show="cours && cours.estExtra">
                 <span class="extra__marque">Extra</span>
                 <span class="mention"> Ce cours n'est inclus dans aucune formule.</span>
               </p>
-              <p x-text="cours.description"></p>
-              <p class="mention" x-text="'Intensité : ' + intensite() + ' · Objectif : ' + objectif() + ' · Format : ' + format()"></p>
+              <p x-text="description()"></p>
+              <div x-show="cours" x-html="cours ? HF.vues.attributsCours(cours) : ''"></div>
             </div>
-            <div x-html="HF.vues.blocImage('Photo cours ' + cours.nom, 'large')"></div>
+            <div x-html="HF.vues.blocImage('Photo ' + titre(), 'large')"></div>
           </div>
         </section>
 
-        <section style="margin-top:32px" x-show="cours.benefices.length"
-                 data-spec="B.3 &gt; Sport &gt; Fiches cours dédiées">
+        <section style="margin-top:32px" x-show="cours && cours.benefices.length"
+                 data-spec="B.3 &gt; Sport &gt; Fiches cours">
           <h2>Ce que ça vous apporte</h2>
-          <ul><template x-for="b in cours.benefices" :key="b"><li x-text="b"></li></template></ul>
+          <ul><template x-for="b in (cours ? cours.benefices : [])" :key="b"><li x-text="b"></li></template></ul>
         </section>
 
-        <!-- Small Group Training : clubs et prix lus sur l'Extra, une seule saisie -->
-        <div style="margin-top:32px" x-html="HF.vues.blocExtraDuCours(cours, '../../')"></div>
+        <!-- Bloc conditionnel : actif seulement sur une page de famille -->
+        <div style="margin-top:32px" x-show="estFamille"
+             x-html="estFamille ? HF.vues.blocVariantes(famille.id, '../../') : ''"></div>
 
-        <div style="margin-top:32px" x-html="HF.vues.creneauxCours(cours.id, '../../')"></div>
+        <!-- Small Group Training : clubs et prix lus sur l'Extra -->
+        <div style="margin-top:32px" x-show="cours && cours.estExtra"
+             x-html="cours ? HF.vues.blocExtraDuCours(cours, '../../') : ''"></div>
+
+        <div style="margin-top:32px" x-html="creneaux()"></div>
 
         <section style="margin-top:32px" x-show="coachs().length"
-                 data-spec="B.3 &gt; Sport &gt; Fiches cours dédiées">
+                 data-spec="B.3 &gt; Sport &gt; Fiches cours">
           <h2>Les coachs</h2>
           <div x-html="HF.vues.grilleCoachs(coachs(), etat)"></div>
         </section>
 
-        <section style="margin-top:32px" data-spec="B.3 &gt; Sport &gt; Fiches cours dédiées">
-          <h2>Questions sur ce cours</h2>
+        <section style="margin-top:32px" data-spec="B.3 &gt; Sport &gt; Fiches cours">
+          <h2 x-text="'Questions sur ' + (estFamille ? 'cette discipline' : 'ce cours')"></h2>
           <div x-html="HF.vues.faq(faq(), etat)"></div>
         </section>
 
@@ -75,7 +92,7 @@
           <p><a class="btn" href="../../tarifs/">Voir les tarifs</a></p>
         </section>
 
-        <div style="margin-top:32px" x-html="HF.vues.ctaEssai('../../', 'B.3 > Sport > Fiches cours dédiées')"></div>
+        <div style="margin-top:32px" x-html="HF.vues.ctaEssai('../../', 'B.3 &gt; Sport &gt; Fiches cours')"></div>
       </main>
       <div x-html="HF.vues.pied()"></div>
     </div>
@@ -88,33 +105,67 @@ document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
     return {
       etat: HF.etatInitial(),
-      id: new URLSearchParams(window.location.search).get('cours') || 'yoga',
-      get cours() { return HF.cours(this.id); },
+      id: new URLSearchParams(window.location.search).get('cours') || 'pilates',
+
+      /* Le paramètre désigne soit une famille, soit un cours. Une famille
+         dont le coursGenerique existe porte les deux. */
+      get famille() { return HF.famille(this.id); },
+      get cours() {
+        var f = this.famille;
+        if (f && f.coursGenerique) return HF.cours(f.coursGenerique);
+        return f ? null : HF.cours(this.id);
+      },
+      get estFamille() { return !!this.famille; },
+      get cible() { return this.famille || this.cours; },
+
       init: function () {
         HF.brancher(this.$el, this.etat);
         HF.brancherSelecteur(this.$el, this.etat);
-        if (this.cours) document.title = this.cours.nom + ' à Genève et Vaud | Harmony';
+        this.majTitre();
       },
-      intensite: function () {
-        var i = HF.data.referentiels.intensites.find(function (x) { return x.id === this.cours.intensite; }.bind(this));
-        return i ? i.nom : '';
+      titre: function () {
+        var c = this.cible;
+        return c ? c.nom : '';
       },
-      objectif: function () {
-        var o = HF.data.referentiels.objectifs.find(function (x) { return x.id === this.cours.objectif; }.bind(this));
-        return o ? o.nom : '';
+      /* B.3 : « Cours de [cours] à Genève et Vaud | Harmony », ou
+         « [cours] à Genève et Vaud | Harmony » quand « cours de » sonne
+         faux, ce qui est le cas des formats Les Mills. Aucune commune. */
+      majTitre: function () {
+        var c = this.cible; if (!c) { document.title = 'Cours | Harmony'; return; }
+        var sansCoursDe = /^Les Mills/.test(c.nom) ||
+          (this.famille && this.famille.id === 'les-mills');
+        document.title = (sansCoursDe ? c.nom : 'Cours de ' + c.nom) +
+          ' à Genève et Vaud | Harmony';
       },
-      format: function () {
-        var f = HF.data.referentiels.formats.find(function (x) { return x.id === this.cours.format; }.bind(this));
-        return f ? f.nom : '';
+      description: function () {
+        var f = this.famille;
+        if (f) return f.description;
+        return this.cours ? this.cours.description : '';
       },
-      coachs: function () { return HF.regles.coachsDuCours(this.cours.id); },
+      creneaux: function () {
+        if (this.estFamille) {
+          var g = HF.regles.creneauxDeFamille(this.famille.id);
+          g.famille = true;
+          return HF.vues.creneaux(g, '../../', 'Où pratiquer le ' + this.famille.nom);
+        }
+        return HF.vues.creneaux(HF.regles.creneauxDuCours(this.cours.id), '../../', 'Où le pratiquer');
+      },
+      coachs: function () {
+        return this.estFamille
+          ? HF.regles.coachsDeFamille(this.famille.id)
+          : HF.regles.coachsDuCours(this.cours.id);
+      },
       faq: function () {
         var q = [
           { q: 'Faut-il réserver ?', r: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.' },
           { q: 'Faut-il un niveau particulier ?', r: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.' },
           { q: 'Que faut-il apporter ?', r: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.' }
         ];
-        if (this.cours.estExtra) {
+        if (this.estFamille) {
+          q.unshift({ q: 'Quelle variante choisir ?',
+            r: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' });
+        }
+        if (this.cours && this.cours.estExtra) {
           q.unshift({ q: 'Ce cours est-il inclus dans mon abonnement ?',
             r: "Non : c'est un Extra, à ajouter à votre abonnement depuis la page Tarifs, dans les clubs qui le proposent." });
         }

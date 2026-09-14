@@ -238,13 +238,31 @@ window.HF = (function () {
 
   function position(c) { return positions()[c.id] || { x: 50, y: 50 }; }
 
+  /* Traduit la destination résolue d'un cours en URL du lab.
+     /cours/pilates                     -> cours/fiche/?cours=pilates
+     /cours/pilates#swiss-ball-pilates  -> cours/fiche/?cours=pilates#swiss-ball-pilates
+     La règle de destination vit dans data.js, pas ici : cette fonction ne
+     fait que changer de forme d'URL. */
+  function lienCours(co, base) {
+    var dest = (co && co.destination) || '';
+    var reste = dest.replace(/^\/cours\//, '');
+    var morceaux = reste.split('#');
+    return (base || '') + 'cours/fiche/?cours=' + morceaux[0] +
+      (morceaux[1] ? '#' + morceaux[1] : '');
+  }
+
+  function famille(id) {
+    return D.referentiels.familles.find(function (f) { return f.id === id || f.slug === id; }) || null;
+  }
+
   return {
     data: D,
     club: club, categorie: categorie, cours: cours, extra: extra,
     produit: produit, coach: coach, tarif: tarif, engagement: engagement,
     regles: regles,
     prixTexte: prixTexte, texte: texte, esc: esc, spec: spec,
-    aValider: aValider, position: position, positions: positions
+    aValider: aValider, position: position, positions: positions,
+    lienCours: lienCours, famille: famille
   };
 })();
 
@@ -718,7 +736,7 @@ Object.assign(window.HF.vues, (function () {
     var visibles = seances.filter(function (s) {
       var co = H.cours(s.cours); if (!co) return false;
       if (f.jour && s.jour !== f.jour) return false;
-      if (f.objectif && co.objectif !== f.objectif) return false;
+      if (f.objectif && co.objectifPrincipal !== f.objectif) return false;
       if (f.intensite && co.intensite !== f.intensite) return false;
       if (f.format && co.format !== f.format) return false;
       return true;
@@ -734,7 +752,7 @@ Object.assign(window.HF.vues, (function () {
         var co = H.cours(s.cours);
         var inten = D.referentiels.intensites.find(function (x) { return x.id === co.intensite; });
         return '<tr><td>' + esc(s.heure) + '</td>' +
-          '<td><a href="../../cours/fiche/?cours=' + co.id + '">' + esc(co.nom) + '</a>' +
+          '<td><a href="' + H.lienCours(co, '../../') + '">' + esc(co.nom) + '</a>' +
           (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') + '</td>' +
           '<td>' + esc(s.duree) + ' min</td>' +
           '<td>' + esc(inten ? inten.nom : '') + '</td></tr>';
@@ -1035,11 +1053,20 @@ Object.assign(window.HF.regles, (function () {
 
   /* B.3 > Trame de la page club > 5 : liste compacte rangée par les 6
      objectifs. Les Small Group Training ne sont pas des cours inclus. */
+  /* B.3 > Trame de la page club > 5 : chaque cours apparaît une seule
+     fois, sous son objectif principal. L'objectif secondaire ne range
+     jamais, il informe. Les Small Group Training ne sont pas des cours
+     inclus : ils vivent dans le bloc Extras. */
   function coursParObjectif(idClub) {
     var liste = R.coursDuClub(idClub).filter(function (co) { return !co.estExtra; });
-    return D.referentiels.objectifs.map(function (o) {
-      return { objectif: o, cours: liste.filter(function (co) { return co.objectif === o.id; }) };
+    var groupes = D.referentiels.objectifs.map(function (o) {
+      return { objectif: o, cours: liste.filter(function (co) { return co.objectifPrincipal === o.id; }) };
     }).filter(function (g) { return g.cours.length; });
+    var sansObjectif = liste.filter(function (co) { return !co.objectifPrincipal; });
+    if (sansObjectif.length) {
+      groupes.push({ objectif: { id: null, nom: '[Objectif à définir]' }, cours: sansObjectif, aValider: true });
+    }
+    return groupes;
   }
 
   /* Formules qui donnent accès au club, dans l'ordre de B.3. */
@@ -1133,9 +1160,11 @@ Object.assign(window.HF.vues, (function () {
     return '<section data-spec="B.3 > Trame de la page club > 5">' +
       '<h2>Les cours de ' + esc(c.nom) + '</h2>' +
       '<div class="grille grille--3">' + groupes.map(function (g) {
-        return '<div><h3>' + esc(g.objectif.nom) + '</h3><ul>' +
+        return '<div><h3>' + esc(g.objectif.nom) + H.aValider(g.aValider) + '</h3><ul>' +
           g.cours.map(function (co) {
-            return '<li><a href="../../cours/fiche/?cours=' + co.id + '">' + esc(co.nom) + '</a></li>';
+            return '<li><a href="' + H.lienCours(co, '../../') + '">' + esc(co.nom) + '</a>' +
+              (co.traitement === null ? ' <span class="wf-avalider">page ou section à trancher</span>' : '') +
+              '</li>';
           }).join('') + '</ul></div>';
       }).join('') + '</div></section>';
   }
@@ -1246,27 +1275,46 @@ Object.assign(window.HF.vues, (function () {
 
 /* ------------------------------------------------------------------ */
 /* Règles et composants de la branche Sport                             */
+/* Vocabulaire de B.3 : catégorie pour les clubs. Pour les cours,       */
+/* objectif (rangement), famille (discipline à variantes), fiche.        */
 /* ------------------------------------------------------------------ */
 Object.assign(window.HF.regles, (function () {
   'use strict';
   var H = window.HF, D = H.data, R = H.regles;
 
-  function categorieCours(id) {
-    return D.referentiels.categoriesCours.find(function (c) { return c.id === id; }) || null;
+  /* Tous les membres d'une famille, cours générique compris. */
+  function membresDeFamille(idFamille) {
+    return D.cours.filter(function (c) { return c.famille === idFamille; });
   }
 
-  function coursDeCategorie(idCat) {
-    return D.cours.filter(function (c) { return c.categoriesCours.indexOf(idCat) !== -1; });
+  /* B.3 : la page de famille liste TOUS ses membres. Ce qui change, c'est
+     la forme : un membre avec page dédiée est un lien, un membre sans page
+     est une section avec ancre. Les variantes absorbées en filtre ne sont
+     ni l'un ni l'autre, elles sont citées comme filtre. */
+  function membresRanges(idFamille) {
+    var f = H.famille(idFamille);
+    var membres = membresDeFamille(idFamille).filter(function (c) {
+      return !f || f.coursGenerique !== c.id;
+    });
+    return {
+      liens:    membres.filter(function (c) { return c.traitement === 'page'; }),
+      sections: membres.filter(function (c) { return c.traitement === 'section' || c.traitement === null; }),
+      filtres:  membres.filter(function (c) {
+        return c.traitement === 'filtre-intensite' || c.traitement === 'filtre-format';
+      })
+    };
   }
 
-  /* Les Small Group Training sont des Extras : la liste vient des extras,
-     pas des cours, pour que clubs et prix restent saisis au même endroit. */
+  /* Un cours est une page de famille quand sa page porte la famille. */
+  function familleDuCoursGenerique(idCours) {
+    return D.referentiels.familles.find(function (f) { return f.coursGenerique === idCours; }) || null;
+  }
+
   function smallGroupTrainings() {
     return D.extras.filter(function (e) { return e.type === 'sgt'; });
   }
 
-  /* Créneaux d'un cours, groupés par club (B.3 > Fiches cours dédiées :
-     "clubs qui le proposent + créneaux"). */
+  /* Créneaux d'un cours, groupés par club. */
   function creneauxDuCours(idCours) {
     var parClub = {};
     D.seances.filter(function (s) { return s.cours === idCours; }).forEach(function (s) {
@@ -1283,15 +1331,16 @@ Object.assign(window.HF.regles, (function () {
     }).sort(function (a, b) { return a.club.nom.localeCompare(b.club.nom, 'fr'); });
   }
 
-  /* Clubs concernés par une catégorie de cours. */
-  function clubsDeCategorieCours(idCat) {
-    var ids = coursDeCategorie(idCat).map(function (c) { return c.id; });
-    var vus = {};
-    return D.seances.filter(function (s) { return ids.indexOf(s.cours) !== -1; })
-      .map(function (s) { return s.club; })
-      .filter(function (id) { if (vus[id]) return false; vus[id] = 1; return true; })
-      .map(H.club)
-      .sort(function (a, b) { return a.nom.localeCompare(b.nom, 'fr'); });
+  /* Une page de famille montre les clubs de toute la famille. */
+  function creneauxDeFamille(idFamille) {
+    var ids = membresDeFamille(idFamille).map(function (c) { return c.id; });
+    var parClub = {};
+    D.seances.filter(function (s) { return ids.indexOf(s.cours) !== -1; }).forEach(function (s) {
+      (parClub[s.club] = parClub[s.club] || []).push(s);
+    });
+    return Object.keys(parClub).map(function (idClub) {
+      return { club: H.club(idClub), seances: parClub[idClub] };
+    }).sort(function (a, b) { return a.club.nom.localeCompare(b.club.nom, 'fr'); });
   }
 
   function coachsDuCours(idCours) {
@@ -1299,47 +1348,119 @@ Object.assign(window.HF.regles, (function () {
     return co ? co.coachs.map(H.coach).filter(Boolean) : [];
   }
 
+  function coachsDeFamille(idFamille) {
+    var vus = {};
+    return membresDeFamille(idFamille).reduce(function (acc, c) {
+      c.coachs.forEach(function (k) { if (!vus[k]) { vus[k] = 1; acc.push(k); } });
+      return acc;
+    }, []).map(H.coach).filter(Boolean);
+  }
+
   function coachsPersonnels() {
     return D.coachs.filter(function (k) { return k.coachingPersonnel; });
   }
 
+  /* Catalogue du hub : les 6 objectifs, chaque cours une seule fois sous
+     son objectif principal. Les cours absorbés en filtre ne sont pas des
+     entrées de catalogue, ils vivent dans leur page de famille. */
+  function catalogueParObjectif(filtres) {
+    var f = filtres || {};
+    var visibles = D.cours.filter(function (c) {
+      if (c.estExtra) return false;
+      if (c.traitement === 'filtre-intensite' || c.traitement === 'filtre-format') return false;
+      if (f.objectif && c.objectifPrincipal !== f.objectif) return false;
+      if (f.intensite && c.intensite !== f.intensite) return false;
+      if (f.format && c.format !== f.format) return false;
+      if (f.club && !R.seancesDuClub(f.club).some(function (s) { return s.cours === c.id; })) return false;
+      return true;
+    });
+    var groupes = D.referentiels.objectifs.map(function (o) {
+      return { objectif: o, cours: visibles.filter(function (c) { return c.objectifPrincipal === o.id; }) };
+    }).filter(function (g) { return g.cours.length; });
+    var orphelins = visibles.filter(function (c) { return !c.objectifPrincipal; });
+    if (orphelins.length) {
+      groupes.push({ objectif: { id: null, nom: '[Objectif à définir]' }, cours: orphelins, aValider: true });
+    }
+    return groupes;
+  }
+
   return {
-    categorieCours: categorieCours, coursDeCategorie: coursDeCategorie,
-    smallGroupTrainings: smallGroupTrainings, creneauxDuCours: creneauxDuCours,
-    clubsDeCategorieCours: clubsDeCategorieCours, coachsDuCours: coachsDuCours,
-    coachsPersonnels: coachsPersonnels
+    membresDeFamille: membresDeFamille, membresRanges: membresRanges,
+    familleDuCoursGenerique: familleDuCoursGenerique,
+    smallGroupTrainings: smallGroupTrainings,
+    creneauxDuCours: creneauxDuCours, creneauxDeFamille: creneauxDeFamille,
+    coachsDuCours: coachsDuCours, coachsDeFamille: coachsDeFamille,
+    coachsPersonnels: coachsPersonnels, catalogueParObjectif: catalogueParObjectif
   };
 })());
 
 Object.assign(window.HF.vues, (function () {
   'use strict';
   var H = window.HF, D = H.data, R = H.regles, V = H.vues;
-  var esc = H.esc, prixTexte = H.prixTexte, texte = H.texte;
+  var esc = H.esc, prixTexte = H.prixTexte, texte = H.texte, aValider = H.aValider;
 
-  /* Planning type de /sport/cours-collectifs : toutes les séances, filtrables
-     par club, type et intensité (B.3 > Cours collectifs (hub)). */
+  function nomObjectif(id) {
+    var o = D.referentiels.objectifs.find(function (x) { return x.id === id; });
+    return o ? o.nom : null;
+  }
+  function nomIntensite(id) {
+    var x = D.referentiels.intensites.find(function (i) { return i.id === id; });
+    return x ? x.nom : '';
+  }
+  function nomFormat(id) {
+    var x = D.referentiels.formats.find(function (i) { return i.id === id; });
+    return x ? x.nom : '';
+  }
+
+  /* Ligne d'attributs d'un cours, même vocabulaire partout. */
+  function attributsCours(co) {
+    var bouts = [];
+    var principal = nomObjectif(co.objectifPrincipal);
+    bouts.push(principal || '[Objectif à définir]');
+    if (co.objectifSecondaire) bouts.push('aussi ' + nomObjectif(co.objectifSecondaire).toLowerCase());
+    bouts.push(nomIntensite(co.intensite));
+    bouts.push(nomFormat(co.format));
+    return '<p class="mention">' + esc(bouts.join(' · ')) +
+      aValider(co.objectifsAValider) + '</p>';
+  }
+
+  function selectFiltre(liste, courant, cle, vide) {
+    return '<select data-act="filtre" data-cle="' + cle + '"><option value="">' + vide + '</option>' +
+      liste.map(function (x) {
+        return '<option value="' + x.id + '"' + (courant === x.id ? ' selected' : '') + '>' +
+          esc(x.nom) + '</option>';
+      }).join('') + '</select>';
+  }
+
+  /* Les 4 filtres du hub, dans l'ordre de B.3 : club, objectif, intensité,
+     format. Une seule barre pour toute la page : elle pilote le catalogue
+     et le planning en même temps. Le filtre « type » n'existe plus. */
+  function filtresCours(etat) {
+    var f = etat.filtres || {};
+    return '<div class="filtres" data-spec="B.3 > Sport > Cours collectifs (hub)">' +
+      selectFiltre(D.clubs.map(function (c) { return { id: c.id, nom: c.nom }; }), f.club, 'club', 'Tous les clubs') +
+      selectFiltre(D.referentiels.objectifs, f.objectif, 'objectif', 'Tous les objectifs') +
+      selectFiltre(D.referentiels.intensites, f.intensite, 'intensite', 'Toutes les intensités') +
+      selectFiltre(D.referentiels.formats, f.format, 'format', 'Tous les formats') +
+      '</div>';
+  }
+
+  /* Le planning n'ajoute que son filtre jour : les 4 autres sont déjà en
+     haut de page et s'appliquent ici aussi. */
   function planningType(etat, base) {
     var f = etat.filtres || {};
-    function opt(liste, courant, cle, vide) {
-      return '<select data-act="filtre" data-cle="' + cle + '"><option value="">' + vide + '</option>' +
-        liste.map(function (x) {
-          return '<option value="' + x.id + '"' + (courant === x.id ? ' selected' : '') + '>' +
-            esc(x.nom) + '</option>';
-        }).join('') + '</select>';
-    }
     var filtres = '<div class="filtres">' +
-      opt(D.clubs.map(function (c) { return { id: c.id, nom: c.nom }; }), f.club, 'club', 'Tous les clubs') +
-      opt(D.referentiels.categoriesCours, f.type, 'type', 'Tous les types') +
-      opt(D.referentiels.intensites, f.intensite, 'intensite', 'Toutes les intensités') +
-      opt(D.referentiels.jours.map(function (j) { return { id: j, nom: j[0].toUpperCase() + j.slice(1) }; }),
-          f.jour, 'jour', 'Tous les jours') +
+      selectFiltre(D.referentiels.jours.map(function (j) { return { id: j, nom: j[0].toUpperCase() + j.slice(1) }; }),
+        f.jour, 'jour', 'Tous les jours') +
+      '<span class="mention">Les filtres du haut de page s\'appliquent aussi au planning.</span>' +
       '</div>';
 
     var visibles = D.seances.filter(function (s) {
       var co = H.cours(s.cours); if (!co || co.estExtra) return false;
       if (f.club && s.club !== f.club) return false;
-      if (f.type && co.categoriesCours.indexOf(f.type) === -1) return false;
+      if (f.objectif && co.objectifPrincipal !== f.objectif) return false;
       if (f.intensite && co.intensite !== f.intensite) return false;
+      if (f.format && co.format !== f.format) return false;
       if (f.jour && s.jour !== f.jour) return false;
       return true;
     });
@@ -1353,7 +1474,7 @@ Object.assign(window.HF.vues, (function () {
         duJour.map(function (s) {
           var co = H.cours(s.cours), c = H.club(s.club);
           return '<tr><td>' + esc(s.heure) + '</td>' +
-            '<td><a href="' + base + 'cours/fiche/?cours=' + co.id + '">' + esc(co.nom) + '</a></td>' +
+            '<td><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a></td>' +
             '<td><a href="' + base + 'clubs/club/?club=' + c.id + '">' + esc(c.nom) + '</a></td>' +
             '<td>' + esc(s.duree) + ' min</td></tr>';
         }).join('');
@@ -1368,50 +1489,100 @@ Object.assign(window.HF.vues, (function () {
       '<p class="mention">Planning type saisi au CMS. Mis à jour le [date de mise à jour].</p></section>';
   }
 
-  /* Catalogue des cours rangé par catégorie (B.3 > Cours collectifs (hub)). */
-  function catalogueCours(base) {
+  /* Catalogue rangé par les 6 objectifs (B.3 > Cours collectifs (hub)). */
+  function catalogueCours(etat, base) {
+    var groupes = R.catalogueParObjectif(etat.filtres || {});
     return '<section data-spec="B.3 > Sport > Cours collectifs (hub)">' +
-      '<h2>Nos cours</h2>' +
-      D.referentiels.categoriesCours.map(function (cat) {
-        var liste = R.coursDeCategorie(cat.id);
-        if (!liste.length) return '';
-        return '<h3 style="margin-top:22px"><a href="' + base +
-          'sport/cours-collectifs/categorie/?categorie=' + cat.slug + '">' + esc(cat.nom) + '</a></h3>' +
-          '<div class="grille grille--3">' + liste.map(function (co) {
-            var inten = D.referentiels.intensites.find(function (x) { return x.id === co.intensite; });
-            return '<div class="produit"><h4><a href="' + base + 'cours/fiche/?cours=' + co.id + '">' +
+      '<h2>Nos cours par objectif</h2>' +
+      (groupes.length ? groupes.map(function (g) {
+        return '<h3 style="margin-top:24px">' + esc(g.objectif.nom) + aValider(g.aValider) + '</h3>' +
+          '<div class="grille grille--3">' + g.cours.map(function (co) {
+            var fam = co.famille ? H.famille(co.famille) : null;
+            return '<div class="produit"><h4><a href="' + H.lienCours(co, base) + '">' +
               esc(co.nom) + '</a></h4>' +
-              '<p class="mention">' + esc(inten ? inten.nom : '') + ' · ' +
-              esc(R.clubsDuCours(co.id).length) + ' clubs</p></div>';
+              attributsCours(co) +
+              (fam ? '<p class="mention">Famille ' + esc(fam.nom) + '</p>' : '') +
+              (co.traitement === null
+                ? '<p><span class="wf-avalider">page ou section à trancher</span></p>' : '') +
+              '</div>';
           }).join('') + '</div>';
-      }).join('') +
-      '<p class="mention" style="margin-top:16px">Les cours sans page dédiée restent au ' +
-      'planning et aux filtres : ils peuvent être promus plus tard sans refonte.</p></section>';
+      }).join('') : '<p class="planning__vide">Aucun cours ne correspond à ces filtres.</p>') +
+      '</section>';
   }
 
-  /* Créneaux d'un cours, groupés par club. */
-  function creneauxCours(idCours, base) {
-    var groupes = R.creneauxDuCours(idCours);
+  /* Liens vers les 4 pages de famille (B.3 > Cours collectifs (hub)). */
+  function liensFamilles(base) {
+    return '<section data-spec="B.3 > Sport > Cours collectifs (hub)">' +
+      '<h2>Nos disciplines</h2>' +
+      '<div class="grille grille--2">' + D.referentiels.familles.map(function (f) {
+        var m = R.membresRanges(f.id);
+        var total = m.liens.length + m.sections.length + m.filtres.length;
+        return '<div class="produit"><h3><a href="' + base + 'cours/fiche/?cours=' + f.slug + '">' +
+          esc(f.nom) + '</a>' +
+          (f.slugAValider ? ' <span class="wf-avalider">slug à confirmer</span>' : '') + '</h3>' +
+          '<p>' + esc(f.description) + '</p>' +
+          '<p class="mention">' + total + ' cours dans cette famille</p></div>';
+      }).join('') + '</div></section>';
+  }
+
+  /* Bloc « variantes » : actif seulement sur une page de famille. */
+  function blocVariantes(idFamille, base) {
+    var f = H.famille(idFamille); if (!f) return '';
+    var m = R.membresRanges(f.id);
+    var out = '<section data-spec="B.3 > Sport > Pages de famille"><h2>Les cours ' + esc(f.nom) + '</h2>';
+
+    if (m.liens.length) {
+      out += '<div class="grille grille--3">' + m.liens.map(function (co) {
+        return '<div class="produit"><h3><a href="' + H.lienCours(co, base) + '">' +
+          esc(co.nom) + '</a></h3>' + attributsCours(co) +
+          '<p>' + esc(co.description) + '</p></div>';
+      }).join('') + '</div>';
+    }
+
+    m.sections.forEach(function (co) {
+      out += '<section id="' + co.id + '" style="margin-top:26px">' +
+        '<h3>' + esc(co.nom) +
+        (co.traitement === null ? ' <span class="wf-avalider">page ou section à trancher</span>' : '') +
+        '</h3>' + attributsCours(co) +
+        '<p>' + esc(co.description) + '</p>' +
+        '<p class="mention">Ancre : <code>#' + co.id + '</code></p></section>';
+    });
+
+    if (m.filtres.length) {
+      out += '<p class="mention" style="margin-top:20px">Aussi proposé en ' +
+        m.filtres.map(function (co) {
+          var quoi = co.traitement === 'filtre-intensite'
+            ? nomIntensite(co.intensite).toLowerCase() : nomFormat(co.format).toLowerCase();
+          return esc(co.nom) + ' (' + esc(quoi) + ')';
+        }).join(', ') +
+        '. Ces variantes ne sont pas des pages : elles se retrouvent par les filtres du planning.</p>';
+    }
+
+    return out + '</section>';
+  }
+
+  /* Créneaux, pour une fiche comme pour une famille. */
+  function creneaux(groupes, base, titre) {
     if (!groupes.length) return '';
-    return '<section data-spec="B.3 > Sport > Fiches cours dédiées">' +
-      '<h2>Où le pratiquer</h2>' +
+    return '<section data-spec="B.3 > Sport > Fiches cours"><h2>' + esc(titre) + '</h2>' +
       '<table class="tableau"><thead><tr><th>Club</th><th>Catégorie</th><th>Créneaux</th></tr></thead><tbody>' +
       groupes.map(function (g) {
         return '<tr><td><a href="' + base + 'clubs/club/?club=' + g.club.id + '">' +
           esc(g.club.nom) + '</a></td>' +
           '<td>' + esc(H.categorie(g.club.categorie).nom) + '</td>' +
           '<td>' + g.seances.map(function (s) {
-            return esc(s.jour + ' ' + s.heure);
+            var co = H.cours(s.cours);
+            return esc(s.jour + ' ' + s.heure) +
+              (co && groupes.famille ? ' (' + esc(co.nom) + ')' : '');
           }).join(' · ') + '</td></tr>';
       }).join('') + '</tbody></table></section>';
   }
 
-  /* Bloc "en Extra" d'une fiche Small Group Training : clubs et prix lus
-     sur l'Extra, une seule saisie (B.3 > Sport > Fiches cours dédiées). */
+  /* Bloc « en Extra » d'une fiche Small Group Training. */
   function blocExtraDuCours(co, base) {
     if (!co.estExtra || !co.extra) return '';
     var e = H.extra(co.extra); if (!e) return '';
-    return '<section data-spec="B.3 > Sport > Fiches cours dédiées (Extra)">' +
+    return '<section data-spec="B.3 > Sport > Fiches cours (Extra)">' +
       '<div class="produit">' +
       '<h2>' + esc(e.nom) + ' <span class="extra__marque">Extra</span></h2>' +
       '<p>Ce cours n\'est inclus dans aucune formule : c\'est un Extra de votre abonnement.</p>' +
@@ -1424,7 +1595,10 @@ Object.assign(window.HF.vues, (function () {
   }
 
   return {
-    planningType: planningType, catalogueCours: catalogueCours,
-    creneauxCours: creneauxCours, blocExtraDuCours: blocExtraDuCours
+    attributsCours: attributsCours, nomObjectif: nomObjectif,
+    nomIntensite: nomIntensite, nomFormat: nomFormat,
+    filtresCours: filtresCours, planningType: planningType, catalogueCours: catalogueCours,
+    liensFamilles: liensFamilles, blocVariantes: blocVariantes,
+    creneaux: creneaux, blocExtraDuCours: blocExtraDuCours
   };
 })());

@@ -67,11 +67,33 @@ window.DATA = {
       { id: 'petit-groupe', nom: 'Petit groupe' }
     ],
 
-    /* B.3 > Sport > les 3 hubs de catégorie */
-    categoriesCours: [
-      { id: 'cardio-renforcement', nom: 'Cardio & renforcement', slug: 'cardio-renforcement' },
-      { id: 'yoga-pilates-doux',   nom: 'Yoga, Pilates & doux',  slug: 'yoga-pilates-doux' },
-      { id: 'lesmills',            nom: 'LesMills',              slug: 'lesmills' }
+    /* B.3 > Cours collectifs : périmètre et pages retenues > Pages de famille.
+       Une famille est une discipline à variantes. Sa page utilise le même
+       gabarit qu'une fiche, avec le bloc « variantes » activé en plus.
+       "coursGenerique" : l'id du cours dont la page EST la page de famille
+       (Pilates et Yoga existent aussi comme séances). null quand la famille
+       n'a pas de séance à son nom (Les Mills, Aqua). */
+    familles: [
+      { id: 'pilates',   nom: 'Pilates',   slug: 'pilates',   coursGenerique: 'pilates',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+      { id: 'yoga',      nom: 'Yoga',      slug: 'yoga',      coursGenerique: 'yoga',
+        description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.' },
+      { id: 'les-mills', nom: 'Les Mills', slug: 'les-mills', coursGenerique: null,
+        description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.' },
+      { id: 'aqua',      nom: 'Aqua',      slug: 'aqua',      coursGenerique: null, slugAValider: true,
+        description: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+    ],
+
+    /* B.3 > Destination des cours : « sa fiche, la page de famille avec ancre
+       sur la bonne section pour une variante, la page mère pour un niveau ou
+       un format ». Le traitement d'un membre de famille décide de sa
+       destination, et le champ destination est résolu, pas recalculé à
+       l'affichage. */
+    traitements: [
+      { id: 'page',            nom: 'Page dédiée' },
+      { id: 'section',         nom: 'Section de la page de famille' },
+      { id: 'filtre-intensite',nom: "Absorbé en filtre d'intensité" },
+      { id: 'filtre-format',   nom: 'Absorbé en filtre de format' }
     ],
 
     /* B.3 impose une liste fermée sans la donner. Provisoire, voir Q15.
@@ -339,87 +361,337 @@ window.DATA = {
 
   /* ------------------------------------------------------------------ */
   /* Cours : section 7.2 > Cours                                          */
-  /* pageDediee : les 9 fiches retenues par B.3. Les autres sont la        */
-  /* longue traîne, présentes au planning et aux filtres sans page.        */
-  /* Les clubs qui proposent un cours se déduisent des séances.            */
+  /*                                                                      */
+  /* Mapping objectifs et familles : doc de septembre, relayé par Hugo le  */
+  /* 2026-09-14. Les entrées marquées aValider sont ses propositions pour  */
+  /* les trous du doc, pas des décisions.                                  */
+  /*                                                                      */
+  /* famille     : la discipline à variantes, ou null                      */
+  /* traitement  : page | section | filtre-intensite | filtre-format       */
+  /*               null quand la décision n'est pas prise                  */
+  /* destination : résolue ici, jamais recalculée à l'affichage (B.3 >     */
+  /*               Destination des cours)                                  */
+  /*                                                                      */
+  /* Un cours sans famille a toujours une page : B.3 ne décrit les cours   */
+  /* sans page propre que comme des variantes de famille, et impose qu'un  */
+  /* cours au planning ne soit jamais orphelin.                            */
+  /*                                                                      */
+  /* objectifSecondaire : le doc de septembre n'en définit aucun. Le champ */
+  /* existe, il reste vide sauf sur les deux cas donnés par Hugo.          */
   /* ------------------------------------------------------------------ */
   cours: [
-    { id: 'yoga', nom: 'Yoga', pageDediee: true, categoriesCours: ['yoga-pilates-doux'],
-      objectif: 'se-detendre', intensite: 'doux', format: 'salle', estExtra: false, extra: null,
-      destination: 'fiche', coachs: ['sofia', 'nadia'],
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.',
+
+    /* --- Famille Pilates ------------------------------------------- */
+    { id: 'pilates', nom: 'Pilates', famille: 'pilates', traitement: 'page',
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: 'bouger-mieux', objectifsAValider: true,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia'],
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, quis nostrud exercitation ullamco laboris.',
       benefices: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'] },
-
-    { id: 'pilates', nom: 'Pilates', pageDediee: true, categoriesCours: ['yoga-pilates-doux'],
-      objectif: 'bouger-mieux', intensite: 'doux', format: 'salle', estExtra: false, extra: null,
-      destination: 'fiche', coachs: ['sofia'],
-      description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.',
+    { id: 'trx-pilates', nom: 'TRX Pilates', famille: 'pilates', traitement: 'page',
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia'],
+      description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       benefices: ['Ut enim ad minim veniam', 'Quis nostrud exercitation', 'Ullamco laboris nisi'] },
-
-    { id: 'indoor-cycling', nom: 'Indoor Cycling (RPM)', pageDediee: true,
-      categoriesCours: ['cardio-renforcement', 'lesmills'],
-      objectif: 'se-depenser', intensite: 'intense', format: 'salle', estExtra: false, extra: null,
-      destination: 'fiche', coachs: ['marc', 'karim'],
-      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.',
+    { id: 'pilates-gym-dos', nom: 'Pilates Gym Dos', famille: 'pilates', traitement: 'page',
+      objectifPrincipal: 'bouger-mieux', objectifSecondaire: null,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia'],
+      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
       benefices: ['Duis aute irure dolor', 'In reprehenderit in voluptate', 'Velit esse cillum dolore'] },
+    { id: 'swiss-ball-pilates', nom: 'Swiss Ball Pilates', famille: 'pilates', traitement: 'section',
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia'],
+      description: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.',
+      benefices: [] },
+    { id: 'pilates-stretching', nom: 'Pilates Stretching', famille: 'pilates', traitement: 'section',
+      objectifPrincipal: 'bouger-mieux', objectifSecondaire: null,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia'],
+      description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.',
+      benefices: [] },
+    { id: 'pilates-avance', nom: 'Pilates Avancé', famille: 'pilates', traitement: 'filtre-intensite',
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: null,
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia'], description: '', benefices: [] },
+    { id: 'pilates-privilege', nom: 'Pilates Privilège', famille: 'pilates', traitement: 'filtre-format',
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: null,
+      intensite: 'modere', format: 'petit-groupe', estExtra: false, extra: null,
+      coachs: ['sofia'], description: '', benefices: [] },
 
-    { id: 'hiit', nom: 'HIIT', pageDediee: true, categoriesCours: ['cardio-renforcement'],
-      objectif: 'se-depasser', intensite: 'intense', format: 'salle', estExtra: false, extra: null,
-      destination: 'fiche', coachs: ['thomas', 'lea'],
-      description: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum sed ut perspiciatis.',
-      benefices: ['Excepteur sint occaecat', 'Cupidatat non proident', 'Sunt in culpa qui officia'] },
-
-    { id: 'cross-training', nom: 'Cross Training', pageDediee: true, categoriesCours: ['cardio-renforcement'],
-      objectif: 'se-depasser', intensite: 'intense', format: 'salle', estExtra: false, extra: null,
-      destination: 'fiche', coachs: ['thomas', 'karim'],
-      description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam.',
-      benefices: ['Sed ut perspiciatis unde', 'Omnis iste natus error', 'Sit voluptatem accusantium'] },
-
-    { id: 'zumba', nom: 'Zumba', pageDediee: true, categoriesCours: ['cardio-renforcement'],
-      objectif: 'danser', intensite: 'modere', format: 'salle', estExtra: false, extra: null,
-      destination: 'fiche', coachs: ['lea'],
-      description: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur magni dolores.',
+    /* --- Famille Yoga ---------------------------------------------- */
+    /* traitement null : page ou section n'est pas tranché pour ces
+       variantes, voir questions.md > Q24. */
+    { id: 'yoga', nom: 'Yoga', famille: 'yoga', traitement: 'page',
+      objectifPrincipal: 'se-detendre', objectifSecondaire: null,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia', 'nadia'],
+      description: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.',
       benefices: ['Nemo enim ipsam voluptatem', 'Quia voluptas sit aspernatur', 'Aut odit aut fugit'] },
+    { id: 'hatha-yoga', nom: 'Hatha Yoga', famille: 'yoga', traitement: null,
+      objectifPrincipal: 'se-detendre', objectifSecondaire: null,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia'],
+      description: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit.',
+      benefices: [] },
+    { id: 'yin-yoga', nom: 'Yin Yoga', famille: 'yoga', traitement: null,
+      objectifPrincipal: 'se-detendre', objectifSecondaire: null,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['nadia'],
+      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.',
+      benefices: [] },
+    { id: 'yoga-vinyasa', nom: 'Yoga Vinyasa', famille: 'yoga', traitement: null,
+      objectifPrincipal: 'se-detendre', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia'],
+      description: 'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae.',
+      benefices: [] },
+    { id: 'air-yoga', nom: 'Air Yoga', famille: 'yoga', traitement: null,
+      objectifPrincipal: 'se-detendre', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['nadia'],
+      description: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium.',
+      benefices: [] },
+    { id: 'yoga-dos', nom: 'Yoga Dos', famille: 'yoga', traitement: null,
+      objectifPrincipal: 'bouger-mieux', objectifSecondaire: null,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia'],
+      description: 'Et harum quidem rerum facilis est et expedita distinctio, nam libero tempore cum soluta.',
+      benefices: [] },
 
-    { id: 'body-pump', nom: 'LesMills Body Pump', pageDediee: true,
-      categoriesCours: ['cardio-renforcement', 'lesmills'],
-      objectif: 'se-renforcer', intensite: 'modere', format: 'salle', estExtra: false, extra: null,
-      destination: 'fiche', coachs: ['marc', 'lea'],
-      description: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia non numquam.',
-      benefices: ['Neque porro quisquam est', 'Qui dolorem ipsum quia', 'Dolor sit amet consectetur'] },
-
-    { id: 'body-combat', nom: 'LesMills Body Combat', pageDediee: true,
-      categoriesCours: ['cardio-renforcement', 'lesmills'],
-      objectif: 'se-depenser', intensite: 'intense', format: 'salle', estExtra: false, extra: null,
-      destination: 'fiche', coachs: ['karim'],
-      description: 'Ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit laboriosam nisi ut aliquid ex ea commodi.',
-      benefices: ['Ut enim ad minima veniam', 'Quis nostrum exercitationem', 'Ullam corporis suscipit'] },
-
-    { id: 'hybrid-training', nom: 'Hybrid Training by Harmony', pageDediee: true,
-      categoriesCours: ['cardio-renforcement'],
-      objectif: 'se-depasser', intensite: 'intense', format: 'salle', estExtra: false, extra: null,
-      destination: 'fiche', coachs: ['thomas', 'marc'],
-      description: 'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.',
-      benefices: ['Quis autem vel eum iure', 'Reprehenderit qui in ea', 'Voluptate velit esse quam'] },
-
-    /* Small Group Training : la fiche affiche la mention "Extra", les clubs
-       et le prix, lus sur l'Extra (B.3 > Sport > Fiches cours dédiées). */
-    { id: 'hyrox', nom: 'Hyrox', pageDediee: true, categoriesCours: [],
-      objectif: 'se-depasser', intensite: 'intense', format: 'petit-groupe',
-      estExtra: true, extra: 'hyrox',
-      destination: 'fiche', coachs: ['thomas'],
-      description: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.',
+    /* --- Famille Les Mills ------------------------------------------ */
+    /* « Presque tous les formats Les Mills ont du trafic, donc ce sera
+       quasiment une page de liens, avec peu ou pas de sections. » */
+    { id: 'les-mills-body-pump', nom: 'Les Mills Body Pump', famille: 'les-mills', traitement: 'page',
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['marc', 'lea'],
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      benefices: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'] },
+    { id: 'les-mills-body-attack', nom: 'Les Mills Body Attack', famille: 'les-mills', traitement: 'page',
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null,
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
+      coachs: ['karim'],
+      description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.',
+      benefices: ['Ut enim ad minim veniam', 'Quis nostrud exercitation', 'Ullamco laboris nisi'] },
+    { id: 'les-mills-body-balance', nom: 'Les Mills Body Balance', famille: 'les-mills', traitement: 'page',
+      objectifPrincipal: 'se-detendre', objectifSecondaire: 'bouger-mieux', objectifsAValider: true,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia', 'lea'],
+      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat.',
+      benefices: ['Duis aute irure dolor', 'In reprehenderit in voluptate', 'Velit esse cillum'] },
+    { id: 'les-mills-body-combat', nom: 'Les Mills Body Combat', famille: 'les-mills', traitement: 'page',
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null, objectifsAValider: true,
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
+      coachs: ['karim'],
+      description: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.',
+      benefices: ['Excepteur sint occaecat', 'Cupidatat non proident', 'Sunt in culpa qui officia'] },
+    { id: 'les-mills-rpm', nom: 'Les Mills RPM', famille: 'les-mills', traitement: 'page',
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null,
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
+      coachs: ['marc', 'karim'],
+      description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
+      benefices: ['Sed ut perspiciatis unde', 'Omnis iste natus error', 'Sit voluptatem accusantium'] },
+    { id: 'les-mills-core', nom: 'Les Mills Core', famille: 'les-mills', traitement: 'page',
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['lea'],
+      description: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',
+      benefices: ['Nemo enim ipsam voluptatem', 'Quia voluptas sit', 'Aspernatur aut odit'] },
+    { id: 'les-mills-shapes', nom: 'Les Mills Shapes', famille: 'les-mills', traitement: 'page',
+      objectifPrincipal: null, objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['lea'],
+      description: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur.',
+      benefices: [] },
+    { id: 'les-mills-ceremony', nom: 'Les Mills Ceremony', famille: 'les-mills', traitement: 'page',
+      objectifPrincipal: 'se-depasser', objectifSecondaire: null,
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
+      coachs: ['thomas'],
+      description: 'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil.',
+      benefices: ['Quis autem vel eum iure', 'Reprehenderit qui in ea', 'Voluptate velit esse'] },
+    { id: 'les-mills-grit', nom: 'Les Mills Grit', famille: 'les-mills', traitement: 'page',
+      objectifPrincipal: 'se-depasser', objectifSecondaire: null,
+      intensite: 'intense', format: 'petit-groupe', estExtra: false, extra: null,
+      coachs: ['thomas', 'karim'],
+      description: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium.',
       benefices: ['At vero eos et accusamus', 'Et iusto odio dignissimos', 'Ducimus qui blanditiis'] },
 
-    /* Longue traîne : au planning et aux filtres, sans page dédiée. */
-    { id: 'aquagym', nom: 'Aquagym', pageDediee: false, categoriesCours: [],
-      objectif: 'bouger-mieux', intensite: 'doux', format: 'aqua', estExtra: false, extra: null,
-      destination: 'mere', coachs: ['nadia'],
-      description: 'Et harum quidem rerum facilis est et expedita distinctio.', benefices: [] },
-    { id: 'aquabike', nom: 'Aquabike', pageDediee: false, categoriesCours: [],
-      objectif: 'se-depenser', intensite: 'modere', format: 'aqua', estExtra: false, extra: null,
-      destination: 'mere', coachs: ['nadia'],
-      description: 'Nam libero tempore cum soluta nobis est eligendi optio.', benefices: [] }
+    /* --- Famille Aqua ------------------------------------------------ */
+    { id: 'aqua-gym', nom: 'Aqua Gym', famille: 'aqua', traitement: null,
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null, objectifsAValider: true,
+      intensite: 'doux', format: 'aqua', estExtra: false, extra: null,
+      coachs: ['nadia'],
+      description: 'Et harum quidem rerum facilis est et expedita distinctio, nam libero tempore.',
+      benefices: [] },
+    { id: 'aqua-bike', nom: 'Aqua Bike', famille: 'aqua', traitement: null,
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null, objectifsAValider: true,
+      intensite: 'modere', format: 'aqua', estExtra: false, extra: null,
+      coachs: ['nadia'],
+      description: 'Cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime.',
+      benefices: [] },
+    { id: 'aqua-zumba', nom: 'Aqua Zumba', famille: 'aqua', traitement: null,
+      objectifPrincipal: 'danser', objectifSecondaire: null,
+      intensite: 'modere', format: 'aqua', estExtra: false, extra: null,
+      coachs: ['nadia', 'lea'],
+      description: 'Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe.',
+      benefices: [] },
+    { id: 'aqua-jogger', nom: 'Aqua Jogger', famille: 'aqua', traitement: null,
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null, objectifsAValider: true,
+      intensite: 'modere', format: 'aqua', estExtra: false, extra: null,
+      coachs: ['nadia'],
+      description: 'Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus.',
+      benefices: [] },
+
+    /* --- Fiches sans famille ---------------------------------------- */
+    { id: 'caf', nom: 'CAF', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['lea'],
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.',
+      benefices: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'] },
+    { id: 'total-sculpt', nom: 'Total Sculpt', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['lea', 'marc'],
+      description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.',
+      benefices: ['Ut enim ad minim veniam', 'Quis nostrud exercitation', 'Ullamco laboris nisi'] },
+    { id: 'cardio-sculpt', nom: 'Cardio Sculpt', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['marc'],
+      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.',
+      benefices: ['Duis aute irure dolor', 'In reprehenderit', 'Voluptate velit esse'] },
+    { id: 'core-training', nom: 'Core Training', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['thomas'],
+      description: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.',
+      benefices: ['Excepteur sint occaecat', 'Cupidatat non proident', 'Sunt in culpa'] },
+    { id: 'abdos-flash', nom: 'Abdos Flash', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['lea'],
+      description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.',
+      benefices: ['Sed ut perspiciatis', 'Unde omnis iste natus', 'Error sit voluptatem'] },
+    { id: 'hiit', nom: 'HIIT', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null,
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
+      coachs: ['thomas', 'lea'],
+      description: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',
+      benefices: ['Nemo enim ipsam', 'Quia voluptas sit', 'Aspernatur aut odit'] },
+    { id: 'circuit-training', nom: 'Circuit Training', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null,
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
+      coachs: ['thomas'],
+      description: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur.',
+      benefices: ['Neque porro quisquam', 'Est qui dolorem ipsum', 'Quia dolor sit amet'] },
+    { id: 'cross-training', nom: 'Cross Training', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null,
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
+      coachs: ['thomas', 'karim'],
+      description: 'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.',
+      benefices: ['Quis autem vel eum iure', 'Reprehenderit qui in ea', 'Voluptate velit esse'] },
+    { id: 'indoor-cycling', nom: 'Indoor Cycling', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null,
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
+      coachs: ['marc', 'karim'],
+      description: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis.',
+      benefices: ['At vero eos et accusamus', 'Et iusto odio', 'Dignissimos ducimus'] },
+    { id: 'step', nom: 'Step', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['lea'],
+      description: 'Et harum quidem rerum facilis est et expedita distinctio nam libero tempore.',
+      benefices: ['Et harum quidem rerum', 'Facilis est et expedita', 'Distinctio nam libero'] },
+    { id: 'core-bike', nom: 'Core Bike', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null,
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
+      coachs: ['marc'],
+      description: 'Cum soluta nobis est eligendi optio cumque nihil impedit quo minus id.',
+      benefices: ['Cum soluta nobis', 'Est eligendi optio', 'Cumque nihil impedit'] },
+    { id: 'hybrid-training', nom: 'Hybrid Training by Harmony', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-depasser', objectifSecondaire: null,
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
+      coachs: ['thomas', 'marc'],
+      description: 'Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus.',
+      benefices: ['Temporibus autem', 'Quibusdam et aut officiis', 'Debitis aut rerum'] },
+    { id: 'stretching', nom: 'Stretching', famille: null, traitement: 'page',
+      objectifPrincipal: 'bouger-mieux', objectifSecondaire: null,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia'],
+      description: 'Itaque earum rerum hic tenetur a sapiente delectus ut aut reiciendis.',
+      benefices: ['Itaque earum rerum', 'Hic tenetur a sapiente', 'Delectus ut aut'] },
+    { id: 'mobilite-stretching', nom: 'Mobilité Stretching', famille: null, traitement: 'page',
+      objectifPrincipal: 'bouger-mieux', objectifSecondaire: null,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia'],
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.',
+      benefices: [] },
+    { id: 'gym-douce', nom: 'Gym Douce', famille: null, traitement: 'page',
+      objectifPrincipal: 'bouger-mieux', objectifSecondaire: null,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['nadia'],
+      description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+      benefices: [] },
+    { id: 'gym-douce-dos', nom: 'Gym Douce Dos', famille: null, traitement: 'page',
+      objectifPrincipal: 'bouger-mieux', objectifSecondaire: null,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['nadia'],
+      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.',
+      benefices: [] },
+    { id: 'move-and-mind', nom: 'Move & Mind', famille: null, traitement: 'page',
+      objectifPrincipal: 'bouger-mieux', objectifSecondaire: null,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia'],
+      description: 'Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia.',
+      benefices: [] },
+    { id: 'cours-zen', nom: 'Cours Zen', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-detendre', objectifSecondaire: null,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['nadia'],
+      description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.',
+      benefices: [] },
+    { id: 'sophrologie-stretching', nom: 'Sophrologie Stretching', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-detendre', objectifSecondaire: null,
+      intensite: 'doux', format: 'salle', estExtra: false, extra: null,
+      coachs: ['sofia'],
+      description: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit.',
+      benefices: [] },
+    { id: 'zumba', nom: 'Zumba', famille: null, traitement: 'page',
+      objectifPrincipal: 'danser', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['lea'],
+      description: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci.',
+      benefices: ['Neque porro quisquam est', 'Qui dolorem ipsum quia', 'Dolor sit amet'] },
+    { id: 'salsa', nom: 'Salsa', famille: null, traitement: 'page',
+      objectifPrincipal: 'danser', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['lea'],
+      description: 'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse.',
+      benefices: [] },
+    { id: 'all-styles-dance', nom: 'All Styles Dance', famille: null, traitement: 'page',
+      objectifPrincipal: 'danser', objectifSecondaire: null,
+      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      coachs: ['lea'],
+      description: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis.',
+      benefices: [] },
+    { id: 'boxe', nom: 'Boxe', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null, objectifsAValider: true,
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
+      coachs: ['karim'],
+      description: 'Et harum quidem rerum facilis est et expedita distinctio nam libero.',
+      benefices: [] },
+
+    /* --- Small Group Training : un Extra, pas un cours inclus --------- */
+    { id: 'hyrox', nom: 'Hyrox', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-depasser', objectifSecondaire: null,
+      intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'hyrox',
+      coachs: ['thomas'],
+      description: 'Cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus.',
+      benefices: ['Cum soluta nobis', 'Est eligendi optio', 'Cumque nihil impedit'] }
   ],
 
   /* ------------------------------------------------------------------ */
@@ -455,68 +727,122 @@ window.DATA = {
 
   /* ------------------------------------------------------------------ */
   /* Séances : section 7.2 > Club > champ "séances"                       */
-  /* Planning type saisi au CMS. Alimente le planning de la page club,     */
-  /* le "où pratiquer" des fiches cours, le filtre cours de /clubs et le   */
-  /* nombre de cours par semaine. Une séance de Small Group Training       */
-  /* porte le marqueur Extra, qui se déduit de son cours.                  */
+  /* Planning type saisi au CMS. Un club GYM n'a que des Small Group       */
+  /* Training. Le format aqua n'existe que dans les clubs Premium.         */
   /* ------------------------------------------------------------------ */
   seances: [
     { club: 'geneve-paquis', jour: 'lundi',    heure: '18:30', duree: 60, cours: 'hyrox' },
     { club: 'geneve-paquis', jour: 'mercredi', heure: '12:15', duree: 45, cours: 'hyrox' },
     { club: 'geneve-paquis', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'hyrox' },
 
-    { club: 'meyrin', jour: 'lundi',    heure: '12:15', duree: 45, cours: 'body-pump' },
+    { club: 'meyrin', jour: 'lundi',    heure: '12:15', duree: 45, cours: 'les-mills-body-pump' },
     { club: 'meyrin', jour: 'lundi',    heure: '19:00', duree: 55, cours: 'hiit' },
     { club: 'meyrin', jour: 'mardi',    heure: '09:30', duree: 60, cours: 'yoga' },
-    { club: 'meyrin', jour: 'mercredi', heure: '18:30', duree: 50, cours: 'indoor-cycling' },
+    { club: 'meyrin', jour: 'mardi',    heure: '18:30', duree: 60, cours: 'pilates' },
+    { club: 'meyrin', jour: 'mercredi', heure: '18:30', duree: 50, cours: 'les-mills-rpm' },
     { club: 'meyrin', jour: 'jeudi',    heure: '12:15', duree: 45, cours: 'cross-training' },
+    { club: 'meyrin', jour: 'jeudi',    heure: '19:00', duree: 60, cours: 'yoga-dos' },
     { club: 'meyrin', jour: 'vendredi', heure: '18:00', duree: 60, cours: 'zumba' },
     { club: 'meyrin', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'hyrox' },
     { club: 'meyrin', jour: 'samedi',   heure: '11:15', duree: 60, cours: 'hybrid-training' },
 
-    { club: 'geneve-la-praille', jour: 'lundi',    heure: '07:00', duree: 45, cours: 'aquabike' },
-    { club: 'geneve-la-praille', jour: 'lundi',    heure: '12:15', duree: 45, cours: 'body-pump' },
-    { club: 'geneve-la-praille', jour: 'mardi',    heure: '10:00', duree: 45, cours: 'aquagym' },
-    { club: 'geneve-la-praille', jour: 'mardi',    heure: '18:30', duree: 60, cours: 'yoga' },
+    { club: 'geneve-la-praille', jour: 'lundi',    heure: '07:00', duree: 45, cours: 'aqua-bike' },
+    { club: 'geneve-la-praille', jour: 'lundi',    heure: '12:15', duree: 45, cours: 'les-mills-body-pump' },
+    { club: 'geneve-la-praille', jour: 'lundi',    heure: '18:30', duree: 60, cours: 'trx-pilates' },
+    { club: 'geneve-la-praille', jour: 'mardi',    heure: '10:00', duree: 45, cours: 'aqua-gym' },
+    { club: 'geneve-la-praille', jour: 'mardi',    heure: '18:30', duree: 60, cours: 'yoga-vinyasa' },
     { club: 'geneve-la-praille', jour: 'mercredi', heure: '12:15', duree: 45, cours: 'pilates' },
-    { club: 'geneve-la-praille', jour: 'jeudi',    heure: '19:00', duree: 55, cours: 'body-combat' },
+    { club: 'geneve-la-praille', jour: 'mercredi', heure: '19:00', duree: 45, cours: 'aqua-zumba' },
+    { club: 'geneve-la-praille', jour: 'jeudi',    heure: '19:00', duree: 55, cours: 'les-mills-body-combat' },
     { club: 'geneve-la-praille', jour: 'vendredi', heure: '12:15', duree: 45, cours: 'hiit' },
+    { club: 'geneve-la-praille', jour: 'vendredi', heure: '18:30', duree: 60, cours: 'les-mills-body-balance' },
     { club: 'geneve-la-praille', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'hybrid-training' },
 
     { club: 'blandonnet', jour: 'lundi',    heure: '12:15', duree: 45, cours: 'hiit' },
+    { club: 'blandonnet', jour: 'lundi',    heure: '18:30', duree: 60, cours: 'swiss-ball-pilates' },
     { club: 'blandonnet', jour: 'mardi',    heure: '18:30', duree: 60, cours: 'pilates' },
     { club: 'blandonnet', jour: 'mercredi', heure: '19:00', duree: 50, cours: 'indoor-cycling' },
-    { club: 'blandonnet', jour: 'jeudi',    heure: '12:15', duree: 45, cours: 'body-pump' },
+    { club: 'blandonnet', jour: 'jeudi',    heure: '12:15', duree: 45, cours: 'les-mills-body-pump' },
+    { club: 'blandonnet', jour: 'vendredi', heure: '12:15', duree: 30, cours: 'abdos-flash' },
     { club: 'blandonnet', jour: 'samedi',   heure: '10:30', duree: 60, cours: 'zumba' },
 
-    { club: 'geneve-eaux-vives', jour: 'lundi',    heure: '18:30', duree: 60, cours: 'yoga' },
-    { club: 'geneve-eaux-vives', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'body-pump' },
-    { club: 'geneve-eaux-vives', jour: 'mercredi', heure: '19:00', duree: 55, cours: 'pilates' },
+    { club: 'geneve-eaux-vives', jour: 'lundi',    heure: '18:30', duree: 60, cours: 'hatha-yoga' },
+    { club: 'geneve-eaux-vives', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'les-mills-body-pump' },
+    { club: 'geneve-eaux-vives', jour: 'mercredi', heure: '19:00', duree: 55, cours: 'pilates-avance' },
+    { club: 'geneve-eaux-vives', jour: 'jeudi',    heure: '12:15', duree: 45, cours: 'caf' },
+    { club: 'geneve-eaux-vives', jour: 'jeudi',    heure: '19:00', duree: 60, cours: 'yin-yoga' },
     { club: 'geneve-eaux-vives', jour: 'vendredi', heure: '12:15', duree: 45, cours: 'hiit' },
+    { club: 'geneve-eaux-vives', jour: 'samedi',   heure: '11:00', duree: 60, cours: 'salsa' },
 
     { club: 'versoix', jour: 'lundi',    heure: '19:00', duree: 50, cours: 'indoor-cycling' },
-    { club: 'versoix', jour: 'mercredi', heure: '12:15', duree: 45, cours: 'body-combat' },
+    { club: 'versoix', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'stretching' },
+    { club: 'versoix', jour: 'mercredi', heure: '12:15', duree: 45, cours: 'les-mills-body-combat' },
+    { club: 'versoix', jour: 'jeudi',    heure: '18:30', duree: 60, cours: 'gym-douce' },
     { club: 'versoix', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'zumba' },
 
-    { club: 'veyrier', jour: 'lundi',    heure: '10:00', duree: 45, cours: 'aquagym' },
+    { club: 'veyrier', jour: 'lundi',    heure: '10:00', duree: 45, cours: 'aqua-gym' },
     { club: 'veyrier', jour: 'mardi',    heure: '18:30', duree: 60, cours: 'yoga' },
-    { club: 'veyrier', jour: 'mercredi', heure: '07:00', duree: 45, cours: 'aquabike' },
-    { club: 'veyrier', jour: 'jeudi',    heure: '12:15', duree: 45, cours: 'body-pump' },
-    { club: 'veyrier', jour: 'vendredi', heure: '18:00', duree: 60, cours: 'pilates' },
+    { club: 'veyrier', jour: 'mercredi', heure: '07:00', duree: 45, cours: 'aqua-bike' },
+    { club: 'veyrier', jour: 'mercredi', heure: '19:00', duree: 45, cours: 'aqua-jogger' },
+    { club: 'veyrier', jour: 'jeudi',    heure: '12:15', duree: 45, cours: 'les-mills-core' },
+    { club: 'veyrier', jour: 'vendredi', heure: '18:00', duree: 60, cours: 'pilates-privilege' },
+    { club: 'veyrier', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'air-yoga' },
 
     { club: 'denges', jour: 'lundi',    heure: '12:15', duree: 45, cours: 'cross-training' },
-    { club: 'denges', jour: 'mardi',    heure: '10:00', duree: 45, cours: 'aquagym' },
-    { club: 'denges', jour: 'mercredi', heure: '18:30', duree: 55, cours: 'body-combat' },
-    { club: 'denges', jour: 'jeudi',    heure: '07:00', duree: 45, cours: 'aquabike' },
-    { club: 'denges', jour: 'vendredi', heure: '12:15', duree: 45, cours: 'hiit' },
+    { club: 'denges', jour: 'lundi',    heure: '18:30', duree: 60, cours: 'pilates-gym-dos' },
+    { club: 'denges', jour: 'mardi',    heure: '10:00', duree: 45, cours: 'aqua-gym' },
+    { club: 'denges', jour: 'mercredi', heure: '18:30', duree: 55, cours: 'les-mills-body-attack' },
+    { club: 'denges', jour: 'jeudi',    heure: '07:00', duree: 45, cours: 'aqua-bike' },
+    { club: 'denges', jour: 'jeudi',    heure: '19:00', duree: 45, cours: 'les-mills-grit' },
+    { club: 'denges', jour: 'vendredi', heure: '12:15', duree: 45, cours: 'circuit-training' },
     { club: 'denges', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'hybrid-training' },
 
     { club: 'gland', jour: 'lundi',    heure: '18:30', duree: 60, cours: 'zumba' },
-    { club: 'gland', jour: 'mercredi', heure: '12:15', duree: 45, cours: 'body-pump' },
-    { club: 'gland', jour: 'vendredi', heure: '19:00', duree: 50, cours: 'indoor-cycling' },
+    { club: 'gland', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'core-training' },
+    { club: 'gland', jour: 'mercredi', heure: '12:15', duree: 45, cours: 'les-mills-body-pump' },
+    { club: 'gland', jour: 'jeudi',    heure: '18:30', duree: 60, cours: 'pilates-stretching' },
+    { club: 'gland', jour: 'vendredi', heure: '19:00', duree: 50, cours: 'core-bike' },
 
     { club: 'signy', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'hiit' },
+    { club: 'signy', jour: 'mercredi', heure: '19:00', duree: 45, cours: 'step' },
     { club: 'signy', jour: 'jeudi',    heure: '18:30', duree: 60, cours: 'pilates' },
-    { club: 'signy', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'body-pump' }
+    { club: 'signy', jour: 'vendredi', heure: '12:15', duree: 45, cours: 'total-sculpt' },
+    { club: 'signy', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'les-mills-body-pump' }
   ]
 };
+
+/* ------------------------------------------------------------------ */
+/* Résolution du champ "destination"                                    */
+/*                                                                      */
+/* B.3 > Destination des cours : « Chaque cours du planning a une        */
+/* destination : sa fiche, la page de famille avec ancre sur la bonne    */
+/* section pour une variante, la page mère pour un niveau ou un format.  */
+/* Champ destination à prévoir par cours dans le CMS. »                  */
+/*                                                                      */
+/* Dans le CMS, ce champ est saisi ou calculé à l'enregistrement. Ici il */
+/* est résolu une fois au chargement, pour que les données restent       */
+/* lisibles. Les composants lisent cours.destination et ne connaissent   */
+/* jamais la règle.                                                      */
+/* ------------------------------------------------------------------ */
+(function () {
+  var D = window.DATA;
+  function famille(id) {
+    return D.referentiels.familles.find(function (f) { return f.id === id; }) || null;
+  }
+  D.cours.forEach(function (c) {
+    var f = c.famille ? famille(c.famille) : null;
+
+    if (!f) { c.destination = '/cours/' + c.id; c.aSaPage = true; return; }
+
+    /* La page de la famille est celle de son cours générique. */
+    if (f.coursGenerique === c.id) { c.destination = '/cours/' + f.slug; c.aSaPage = true; return; }
+
+    if (c.traitement === 'page') { c.destination = '/cours/' + c.id; c.aSaPage = true; return; }
+    if (c.traitement === 'filtre-intensite' || c.traitement === 'filtre-format') {
+      c.destination = '/cours/' + f.slug; c.aSaPage = false; return;
+    }
+    /* section, ou traitement pas encore tranché : ancre sur la page de famille */
+    c.destination = '/cours/' + f.slug + '#' + c.id;
+    c.aSaPage = false;
+  });
+})();

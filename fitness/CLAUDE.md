@@ -33,9 +33,10 @@ Consultant et décideur sur la structure : Hugo.
 - `/tarifs` : état sans club et état `/tarifs/[slug]` avec club référent choisi
 - `/offre-du-moment`
 - `/seance-essai`
-- `/sport`, `/sport/plateau-fitness`, `/sport/cours-collectifs` (+ un hub de catégorie + une fiche cours), `/sport/small-group-training` (+ une fiche), `/sport/coaching-personnel`
+- `/sport`, `/sport/plateau-fitness`, `/sport/cours-collectifs`, `/sport/small-group-training`, `/sport/coaching-personnel`
+- `/cours/[...]` : gabarit unique, deux cas. Une fiche de cours, ou une page de famille qui active en plus le bloc "variantes".
 
-Cours collectifs : le volume de pages n'est pas tranché (voir "À réconcilier" dans B.3). On maquette les gabarits (hub, hub de catégorie, fiche), pas toutes les pages.
+Cours collectifs : 2 templates seulement, le hub et le gabarit cours. On maquette les gabarits, pas les ~34 pages.
 
 ## Fidélité attendue
 
@@ -52,7 +53,7 @@ Cours collectifs : le volume de pages n'est pas tranché (voir "À réconcilier"
 - HTML + CSS + Alpine.js, sans build. Doit s'ouvrir en local sans serveur et marcher tel quel sur lab.harmony.ch/fitness/.
 - Alpine est une copie locale dans `fitness/assets/alpine.min.js`, pas un CDN : aucune page ne dépend du réseau. Version notée dans le commentaire du fichier qui l'appelle.
 - Arborescence qui reproduit le site map : `fitness/index.html`, `fitness/tarifs/index.html`, `fitness/clubs/index.html`, `fitness/clubs/club/index.html`, `fitness/sport/plateau-fitness/index.html`, etc. Les URL du lab se lisent comme celles du futur site.
-- Pages à gabarit (club, état club de Tarifs, fiche cours) : un seul fichier, le club passé en paramètre. `tarifs/?club=geneve-la-praille` représente `/tarifs/geneve-la-praille`, `clubs/club/?club=meyrin` représente `/clubs/meyrin`, `cours/fiche/?cours=yoga` représente `/cours/yoga` (la fiche cours est à la racine du site, pas sous `/sport`).
+- Pages à gabarit (club, état club de Tarifs, page cours) : un seul fichier, le paramètre dans l'URL. `tarifs/?club=geneve-la-praille` représente `/tarifs/geneve-la-praille`, `clubs/club/?club=meyrin` représente `/clubs/meyrin`, `cours/fiche/?cours=pilates` représente `/cours/pilates` (les pages cours sont à la racine du site, pas sous `/sport`). Le même paramètre accepte un cours ou une famille.
 - Données dans `fitness/data/data.js` (objet global), qui reproduit le modèle CMS de la section 7 :
   clubs, produits (formules, offres, carnets), extras, cours, coachs.
 - Aucune donnée en dur dans les pages : tout est lu depuis `data.js`. Si une info change, elle change partout.
@@ -87,6 +88,17 @@ Page Tarifs
 - Offres promo : durée aussi visible que le prix, "soit env. CHF X.– par mois".
 - Barre récap en bas d'écran quand un produit est choisi, bouton "Finaliser mon abonnement". Une seule barre collante en haut. Pas de barre d'ancres.
 - Pas de cartes cadeaux.
+
+Cours
+- Vocabulaire strict : "catégorie" est réservé aux clubs (GYM, Essential, Premium). Pour les cours on dit **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours). Ne jamais écrire "catégorie de cours".
+- Un cours porte un objectif principal, un objectif secondaire facultatif, une intensité (doux, modéré, intense) et un format (salle, aqua, petit groupe).
+- Les 6 objectifs sont du contenu, jamais du code. Leurs libellés seront validés par un test d'arborescence : les lire toujours dans `data.js`, ne jamais les écrire en dur.
+- Rangement par objectif principal : catalogue du hub, bloc "cours du club" des pages club, filtres du planning. Un cours apparaît une seule fois, sous son objectif principal. L'objectif secondaire informe, il ne range jamais.
+- Un membre de famille peut être rangé sous un autre objectif que sa famille. La page de famille n'est donc jamais filtrée par objectif.
+- La page de famille liste tous ses membres. Membre avec page dédiée : un lien vers sa fiche. Membre sans page : une section sur la page de famille, avec ancre.
+- Chaque cours porte un champ `destination` résolu dans `data.js`, jamais une règle recalculée à l'affichage. Les composants lisent `cours.destination`.
+- Les Mills s'écrit en deux mots partout, noms de cours et slugs compris : "Les Mills Body Pump", `/cours/les-mills`.
+- H1 = le nom du cours ou de la famille, seul, sans mention géographique. Title = "Cours de [cours] à Genève et Vaud | Harmony", ou "[cours] à Genève et Vaud | Harmony" quand "cours de" sonne faux, ce qui est le cas des formats Les Mills. Aucune commune dans le title d'une fiche.
 
 Composants partagés
 - Choix du club + carte : un seul composant pour /clubs, /tarifs, /offre-du-moment, /seance-essai.

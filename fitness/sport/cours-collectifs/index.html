@@ -12,9 +12,13 @@
 <div x-data="page" x-init="init()">
   <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../../' })"></div>
   <div class="conteneur"><p class="wf-note">
-    H1, sous-titre et title repris tels quels de B.3. Le volume de pages n'est
-    pas tranché (B.3 &gt; « À réconcilier », questions.md &gt; Q6) : on maquette
-    les trois gabarits, hub, hub de catégorie et fiche, pas toutes les pages.
+    B.3 &gt; Sport &gt; Cours collectifs (hub), version du 14 septembre.
+    Le catalogue est rangé par les 6 objectifs, pas par catégorie : le mot
+    « catégorie » est réservé aux clubs. Filtres : club, objectif, intensité,
+    format. Le filtre « type » n'existe plus. Les 3 hubs de catégorie ont été
+    supprimés, remplacés par 4 pages de famille en <code>/cours/[discipline]</code>.
+    Les libellés des objectifs sont du contenu, jamais écrits en dur : ils
+    seront validés par un test d'arborescence.
   </p></div>
   <div x-html="HF.vues.barreGroupe()"></div>
   <div x-html="HF.vues.entete('Sport', '../../')"></div>
@@ -29,15 +33,22 @@
          tempor incididunt ut labore et dolore magna aliqua.</p>
     </section>
 
-    <div style="margin-top:32px" x-html="HF.vues.catalogueCours('../../')"></div>
-    <div style="margin-top:40px" x-html="HF.vues.planningType(etat, '../../')"></div>
+    <section style="margin-top:28px" data-spec="B.3 &gt; Sport &gt; Cours collectifs (hub)">
+      <h2>Filtrer</h2>
+      <div x-html="HF.vues.filtresCours(etat)"></div>
+      <p class="mention" x-text="compte()"></p>
+    </section>
+
+    <div style="margin-top:20px" x-html="HF.vues.catalogueCours(etat, '../../')"></div>
+    <div style="margin-top:44px" x-html="HF.vues.liensFamilles('../../')"></div>
+    <div style="margin-top:44px" x-html="HF.vues.planningType(etat, '../../')"></div>
 
     <section style="margin-top:40px">
       <h2>Ils y vont</h2>
       <div x-html="HF.vues.temoignages(3)"></div>
     </section>
 
-    <div style="margin-top:40px" x-html="HF.vues.ctaEssai('../../', 'B.3 > Sport > Cours collectifs (hub)')"></div>
+    <div style="margin-top:40px" x-html="HF.vues.ctaEssai('../../', 'B.3 &gt; Sport &gt; Cours collectifs (hub)')"></div>
   </main>
   <div x-html="HF.vues.pied()"></div>
 </div>
@@ -48,7 +59,12 @@ document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
     return {
       etat: HF.etatInitial(),
-      init: function () { HF.brancher(this.$el, this.etat); HF.brancherSelecteur(this.$el, this.etat); }
+      init: function () { HF.brancher(this.$el, this.etat); HF.brancherSelecteur(this.$el, this.etat); },
+      compte: function () {
+        var n = HF.regles.catalogueParObjectif(this.etat.filtres)
+          .reduce(function (t, g) { return t + g.cours.length; }, 0);
+        return n + ' cours' + (n > 1 ? '' : '');
+      }
     };
   });
 });

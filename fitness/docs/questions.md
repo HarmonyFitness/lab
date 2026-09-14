@@ -73,7 +73,7 @@ lit dans les données, il n'est jamais écrit en dur dans la mise en page.
   deux prix, sans pourcentage. Les montants restent en « CHF XX.– » (Q11).
 
 ### Q6 · Volume des pages Cours collectifs
-**Statut :** tranchée pour les wireframes
+**Statut :** tranchée
 **Source :** B.3 > Cours collectifs : périmètre et pages retenues > « À réconcilier ».
 B.3 signale lui-même la contradiction entre la logique de juillet (9 fiches +
 3 hubs) et le document de septembre (une trentaine de pages).
@@ -81,8 +81,11 @@ B.3 signale lui-même la contradiction entre la logique de juillet (9 fiches +
 gabarits (hub, hub de catégorie, fiche), pas le volume de pages. Le choix reste
 ouvert côté cahier des charges.
 
+**Réponse (B.3, 2026-09-14) :** la réconciliation est faite dans B.3. Plus
+de hub de catégorie, 2 templates au lieu de 3, 4 pages de famille et ~30
+fiches sur le même gabarit.
 ### Q7 · Les 6 objectifs de cours
-**Statut :** tranchée pour les maquettes
+**Statut :** tranchée
 **Source :** B.3 > Trame de la page club > bloc 5 (« liste compacte rangée par les
 6 objectifs ») et B.3 > Trame de la page club > bloc 4 (filtre « objectif »).
 Les 6 objectifs ne sont listés nulle part dans B.3 ni en section 7.
@@ -99,6 +102,11 @@ Filtres retenus, en plus du jour : intensité (doux, modéré, intense) et forma
 **Source à venir :** `docs/cdc/cours-collectifs.md`, ajouté par Hugo. Ce fichier
 fera foi sur les objectifs, les intensités et les formats dès qu'il sera là.
 
+**Réponse (doc de septembre, relayé par Hugo le 2026-09-14) :** les 6
+objectifs sont dans B.3, le mapping cours par cours est appliqué dans
+`data.js`. Les entrées marquées `objectifsAValider` sont les propositions de
+Hugo pour les trous du doc, pas des décisions. L'objectif secondaire existe
+comme champ et reste vide partout sauf sur Pilates et Les Mills Body Balance.
 ### Q8 · Nombre de cours par semaine dans un club GYM
 **Statut :** tranchée
 **Source :** B.3 > Clubs > ligne « Clubs (hub) » (la carte club affiche « nombre de
@@ -235,8 +243,8 @@ d'un club GYM.
 
 ## Relevées en construisant la branche Sport (étape 5)
 
-### Q21 · H1 et title des hubs de catégorie et des fiches cours
-**Statut :** à valider par Harmony
+### Q21 · H1 et title des pages de famille et des fiches cours
+**Statut :** tranchée
 **Source :** B.3 > Titres de la branche Sport donne les H1, sous-titres et titles
 des 5 pages principales de la branche. Rien n'est donné pour les 3 hubs de
 catégorie ni pour les 9 fiches cours, qui sont pourtant les pages SEO les plus
@@ -251,6 +259,10 @@ B.3 dit que ces titles sont à valider avec la Search Console et les termes de
 recherche Google Ads avant la mise en ligne : la règle vaut pour ces pages
 aussi.
 
+**Réponse (B.3, 2026-09-14) :** écrit dans B.3, section « H1 et title des
+pages cours ». H1 = le nom seul. Title = « Cours de [cours] à Genève et Vaud
+| Harmony », ou sans « Cours de » quand ça sonne faux, ce qui est le cas des
+formats Les Mills. Aucune commune dans le title d'une fiche.
 ### Q22 · Contenu des programmes de coaching
 **Statut :** ouverte
 **Source :** B.3 > Page Coaching personnel > bloc 3 : « Les programmes : par
@@ -258,4 +270,34 @@ objectif (liste à fournir par Harmony), chacun avec sa durée, son rythme et
 pour qui il est fait ».
 La liste n'existe pas. Les maquettes montrent le tableau avec les 6 objectifs
 provisoires de Q7 en lignes, et [durée], [rythme], [pour qui] en colonnes.
+
+## Relevées en reconstruisant la branche cours (étape 5 bis)
+
+### Q24 · Page ou section pour les membres des familles Yoga et Aqua
+**Statut :** ouverte
+**Source :** B.3 > Cours collectifs : périmètre des fiches, règle 1 (« On ne
+rétrograde pas un actif ») et règle 2 (2 critères sur 3).
+Hugo a tranché membre par membre pour Pilates, et indiqué que Les Mills serait
+« quasiment une page de liens ». Rien n'est dit pour les 5 membres de la
+famille Yoga (Hatha Yoga, Yin Yoga, Yoga Vinyasa, Air Yoga, Yoga Dos) ni pour
+les 4 de la famille Aqua (Aqua Gym, Aqua Bike, Aqua Zumba, Aqua Jogger). La
+décision dépend des apparitions en Search Console.
+**Dans les maquettes :** `traitement: null`, rendu en section avec l'ancre,
+et le marqueur visible « page ou section à trancher ». Le gabarit gère les deux
+formes sans changement.
+
+### Q25 · Slug de la famille Aqua
+**Statut :** ouverte
+**Source :** Hugo, 2026-09-14 : « le mot cherché est plutôt aquagym ou
+aquafitness que aqua seul ».
+`/cours/aqua` est provisoire, marqué « slug à confirmer » dans la maquette.
+Tranché avec les volumes de recherche.
+
+### Q26 · Objectif principal de Les Mills Shapes
+**Statut :** ouverte
+**Source :** le mapping du doc de septembre ne mentionne pas ce cours, et il
+ne figure pas non plus dans les propositions de Hugo pour les trous.
+**Dans les maquettes :** `objectifPrincipal: null`. Le cours remonte dans un
+groupe « [Objectif à définir] » en fin de catalogue, visible exprès. Un cours
+sans objectif principal n'a pas sa place dans un catalogue rangé par objectif.
 

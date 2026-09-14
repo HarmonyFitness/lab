@@ -224,6 +224,30 @@
     <h3 style="margin-top:28px">4.6 CTA séance d'essai</h3>
     <div x-html="HF.vues.ctaEssai('../')"></div>
 
+    <h3 style="margin-top:28px">4.7 Catalogue rangé par objectif</h3>
+    <p class="mention">
+      B.3 &gt; Cours collectifs (hub). Un cours apparaît une seule fois, sous son
+      objectif principal. « Catégorie » est réservé aux clubs : ici on dit
+      objectif, famille, fiche.
+    </p>
+    <div x-html="HF.vues.filtresCours(etat)"></div>
+    <div x-html="HF.vues.catalogueCours(etat, '../')"></div>
+
+    <h3 style="margin-top:28px">4.8 Bloc variantes d'une page de famille</h3>
+    <p class="mention">
+      Bloc conditionnel du gabarit cours : actif seulement sur une page de
+      famille. Membre avec page dédiée, un lien. Membre sans page, une section
+      avec ancre. Variante absorbée en filtre, une simple mention.
+      Pilates montre les trois formes, Les Mills n'a que des liens.
+    </p>
+    <div class="apercu__etiquette">Pilates</div>
+    <div x-html="HF.vues.blocVariantes('pilates', '../')"></div>
+    <div class="apercu__etiquette" style="margin-top:20px">Les Mills</div>
+    <div x-html="HF.vues.blocVariantes('les-mills', '../')"></div>
+
+    <h3 style="margin-top:28px">4.9 Liens vers les pages de famille</h3>
+    <div x-html="HF.vues.liensFamilles('../')"></div>
+
     <!-- ============================================================ -->
     <h2 id="outillage" style="margin-top:44px">5. Outillage du wireframe</h2>
     <p class="mention">
