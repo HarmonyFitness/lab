@@ -85,9 +85,11 @@
       <p class="mention" x-show="!etat.club">
         Choisissez votre club : les Extras proposés dépendent du club.
       </p>
-      <template x-for="e in extras()" :key="e.id">
-        <div x-html="HF.vues.carteExtra(e, etat)"></div>
-      </template>
+      <div class="grille grille--cartes">
+        <template x-for="e in extras()" :key="e.id">
+          <div x-html="HF.vues.carteExtra(e, etat)"></div>
+        </template>
+      </div>
       <p class="mention" x-show="etat.club && extras().length === 0">
         Aucun Extra proposé depuis ce club.
       </p>

@@ -166,9 +166,11 @@
       Vendu en ligne : prix et « Ajouter ». Vendu en club : « Sur demande en
       club », sans prix ni bouton. Les extras affichés sont ceux du club choisi.
     </p>
-    <template x-for="e in extras()" :key="e.id">
-      <div x-html="HF.vues.carteExtra(e, etat)"></div>
-    </template>
+    <div class="grille grille--cartes">
+      <template x-for="e in extras()" :key="e.id">
+        <div x-html="HF.vues.carteExtra(e, etat)"></div>
+      </template>
+    </div>
     <p class="mention" x-show="!etat.club">
       Sans club, tous les extras du catalogue sont montrés. Choisissez un club
       pour voir le filtrage.

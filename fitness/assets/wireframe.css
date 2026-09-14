@@ -262,19 +262,16 @@ a { color: var(--accent); }
 .pastille-remise { display: inline-block; font-size: 11px; font-weight: 700; color: #fff;
   background: var(--gris-95); border-radius: var(--rayon); padding: 1px 7px; }
 
-.extra {
-  display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap;
-  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
-  padding: 12px 14px; margin-bottom: 8px;
-}
-.extra__corps { flex: 1 1 220px; }
+/* L'Extra est une carte de la même largeur qu'une carte produit, pas une
+   bande pleine largeur : les Extras se lisent côte à côte. */
+.extra__titre { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 /* Pas de text-transform : B.3 impose un seul mot, "Extra", identique en
    club, dans l'appli, sur le site et dans Echino. Le CSS ne doit pas le
    réécrire en EXTRA. */
 .extra__marque { font-size: 11px; font-weight: 700;
   border: 1px solid var(--gris-80); border-radius: var(--rayon);
   padding: 0 6px; white-space: nowrap; }
-.extra__droite { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+
 
 .indispo {
   border: 1px solid var(--gris-20); background: var(--gris-05);
