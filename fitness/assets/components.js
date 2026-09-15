@@ -548,9 +548,19 @@ window.HF.vues = (function () {
       '</div></header>';
   }
 
+  /* Les cantons où Harmony a des clubs, déduits des clubs eux-mêmes : une
+     ouverture dans un troisième canton n'oblige pas à toucher le footer. */
+  function cantons() {
+    var vus = [];
+    D.clubs.forEach(function (c) { if (vus.indexOf(c.canton) === -1) vus.push(c.canton); });
+    return vus;
+  }
+
   function pied() {
     var cols = [
-      { titre: 'Nos clubs', liens: ['Genève', 'Vaud'] },
+      /* Les cantons se lisent dans les données, et avec le même libellé que
+         partout ailleurs : "Canton de Genève", jamais "Genève" seul. */
+      { titre: 'Nos clubs', liens: cantons().map(function (c) { return H.libelleCanton(c); }) },
       { titre: 'Le sport', liens: ['Plateau fitness', 'Cours collectifs', 'Small Group Training', 'Coaching personnel'] },
       { titre: 'Aide', liens: ["Besoin d'aide ?", 'Actualités'] },
       /* Le footer ne donne plus d'adresse e-mail : un seul canal écrit, le
