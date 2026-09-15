@@ -372,6 +372,14 @@ a { color: var(--accent); }
 .filtres select { font: inherit; font-size: 13px; padding: 5px 7px;
   border: 1px solid var(--gris-40); border-radius: var(--rayon); background: #fff; }
 .filtres__label { font-weight: 700; }
+
+/* Tags d'attributs d'un cours : objectif, intensité, format. Ils portent
+   toujours leur mot, jamais une couleur ou une forme seule. */
+.tags { display: flex; flex-wrap: wrap; gap: 5px; margin: 6px 0 10px; }
+.tag { display: inline-block; font-size: 12px; line-height: 1.4;
+  border: 1px solid var(--gris-40); border-radius: 999px; padding: 2px 9px;
+  background: #fff; color: var(--gris-80); }
+.tag--secondaire { border-style: dashed; color: var(--gris-60); }
 .champ { font: inherit; font-size: 14px; padding: 7px 10px;
   border: 1px solid var(--gris-40); border-radius: var(--rayon); background: #fff; }
 .champ--recherche { flex: 1 1 260px; min-width: 0; max-width: 420px; }

@@ -1820,16 +1820,33 @@ Object.assign(window.HF.vues, (function () {
     return x ? x.nom : '';
   }
 
-  /* Ligne d'attributs d'un cours, même vocabulaire partout. */
-  function attributsCours(co) {
-    var bouts = [];
-    var principal = nomObjectif(co.objectifPrincipal);
-    bouts.push(principal || '[Objectif à définir]');
-    if (co.objectifSecondaire) bouts.push('aussi ' + nomObjectif(co.objectifSecondaire).toLowerCase());
-    bouts.push(nomIntensite(co.intensite));
-    bouts.push(nomFormat(co.format));
-    return '<p class="mention">' + esc(bouts.join(' · ')) +
-      aValider(co.objectifsAValider) + '</p>';
+  /* Attributs d'un cours en tags, même vocabulaire partout. Intensité et
+     format sont des valeurs fermées du référentiel, et ce sont elles que les
+     filtres manipulent : les voir en tag sur la carte fait le lien entre ce
+     qu'on a filtré et ce qu'on lit. Ils portent toujours leur mot, jamais une
+     couleur ou une forme seule.
+     Sur le catalogue du hub, l'objectif principal est déjà le titre de la
+     section : le répéter sur chaque carte n'apprend rien, d'où sansObjectif.
+     L'objectif secondaire, lui, n'apparaît nulle part ailleurs. */
+  function attributsCours(co, opts) {
+    var o = opts || {};
+    var tags = [];
+    if (!o.sansObjectif) {
+      tags.push({ texte: nomObjectif(co.objectifPrincipal) || '[Objectif à définir]' });
+    }
+    /* Intensité et format d'abord : ce sont les valeurs courtes et fermées
+       que les filtres manipulent. L'objectif secondaire, plus long, ferme la
+       ligne et passe seul à la ligne suivante quand il ne tient pas. */
+    if (nomIntensite(co.intensite)) tags.push({ texte: nomIntensite(co.intensite) });
+    if (nomFormat(co.format)) tags.push({ texte: nomFormat(co.format) });
+    if (co.objectifSecondaire) {
+      tags.push({ texte: 'aussi ' + nomObjectif(co.objectifSecondaire).toLowerCase(),
+                  classe: ' tag--secondaire' });
+    }
+    if (!tags.length) return '';
+    return '<p class="tags">' + tags.map(function (t) {
+      return '<span class="tag' + (t.classe || '') + '">' + esc(t.texte) + '</span>';
+    }).join('') + aValider(co.objectifsAValider) + '</p>';
   }
 
   function selectFiltre(liste, courant, cle, vide) {
@@ -1920,7 +1937,7 @@ Object.assign(window.HF.vues, (function () {
             var fam = co.famille ? H.famille(co.famille) : null;
             return '<div class="produit"><h4><a href="' + H.lienCours(co, base) + '">' +
               esc(co.nom) + '</a></h4>' +
-              attributsCours(co) +
+              attributsCours(co, { sansObjectif: true }) +
               (fam ? '<p class="mention">Famille ' + esc(fam.nom) + '</p>' : '') +
               (co.traitement === null
                 ? '<p><span class="wf-avalider">page ou section à trancher</span></p>' : '') +
