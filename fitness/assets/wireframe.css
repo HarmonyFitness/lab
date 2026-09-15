@@ -262,6 +262,13 @@ a { color: var(--accent); }
 .produit__prix-unite { font-size: 13px; font-weight: 400; color: var(--gris-60); }
 .produit__total { font-size: 13px; color: var(--gris-60); margin-bottom: 4px; }
 .produit__duree { font-size: 15px; font-weight: 700; }
+/* Tout ce qui suit la liste d'inclusion est collé en pied de carte : les
+   prix se lisent sur la même ligne d'une carte à l'autre, même quand une
+   liste est plus longue que sa voisine. */
+.produit__bas { margin-top: auto; }
+/* Les cartes hors carteProduit (Small Group Training) n'ont pas de bloc bas :
+   le pied garde son propre margin-top:auto, sans effet quand il est dans un
+   bloc bas, où il n'y a pas d'espace libre à absorber. */
 .produit__pied { margin-top: auto; padding-top: 12px; }
 .produit__barre { text-decoration: line-through; color: var(--gris-40); font-size: 15px; }
 .pastille-remise { display: inline-block; font-size: 11px; font-weight: 700; color: #fff;

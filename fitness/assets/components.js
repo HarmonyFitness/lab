@@ -838,20 +838,21 @@ Object.assign(window.HF.vues, (function () {
     if (!dispo) return '';
     var choisi = etat.produitChoisi === p.id;
     var pr = R.prix(p, etat.tarif, etat.engagement, etat);
-    var corps = '', pied = '', specRef;
+    var haut = '', bas = '', pied = '', specRef;
 
     if (p.type === 'formule') {
       specRef = 'B.3 > Page Tarifs > Trame > 4';
       var mois = moisEngagement[etat.engagement] || 1;
       var total = (typeof pr.valeur === 'number') ? pr.valeur * mois : null;
-      corps =
+      haut =
         '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
         lignesInclusion(p, etat) +
-        blocPrix(pr, '/ mois') +
-        '<div class="produit__total">Total ' +
-        esc(H.engagement(etat.engagement).nom.toLowerCase()) + ' : ' + prixTexte(total) + '</div>' +
         ligneRemise(pr) + ligneRemiseAilleurs(p, etat) +
         (pr.mentionRepli ? '<p class="mention">' + esc(pr.mentionRepli) + '</p>' : '');
+      bas =
+        blocPrix(pr, '/ mois') +
+        '<div class="produit__total">Total ' +
+        esc(H.engagement(etat.engagement).nom.toLowerCase()) + ' : ' + prixTexte(total) + '</div>';
       pied = etat.club
         ? '<button type="button" class="btn btn--bloc" data-act="choisir-produit" data-id="' +
           p.id + '">Choisir ' + esc(p.nom) + '</button>'
@@ -860,14 +861,15 @@ Object.assign(window.HF.vues, (function () {
     } else if (p.type === 'offre') {
       specRef = 'B.3 > Page Tarifs > Trame > 3';
       var pm = R.parMois(p);
-      corps =
+      haut =
         '<p class="produit__duree">' + esc(texte(p.duree, '[durée]')) + '</p>' +
         '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
-        lignesInclusion(p, etat) +
-        blocPrix(pr, '') +
-        '<div class="produit__total">soit env. ' + prixTexte(pm) + ' par mois</div>' +
-        ligneRemise(pr) +
+        lignesInclusion(p, etat);
+      haut += ligneRemise(pr) +
         (pr.mentionRepli ? '<p class="mention">' + esc(pr.mentionRepli) + '</p>' : '');
+      bas =
+        blocPrix(pr, '') +
+        '<div class="produit__total">soit env. ' + prixTexte(pm) + ' par mois</div>';
       pied = etat.club
         ? '<button type="button" class="btn btn--bloc" data-act="choisir-produit" data-id="' +
           p.id + '">Choisir ' + esc(p.nom) + '</button>'
@@ -879,24 +881,31 @@ Object.assign(window.HF.vues, (function () {
       var parEntree = (typeof pr.valeur === 'number' && entrees)
         ? Math.round(pr.valeur / entrees) : null;
       /* Le volume est déjà dans le nom du carnet : ne pas le répéter. */
-      corps =
+      haut =
         '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
         '<p class="mention">Valable ' + esc(texte(p.duree, '[X] mois')) +
-        ' à partir de l\'achat</p>' +
-        blocPrix(pr, '') +
-        '<div class="produit__total">' + prixTexte(parEntree) + " par entrée</div>" +
-        ligneRemise(pr) +
+        ' à partir de l\'achat</p>';
+      haut += ligneRemise(pr) +
         (pr.mentionRepli ? '<p class="mention">' + esc(pr.mentionRepli) + '</p>' : '');
+      bas =
+        blocPrix(pr, '') +
+        '<div class="produit__total">' + prixTexte(parEntree) + " par entrée</div>";
       pied = etat.club
         ? '<button type="button" class="btn btn--bloc" data-act="choisir-produit" data-id="' +
           p.id + '">Acheter ce carnet</button>'
         : '';
     }
 
+    /* Le bloc bas est collé en pied de carte, et ne contient que le prix, le
+       total et le bouton : trois éléments de hauteur constante. Les prix se
+       lisent donc sur la même ligne d'une carte à l'autre, quelle que soit la
+       longueur de ce qu'il y a au-dessus. Les mentions de campagne et de
+       tarif restent au-dessus du prix, où elles l'annoncent. */
     return '<article class="produit' + (choisi ? ' produit--choisi' : '') + '" data-spec="' + specRef + '">' +
       photoProduit(p, pr, etat) +
-      '<h3>' + esc(p.nom) + '</h3>' + corps +
-      '<div class="produit__pied">' + pied + '</div></article>';
+      '<h3>' + esc(p.nom) + '</h3>' + haut +
+      '<div class="produit__bas">' + bas +
+      '<div class="produit__pied">' + pied + '</div></div></article>';
   }
 
   /* L'Extra est une ligne pleine largeur, empilée sous les Abonnements.

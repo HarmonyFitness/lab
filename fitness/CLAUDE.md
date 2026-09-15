@@ -69,6 +69,7 @@ Mise en page des cartes produit
 - Au-delà de 4 cartes, la grille passe à la ligne. Pas de slider sur une liste que B.3 veut indexable : catalogue de cours, membres d'une famille, liste des cours d'un club. B.3 est explicite, "un slider de 3 ou 4 cours phares peut s'ajouter au-dessus de la liste, jamais la remplacer".
 - L'Extra n'est pas une carte produit : c'est une ligne pleine largeur, empilée. On ne compare pas un Extra à ses voisins.
 - Chaque carte produit porte une photo d'illustration en tête, sur toute la largeur de la carte : elle humanise l'offre (décision Hugo, 2026-09-14, Q30). La légende est un champ du produit dans `data.js`, jamais écrite dans la page. L'Extra n'en a pas.
+- Les prix s'alignent en bas de carte, d'une carte à l'autre. Tout ce qui suit la liste d'inclusion est enfermé dans `.produit__bas`, collé en pied : prix, total, bouton, trois éléments de hauteur constante. Les mentions de hauteur variable (campagne en cours, tarif de repli) restent **au-dessus** du prix, où elles l'annoncent. Sans ça, une liste d'inclusion plus longue que sa voisine décale le prix et la comparaison se fait mal.
 - Un encadré qui n'est pas un produit (catégorie de club, engagement de réassurance, étape, zone du plateau) porte la classe `.bloc`, pas `.produit`. Il suit la grille de sa section (`grille--3`, `grille--2`) et occupe toute la largeur disponible : un bloc catégorie GYM fait la même largeur qu'un bloc « Nos engagements ». La largeur de carte produit est réservée aux produits.
 
 ## Règles métier (non négociables)
