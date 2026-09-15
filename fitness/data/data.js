@@ -958,7 +958,43 @@ window.DATA = {
     { club: 'signy', jour: 'mercredi', heure: '19:00', duree: 45, cours: 'step' },
     { club: 'signy', jour: 'jeudi',    heure: '18:30', duree: 60, cours: 'pilates' },
     { club: 'signy', jour: 'vendredi', heure: '12:15', duree: 45, cours: 'total-sculpt' },
-    { club: 'signy', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'les-mills-body-pump' }
+    { club: 'signy', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'les-mills-body-pump' },
+
+    /* Séances ajoutées le 2026-09-15 pour les 10 cours qui n'en avaient
+       aucune : un cours sans séance est un cours que personne ne peut
+       suivre, et il manquait aux filtres comme aux comptages. Planning de
+       démonstration, à remplacer par le vrai planning. Jamais dans un club
+       Gym : ces clubs n'ont pas de cours collectifs. */
+    { club: 'geneve-eaux-vives', jour: 'lundi', heure: '18:00', duree: 55, cours: 'all-styles-dance' },
+    { club: 'veyrier', jour: 'mercredi', heure: '18:00', duree: 55, cours: 'all-styles-dance' },
+    { club: 'denges', jour: 'vendredi', heure: '10:00', duree: 55, cours: 'all-styles-dance' },
+    { club: 'blandonnet', jour: 'lundi', heure: '19:00', duree: 45, cours: 'boxe' },
+    { club: 'versoix', jour: 'mercredi', heure: '18:30', duree: 45, cours: 'boxe' },
+    { club: 'signy', jour: 'vendredi', heure: '18:30', duree: 45, cours: 'boxe' },
+    { club: 'geneve-eaux-vives', jour: 'lundi', heure: '12:15', duree: 55, cours: 'cardio-sculpt' },
+    { club: 'veyrier', jour: 'mercredi', heure: '10:00', duree: 55, cours: 'cardio-sculpt' },
+    { club: 'denges', jour: 'vendredi', heure: '18:00', duree: 55, cours: 'cardio-sculpt' },
+    { club: 'blandonnet', jour: 'lundi', heure: '10:30', duree: 55, cours: 'cours-zen' },
+    { club: 'versoix', jour: 'mercredi', heure: '10:30', duree: 55, cours: 'cours-zen' },
+    { club: 'signy', jour: 'vendredi', heure: '10:30', duree: 55, cours: 'cours-zen' },
+    { club: 'geneve-la-praille', jour: 'lundi', heure: '10:30', duree: 55, cours: 'gym-douce-dos' },
+    { club: 'meyrin', jour: 'mercredi', heure: '09:30', duree: 55, cours: 'gym-douce-dos' },
+    { club: 'gland', jour: 'vendredi', heure: '12:15', duree: 55, cours: 'gym-douce-dos' },
+    { club: 'geneve-la-praille', jour: 'lundi', heure: '19:00', duree: 45, cours: 'les-mills-ceremony' },
+    { club: 'meyrin', jour: 'mercredi', heure: '19:00', duree: 45, cours: 'les-mills-ceremony' },
+    { club: 'gland', jour: 'vendredi', heure: '18:30', duree: 45, cours: 'les-mills-ceremony' },
+    { club: 'blandonnet', jour: 'lundi', heure: '18:00', duree: 55, cours: 'les-mills-shapes' },
+    { club: 'versoix', jour: 'mercredi', heure: '18:00', duree: 55, cours: 'les-mills-shapes' },
+    { club: 'signy', jour: 'vendredi', heure: '18:00', duree: 55, cours: 'les-mills-shapes' },
+    { club: 'blandonnet', jour: 'lundi', heure: '09:30', duree: 55, cours: 'mobilite-stretching' },
+    { club: 'versoix', jour: 'mercredi', heure: '09:30', duree: 55, cours: 'mobilite-stretching' },
+    { club: 'signy', jour: 'vendredi', heure: '09:30', duree: 55, cours: 'mobilite-stretching' },
+    { club: 'geneve-eaux-vives', jour: 'lundi', heure: '09:30', duree: 55, cours: 'move-and-mind' },
+    { club: 'veyrier', jour: 'mercredi', heure: '12:15', duree: 55, cours: 'move-and-mind' },
+    { club: 'denges', jour: 'vendredi', heure: '09:30', duree: 55, cours: 'move-and-mind' },
+    { club: 'geneve-la-praille', jour: 'lundi', heure: '09:30', duree: 55, cours: 'sophrologie-stretching' },
+    { club: 'meyrin', jour: 'mercredi', heure: '10:30', duree: 55, cours: 'sophrologie-stretching' },
+    { club: 'gland', jour: 'vendredi', heure: '09:30', duree: 55, cours: 'sophrologie-stretching' }
   ]
 };
 

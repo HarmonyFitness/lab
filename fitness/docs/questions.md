@@ -775,7 +775,14 @@ groupe » alors que ce n'est pas un Small Group Training : corrigé en « salle 
 Reste « Pilates Privilège », en format petit groupe et non-Extra. Si c'est
 vraiment du petit groupe, B.3 en fait un Extra payant. À trancher avec Harmony.
 
-**4. Autre trouvaille.** 10 cours du catalogue n'ont aucune séance dans le jeu
-de démonstration. C'est une donnée incomplète, pas un défaut de code, mais la
-règle mérite d'être dite : un cours sans aucune séance est un cours que personne
-ne peut suivre. Au lancement, il ne devrait pas exister de cours orphelin.
+**4. Autre trouvaille, réglée.** 10 cours du catalogue n'avaient aucune séance.
+Un cours sans séance est un cours que personne ne peut suivre : il disparaissait
+des filtres par formule et des comptages tout en restant au catalogue.
+Hugo, le 2026-09-15 : « Quand y'a pas de séances, invente-en, pour compléter le
+site web. On intégrera les vraies données ensuite. » 30 séances ajoutées, 3 par
+cours, réparties sur les clubs et les jours, jamais dans un club Gym. Le
+planning passe de 68 à 98 séances et plus aucun cours n'est orphelin.
+Les nombres concordent maintenant de bout en bout : catalogue Premium 47 cours,
+carte formule Premium 43 en salle + 4 aquatiques.
+À remplacer par le vrai planning : c'est du jeu de démonstration, assumé comme
+tel dans le code et dans la mention affichée sous le planning.

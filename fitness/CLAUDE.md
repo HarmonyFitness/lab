@@ -46,6 +46,9 @@ Cours collectifs : 2 templates seulement, le hub et le gabarit cours. On maquett
 - Images : blocs gris avec une légende ("Photo plateau musculation")
 - Copy : celle de B.3 partout où B.3 la donne (H1, sous-titres, titles, libellés de boutons, mentions obligatoires). Pour le texte de remplissage que B.3 ne fournit pas (paragraphes de description, corps de FAQ, témoignages), lorem ipsum, à une longueur réaliste par rapport au vrai texte attendu.
 - Donnée manquante (prix, adresse, nombre) : placeholder visible entre crochets, jamais du lorem ipsum et jamais une valeur inventée
+- Exception au "jamais une valeur inventée" : les **séances du planning** sont un jeu de démonstration, inventé et assumé (décision Hugo, 2026-09-15). Un planning vide ne montre rien de ce que le gabarit doit faire, et il fausse tous les comptages qui en découlent. Le planning porte déjà sa mention "Planning type saisi au CMS. Mis à jour le [date]". La règle tient toujours pour un prix, une adresse ou un horaire d'ouverture, qui se lisent comme des faits.
+- **Aucun cours orphelin** : un cours sans aucune séance est un cours que personne ne peut suivre. Il disparaît des filtres par formule et des comptages, mais reste au catalogue : c'est une incohérence visible. Chaque cours du catalogue a au moins une séance.
+- Un cours collectif n'est jamais programmé dans un club Gym : ces clubs n'ont que des Small Group Training (B.3 > Variante Gym).
 - Pas de design de marque, pas d'effets
 - Chaque page en desktop (1280 px) et mobile (375 px), les deux sont obligatoires
 
