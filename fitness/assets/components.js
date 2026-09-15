@@ -2177,7 +2177,7 @@ Object.assign(window.HF.vues, (function () {
   /* Catalogue rangé par les 6 objectifs (B.3 > Cours collectifs (hub)). */
   function catalogueCours(etat, base) {
     var groupes = R.catalogueParObjectif(etat.filtres || {});
-    return '<section data-spec="B.3 > Sport > Cours collectifs (hub)">' +
+    return '<section id="catalogue" data-spec="B.3 > Sport > Cours collectifs (hub)">' +
       '<h2>Nos cours par objectif</h2>' +
       (groupes.length ? groupes.map(function (g) {
         return '<h3 style="margin-top:24px">' + esc(g.objectif.nom) + aValider(g.aValider) + '</h3>' +
@@ -2217,9 +2217,21 @@ Object.assign(window.HF.vues, (function () {
   }
 
   /* Liens vers les 4 pages de famille (B.3 > Cours collectifs (hub)). */
+  /* « Nos disciplines » laissait croire que ces quatre-là étaient toute
+     l'offre, alors que le catalogue en compte des dizaines. Ces pages
+     existent pour une autre raison : ce sont les disciplines à plusieurs
+     variantes, qui méritent une page qui les réunit. Le titre et la phrase
+     le disent, et renvoient au catalogue pour le reste. */
   function liensFamilles(base) {
+    var noms = D.referentiels.familles.map(function (f) { return f.nom; });
+    var liste = noms.length > 1
+      ? noms.slice(0, -1).join(', ') + ' et ' + noms[noms.length - 1]
+      : noms[0];
     return '<section data-spec="B.3 > Sport > Cours collectifs (hub)">' +
-      '<h2>Nos disciplines</h2>' +
+      '<h2>Des disciplines déclinées en plusieurs cours</h2>' +
+      '<p class="mention">' + esc(liste) + ' réunissent chacun plusieurs cours : ' +
+      'une page présente la discipline et ses variantes. ' +
+      '<a class="lien-texte" href="#catalogue">Tous les autres cours sont dans le catalogue</a>.</p>' +
       '<div class="grille grille--cartes">' + D.referentiels.familles.map(function (f) {
         var m = R.membresRanges(f.id);
         var total = m.liens.length + m.sections.length + m.filtres.length;

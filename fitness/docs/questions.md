@@ -786,3 +786,32 @@ Les nombres concordent maintenant de bout en bout : catalogue Premium 47 cours,
 carte formule Premium 43 en salle + 4 aquatiques.
 À remplacer par le vrai planning : c'est du jeu de démonstration, assumé comme
 tel dans le code et dans la mention affichée sous le planning.
+
+### Q40 · « Nos disciplines » laissait croire à un inventaire
+**Statut :** corrigé, libellé à valider
+**Source :** Hugo, 2026-09-15. « Sur le hub des cours, on a Nos disciplines. Si
+je comprends bien ce sont les pages hub pour certains cours. J'ai un problème
+avec cette section, ça nous laisse croire que ce sont les seules disciplines
+qu'on a. »
+
+Le problème est réel et c'est un problème de promesse, pas de mise en page. Le
+titre « Nos disciplines » annonce un inventaire, alors que ces quatre pages
+existent pour une tout autre raison : ce sont les disciplines à plusieurs
+variantes, retenues parce qu'elles ont une demande générique mesurée. Le
+catalogue juste au-dessus en compte 47.
+
+Corrigé : le titre devient « Des disciplines déclinées en plusieurs cours », et
+une phrase sous le titre nomme les quatre et renvoie au catalogue pour le reste.
+La liste des noms est construite depuis les données : une cinquième famille,
+Stretching par exemple, s'ajouterait à la phrase toute seule.
+
+À valider :
+- **le libellé.** « Des disciplines déclinées en plusieurs cours » est juste
+  mais long. Alternatives : « Quatre disciplines, plusieurs cours chacune », ou
+  nommer directement « Pilates, Yoga, Les Mills, Aqua » en titre, ce qui ne
+  promet rien du tout. Le mot « famille » est du vocabulaire interne, il ne
+  devrait pas se retrouver dans un titre public.
+- **la place du bloc.** Il est aujourd'hui sous le catalogue, ce qui est
+  cohérent : on découvre l'offre complète, puis on entre dans une discipline.
+  Le remonter au-dessus rendrait ces quatre pages plus visibles pour le SEO,
+  au prix de la même ambiguïté qu'on vient de corriger.
