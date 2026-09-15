@@ -149,6 +149,7 @@ Cours
 - Un membre de famille peut être rangé sous un autre objectif que sa famille. La page de famille n'est donc jamais filtrée par objectif.
 - La page de famille liste tous ses membres. Membre avec page dédiée : un lien vers sa fiche. Membre sans page : une section sur la page de famille, avec ancre.
 - Chaque cours porte un champ `destination` résolu dans `data.js`, jamais une règle recalculée à l'affichage. Les composants lisent `cours.destination`.
+- La règle d'exclusion Aqua vaut **aussi pour les légendes de photo et tout texte de remplissage** : Fitness ne dit jamais "natation" ni "bassin de natation" pour parler de son offre. On dit "cours aquatique". Le mot natation n'apparaît que dans la passerelle vers l'école de natation et dans la barre groupe, qui pointent vers l'autre site.
 - Les Mills s'écrit en deux mots partout, noms de cours et slugs compris : "Les Mills Body Pump", `/cours/les-mills`.
 - H1 = le nom du cours ou de la famille, seul, sans mention géographique. Title = "Cours de [cours] à Genève et Vaud | Harmony", ou "[cours] à Genève et Vaud | Harmony" quand "cours de" sonne faux, ce qui est le cas des formats Les Mills. Aucune commune dans le title d'une fiche.
 

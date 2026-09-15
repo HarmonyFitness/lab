@@ -300,7 +300,7 @@ window.DATA = {
       idMetier: null
     },
     {
-      id: 'formule-premium', photo: 'Photo bassin de natation', type: 'formule', nom: 'Premium', categorie: 'premium', ordre: 3,
+      id: 'formule-premium', photo: 'Photo cours aquatique en piscine', type: 'formule', nom: 'Premium', categorie: 'premium', ordre: 3,
       inclus: { plateau: true, cours: true, aqua: true, coaching: '[X] séances' },
       prix: {
         adulte: { sans: null, '12mois': null },
