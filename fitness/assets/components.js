@@ -479,6 +479,13 @@ window.HF = (function () {
       (morceaux[1] ? '#' + morceaux[1] : '');
   }
 
+  /* Un club à Meyrin ou à Versoix n'est pas à Genève-ville. On écrit donc
+     toujours « Canton de Genève », jamais « Genève » seul, dès qu'il s'agit
+     d'un regroupement géographique. Le nom de la commune, lui, reste nu. */
+  function libelleCanton(canton) {
+    return canton ? 'Canton de ' + canton : '';
+  }
+
   function famille(id) {
     return D.referentiels.familles.find(function (f) { return f.id === id || f.slug === id; }) || null;
   }
@@ -492,7 +499,7 @@ window.HF = (function () {
     regles: regles,
     prixTexte: prixTexte, texte: texte, esc: esc, spec: spec,
     aValider: aValider, position: position, positions: positions,
-    lienCours: lienCours, famille: famille
+    lienCours: lienCours, famille: famille, libelleCanton: libelleCanton
   };
 })();
 
@@ -658,7 +665,7 @@ window.HF.vues = (function () {
     return '<section class="choix-club" data-spec="B.3 > Page Tarifs > Trame > 2">' +
       '<div><h2>' + esc(libelle) + '</h2>' +
       R.clubsParCanton().map(function (g) {
-        return '<div class="choix-club__canton">' + esc(g.canton) + '</div>' +
+        return '<div class="choix-club__canton">' + esc(H.libelleCanton(g.canton)) + '</div>' +
           g.clubs.map(function (c) {
             var cat = H.categorie(c.categorie);
             /* Vrai lien vers l'état du club, pas un bouton : la page marche
@@ -694,7 +701,7 @@ window.HF.vues = (function () {
   function pastillesMobile(etat) {
     return '<section data-spec="B.3 > Page Tarifs > Trame > 2 (mobile)">' +
       R.clubsParCanton().map(function (g) {
-        return '<div class="choix-club__canton">' + esc(g.canton) + '</div>' +
+        return '<div class="choix-club__canton">' + esc(H.libelleCanton(g.canton)) + '</div>' +
           '<div class="pastilles">' + g.clubs.map(function (c) {
             var cat = H.categorie(c.categorie);
             return '<a class="btn btn--discret btn--petit" href="?club=' + c.id + '" ' +
@@ -876,7 +883,7 @@ Object.assign(window.HF.vues, (function () {
       '<button type="button" class="infobulle__point" aria-label="Voir les clubs inclus">i</button>' +
       '<span class="infobulle__contenu" role="note">' +
       groupes.map(function (g) {
-        return '<strong>' + esc(g.canton) + '</strong><br>' +
+        return '<strong>' + esc(H.libelleCanton(g.canton)) + '</strong><br>' +
           g.clubs.map(function (c) { return esc(c.nom); }).join('<br>');
       }).join('<span class="infobulle__sep"></span>') +
       '</span></span>';
@@ -1633,7 +1640,10 @@ Object.assign(window.HF.regles, (function () {
     return cantons.map(function (canton) {
       return {
         canton: canton,
-        titre: canton === 'Vaud' ? 'Nos clubs dans le canton de Vaud' : 'Nos clubs à ' + canton,
+        /* Même formule pour les deux cantons : « Nos clubs à Genève » laissait
+           croire à la ville, alors que Meyrin, Versoix ou Blandonnet n'y sont
+           pas. */
+        titre: 'Nos clubs dans le canton de ' + canton,
         clubs: liste.filter(function (c) { return c.canton === canton; })
           .sort(function (a, b) { return a.nom.localeCompare(b.nom, 'fr'); })
       };

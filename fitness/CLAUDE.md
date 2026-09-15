@@ -82,7 +82,9 @@ Clubs et catégories
 - Accès : Premium couvre tous les clubs, Essential couvre Essential et Gym, Gym couvre Pâquis.
 - La ligne d'accès d'une catégorie se dit avec "dès" : "Accessible dès la formule Essential". Une énumération ("avec les formules Essential et Premium") devient fausse dès qu'une formule s'ajoute, et il faut alors la corriger partout.
 - Les prix dépendent de la catégorie, jamais du club.
-- Listes de clubs groupées par canton (Genève, Vaud), ordre alphabétique, catégorie affichée à côté du nom.
+- Listes de clubs groupées par canton, ordre alphabétique, catégorie affichée à côté du nom.
+- Un regroupement géographique s'écrit toujours **"Canton de Genève"**, jamais "Genève" seul : Meyrin, Versoix et Blandonnet ne sont pas dans la ville de Genève (décision Hugo, 2026-09-15). Même formule pour les deux cantons, y compris dans les titres du hub : "Nos clubs dans le canton de Genève". Le nom d'une commune, lui, reste nu : "Genève · Pâquis".
+- Exception : les `<title>` de B.3 gardent "à Genève et Vaud". Ce sont des titles SEO calés sur les requêtes, pas des regroupements.
 - Carte d'un club Gym : le nombre de cours par semaine est remplacé par "Pas de cours collectifs · Small Group Training en Extra". La ligne n'est jamais masquée.
 
 Page Tarifs
