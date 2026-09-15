@@ -85,6 +85,11 @@ window.HF = (function () {
         if (clubs.indexOf(se.club) === -1) return;
         var co = cours(se.cours);
         if (!co || co.estExtra || co.format !== idFormat) return;
+        /* Même population que le catalogue du hub : une variante traitée en
+           filtre n'y est pas une entrée, elle ne doit pas être comptée ici
+           non plus, sinon la carte et le catalogue annoncent deux nombres
+           différents pour la même chose. */
+        if (co.traitement === 'filtre-intensite' || co.traitement === 'filtre-format') return;
         vus[co.id] = 1;
       });
       return Object.keys(vus).length;
@@ -1958,6 +1963,18 @@ Object.assign(window.HF.regles, (function () {
     return Object.keys(vus);
   }
 
+  /* Ce cours est-il accessible avec la formule d'une catégorie donnée ? La
+     règle d'accès est cumulative : Premium couvre Essential et Gym, donc un
+     cours donné dans un club Essential est accessible en Premium. Filtrer et
+     compter par la seule catégorie du club dirait le contraire. */
+  function coursAccessible(idCours, idCat) {
+    var cat = H.categorie(idCat);
+    if (!cat) return true;
+    return categoriesDuCours(idCours).some(function (x) {
+      return cat.couvre.indexOf(x) !== -1;
+    });
+  }
+
   /* Recherche : insensible à la casse et aux accents, sur le nom du cours,
      celui de sa famille (chercher "pilates" doit sortir ses variantes) et
      celui de ses objectifs (chercher "danse" doit sortir les cours rangés
@@ -1984,7 +2001,7 @@ Object.assign(window.HF.regles, (function () {
     if (f.objectif && c.objectifPrincipal !== f.objectif) return false;
     if (f.intensite && c.intensite !== f.intensite) return false;
     if (f.format && c.format !== f.format) return false;
-    if (f.categorie && categoriesDuCours(c.id).indexOf(f.categorie) === -1) return false;
+    if (f.categorie && !coursAccessible(c.id, f.categorie)) return false;
     if (f.club && !R.seancesDuClub(f.club).some(function (s) { return s.cours === c.id; })) return false;
     if (!correspondRecherche(c, f.recherche)) return false;
     return true;
@@ -1996,7 +2013,7 @@ Object.assign(window.HF.regles, (function () {
   function categorieSansCours(idCat) {
     if (!idCat) return false;
     return !D.cours.some(function (c) {
-      return !c.estExtra && categoriesDuCours(c.id).indexOf(idCat) !== -1;
+      return !c.estExtra && coursAccessible(c.id, idCat);
     });
   }
 
@@ -2025,7 +2042,7 @@ Object.assign(window.HF.regles, (function () {
     coachsDuCours: coachsDuCours, coachsDeFamille: coachsDeFamille,
     coachsPersonnels: coachsPersonnels, catalogueParObjectif: catalogueParObjectif,
     categoriesDuCours: categoriesDuCours, coursFiltre: coursFiltre,
-    categorieSansCours: categorieSansCours
+    coursAccessible: coursAccessible, categorieSansCours: categorieSansCours
   };
 })());
 
@@ -2095,8 +2112,11 @@ Object.assign(window.HF.vues, (function () {
       return !f.categorie || c.categorie === f.categorie;
     });
     return '<div class="filtres" data-spec="B.3 > Sport > Cours collectifs (hub)">' +
-      selectFiltre(D.categories.map(function (c) { return { id: c.id, nom: 'Clubs ' + c.nom }; }),
-        f.categorie, 'categorie', 'Toutes les catégories de clubs') +
+      /* Libellé au nom de la formule, pas du club : le filtre répond à
+         « qu'est-ce que je peux faire avec cette formule », et la règle est
+         cumulative. « Clubs Premium » aurait laissé croire à un lieu. */
+      selectFiltre(D.categories.map(function (c) { return { id: c.id, nom: 'Avec la formule ' + c.nom }; }),
+        f.categorie, 'categorie', 'Toutes les formules') +
       selectFiltre(clubs.map(function (c) { return { id: c.id, nom: c.nom }; }), f.club, 'club', 'Tous les clubs') +
       selectFiltre(D.referentiels.objectifs, f.objectif, 'objectif', 'Tous les objectifs') +
       selectFiltre(D.referentiels.intensites, f.intensite, 'intensite', 'Toutes les intensités') +
@@ -2117,12 +2137,13 @@ Object.assign(window.HF.vues, (function () {
     var visibles = D.seances.filter(function (s) {
       var co = H.cours(s.cours); if (!co || co.estExtra) return false;
       if (f.club && s.club !== f.club) return false;
-      /* La catégorie se juge sur le club de la séance, pas sur le cours :
-         un cours donné à Meyrin et à Veyrier ne doit sortir qu'une fois
-         filtré Premium la séance de Veyrier. */
+      /* Accès cumulatif, comme au catalogue : filtrer Premium garde les
+         séances des clubs Essential et Gym, puisque la formule Premium y
+         donne accès. */
       if (f.categorie) {
         var cl = H.club(s.club);
-        if (!cl || cl.categorie !== f.categorie) return false;
+        var cat = H.categorie(f.categorie);
+        if (!cl || !cat || cat.couvre.indexOf(cl.categorie) === -1) return false;
       }
       if (f.jour && s.jour !== f.jour) return false;
       return R.coursFiltre(co, { objectif: f.objectif, intensite: f.intensite,

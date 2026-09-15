@@ -665,7 +665,7 @@ window.DATA = {
       benefices: ['Quis autem vel eum iure', 'Reprehenderit qui in ea', 'Voluptate velit esse'] },
     { id: 'les-mills-grit', nom: 'Les Mills Grit', famille: 'les-mills', traitement: 'page',
       objectifPrincipal: 'se-depasser', objectifSecondaire: null,
-      intensite: 'intense', format: 'petit-groupe', estExtra: false, extra: null,
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
       coachs: ['thomas', 'karim'],
       description: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium.',
       benefices: ['At vero eos et accusamus', 'Et iusto odio dignissimos', 'Ducimus qui blanditiis'] },

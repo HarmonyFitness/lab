@@ -433,7 +433,7 @@ proche de ce que B.3 interdit, la ligne se retire en une ligne de code, et la
 campagne redevient invisible depuis l'état par défaut.
 
 ### Q32 · Filtre par catégorie de clubs et recherche sur le hub des cours
-**Statut :** tranchée par Hugo, à répercuter dans B.3
+**Statut :** tranchée, filtre cumulatif depuis le 2026-09-15
 **Source :** Hugo, 2026-09-15. « Il serait également intéressant de filtrer par
 catégorie de clubs : Gym (en réalité pas de cours co pour Gym), Essential,
 Premium. Aussi, intégrer une barre de recherche. »
@@ -445,11 +445,13 @@ s'ajoutent, et ce sont des ajouts, pas des lectures de B.3 :
 - **recherche par nom**, pour qui sait déjà ce qu'il cherche
 
 Choix faits dans la maquette, à valider :
-- la catégorie porte sur la catégorie du club où le cours est donné, pas sur la
-  règle d'accès des formules. Filtrer Essential ne remonte donc pas les cours
-  des clubs Gym, alors que la formule Essential y donne accès. Si c'est « ce à
-  quoi ma formule me donne droit » qui est attendu, c'est un autre filtre, celui
-  de /clubs, qui s'appelle « Ma formule ».
+- ~~la catégorie porte sur la catégorie du club où le cours est donné~~
+  **Tranché par Hugo le 2026-09-15 : c'est l'accès qui compte, et il est
+  cumulatif.** « Quand un cours est catégorisé en Essential, il est aussi
+  accessible via l'offre Premium. » Filtrer Premium remonte donc les cours des
+  clubs Essential et Gym, et le comptage des cartes formule suit la même règle.
+  Le filtre est renommé en conséquence : « Avec la formule Premium » plutôt que
+  « Clubs Premium », qui laissait croire à un lieu.
 - la catégorie commande le menu des clubs : choisir Premium ne laisse que les
   trois clubs Premium, et relâche un club devenu incompatible. Sans ça on peut
   demander « Meyrin » et « Premium » en même temps, ce qui ne veut rien dire.
@@ -718,3 +720,62 @@ formulaire et une règle de priorité sur la table de routage. Une heure.
 - **qui surveille la boîte centrale**, et sous quel délai réel. Le site promet
   « au plus vite » : sans personne derrière, la promesse coûte plus cher que
   l'ancienne adresse e-mail.
+
+### Q39 · Libellés des objectifs : « mobilité » et « Se préparer à la compétition »
+**Statut :** ouverte, recommandations posées, à trancher par le test d'arborescence
+**Source :** Hugo, 2026-09-15.
+
+**1. « Bouger mieux et soulager son dos » est long. Pourquoi pas « mobilité » ?**
+
+B.3 signale déjà ce libellé comme l'un des deux doutes à lever par le test
+d'arborescence, avec la confusion « Se dépenser » / « Se dépasser ». La question
+est donc ouverte au bon endroit.
+
+Deux raisons de ne pas prendre « mobilité » tel quel :
+- c'est du vocabulaire de métier. Le pratiquant averti sait ce qu'est le travail
+  de mobilité ; le débutant, qui est la cible de ce rangement, entend soit rien,
+  soit « mobilité réduite ». Or les objectifs servent à orienter quelqu'un qui
+  ne connaît pas encore l'offre.
+- les cinq autres objectifs sont des verbes : se renforcer, se dépenser, se
+  dépasser, se détendre, danser. « Mobilité » est un nom : il casse la série, et
+  une liste qui change de nature grammaticale se lit moins vite.
+
+Trois candidats à soumettre au test, du plus court au plus explicite :
+- **« Bouger mieux »** : court, garde le verbe et la série. Le dos reste visible
+  dans les noms de cours du groupe (Pilates Gym Dos, Yoga Dos, Gym Douce Dos).
+  C'est celui que je recommande.
+- « Soulager mon dos » : nomme la douleur, donc très efficace sur ceux qui l'ont,
+  mais exclut ceux qui viennent pour la souplesse.
+- le libellé actuel, gardé comme témoin.
+
+**2. Le client demande un objectif « Se préparer à la compétition ».**
+
+D'accord avec Hugo : cela rentre dans « Se dépasser ». Trois raisons.
+
+- **Le groupe serait vide.** Dans le jeu de démonstration, le seul cours qui
+  irait dans cet objectif est Hyrox, et Hyrox est un Small Group Training, donc
+  un Extra, donc absent du catalogue des cours collectifs. Un septième objectif
+  afficherait une section vide ou à un seul élément, ce qui est pire que pas
+  d'objectif du tout.
+- **Le rangement sert le débutant, pas l'expert.** Six lignes à parcourir, c'est
+  déjà beaucoup. En ajouter une septième pour une audience minuscule coûte à
+  tout le monde et ne sert presque personne.
+- **Le besoin est réel mais il vit ailleurs.** La préparation à la compétition,
+  chez Harmony, c'est le Small Group Training (Hyrox) et le coaching personnel,
+  dont B.3 range déjà les programmes selon les mêmes 6 objectifs. C'est la
+  réponse à donner au client : le besoin est servi, pas par un objectif de cours
+  collectifs.
+
+Si Harmony insiste, la question à lui poser est simple : quels cours collectifs,
+nommément, iraient dans cet objectif ? Si la réponse tient en moins de trois
+cours, l'objectif ne se justifie pas.
+
+**3. Trouvé en vérifiant.** « Les Mills Grit » était saisi en format « petit
+groupe » alors que ce n'est pas un Small Group Training : corrigé en « salle ».
+Reste « Pilates Privilège », en format petit groupe et non-Extra. Si c'est
+vraiment du petit groupe, B.3 en fait un Extra payant. À trancher avec Harmony.
+
+**4. Autre trouvaille.** 10 cours du catalogue n'ont aucune séance dans le jeu
+de démonstration. C'est une donnée incomplète, pas un défaut de code, mais la
+règle mérite d'être dite : un cours sans aucune séance est un cours que personne
+ne peut suivre. Au lancement, il ne devrait pas exister de cours orphelin.
