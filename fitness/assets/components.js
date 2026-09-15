@@ -703,13 +703,38 @@ Object.assign(window.HF.vues, (function () {
 
   var moisEngagement = { sans: 1, '12mois': 12 };
 
-  /* B.3 > Page Tarifs > trame > 4 : les 4 lignes d'inclusion sont toujours
+  /* Les Extras compris dans une formule, nommés. Une ligne qui dit juste
+     "Extras" ne vend rien : ce sont les noms qui font la différence entre
+     Premium et Platinium. Liste déduite du club référent quand il est choisi,
+     sinon tous les Extras vendus en ligne. Au-delà de MAX_EXTRAS, on compte
+     le reste plutôt que d'allonger la carte sans fin. */
+  var MAX_EXTRAS = 4;
+  function detailExtras(etat) {
+    var liste = (etat && etat.club ? R.extrasDuClub(etat.club) : D.extras)
+      .filter(function (e) { return e.modeVente === 'en-ligne'; });
+    if (!liste.length) return '';
+    var montres = liste.slice(0, MAX_EXTRAS);
+    var reste = liste.length - montres.length;
+    return '<span class="tags tags--inclus">' +
+      montres.map(function (e) {
+        return '<span class="tag">' + esc(e.nom) + '</span>';
+      }).join('') +
+      (reste ? '<span class="tag tag--secondaire">et ' + reste + ' autre' +
+        (reste > 1 ? 's' : '') + '</span>' : '') +
+      '</span>';
+  }
+
+  /* B.3 > Page Tarifs > trame > 4 : les lignes d'inclusion sont toujours
      affichées, dans le même ordre, avec "Non inclus" quand c'est le cas (Q4). */
-  function lignesInclusion(p) {
+  function lignesInclusion(p, etat) {
     return '<ul class="produit__inclus">' + D.referentiels.inclusions.map(function (inc) {
       var v = p.inclus ? p.inclus[inc.id] : false;
+      /* Seule la ligne Extras porte un détail, et seulement quand elle est
+         incluse : sur les autres formules, "Non inclus" dit déjà tout. */
+      var detail = (inc.id === 'extras' && v === true) ? detailExtras(etat) : '';
       if (v === true) {
-        return '<li><span class="produit__marque">✓</span><span>' + esc(inc.libelle) + '</span></li>';
+        return '<li><span class="produit__marque">✓</span><span>' +
+          esc(inc.libelle) + detail + '</span></li>';
       }
       if (v === false || v === undefined) {
         return '<li class="non"><span class="produit__marque">·</span><span>' +
@@ -821,7 +846,7 @@ Object.assign(window.HF.vues, (function () {
       var total = (typeof pr.valeur === 'number') ? pr.valeur * mois : null;
       corps =
         '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
-        lignesInclusion(p) +
+        lignesInclusion(p, etat) +
         blocPrix(pr, '/ mois') +
         '<div class="produit__total">Total ' +
         esc(H.engagement(etat.engagement).nom.toLowerCase()) + ' : ' + prixTexte(total) + '</div>' +
@@ -838,7 +863,7 @@ Object.assign(window.HF.vues, (function () {
       corps =
         '<p class="produit__duree">' + esc(texte(p.duree, '[durée]')) + '</p>' +
         '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
-        lignesInclusion(p) +
+        lignesInclusion(p, etat) +
         blocPrix(pr, '') +
         '<div class="produit__total">soit env. ' + prixTexte(pm) + ' par mois</div>' +
         ligneRemise(pr) +

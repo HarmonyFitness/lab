@@ -383,6 +383,10 @@ a { color: var(--accent); }
   border: 1px solid var(--gris-40); border-radius: 999px; padding: 2px 9px;
   background: #fff; color: var(--gris-80); }
 .tag--secondaire { border-style: dashed; color: var(--gris-60); }
+/* Tags posés à l'intérieur d'une ligne d'inclusion : mêmes pastilles que
+   sur les cartes de cours, une seule grammaire visuelle dans tout le lab. */
+.tags--inclus { margin: 5px 0 2px; }
+.produit__inclus .tags--inclus .tag { font-size: 11px; padding: 1px 8px; }
 .champ { font: inherit; font-size: 14px; padding: 7px 10px;
   border: 1px solid var(--gris-40); border-radius: var(--rayon); background: #fff; }
 .champ--recherche { flex: 1 1 260px; min-width: 0; max-width: 420px; }
