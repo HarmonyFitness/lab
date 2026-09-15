@@ -550,3 +550,37 @@ anglais (« platinum »). Les autres noms du jeu sont anglophones : Gym,
 Essential, Premium. « Platinum » serait la graphie cohérente. À trancher avec
 Harmony : si le nom est déjà utilisé commercialement sous cette forme, il vaut
 mieux le garder que d'avoir deux graphies en circulation.
+
+### Q35 · Nombre de cours par formule et point d'info sur les clubs
+**Statut :** tranchée par Hugo, deux points à valider
+**Source :** Hugo, 2026-09-15. « Pour différencier les formules Essential et
+Premium (même en promo), il faut également dire le nombre de cours collectifs
+(pas de séance mais de cours) associé à chaque formule. » Et : « En dessous du
+nom de la formule, mettre un point d'info où au survol on peut voir le nom des
+clubs. »
+
+Posé dans les maquettes :
+- les lignes de cours comptent les **cours différents**, pas les séances :
+  « Cours collectifs en salle : 25 cours », « Cours aquatiques : 4 cours ». Le
+  nombre est déduit des séances des clubs que la formule ouvre, donc jamais
+  saisi. Quand il ne peut pas l'être, « [X] cours ».
+- la ligne d'accès porte toujours un nombre, y compris pour un seul club
+  (« Accès à 1 club »). B.3 prévoyait « Accès au club Genève · Pâquis » pour ce
+  cas : la ligne est corrigée, puisque le nom du club se lit maintenant dans le
+  point d'info.
+- le point d'info ouvre au survol sur ordinateur et au toucher sur mobile, sans
+  une ligne de JavaScript : le déclencheur est un vrai bouton et le panneau
+  s'ouvre en `:hover` et en `:focus-within`. Il est donc aussi accessible au
+  clavier. Liste groupée par canton, comme partout ailleurs.
+
+À valider :
+- **le nombre affiché bouge avec le catalogue.** 25 cours aujourd'hui, 24 le
+  mois prochain si Harmony en retire un. Est-ce qu'on assume un nombre vivant,
+  calculé, ou est-ce qu'on préfère un ordre de grandeur stable, du type « plus
+  de 20 cours » ? Un chiffre exact est plus vendeur mais il engage.
+- **faut-il compter les cours ou les créneaux ?** Hugo a tranché pour les cours.
+  À vérifier auprès de Harmony que c'est bien ce qui parle au prospect : « 25
+  cours différents » et « 180 séances par semaine » ne racontent pas la même
+  chose.
+- le point d'info n'est pas dans B.3 d'origine. Il est ajouté sur les cartes
+  produit et dans le module Catégories de clubs, pas ailleurs.

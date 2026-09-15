@@ -259,6 +259,34 @@ a { color: var(--accent); }
 .produit--choisi { border-color: var(--gris-95); border-width: 2px; padding: 15px; }
 .niveau { font-style: italic; color: var(--niveau); }
 .produit__acces { font-size: 13px; color: var(--gris-60); margin-bottom: 10px; }
+
+/* Point d'info : survol sur ordinateur, toucher sur mobile. Le déclencheur
+   est un vrai bouton, donc :focus-within suffit au toucher et au clavier,
+   sans JavaScript. Le panneau se pose sous le point, calé à gauche pour ne
+   jamais sortir d'une carte de 343 px. */
+.infobulle { position: relative; display: inline-block; vertical-align: baseline; }
+.infobulle__point {
+  font: inherit; font-size: 11px; font-weight: 700; line-height: 15px;
+  width: 16px; height: 16px; padding: 0; margin-left: 5px;
+  border: 1px solid var(--gris-40); border-radius: 999px;
+  background: #fff; color: var(--gris-80); cursor: pointer; vertical-align: 1px;
+}
+.infobulle__point:hover, .infobulle__point:focus-visible {
+  border-color: var(--gris-95); color: var(--gris-95);
+}
+.infobulle__contenu {
+  display: none; position: absolute; z-index: 60; top: calc(100% + 6px); left: -8px;
+  min-width: 180px; max-width: min(260px, 70vw);
+  background: #fff; color: var(--gris-95); font-size: 12px; line-height: 1.5;
+  border: 1px solid var(--gris-40); border-radius: var(--rayon);
+  padding: 9px 11px; box-shadow: 0 2px 8px rgba(0, 0, 0, .12); text-align: left;
+}
+.infobulle:hover .infobulle__contenu,
+.infobulle:focus-within .infobulle__contenu { display: block; }
+.infobulle__sep { display: block; height: 7px; }
+/* Sur une carte en dernière colonne, le panneau sortirait à droite : on le
+   cale à droite du point quand il n'y a pas la place à gauche. */
+.grille > *:last-child .infobulle__contenu { left: auto; right: -8px; }
 .produit__inclus { list-style: none; padding: 0; margin: 0 0 14px; font-size: 13px; }
 .produit__inclus li { display: flex; gap: 8px; padding: 4px 0;
   border-bottom: 1px solid var(--gris-10); }

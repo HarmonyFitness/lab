@@ -65,9 +65,29 @@ window.HF = (function () {
     ligneAcces: function (idCat) {
       var liste = regles.clubsDeCategorie(idCat);
       if (liste.length === 0) return 'Accès à [X] clubs';
-      if (liste.length === 1) return 'Accès au club ' + liste[0].nom;
+      /* Toujours un nombre, y compris pour un seul club : la ligne se lit de
+         la même façon d'une formule à l'autre, et le détail des clubs se
+         trouve au point d'info à côté. */
+      if (liste.length === 1) return 'Accès à 1 club';
       if (liste.length === D.clubs.length) return 'Accès aux ' + D.clubs.length + ' clubs';
       return 'Accès à ' + liste.length + ' clubs';
+    },
+
+    /* Nombre de cours collectifs d'un format donné qu'une catégorie ouvre.
+       Un cours, pas une séance : c'est le nombre de cours différents qu'on
+       peut pratiquer, pas le nombre de créneaux. Déduit des séances, donc
+       jamais saisi, et c'est ce qui sépare Essential de Premium. */
+    nbCoursFormule: function (idCat, idFormat) {
+      var clubs = regles.clubsDeCategorie(idCat).map(function (c) { return c.id; });
+      if (!clubs.length) return null;
+      var vus = {};
+      D.seances.forEach(function (se) {
+        if (clubs.indexOf(se.club) === -1) return;
+        var co = cours(se.cours);
+        if (!co || co.estExtra || co.format !== idFormat) return;
+        vus[co.id] = 1;
+      });
+      return Object.keys(vus).length;
     },
 
     /* Grisé : un seul sens, "pas accessible depuis ce club".
@@ -569,7 +589,10 @@ window.HF.vues = (function () {
           '<p>' + esc(cat.promesse) + aValider(cat.promesseAValider) + '</p>' +
           (o.court ? '' : '<ul>' + cat.socle.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ul>') +
           '<p class="ligne-acces">' + esc(cat.ligneAcces) + '</p>' +
-          '<p class="mention">' + esc(R.ligneAcces(cat.id)) + '</p></div>';
+          '<p class="mention">' + esc(R.ligneAcces(cat.id)) +
+          /* H.vues est lu à l'appel, pas à la définition : ce module est le
+             premier chargé, infoClubs arrive avec le suivant. */
+          H.vues.infoClubs(cat.id) + '</p></div>';
       }).join('') + '</div>' +
       (o.court ? '' :
         '<details><summary class="lien-texte">Comment on classe Essential et Premium</summary>' +
@@ -747,9 +770,16 @@ Object.assign(window.HF.vues, (function () {
       /* Seule la ligne Extras porte un détail, et seulement quand elle est
          incluse : sur les autres formules, "Non inclus" dit déjà tout. */
       var detail = (inc.id === 'extras' && v === true) ? detailExtras(etat) : '';
+      /* Une ligne de cours dit combien de cours différents la formule ouvre,
+         pas combien de séances : c'est ce qui sépare Essential de Premium. */
+      var compte = '';
+      if (inc.format && v === true) {
+        var n = R.nbCoursFormule(p.categorie, inc.format);
+        compte = ' : ' + (n ? n + ' cours' : '[X] cours');
+      }
       if (v === true) {
         return '<li><span class="produit__marque">✓</span><span>' +
-          esc(inc.libelle) + detail + '</span></li>';
+          esc(inc.libelle) + esc(compte) + detail + '</span></li>';
       }
       if (v === false || v === undefined) {
         return '<li class="non"><span class="produit__marque">·</span><span>' +
@@ -813,6 +843,24 @@ Object.assign(window.HF.vues, (function () {
      une remise s'applique, même si le prix catalogue est encore inconnu :
      c'est un emplacement à prévoir en front, la barre et la taille le
      distinguent du prix remisé. */
+  /* Point d'info sur la ligne d'accès : "Accès aux 10 clubs" ne dit pas
+     lesquels. Au survol sur ordinateur, au toucher sur mobile, grâce à
+     :focus-within : le déclencheur est un vrai bouton, donc toucher l'ouvre
+     et toucher ailleurs le referme, sans une ligne de JavaScript.
+     Liste groupée par canton, comme partout ailleurs. */
+  function infoClubs(idCat) {
+    var groupes = R.parCanton(R.clubsDeCategorie(idCat));
+    if (!groupes.length) return '';
+    return '<span class="infobulle">' +
+      '<button type="button" class="infobulle__point" aria-label="Voir les clubs inclus">i</button>' +
+      '<span class="infobulle__contenu" role="note">' +
+      groupes.map(function (g) {
+        return '<strong>' + esc(g.canton) + '</strong><br>' +
+          g.clubs.map(function (c) { return esc(c.nom); }).join('<br>');
+      }).join('<span class="infobulle__sep"></span>') +
+      '</span></span>';
+  }
+
   function blocPrix(pr, unite) {
     var barre = pr.promo
       ? ' <span class="produit__barre">' + prixTexte(pr.valeurCatalogue) + '</span>' : '';
@@ -860,7 +908,8 @@ Object.assign(window.HF.vues, (function () {
       var mois = moisEngagement[etat.engagement] || 1;
       var total = (typeof pr.valeur === 'number') ? pr.valeur * mois : null;
       haut =
-        '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
+        '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) +
+        infoClubs(p.categorie) + '</p>' +
         lignesInclusion(p, etat) +
         ligneRemise(pr) + ligneRemiseAilleurs(p, etat) +
         (pr.mentionRepli ? '<p class="mention">' + esc(pr.mentionRepli) + '</p>' : '');
@@ -878,7 +927,8 @@ Object.assign(window.HF.vues, (function () {
       var pm = R.parMois(p);
       haut =
         '<p class="produit__duree">' + esc(texte(p.duree, '[durée]')) + '</p>' +
-        '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
+        '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) +
+        infoClubs(p.categorie) + '</p>' +
         lignesInclusion(p, etat);
       haut += ligneRemise(pr) +
         (pr.mentionRepli ? '<p class="mention">' + esc(pr.mentionRepli) + '</p>' : '');
@@ -897,7 +947,8 @@ Object.assign(window.HF.vues, (function () {
         ? Math.round(pr.valeur / entrees) : null;
       /* Le volume est déjà dans le nom du carnet : ne pas le répéter. */
       haut =
-        '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
+        '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) +
+        infoClubs(p.categorie) + '</p>' +
         '<p class="mention">Valable ' + esc(texte(p.duree, '[X] mois')) +
         ' à partir de l\'achat</p>';
       haut += ligneRemise(pr) +
@@ -1203,6 +1254,7 @@ Object.assign(window.HF.vues, (function () {
   return {
     lignesInclusion: lignesInclusion, carteProduit: carteProduit, carteExtra: carteExtra,
     blocPrix: blocPrix, ligneRemise: ligneRemise, annoncePromo: annoncePromo,
+    infoClubs: infoClubs,
     ligneRemiseAilleurs: ligneRemiseAilleurs,
     ligneIndisponible: ligneIndisponible, ligneSansClub: ligneSansClub,
     barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub,
@@ -1592,7 +1644,8 @@ Object.assign(window.HF.vues, (function () {
            sinon le club annoncerait un prix que la page Tarifs dément. */
         var pr = R.prixMini(p, 'adulte', etat);
         return '<div class="produit"><h3>' + H.nomProduitHtml(p) + '</h3>' +
-          '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
+          '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) +
+        V.infoClubs(p.categorie) + '</p>' +
           '<p class="mention">Tarif adulte dès ' + prixTexte(pr.valeur) + ' / mois' +
           (pr.promo ? ' <span class="pastille-remise">- ' + pr.promo.remise.valeur +
             (pr.promo.remise.type === 'montant' ? ' CHF' : '%') + '</span>' : '') +

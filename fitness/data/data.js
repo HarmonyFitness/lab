@@ -46,8 +46,11 @@ window.DATA = {
        lignes, dans cet ordre, avec "Non inclus" quand c'est le cas (Q4). */
     inclusions: [
       { id: 'plateau',  libelle: 'Plateau fitness' },
-      { id: 'cours',    libelle: 'Cours collectifs en salle' },
-      { id: 'aqua',     libelle: 'Cours aquatiques' },
+      /* format : la ligne compte les cours de ce format ouverts par la
+         formule. Un cours, pas une séance. C'est ce qui sépare Essential de
+         Premium quand les deux disent juste "Cours collectifs". */
+      { id: 'cours',    libelle: 'Cours collectifs en salle', format: 'salle' },
+      { id: 'aqua',     libelle: 'Cours aquatiques', format: 'aqua' },
       { id: 'coaching', libelle: 'Séances de coaching' },
       /* Ajoutée avec la formule Premium Platinum : c'est la seule chose qui la
          distingue de Premium, il faut donc que les cartes se comparent sur
