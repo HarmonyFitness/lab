@@ -42,12 +42,14 @@ fitness.harmony.ch
 │
 ├── [Bouton header]  Séance d'essai  /seance-essai
 │
-└── [Footer]  Besoin d'aide ? /aide   ·   Actualités /actualites   ·   Mentions légales   ·   Confidentialité
+└── [Footer]  Nous contacter /nous-contacter   ·   Besoin d'aide ? /aide   ·   Actualités /actualites   ·   Mentions légales   ·   Confidentialité
 ```
 
 **Composants transverses :** témoignages, FAQ contextuelle (la FAQ complète vit sur la page « Besoin d'aide ? »).
 
-**Contact :** coordonnées sur chaque page club + bloc contact du footer (e-mail en lien direct, téléphone). Pas de formulaire ni de page contact dans le header.
+**Contact :** un seul canal écrit, le formulaire de `/nous-contacter`. Plus d'adresse e-mail affichée, ni sur les pages club ni dans le footer : un e-mail ne se compte pas, ne présélectionne pas le club et ne se dispatche pas, et il laisse le manager surveiller deux boîtes. Le téléphone et l'adresse restent sur chaque page club, et le bloc contact du footer renvoie au formulaire. Pas de page contact dans le header : on y arrive depuis les pages club, le footer et la page Tarifs.
+
+**Dispatch.** Le visiteur donne son sujet et son club, pas son destinataire : lui demander de choisir entre « Équipe Harmony » et dix clubs, c'est lui demander de connaître l'organisation d'Harmony. Chaque motif porte sa destination au CMS, club ou central, et le destinataire calculé est affiché sous le formulaire (« Votre message part à Harmony Meyrin »), donc sans surprise et corrigeable. Un motif qui part au club rend le champ club obligatoire. Délai annoncé non chiffré : « Nous vous répondons au plus vite. »
 
 **Barre groupe :** libellés publics (Arts martiaux, École de natation) ; sous-domaines techniques inchangés (maa.harmony.ch, aqua.harmony.ch).
 
@@ -321,6 +323,7 @@ Soit une trentaine de fiches au lancement, contre environ 80 pages de cours aujo
 
 | Page | Slug | Intention | Composants clés |
 |---|---|---|---|
+| Nous contacter | `/nous-contacter` | Recevoir et tracer toute demande écrite, et la router vers le club ou l'équipe centrale | Même gabarit « demande de rappel » que la séance d'essai, avec un autre motif : sujet (liste fermée, porte la destination), club (obligatoire quand le sujet part au club, présélectionné quand on arrive d'une page club ou de Tarifs), nom, e-mail, téléphone facultatif, message. Destinataire calculé et affiché. Paramètres `motif`, `club` et `source` dans l'URL, pour compter les demandes par origine comme les demandes d'essai |
 | Actualités | `/actualites` | Nourrir le SEO avec du contenu frais propre à Fitness (vie des clubs, nouveaux cours, événements) | Liste des articles tagués Fitness, provenant de la collection unique du CMS partagé (voir B.1). Teaser en page d'accueil |
 | Besoin d'aide ? | `/aide` | Résoudre en autonomie puis router vers le bon canal : FAQ complète, contact local via les pages clubs, formulaire général en dernier recours | FAQ complète par catégories, renvoi vers les pages clubs (coordonnées), formulaire de contact général en bas de page |
 | Mentions légales | `/mentions-legales` | Conformité | Contenu légal |
@@ -332,9 +335,9 @@ Comptage sur la langue de référence (FR). Le DE et l'EN multiplient le volume 
 
 | Type | Nombre | Note |
 |---|---|---|
-| Pages à gabarit unique | ~18 | Accueil, Tarifs, Offre du moment, Séance d'essai, Offre entreprise, hub Clubs, hub Sport, Plateau fitness, hub Cours collectifs, hub Small Group Training, Coaching personnel, hub Bien-être, Espaces, Soins, Actualités, Besoin d'aide ?, 2 légales. Les 10 états /tarifs/[club] ne sont pas des pages indexables |
+| Pages à gabarit unique | ~19 | Accueil, Tarifs, Offre du moment, Séance d'essai, Nous contacter (même gabarit que la séance d'essai : +1 page, +0 gabarit), Offre entreprise, hub Clubs, hub Sport, Plateau fitness, hub Cours collectifs, hub Small Group Training, Coaching personnel, hub Bien-être, Espaces, Soins, Actualités, Besoin d'aide ?, 2 légales. Les 10 états /tarifs/[club] ne sont pas des pages indexables |
 | Pages club (même gabarit) | 10 | Contenu multiplié, un seul gabarit |
 | Pages de famille (même gabarit que les fiches) | 4 | Pilates, Yoga, Les Mills, Aqua |
 | Fiches cours (1 gabarit) | ~30 | Migration des pages qui ont déjà une position, plus les cours qui cochent 2 critères sur 3. Détail dans « Cours collectifs : périmètre et pages retenues » |
-| **Total pages indexables au lancement** | **~62** | Hors fiches Small Group Training (même gabarit que les fiches cours, nombre selon l'offre) |
+| **Total pages indexables au lancement** | **~63** | Hors fiches Small Group Training (même gabarit que les fiches cours, nombre selon l'offre) |
 | Cours sans page propre | ~30 | Variantes absorbées en section d'une page de famille (avec ancre), ou traitées en filtre d'intensité ou de format. Présentes au planning, jamais orphelines |

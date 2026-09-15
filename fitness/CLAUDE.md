@@ -33,6 +33,7 @@ Consultant et décideur sur la structure : Hugo.
 - `/tarifs` : état sans club et état `/tarifs/[slug]` avec club référent choisi
 - `/offre-du-moment`
 - `/seance-essai`
+- `/nous-contacter` : formulaire unique de contact, ajouté le 2026-09-15 (Q37). Même gabarit que la séance d'essai, un autre motif.
 - `/sport`, `/sport/plateau-fitness`, `/sport/cours-collectifs`, `/sport/small-group-training`, `/sport/coaching-personnel`
 - `/cours/[...]` : gabarit unique, deux cas. Une fiche de cours, ou une page de famille qui active en plus le bloc "variantes".
 
@@ -146,6 +147,13 @@ Cours
 Composants partagés
 - Choix du club + carte : un seul composant pour /clubs, /tarifs, /offre-du-moment, /seance-essai.
 - Repères de carte distingués par forme et lettre (G, E, P), avec légende. Jamais la couleur seule.
+
+Contact
+- Un seul canal écrit : le formulaire. Plus d'adresse e-mail affichée, ni sur les pages club ni dans le footer. Un e-mail ne se compte pas, ne présélectionne pas le club et ne se dispatche pas.
+- **Le visiteur ne choisit pas son destinataire, il donne son sujet et son club.** Lui demander de trancher entre « Équipe Harmony » et dix clubs, c'est lui demander de connaître l'organisation d'Harmony. Chaque motif porte sa destination dans `data.js`, le destinataire est calculé et affiché sous le formulaire (« Votre message part à Harmony Meyrin ») : pas de surprise, et il peut corriger en changeant le sujet ou le club (Q38).
+- Un motif qui part au club rend le champ club obligatoire. Le délai annoncé n'est jamais chiffré : « Nous vous répondons au plus vite. »
+- Les champs d'un formulaire sont écrits en clair dans la page, jamais rendus par `x-html` : un composant re-rendu à chaque frappe ferait perdre le curseur. Seules la liste des motifs et la règle de routage sont partagées.
+- Un `<select>` dont les options viennent d'un `x-for` se présélectionne avec `:selected` sur l'option, pas avec `x-model` : `x-model` s'applique avant que les options existent, et le menu reste vide alors que l'état est bon.
 
 ## Règles de copy
 

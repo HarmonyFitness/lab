@@ -470,6 +470,18 @@ a { color: var(--accent); }
 /* Sortie vers le conseil en club. Discrète par construction : pas de cadre,
    pas de bouton, une ligne séparée par un filet. Elle existe pour qui en a
    besoin, elle ne détourne pas de la souscription en ligne. */
+/* Formulaire de contact. Les champs sont écrits en clair dans la page, pas
+   rendus par x-html : un composant re-rendu à chaque frappe ferait perdre le
+   curseur. Seule la logique est partagée. */
+.formulaire { max-width: 560px; }
+.champ-bloc { margin: 0 0 16px; }
+.champ-label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 5px; }
+.formulaire .champ { width: 100%; }
+textarea.champ { resize: vertical; }
+.destinataire { font-size: 14px; background: var(--gris-05); border: 1px solid var(--gris-20);
+  border-radius: var(--rayon); padding: 12px 14px; margin: 4px 0 0; }
+.destinataire--vide { color: var(--gris-60); }
+
 .conseil { font-size: 13px; color: var(--gris-60); line-height: 1.6;
   border-top: 1px solid var(--gris-20); padding-top: 14px; margin: 32px 0 0; }
 .conseil strong { color: var(--gris-95); }

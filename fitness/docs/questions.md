@@ -662,3 +662,59 @@ contact à valider » bien visible. Le lien porte déjà `club`, `motif=conseil`
   manager du club.
 - qui reçoit : le club, ou une adresse centrale qui redispatche ?
 - le délai de réponse annoncé, s'il y en a un.
+
+### Q38 · Dispatch du formulaire de contact
+**Statut :** tranchée par Hugo dans l'intention, une variante proposée
+**Source :** Hugo, 2026-09-15. « J'aimerais qu'il y ait uniquement le
+formulaire, pour tracker les demandes de contact. Mais il faut un dispatch des
+envois des notifications. Pour la page contact il faudrait choisir le
+destinataire : Team Harmony, Meyrin, Veyrier… en plus du motif du message. Si
+Team Harmony alors c'est l'adresse contact d'Harmony qui reçoit, sinon
+l'adresse mail du club sélectionné. Annoncer un délai de réponse non chiffré,
+au plus vite. »
+
+Tranché et appliqué : un seul canal écrit, le formulaire. Les adresses e-mail
+disparaissent des pages club et du footer. Le téléphone et l'adresse restent.
+Délai non chiffré, « Nous vous répondons au plus vite. »
+
+**Une variante sur le choix du destinataire, à valider.** Hugo demande un menu
+« destinataire » à onze entrées, Équipe Harmony plus les dix clubs, en plus du
+motif. Ce que la maquette fait à la place : le visiteur donne son **sujet** et
+son **club**, et le destinataire est déduit du sujet, puis affiché sous le
+formulaire, « Votre message part à Harmony Meyrin ».
+
+Pourquoi : demander à quelqu'un de choisir entre Équipe Harmony et dix clubs,
+c'est lui demander de connaître l'organisation d'Harmony. « Je veux résilier,
+j'écris au club ou au siège ? » Personne ne le sait de l'extérieur, et les
+demandes mal routées reviennent en travail manuel. Le sujet, lui, est une
+question à laquelle tout le monde sait répondre.
+
+Ce que la variante ne perd pas :
+- le dispatch demandé existe, à l'identique. Un motif part au club, un autre au
+  central. La table de routage vit dans le CMS, pas dans le code : changer la
+  destination d'un motif est une saisie.
+- le tracking demandé existe : motif, club et source sont enregistrés.
+- la transparence est meilleure : le destinataire est annoncé avant l'envoi,
+  et le visiteur peut le corriger en changeant le sujet ou le club.
+
+Ce que la variante perd : celui qui sait exactement à qui il veut écrire ne le
+désigne pas nommément. Il choisit son club, ce qui revient au même dès que le
+sujet part au club.
+
+Passer au menu explicite si Hugo le préfère : c'est un champ de plus dans le
+formulaire et une règle de priorité sur la table de routage. Une heure.
+
+À trancher aussi :
+- **le nom du destinataire central.** « Team Harmony » est en anglais sur un
+  site francophone. « Équipe Harmony » est posé dans la maquette. Si l'équipe
+  traite surtout des abonnements et des factures, « Service membres » dirait
+  mieux ce que le visiteur peut en attendre.
+- **la liste des sujets**, provisoire, marquée « à valider par Harmony » dans la
+  maquette : choisir ma formule, question sur un club, question sur un cours,
+  gérer mon abonnement, offre entreprise, candidature/presse/partenariat, autre.
+  C'est cette liste qui décide du routage : elle se valide avec les clubs.
+- **la gestion de l'abonnement part-elle au club ou au central ?** Posé au
+  central. Selon l'organisation d'Harmony, c'est peut-être le club.
+- **qui surveille la boîte centrale**, et sous quel délai réel. Le site promet
+  « au plus vite » : sans personne derrière, la promesse coûte plus cher que
+  l'ancienne adresse e-mail.

@@ -390,6 +390,34 @@ window.DATA = {
   ],
 
   /* ------------------------------------------------------------------ */
+  /* Contact : table de routage des demandes                              */
+  /*                                                                      */
+  /* Le visiteur dit de quoi il s'agit et quel club le concerne. C'est le  */
+  /* motif qui décide du destinataire, pas lui : demander à quelqu'un de   */
+  /* choisir entre "Équipe Harmony" et dix clubs, c'est lui demander de    */
+  /* connaître l'organisation d'Harmony. Le destinataire calculé est       */
+  /* affiché sous le formulaire, pour qu'il n'y ait pas de surprise.       */
+  /*                                                                      */
+  /* La table vit ici, donc au CMS : changer le routage d'un motif est une */
+  /* saisie, pas une reprise du code.                                      */
+  /* Liste des motifs provisoire, à valider par Harmony (Q38).             */
+  /* ------------------------------------------------------------------ */
+  contact: {
+    /* Destinataire central. Le nom est du contenu : il s'affiche. */
+    central: { id: 'equipe-harmony', nom: 'Équipe Harmony', email: null },
+    delai: 'Nous vous répondons au plus vite.',
+    motifs: [
+      { id: 'conseil',    libelle: 'Choisir ma formule ou mon abonnement', destination: 'club' },
+      { id: 'club',       libelle: 'Une question sur un club : horaires, accès, planning', destination: 'club' },
+      { id: 'cours',      libelle: 'Une question sur un cours ou un coach', destination: 'club' },
+      { id: 'gestion',    libelle: 'Gérer mon abonnement : pause, résiliation, facture', destination: 'central' },
+      { id: 'entreprise', libelle: 'Offre entreprise', destination: 'central' },
+      { id: 'recrutement', libelle: 'Candidature, presse, partenariat', destination: 'central' },
+      { id: 'autre',      libelle: 'Autre sujet', destination: 'central' }
+    ]
+  },
+
+  /* ------------------------------------------------------------------ */
   /* Promotions : une remise sur des produits qui existent déjà            */
   /* (B.3 > Page Tarifs > Trame > 3 : "Une remise sur un produit existant  */
   /* s'affiche en pastille + prix barré sur sa carte").                    */

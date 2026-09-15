@@ -106,6 +106,25 @@ window.HF = (function () {
       return true;
     },
 
+    /* Routage d'une demande de contact. Le motif décide du destinataire, le
+       club dit lequel. Renvoie de quoi afficher la phrase "Votre message part
+       à ...", et si le club est obligatoire pour ce motif. */
+    destinataireContact: function (idMotif, idClub) {
+      var C = D.contact;
+      var m = C.motifs.find(function (x) { return x.id === idMotif; }) || null;
+      if (!m) return { motif: null, type: null, nom: null, email: null, clubRequis: false };
+      if (m.destination !== 'club') {
+        return { motif: m, type: 'central', nom: C.central.nom, email: C.central.email,
+                 clubRequis: false };
+      }
+      var c = idClub ? club(idClub) : null;
+      return {
+        motif: m, type: 'club', clubRequis: true,
+        nom: c ? 'Harmony ' + c.nom : null,
+        email: c ? c.email : null
+      };
+    },
+
     /* Un Extra est-il compris dans le produit choisi ? Seuls les Extras
        vendus en ligne le sont : ceux vendus en club restent "Sur demande en
        club", puisqu'ils ne se vendent pas ici. Règle déduite du mode de
@@ -527,7 +546,9 @@ window.HF.vues = (function () {
       { titre: 'Nos clubs', liens: ['Genève', 'Vaud'] },
       { titre: 'Le sport', liens: ['Plateau fitness', 'Cours collectifs', 'Small Group Training', 'Coaching personnel'] },
       { titre: 'Aide', liens: ["Besoin d'aide ?", 'Actualités'] },
-      { titre: 'Contact', liens: ['[e-mail]', '[téléphone]'] }
+      /* Le footer ne donne plus d'adresse e-mail : un seul canal écrit, le
+         formulaire, pour que toute demande soit comptée et dispatchée (Q37). */
+      { titre: 'Contact', liens: ['Nous contacter', '[téléphone]'] }
     ];
     return '<footer class="pied" data-spec="B.3 > Arborescence > Footer"><div class="pied__inner">' +
       '<div class="pied__cols">' + cols.map(function (c) {
@@ -1252,6 +1273,23 @@ Object.assign(window.HF.vues, (function () {
       ' <span class="wf-avalider">page de contact à valider</span></p>';
   }
 
+  /* Phrase de destination sous le formulaire de contact. On affiche à qui le
+     message part, plutôt que de demander au visiteur de choisir : il ne
+     connaît pas l'organisation d'Harmony, elle si. */
+  function destinataireLigne(idMotif, idClub) {
+    var d = R.destinataireContact(idMotif, idClub);
+    if (!d.motif) {
+      return '<p class="destinataire destinataire--vide">Choisissez un sujet : ' +
+        'nous vous dirons à qui votre message part.</p>';
+    }
+    if (d.type === 'club' && !d.nom) {
+      return '<p class="destinataire destinataire--vide">Choisissez votre club : ' +
+        'ce sujet est traité par le club lui-même.</p>';
+    }
+    return '<p class="destinataire">Votre message part à <strong>' + esc(d.nom) +
+      '</strong>. ' + esc(D.contact.delai) + '</p>';
+  }
+
   /* Le CTA essai sert sur presque toutes les pages : sa référence de spec
      dépend donc de la page qui l'affiche, elle ne peut pas être figée. */
   function ctaEssai(base, spec) {
@@ -1279,7 +1317,7 @@ Object.assign(window.HF.vues, (function () {
     barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub,
     planning: planning, grilleCoachs: grilleCoachs, panneauCoach: panneauCoach,
     faq: faq, temoignages: temoignages, ctaEssai: ctaEssai, compteur: compteur,
-    ligneConseil: ligneConseil,
+    ligneConseil: ligneConseil, destinataireLigne: destinataireLigne,
     desParMoisTexte: desParMoisTexte
   };
 })());
@@ -1299,12 +1337,17 @@ Object.assign(window.HF, (function () {
        ici c'est le sélecteur d'état, pour montrer les deux cas.
        ?promo= (vide) simule "aucune promo en cours". */
     var promo = params.get('promo');
+    /* Le motif arrive dans l'URL quand on vient d'une autre page (la ligne
+       de conseil de /tarifs, par exemple). */
+    var motif = params.get('motif');
     return {
       club: (club && H.club(club)) ? club : null,
       tarif: (tarif && H.tarif(tarif)) ? tarif : 'adulte',
       engagement: H.engagementDefaut(),
       offreActive: true,
       promo: (promo === null) ? 'carnets-10' : (H.promotion(promo) ? promo : null),
+      contactMotif: (motif && D.contact.motifs.some(function (m) { return m.id === motif; }))
+        ? motif : '',
       produitChoisi: null,
       extrasChoisis: [],
       carteOuverte: false,
@@ -1415,7 +1458,16 @@ Object.assign(window.HF, (function () {
     'panneau-cat': function (etat, id) { etat.catOuverte = (etat.catOuverte === id) ? null : id; },
     'panneau-coach': function (etat, id) { etat.coachOuvert = (etat.coachOuvert === id) ? null : id; },
     'faq': function (etat, id) { var n = Number(id); etat.faqOuverte = (etat.faqOuverte === n) ? null : n; },
-    'finaliser': function (etat) { etat.message = 'Redirection vers le tunnel de souscription.'; }
+    'finaliser': function (etat) { etat.message = 'Redirection vers le tunnel de souscription.'; },
+    /* Simulation : le wireframe ne poste rien. On montre où part la demande,
+       c'est ce qui compte pour valider le dispatch. */
+    'envoyer-contact': function (etat) {
+      var d = H.regles.destinataireContact(etat.contactMotif, etat.club);
+      if (!d.motif) { etat.message = 'Choisissez d\'abord un sujet.'; return; }
+      if (d.clubRequis && !etat.club) { etat.message = 'Choisissez votre club.'; return; }
+      etat.message = 'Simulation : la demande partirait à ' + d.nom +
+        ', avec le sujet « ' + d.motif.libelle + ' ».';
+    }
   };
 
   /* Délégation : un seul écouteur par page, les composants restent de
@@ -1623,14 +1675,19 @@ Object.assign(window.HF.vues, (function () {
       ['Horaires', texte(c.horaires, '[horaires, jours fériés compris]')],
       ['Transports', '[transports]'],
       ['Parking', c.equipements.indexOf('parking') !== -1 ? '[détail parking]' : 'Pas de parking'],
-      ['Téléphone', texte(c.tel, '[téléphone]')],
-      ['E-mail', texte(c.email, '[e-mail]')]
+      ['Téléphone', texte(c.tel, '[téléphone]')]
     ];
+    /* Plus d'adresse e-mail affichée : elle ne se compte pas, ne se dispatche
+       pas et laisse le manager surveiller deux boîtes. On envoie au
+       formulaire, club présélectionné (Q37). */
     return '<section id="infos" data-spec="B.3 > Trame de la page club > 3">' +
       '<h2>Infos pratiques</h2>' +
       '<table class="tableau"><tbody>' + lignes.map(function (l) {
         return '<tr><th style="width:160px">' + esc(l[0]) + '</th><td>' + esc(l[1]) + '</td></tr>';
-      }).join('') + '</tbody></table>' +
+      }).join('') +
+      '<tr><th>Écrire au club</th><td><a class="lien-texte" href="../../nous-contacter/?motif=club&amp;club=' +
+      c.id + '&amp;source=page-club">Nous contacter</a></td></tr>' +
+      '</tbody></table>' +
       '<p class="mention">Coordonnées strictement identiques à la fiche Google Business du club.</p>' +
       '</section>';
   }

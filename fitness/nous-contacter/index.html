@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Nous contacter | Harmony</title>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-15k">
+</head>
+<body>
+<div x-data="page" x-init="init()">
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../' })"></div>
+  <div class="conteneur"><p class="wf-note">
+    Page nouvelle, décidée le 15 septembre (Q37). Elle remplace les adresses
+    e-mail des pages club : une demande par e-mail ne se compte pas, ne
+    présélectionne pas le club et ne se dispatche pas.
+    Elle réutilise le gabarit « demande de rappel » de la séance d'essai :
+    <strong>+1 page au devis, +0 gabarit</strong>.
+    Le destinataire n'est pas demandé au visiteur, il est déduit du sujet et
+    affiché sous le formulaire (Q38). Arriver depuis la page Tarifs
+    présélectionne le sujet et le club : essayez
+    <a href="?motif=conseil&amp;club=meyrin&amp;source=tarifs">?motif=conseil&amp;club=meyrin</a>.
+  </p></div>
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('', '../')"></div>
+
+  <main class="conteneur">
+    <div x-html="HF.vues.filAriane([{nom:'Accueil',href:'../'},{nom:'Nous contacter'}])"></div>
+
+    <section style="padding-top:8px" data-spec="B.3 &gt; Contact">
+      <h1>Nous contacter</h1>
+      <p>Une question sur nos formules, un club, votre abonnement ? Dites-nous
+         de quoi il s'agit, votre message part à la bonne personne.</p>
+    </section>
+
+    <section style="margin-top:28px" data-spec="B.3 &gt; Contact">
+      <div class="formulaire">
+        <p class="champ-bloc">
+          <label class="champ-label" for="motif">Votre sujet</label>
+          <!-- :selected plutôt que x-model : avec des options rendues par
+               x-for, x-model s'applique avant que les options existent, et le
+               menu reste vide alors que l'état est bon. -->
+          <select id="motif" class="champ"
+                  @change="etat.contactMotif = $event.target.value">
+            <option value="">Choisissez un sujet</option>
+            <template x-for="m in HF.data.contact.motifs" :key="m.id">
+              <option :value="m.id" :selected="m.id === etat.contactMotif" x-text="m.libelle"></option>
+            </template>
+          </select>
+          <span class="wf-avalider">liste des sujets à valider par Harmony</span>
+        </p>
+
+        <p class="champ-bloc">
+          <label class="champ-label" for="club">
+            <span x-text="clubRequis() ? 'Votre club' : 'Club concerné (facultatif)'"></span>
+          </label>
+          <select id="club" class="champ"
+                  @change="etat.club = $event.target.value || null; HF.majUrl(etat)">
+            <option value="">Choisissez un club</option>
+            <template x-for="c in HF.data.clubs" :key="c.id">
+              <option :value="c.id" :selected="c.id === etat.club"
+                      x-text="c.nom + ' · ' + HF.categorie(c.categorie).nom"></option>
+            </template>
+          </select>
+        </p>
+
+        <p class="champ-bloc">
+          <label class="champ-label" for="nom">Nom et prénom</label>
+          <input id="nom" type="text" class="champ" autocomplete="name">
+        </p>
+        <p class="champ-bloc">
+          <label class="champ-label" for="courriel">E-mail</label>
+          <input id="courriel" type="email" class="champ" autocomplete="email">
+        </p>
+        <p class="champ-bloc">
+          <label class="champ-label" for="tel">Téléphone (facultatif)</label>
+          <input id="tel" type="tel" class="champ" autocomplete="tel">
+        </p>
+        <p class="champ-bloc">
+          <label class="champ-label" for="message">Votre message</label>
+          <textarea id="message" class="champ" rows="5"></textarea>
+        </p>
+
+        <div x-html="HF.vues.destinataireLigne(etat.contactMotif, etat.club)"></div>
+
+        <p style="margin-top:16px">
+          <button type="button" class="btn" data-act="envoyer-contact">Envoyer mon message</button>
+        </p>
+        <p class="mention" x-show="etat.message" x-text="etat.message"></p>
+        <p class="mention">
+          Vos données servent uniquement à traiter votre demande.
+          <a class="lien-texte" href="#">Confidentialité</a>
+        </p>
+      </div>
+    </section>
+
+    <section style="margin-top:40px" data-spec="B.3 &gt; Contact">
+      <h2>Vous préférez venir sur place ?</h2>
+      <p>Chaque club vous accueille sans rendez-vous.
+         <a class="lien-texte" href="../clubs/">Voir nos clubs et leurs horaires</a></p>
+    </section>
+
+    <div style="margin-top:40px" x-html="HF.vues.ctaEssai('../', 'B.3 &gt; Contact')"></div>
+  </main>
+  <div x-html="HF.vues.pied()"></div>
+</div>
+<script src="../data/data.js?v=2026-09-15k"></script>
+<script src="../assets/components.js?v=2026-09-15k"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('page', function () {
+    return {
+      etat: HF.etatInitial(),
+      init: function () { HF.brancher(this.$el, this.etat); HF.brancherSelecteur(this.$el, this.etat); },
+      clubRequis: function () {
+        return HF.regles.destinataireContact(this.etat.contactMotif, this.etat.club).clubRequis;
+      }
+    };
+  });
+});
+</script>
+<script defer src="../assets/alpine.min.js?v=2026-09-15k"></script>
+</body>
+</html>
