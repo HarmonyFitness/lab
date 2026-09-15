@@ -29,7 +29,7 @@ Consultant et décideur sur la structure : Hugo.
 
 ## Périmètre
 
-- `/clubs` (hub) et `/clubs/[slug]` (gabarit club + variante GYM)
+- `/clubs` (hub) et `/clubs/[slug]` (gabarit club + variante Gym)
 - `/tarifs` : état sans club et état `/tarifs/[slug]` avec club référent choisi
 - `/offre-du-moment`
 - `/seance-essai`
@@ -61,7 +61,7 @@ Cours collectifs : 2 templates seulement, le hub et le gabarit cours. On maquett
 - Composants partagés dans `fitness/components/`, styles dans `fitness/assets/`.
 - `fitness/index.html` sert de sommaire du lab : liste des pages et des états à tester.
 - Traçabilité : chaque bloc porte `data-spec="B.3 > Trame page club > 4"` (section et numéro du bloc dans B.3).
-- Un sélecteur d'état visible en haut de chaque page (réservé au wireframe) pour tester : sans club / club GYM / club Essential / club Premium, tarif Adulte / Jeune, offre active ou non.
+- Un sélecteur d'état visible en haut de chaque page (réservé au wireframe) pour tester : sans club / club Gym / club Essential / club Premium, tarif Adulte / Jeune, offre active ou non.
 
 Mise en page des cartes produit
 - 4 cartes par ligne sur la largeur d'une section, soit 290 px en 1280. La largeur se règle par la variable CSS `--cartes-par-ligne`, jamais carte par carte.
@@ -70,17 +70,18 @@ Mise en page des cartes produit
 - L'Extra n'est pas une carte produit : c'est une ligne pleine largeur, empilée. On ne compare pas un Extra à ses voisins.
 - Chaque carte produit porte une photo d'illustration en tête, sur toute la largeur de la carte : elle humanise l'offre (décision Hugo, 2026-09-14, Q30). La légende est un champ du produit dans `data.js`, jamais écrite dans la page. L'Extra n'en a pas.
 - Les prix s'alignent en bas de carte, d'une carte à l'autre. Tout ce qui suit la liste d'inclusion est enfermé dans `.produit__bas`, collé en pied : prix, total, bouton, trois éléments de hauteur constante. Les mentions de hauteur variable (campagne en cours, tarif de repli) restent **au-dessus** du prix, où elles l'annoncent. Sans ça, une liste d'inclusion plus longue que sa voisine décale le prix et la comparaison se fait mal.
-- Un encadré qui n'est pas un produit (catégorie de club, engagement de réassurance, étape, zone du plateau) porte la classe `.bloc`, pas `.produit`. Il suit la grille de sa section (`grille--3`, `grille--2`) et occupe toute la largeur disponible : un bloc catégorie GYM fait la même largeur qu'un bloc « Nos engagements ». La largeur de carte produit est réservée aux produits.
+- Un encadré qui n'est pas un produit (catégorie de club, engagement de réassurance, étape, zone du plateau) porte la classe `.bloc`, pas `.produit`. Il suit la grille de sa section (`grille--3`, `grille--2`) et occupe toute la largeur disponible : un bloc catégorie Gym fait la même largeur qu'un bloc « Nos engagements ». La largeur de carte produit est réservée aux produits.
 
 ## Règles métier (non négociables)
 
 Clubs et catégories
 - 10 clubs, noms et slugs exactement comme dans B.3 ("Genève · La Praille", `/clubs/geneve-la-praille`).
-- 3 catégories : GYM (Pâquis), Essential (Blandonnet, Eaux-Vives, Gland, Meyrin, Signy, Versoix), Premium (Denges, La Praille, Veyrier). Le mot est "catégorie".
-- Accès : Premium couvre tous les clubs, Essential couvre Essential et GYM, GYM couvre Pâquis.
+- Une seule graphie, **Gym**, jamais GYM en capitales (décision Hugo, 2026-09-15, Q34). Idem en club, dans l'appli et dans Echino.
+- 3 catégories : Gym (Pâquis), Essential (Blandonnet, Eaux-Vives, Gland, Meyrin, Signy, Versoix), Premium (Denges, La Praille, Veyrier). Le mot est "catégorie".
+- Accès : Premium couvre tous les clubs, Essential couvre Essential et Gym, Gym couvre Pâquis.
 - Les prix dépendent de la catégorie, jamais du club.
 - Listes de clubs groupées par canton (Genève, Vaud), ordre alphabétique, catégorie affichée à côté du nom.
-- Carte d'un club GYM : le nombre de cours par semaine est remplacé par "Pas de cours collectifs · Small Group Training en Extra". La ligne n'est jamais masquée.
+- Carte d'un club Gym : le nombre de cours par semaine est remplacé par "Pas de cours collectifs · Small Group Training en Extra". La ligne n'est jamais masquée.
 
 Page Tarifs
 - Une page, deux états, même gabarit. `/tarifs/[slug]` = même page avec le club référent présélectionné.
@@ -91,12 +92,12 @@ Page Tarifs
 - Tarif par âge : Adulte (défaut), Ado · 16-18 ans, Jeune · 19-25 ans, Senior · 65 ans et +. Il ne grise jamais. Un produit sans ce tarif s'affiche au prix adulte avec "Pas de tarif [x], prix adulte". Tarifs réduits : Essential et Premium seulement.
 - Ordre des sections : Offre du moment, Abonnements (Extras juste en dessous), Carnets d'entrées.
 - Carte formule : accès en nombre de clubs (calculé depuis les données), ce qui est inclus, prix par mois, bouton "Choisir [formule]".
-- 4 formules, dans l'ordre GYM, Essential, Premium, Platinium. **Platinium** (décision Harmony, 2026-09-15, Q33) : c'est Premium plus les Extras inclus.
-- Accès et souscription sont deux choses différentes. L'accès vient de la catégorie du produit : Platinium donne accès aux 10 clubs, comme Premium. La souscription peut être restreinte par `souscriptionDepuis` : Platinium ne se souscrit que depuis un club Premium. Depuis un club Essential ou GYM, sa carte n'apparaît pas, elle est regroupée dans la ligne "Pas disponible depuis [club]", jamais masquée en silence.
+- 4 formules, dans l'ordre Gym, Essential, Premium, Platinium. **Platinium** (décision Harmony, 2026-09-15, Q33) : c'est Premium plus les Extras inclus.
+- Accès et souscription sont deux choses différentes. L'accès vient de la catégorie du produit : Platinium donne accès aux 10 clubs, comme Premium. La souscription peut être restreinte par `souscriptionDepuis` : Platinium ne se souscrit que depuis un club Premium. Depuis un club Essential ou Gym, sa carte n'apparaît pas, elle est regroupée dans la ligne "Pas disponible depuis [club]", jamais masquée en silence.
 - La ligne d'inclusion "Extras" nomme ce qui est compris : le mot seul ne vend rien, ce sont les noms qui font la différence entre Premium et Platinium. Les noms s'affichent en tags, les mêmes pastilles que sur les cartes de cours, pour garder une seule grammaire visuelle. Liste déduite du club référent quand il est choisi, sinon tous les Extras vendus en ligne. Au-delà de 4, on compte le reste ("et 2 autres") plutôt que d'allonger la carte sans fin. Les formules qui ne les incluent pas gardent "Extras : Non inclus", sans détail : c'est le contraste qui porte l'argument.
 - Une formule qui porte `inclutExtras` fait passer les Extras **vendus en ligne** en "Inclus avec la formule [nom]", sans prix ni bouton. Les Extras vendus en club restent "Sur demande en club" : ils ne se vendent pas ici, donc ils ne peuvent pas être compris dans une formule. La règle se déduit du mode de vente, jamais d'une liste d'exceptions écrite à la main.
 - Choisir une formule qui inclut les Extras vide les Extras déjà ajoutés et le dit dans la barre récap : on ne facture pas deux fois, et on ne vide pas en silence.
-- Les cartes formule affichent les mêmes lignes d'inclusion, dans le même ordre, avec "Non inclus" quand la formule ne couvre pas la ligne. Une ligne n'est jamais retirée : les cartes restent comparables ligne à ligne. Pas de séances de coaching incluses en GYM.
+- Les cartes formule affichent les mêmes lignes d'inclusion, dans le même ordre, avec "Non inclus" quand la formule ne couvre pas la ligne. Une ligne n'est jamais retirée : les cartes restent comparables ligne à ligne. Pas de séances de coaching incluses en Gym.
 - Deux engagements : "Sans engagement" et "12 mois", dans cet ordre, **"12 mois" présélectionné** : c'est l'offre mise en avant, et celle que les promotions remisent. Le défaut se lit dans `data.js` (`defaut: true`), jamais en dur dans un composant. Le sélecteur accepte 2 ou 3 valeurs sans que la carte formule change de forme : le nombre d'engagements se lit dans les données, jamais en dur dans la mise en page.
 - Pas de pastille ni de pourcentage de remise sur l'engagement : les deux prix s'affichent, c'est tout. Le prix barré est réservé à une remise de l'offre du moment sur un produit existant.
 - Extras vendus en ligne : prix + "Ajouter". Extras vendus en club : "Sur demande en club", sans prix ni bouton.
@@ -118,7 +119,7 @@ Page Tarifs
 - Pas de cartes cadeaux.
 
 Cours
-- Vocabulaire strict : "catégorie" est réservé aux clubs (GYM, Essential, Premium). Pour les cours on dit **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours). Ne jamais écrire "catégorie de cours".
+- Vocabulaire strict : "catégorie" est réservé aux clubs (Gym, Essential, Premium). Pour les cours on dit **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours). Ne jamais écrire "catégorie de cours".
 - Un cours porte un objectif principal, un objectif secondaire facultatif, une intensité (doux, modéré, intense) et un format (salle, aqua, petit groupe).
 - Intensité et format s'affichent en **tag** sur les cartes et les fiches de cours : ce sont des valeurs fermées du référentiel, et ce sont elles que les filtres manipulent, donc le tag fait le lien entre ce qu'on a filtré et ce qu'on lit. Un tag porte toujours son mot, jamais une couleur ou une forme seule.
 - L'objectif principal est un tag lui aussi, sauf dans le catalogue du hub où il est déjà le titre de la section : on ne répète pas sur chaque carte ce que le titre vient de dire. L'objectif secondaire est un tag en pointillés, il n'apparaît nulle part ailleurs.
@@ -126,7 +127,7 @@ Cours
 - Hub des cours collectifs : filtres catégorie de clubs, club, objectif, intensité, format, plus une recherche par nom (décision Hugo, 2026-09-15, Q32). La catégorie commande la liste des clubs : choisir Premium ne laisse que les clubs Premium dans le menu suivant, et relâche un club devenu incompatible.
 - La recherche porte sur le nom du cours, celui de sa famille et celui de ses objectifs, sans casse ni accents : chercher "danse" doit sortir les cours rangés sous "Danser", même si aucun ne porte le mot dans son nom.
 - Le champ de recherche est écrit en clair dans la page, jamais rendu par `x-html` : un composant re-rendu à chaque frappe ferait perdre le curseur.
-- Une catégorie sans aucun cours collectif (GYM aujourd'hui) n'affiche pas un "aucun résultat" sec : elle explique pourquoi et renvoie vers les Small Group Training. Le cas est déduit des données, jamais écrit en dur : si Harmony ajoute des cours en GYM, le message disparaît tout seul.
+- Une catégorie sans aucun cours collectif (Gym aujourd'hui) n'affiche pas un "aucun résultat" sec : elle explique pourquoi et renvoie vers les Small Group Training. Le cas est déduit des données, jamais écrit en dur : si Harmony ajoute des cours en Gym, le message disparaît tout seul.
 - Rangement par objectif principal : catalogue du hub, bloc "cours du club" des pages club, filtres du planning. Un cours apparaît une seule fois, sous son objectif principal. L'objectif secondaire informe, il ne range jamais.
 - Un membre de famille peut être rangé sous un autre objectif que sa famille. La page de famille n'est donc jamais filtrée par objectif.
 - La page de famille liste tous ses membres. Membre avec page dédiée : un lien vers sa fiche. Membre sans page : une section sur la page de famille, avec ancre.

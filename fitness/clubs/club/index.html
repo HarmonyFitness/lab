@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Salle de sport | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-15e">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-15f">
 </head>
 <body class="a-barre-rapide">
 
@@ -20,7 +20,7 @@
       Trois clubs à regarder :
       <a href="?club=meyrin">Meyrin (Essential)</a> ·
       <a href="?club=geneve-la-praille">Genève · La Praille (Premium, avec la passerelle école de natation)</a> ·
-      <a href="?club=geneve-paquis">Genève · Pâquis (variante GYM)</a>.
+      <a href="?club=geneve-paquis">Genève · Pâquis (variante Gym)</a>.
       Le title est construit selon B.3 : « Salle de sport à [commune] … | Harmony [club] ».
     </p>
   </div>
@@ -54,7 +54,7 @@
               <p x-text="sousTitre()"></p>
               <p x-html="HF.vues.badgeCategorie(club.categorie, { ouvert: etat.catOuverte === club.categorie })"></p>
               <p class="mention" x-show="club.categorie === 'gym'">
-                Horaires élargis : [plage horaire GYM].
+                Horaires élargis : [plage horaire Gym].
               </p>
               <div class="hero-club__actions">
                 <a class="btn" :href="'../../tarifs/?club=' + club.id + '&source=page-club'">S'abonner</a>
@@ -74,12 +74,12 @@
 
         <!-- ================================================== BLOC 4 -->
         <div style="margin-top:36px" x-html="HF.vues.planning(club.id, etat)"></div>
-        <p class="mention" x-show="club.categorie === 'gym'" data-spec="B.3 &gt; Variante GYM">
-          Pas de cours collectifs dans un club GYM : seuls les Small Group
+        <p class="mention" x-show="club.categorie === 'gym'" data-spec="B.3 &gt; Variante Gym">
+          Pas de cours collectifs dans un club Gym : seuls les Small Group
           Training apparaissent au planning, marqués « Extra ».
         </p>
 
-        <!-- ============================ BLOC 5, remplacé en variante GYM -->
+        <!-- ============================ BLOC 5, remplacé en variante Gym -->
         <div style="margin-top:36px" x-html="HF.vues.coursDuClub(club)"></div>
         <div style="margin-top:36px" x-html="HF.vues.passerelleCoursCollectifs(club)"></div>
 
@@ -137,8 +137,8 @@
 
 </div>
 
-<script src="../../data/data.js?v=2026-09-15e"></script>
-<script src="../../assets/components.js?v=2026-09-15e"></script>
+<script src="../../data/data.js?v=2026-09-15f"></script>
+<script src="../../assets/components.js?v=2026-09-15f"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageClub', function () {
@@ -182,7 +182,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-09-15e"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-09-15f"></script>
 
 </body>
 </html>

@@ -132,7 +132,7 @@ window.DATA = {
   categories: [
     {
       id: 'gym',
-      nom: 'GYM',
+      nom: 'Gym',
       lettre: 'G',
       forme: 'triangle',
       promesse: 'Un plateau fitness complet, accessible sur une plage horaire plus large',
@@ -278,7 +278,7 @@ window.DATA = {
   /* ------------------------------------------------------------------ */
   produits: [
     {
-      id: 'formule-gym', photo: 'Photo plateau musculation, ambiance libre-service', type: 'formule', nom: 'GYM', categorie: 'gym', ordre: 1,
+      id: 'formule-gym', photo: 'Photo plateau musculation, ambiance libre-service', type: 'formule', nom: 'Gym', categorie: 'gym', ordre: 1,
       inclus: { plateau: true, cours: false, aqua: false, coaching: false },
       prix: { adulte: { sans: null, '12mois': null } },
       conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -360,10 +360,10 @@ window.DATA = {
        encore inconnus, l'offre est en cours de construction (Q13, Q28).
        "duree" est le même champ que sur les offres : une durée en toutes
        lettres, affichée telle quelle. */
-    { id: 'carnet-gym-5', photo: 'Photo entrée du club', type: 'carnet', nom: 'Carnet de 5 entrées GYM', categorie: 'gym', ordre: 1,
+    { id: 'carnet-gym-5', photo: 'Photo entrée du club', type: 'carnet', nom: 'Carnet de 5 entrées Gym', categorie: 'gym', ordre: 1,
       nbEntrees: 5, duree: null, prix: { adulte: { unique: null } },
       conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', idMetier: null },
-    { id: 'carnet-gym-10', photo: 'Photo entrée du club', type: 'carnet', nom: 'Carnet de 10 entrées GYM', categorie: 'gym', ordre: 2,
+    { id: 'carnet-gym-10', photo: 'Photo entrée du club', type: 'carnet', nom: 'Carnet de 10 entrées Gym', categorie: 'gym', ordre: 2,
       nbEntrees: 10, duree: null, prix: { adulte: { unique: null } },
       conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', idMetier: null },
 
@@ -435,7 +435,7 @@ window.DATA = {
   /*                                                                      */
   /* Liste provisoire posée par Hugo le 2026-09-14, en attendant celle     */
   /* d'Harmony. Les trois derniers sont proposés dans les clubs Essential  */
-  /* et Premium, c'est-à-dire partout sauf Genève · Pâquis, le seul GYM.   */
+  /* et Premium, c'est-à-dire partout sauf Genève · Pâquis, le seul Gym.   */
   /* ------------------------------------------------------------------ */
   extras: [
     /* Hyrox a sa propre fiche cours et ses propres clubs. */
@@ -843,7 +843,7 @@ window.DATA = {
 
   /* ------------------------------------------------------------------ */
   /* Séances : section 7.2 > Club > champ "séances"                       */
-  /* Planning type saisi au CMS. Un club GYM n'a que des Small Group       */
+  /* Planning type saisi au CMS. Un club Gym n'a que des Small Group       */
   /* Training. Le format aqua n'existe que dans les clubs Premium.         */
   /* ------------------------------------------------------------------ */
   seances: [

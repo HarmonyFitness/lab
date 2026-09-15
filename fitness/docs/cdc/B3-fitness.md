@@ -3,7 +3,7 @@
 > Source : Notion, "B.3 — fitness.harmony.ch"
 > (Livrables / Cahier des charges : Refonte digitale Harmony Groupe / Annexe B – Site maps et mapping fonctionnel par site).
 > Export du 2026-09-14, troisième passe : décisions du lab reportées dans Notion
-> (engagements, coaching GYM, carte club GYM, carnets).
+> (engagements, coaching Gym, carte club Gym, carnets).
 > Lecture seule : ne pas modifier ici, modifier dans Notion.
 
 Site de marque, d'acquisition et d'orientation. Aucune transaction sur le site : les abonnements et les séances d'essai renvoient vers Echino, la réservation des soins bien-être vers l'outil du prestataire. Quatre entrées dans le header (Clubs, Sport, Bien-être, Tarifs) et un bouton « Séance d'essai », plus les pages « Besoin d'aide ? » et Actualités accessibles depuis le footer. Trois niveaux de navigation.
@@ -59,7 +59,7 @@ Nom de page = ville seule, ou « Ville · Quartier » quand plusieurs clubs part
 
 | Club | Catégorie | Slug |
 |---|---|---|
-| Genève · Pâquis | GYM | `/clubs/geneve-paquis` |
+| Genève · Pâquis | Gym | `/clubs/geneve-paquis` |
 | Genève · Eaux-Vives | Essential | `/clubs/geneve-eaux-vives` |
 | Genève · La Praille | Premium | `/clubs/geneve-la-praille` |
 | Blandonnet | Essential | `/clubs/blandonnet` |
@@ -100,22 +100,22 @@ Une seule page, deux états, un seul gabarit. `/tarifs` : aucun club choisi. `/t
 1. **Hero** : H1 « Tarifs Harmony Fitness » (état club : « Tarifs à [club] »), sous-titre « Le prix dépend des clubs que vous voulez fréquenter. »
 2. **Club référent et tarif**, intégrés à la page (pas de pop-up, pas de géolocalisation). Ordinateur : liste des clubs groupée par canton (Genève, Vaud), ordre alphabétique, nom + catégorie + adresse + icônes des formats de cours, carte à droite, survol synchronisé entre liste et repère. Mobile : pastilles par canton (nom + catégorie) et bouton « Voir sur la carte » qui ouvre la carte en plein écran, mini-fiche au toucher d'un repère avec « Choisir ce club ». Sélecteur de tarif, Adulte par défaut, avec « Justificatif d'âge demandé en club. » Une fois le club choisi, le bloc se replie en une ligne : « Club référent : [club] · Tarif [x] · Modifier »
 3. **Offre du moment** : produits promo dédiés. Durée aussi visible que le prix, accès en nombre de clubs, « soit env. CHF X.– par mois » (validé par Harmony, pas de prix barré sur une durée inhabituelle), compteur. Une remise sur un produit existant s'affiche en pastille + prix barré sur sa carte. Ce n'est pas un produit promo dédié : c'est un pourcentage (ou un montant) appliqué à des produits qui existent déjà, abonnements ou carnets indifféremment, sans créer de produit. Le prix remisé est calculé depuis le prix catalogue, jamais saisi. Le prix barré est toujours présent quand une remise s'applique : un emplacement à prévoir en front, même quand le prix catalogue n'est pas encore connu. Le pourcentage de remise s'affiche en pastille sur la photo de la carte, à gauche, les jours restants à droite, jamais plus de deux pastilles. Le compteur de section ne sert alors que quand la section n'a aucune carte. La section existe dès qu'il y a l'un ou l'autre : un produit promo dédié, affiché en carte puisqu'il n'existe nulle part ailleurs, ou une promotion sur des produits existants, annoncée en une ligne (« Jusqu'au [date] : [nom de la promo] ») avec un lien d'ancre vers la section où le produit vit. Jamais de carte dupliquée : un produit, une carte, un bouton d'achat. Le compteur compte les offres dédiées, ou la promotion quand elle est la seule campagne, jamais les deux à la fois
-4. **Abonnements** : sélecteur d'engagement (« Sans engagement » et « 12 mois », « Sans engagement » présélectionné), 4 formules dans l'ordre GYM, Essential, Premium, Platinium. **Platinium** est Premium plus les Extras inclus, et ne se souscrit que depuis un club Premium : depuis un club Essential ou GYM, sa carte n'apparaît pas et elle est regroupée dans la ligne « Pas disponible depuis [club] ». Sur sa carte, la ligne d'inclusion « Extras » nomme ce qui est compris, en tags : le mot seul ne vend rien, surtout sur mobile. Liste déduite du club référent, au-delà de 4 on compte le reste. Les formules qui ne les incluent pas gardent « Extras : Non inclus » sans détail, c'est le contraste qui porte l'argument. Quand Platinium est choisie, les Extras vendus en ligne passent en « Inclus avec la formule Platinium », sans prix ni bouton ; ceux vendus en club restent « Sur demande en club », puisqu'ils ne se vendent pas ici. Carte : nom, accès en nombre de clubs, ce qui est inclus (plateau fitness, cours collectifs, aqua, séances de coaching), prix par mois en gros et total en dessous, bouton « Choisir [formule] ». Les **Extras** proposés dans le club juste en dessous, bouton « Ajouter ». Les Extras vendus en club (ex. séances de coaching en plus de celles incluses) s'affichent sans prix ni bouton, avec la mention « Sur demande en club » : on informe, on ne vend pas en ligne
-5. **Carnets d'entrées** : deux volumes, 5 et 10 entrées, dans chacune des trois catégories, soit 6 carnets. Chaque carnet porte une durée de validité, plus longue pour le carnet de 10 que pour celui de 5, affichée sur la carte (« Valable X mois à partir de l'achat »). Le volume est dans le nom du carnet, pas répété en dessous : deux cartes voisines se distinguent au titre. Filtres GYM / Essential / Premium sans club, seuls les carnets valables une fois le club choisi. Prix ramené à l'entrée. Bouton « Acheter ce carnet », direct vers Echino. Pas de cartes cadeaux
+4. **Abonnements** : sélecteur d'engagement (« Sans engagement » et « 12 mois », « Sans engagement » présélectionné), 4 formules dans l'ordre Gym, Essential, Premium, Platinium. **Platinium** est Premium plus les Extras inclus, et ne se souscrit que depuis un club Premium : depuis un club Essential ou Gym, sa carte n'apparaît pas et elle est regroupée dans la ligne « Pas disponible depuis [club] ». Sur sa carte, la ligne d'inclusion « Extras » nomme ce qui est compris, en tags : le mot seul ne vend rien, surtout sur mobile. Liste déduite du club référent, au-delà de 4 on compte le reste. Les formules qui ne les incluent pas gardent « Extras : Non inclus » sans détail, c'est le contraste qui porte l'argument. Quand Platinium est choisie, les Extras vendus en ligne passent en « Inclus avec la formule Platinium », sans prix ni bouton ; ceux vendus en club restent « Sur demande en club », puisqu'ils ne se vendent pas ici. Carte : nom, accès en nombre de clubs, ce qui est inclus (plateau fitness, cours collectifs, aqua, séances de coaching), prix par mois en gros et total en dessous, bouton « Choisir [formule] ». Les **Extras** proposés dans le club juste en dessous, bouton « Ajouter ». Les Extras vendus en club (ex. séances de coaching en plus de celles incluses) s'affichent sans prix ni bouton, avec la mention « Sur demande en club » : on informe, on ne vend pas en ligne
+5. **Carnets d'entrées** : deux volumes, 5 et 10 entrées, dans chacune des trois catégories, soit 6 carnets. Chaque carnet porte une durée de validité, plus longue pour le carnet de 10 que pour celui de 5, affichée sur la carte (« Valable X mois à partir de l'achat »). Le volume est dans le nom du carnet, pas répété en dessous : deux cartes voisines se distinguent au titre. Filtres Gym / Essential / Premium sans club, seuls les carnets valables une fois le club choisi. Prix ramené à l'entrée. Bouton « Acheter ce carnet », direct vers Echino. Pas de cartes cadeaux
 6. Module Catégories de clubs (court), réassurance, FAQ tarifs (engagement, frais d'inscription, résiliation, pause, accord parental pour les moins de 18 ans), CTA séance d'essai
 
 **Règles**
 
 - **Sans club** : tous les prix sont visibles, aucun bouton de souscription, une ligne « Choisissez d'abord votre club pour souscrire. » en tête de section. Pas de bouton désactivé
-- **Grisé : un seul sens, « pas accessible depuis ce club ».** Accès et souscription sont deux choses différentes : l'accès vient de la catégorie du produit, la souscription peut en plus être restreinte à certaines catégories de clubs référents (Platinium donne accès aux 10 clubs mais ne se souscrit que depuis un club Premium). Un produit catégorisé est disponible quand sa catégorie couvre le club référent (Premium : tous les clubs, Essential : Essential et GYM, GYM : Pâquis). Extras et offres : disponibles s'ils sont proposés depuis ce club. Les produits non disponibles sont regroupés en une ligne en fin de section, « Pas disponible depuis [club] : … Pourquoi ? » (lien vers le module Catégories), texte à contraste normal
-- **Tarif (âge) : ne grise jamais.** Un produit sans le tarif choisi s'affiche au prix adulte avec « Pas de tarif [x], prix adulte ». Aujourd'hui : tarifs Ado, Jeune et Senior sur Essential et Premium ; GYM, carnets et offres au tarif Adulte seulement (réglage par produit, voir section 7)
+- **Grisé : un seul sens, « pas accessible depuis ce club ».** Accès et souscription sont deux choses différentes : l'accès vient de la catégorie du produit, la souscription peut en plus être restreinte à certaines catégories de clubs référents (Platinium donne accès aux 10 clubs mais ne se souscrit que depuis un club Premium). Un produit catégorisé est disponible quand sa catégorie couvre le club référent (Premium : tous les clubs, Essential : Essential et Gym, Gym : Pâquis). Extras et offres : disponibles s'ils sont proposés depuis ce club. Les produits non disponibles sont regroupés en une ligne en fin de section, « Pas disponible depuis [club] : … Pourquoi ? » (lien vers le module Catégories), texte à contraste normal
+- **Tarif (âge) : ne grise jamais.** Un produit sans le tarif choisi s'affiche au prix adulte avec « Pas de tarif [x], prix adulte ». Aujourd'hui : tarifs Ado, Jeune et Senior sur Essential et Premium ; Gym, carnets et offres au tarif Adulte seulement (réglage par produit, voir section 7)
 - **Accès** : « Accès au club Genève · Pâquis », « Accès à 7 clubs », « Accès aux 10 clubs ». Nombre calculé depuis le CMS, jamais saisi
 - **Engagement** : deux valeurs, « Sans engagement » et « 12 mois », dans cet ordre, « 12 mois » présélectionné : c'est l'offre mise en avant, et celle que les promotions d'abonnement remisent. Une promotion sur un abonnement porte toujours sur le 12 mois seulement, jamais sur le sans engagement. Le sélecteur doit accepter une troisième valeur sans que la carte formule change de forme : le nombre d'engagements se lit dans le CMS, jamais en dur dans la mise en page. Pas de pastille ni de pourcentage de remise sur l'engagement, les deux prix s'affichent. Le prix barré reste réservé à une remise de l'offre du moment sur un produit existant. Une promotion peut être conditionnée à un engagement (« -15% avec l'engagement 12 mois ») : ce n'est pas une remise sur l'engagement mais une campagne datée. Sur l'engagement remisé, pastille pleine et prix barré normalement. Sur l'autre engagement, pastille en contour qui porte sa condition (« - 15% · 12 mois ») et ligne en retrait, mais pas de prix barré puisque ce prix n'est pas remisé : sans quoi la campagne serait invisible pour qui bascule sur l'autre engagement
 - **Lignes d'inclusion** : les cartes formule affichent les mêmes lignes, dans le même ordre, avec « Non inclus » quand la formule ne couvre pas la ligne. Une ligne n'est jamais retirée : les cartes restent comparables ligne à ligne
 - **Photo d'illustration** : chaque carte produit (formule, offre, carnet) porte une photo en tête, sur toute la largeur de la carte, pour humaniser l'offre. La pastille de remise se pose dessus. La photo est un champ du Produit au CMS, avec son texte alternatif : une carte sans photo saisie reste valide et n'affiche pas de cadre vide. L'Extra n'en a pas, ce n'est pas une carte produit
 - **Barre récap** en bas d'écran (abonnements, offres et carnets) dès qu'un produit est choisi. Fixée en bas d'écran, pas en fin de page : c'est le bouton de validation qui emmène à l'étape suivante. Libellé « Finaliser mon achat » pour un carnet, qui s'achète et ne s'abonne pas. Choisir un abonnement emmène automatiquement à la section Extras, l'étape suivante du parcours ; un carnet ou une offre ne déplacent personne : produit, engagement, tarif, extras, total par mois, bouton « Finaliser mon abonnement » vers Echino (lien paramétré). Le nom Echino n'apparaît jamais. Un extra qui n'est plus proposé après un changement de club est retiré avec un message
 - **Une seule barre collante en haut** : « Choisir mon club », puis « Club référent : [club] · Modifier ». Pas de barre d'ancres
-- **Carte** : même composant que /clubs. Chargée quand elle devient visible (ordinateur) ou à l'ouverture (mobile). Compatible avec le bandeau cookies : fournisseur sans cookie de suivi, ou liste en repli avec un message clair. Repères distingués par forme et lettre (GYM, Essential, Premium) avec légende. Sur mobile, le bouton retour ferme la carte
+- **Carte** : même composant que /clubs. Chargée quand elle devient visible (ordinateur) ou à l'ouverture (mobile). Compatible avec le bandeau cookies : fournisseur sans cookie de suivi, ou liste en repli avec un message clair. Repères distingués par forme et lettre (Gym, Essential, Premium) avec légende. Sur mobile, le bouton retour ferme la carte
 - **Paramètre de campagne** : `?tarif=jeune` présélectionne le tarif (exception à B.1, sans effet SEO)
 - **Copy** : vouvoiement, boutons à la première personne (« Choisir mon club »), un seul format de prix (« CHF 89.– »). Vocabulaire : club (jamais salle), formule, Abonnements (titre de section), carnet d'entrées, Extra, offre du moment, club référent, tarif
 
@@ -134,24 +134,24 @@ Une seule page, deux états, un seul gabarit. `/tarifs` : aucun club choisi. `/t
 
 ### Catégories de clubs
 
-Le mot retenu est « catégorie », sur le site, dans le CMS et dans les documents. Trois catégories : GYM, Essential, Premium. Les noms ne sont pas traduits. Chaque formule donne accès à une catégorie et à celles qu'elle inclut.
+Le mot retenu est « catégorie », sur le site, dans le CMS et dans les documents. Trois catégories : Gym, Essential, Premium. Les noms ne sont pas traduits. Chaque formule donne accès à une catégorie et à celles qu'elle inclut.
 
 | Catégorie | Promesse | Socle garanti dans chaque club | Ligne d'accès affichée |
 |---|---|---|---|
-| GYM | Un plateau fitness complet, accessible sur une plage horaire plus large | Plateau fitness complet, horaires élargis. Pas de cours collectifs (des Small Group Training y sont proposés en extra) | « Accessible avec toutes nos formules » |
+| Gym | Un plateau fitness complet, accessible sur une plage horaire plus large | Plateau fitness complet, horaires élargis. Pas de cours collectifs (des Small Group Training y sont proposés en extra) | « Accessible avec toutes nos formules » |
 | Essential | À compléter | Club 4 étoiles fitness-guide.ch, cours collectifs en salle | « Accessible avec les formules Essential et Premium » |
 | Premium | À compléter | Définition : club 5 étoiles fitness-guide.ch ET cours aquatiques en piscine. Plus les cours collectifs en salle | « Accessible avec la formule Premium » |
 
 **Règles d'affichage**
 
-- Le badge (« Club GYM », « Club Essential », « Club Premium ») est toujours accompagné de sa ligne d'accès : c'est elle qui répond à la question du visiteur. Il est cliquable : panneau court avec la promesse de la catégorie et lien vers /clubs#categories. La distinction visuelle ne repose pas uniquement sur la couleur.
+- Le badge (« Club Gym », « Club Essential », « Club Premium ») est toujours accompagné de sa ligne d'accès : c'est elle qui répond à la question du visiteur. Il est cliquable : panneau court avec la promesse de la catégorie et lien vers /clubs#categories. La distinction visuelle ne repose pas uniquement sur la couleur.
 - Les étoiles fitness-guide.ch servent uniquement à définir et différencier Essential et Premium, dans le module ci-dessous. Essential = 4 étoiles, Premium = 5 étoiles. Elles n'apparaissent ni sur les cartes club ni sur les pages club.
-- GYM est un concept, pas un premier niveau : le vocabulaire évite toute idée de hiérarchie (niveau, gamme). Comme Essential inclut GYM, GYM est aussi un argument de vente pour Essential.
-- Une seule graphie, GYM, identique en club, dans l'appli et sur le site.
+- Gym est un concept, pas un premier niveau : le vocabulaire évite toute idée de hiérarchie (niveau, gamme). Comme Essential inclut Gym, Gym est aussi un argument de vente pour Essential.
+- Une seule graphie, Gym, identique en club, dans l'appli et sur le site.
 - Recommandé : nom de formule = nom de catégorie (« formule Premium »), sans le préfixe « Accès ».
-- Accès : la formule Premium inclut Essential et GYM, la formule Essential inclut GYM.
+- Accès : la formule Premium inclut Essential et Gym, la formule Essential inclut Gym.
 - Extras : les Small Group Training et les services (linge…) ne sont inclus dans aucune formule. Chaque Small Group Training est un extra à part, et l'offre varie selon les clubs (Hyrox ne sera pas partout). Un seul mot, « Extra », identique en club, dans l'appli, sur le site et dans Echino.
-- Coaching personnel : des séances sont incluses dans les formules Essential et Premium (nombre à compléter). La formule GYM n'en inclut aucune. Les séances en plus sont un Extra vendu en club uniquement.
+- Coaching personnel : des séances sont incluses dans les formules Essential et Premium (nombre à compléter). La formule Gym n'en inclut aucune. Les séances en plus sont un Extra vendu en club uniquement.
 
 **Module « Catégories de clubs » (pas de page dédiée)**
 
@@ -162,7 +162,7 @@ Saisi une fois dans le CMS, affiché sur /clubs (ancre #categories), sur /tarifs
 - Toute la carte est cliquable vers la page club : pas de bouton « Voir le club ».
 - Un seul bouton, « S'abonner », qui ouvre `/tarifs/[slug du club]` avec le club référent présélectionné. À côté : « Tarif adulte dès CHF X.– / mois », prix de la formule la moins chère qui donne accès au club, au tarif Adulte (sinon « dès » afficherait le prix Jeune).
 - Un lien texte « Planning » vers le planning de la page club (ancre).
-- Sur un club GYM, le nombre de cours par semaine est remplacé par « Pas de cours collectifs · Small Group Training en Extra ». La ligne n'est jamais masquée : elle informe.
+- Sur un club Gym, le nombre de cours par semaine est remplacé par « Pas de cours collectifs · Small Group Training en Extra ». La ligne n'est jamais masquée : elle informe.
 - Accessibilité : le lien principal est porté par le nom du club et étendu à toute la carte, les boutons passent au-dessus. Pas de liens imbriqués.
 - Suivi : un paramètre de source (liste /clubs ou page club) accompagne « S'abonner » jusqu'au lien Echino, pour mesurer l'usage du raccourci.
 
@@ -216,7 +216,7 @@ Principe : l'utile d'abord, la conviction ensuite. Une grande partie des visiteu
 14. **Clubs à proximité** : 2 ou 3 clubs avec leur catégorie (maillage, et alternative si la catégorie dépasse le budget)
 15. **CTA final** : tarifs + essai
 
-**Variante GYM.** Le hero met en avant les horaires élargis. Pas de cours collectifs inclus : le planning (bloc 4) n'affiche que les Small Group Training, marqués « Extra », et le bloc 5 est remplacé par le bloc Extras. Passerelle secondaire : « Envie de cours collectifs ? Ils sont inclus dès la formule Essential. »
+**Variante Gym.** Le hero met en avant les horaires élargis. Pas de cours collectifs inclus : le planning (bloc 4) n'affiche que les Small Group Training, marqués « Extra », et le bloc 5 est remplacé par le bloc Extras. Passerelle secondaire : « Envie de cours collectifs ? Ils sont inclus dès la formule Essential. »
 
 **Destination des cours.** Chaque cours du planning a une destination : sa fiche, la page de famille avec ancre sur la bonne section pour une variante, la page mère pour un niveau ou un format. Champ « destination » à prévoir par cours dans le CMS.
 
@@ -230,7 +230,7 @@ Principe : l'utile d'abord, la conviction ensuite. Une grande partie des visiteu
 
 ## Sport
 
-**Rôle.** Présente l'offre sportive et alimente le SEO par type de pratique. Les pages suivent l'ordre de ce qui est inclus : plateau fitness (toutes les formules), cours collectifs (dès Essential), Small Group Training (Extra payant), coaching personnel (séances incluses en Essential et Premium). GYM n'est plus une verticale : c'est une catégorie de club (voir Clubs).
+**Rôle.** Présente l'offre sportive et alimente le SEO par type de pratique. Les pages suivent l'ordre de ce qui est inclus : plateau fitness (toutes les formules), cours collectifs (dès Essential), Small Group Training (Extra payant), coaching personnel (séances incluses en Essential et Premium). Gym n'est plus une verticale : c'est une catégorie de club (voir Clubs).
 
 | Page | Slug | Intention | Composants clés |
 |---|---|---|---|
@@ -238,7 +238,7 @@ Principe : l'utile d'abord, la conviction ensuite. Une grande partie des visiteu
 | Cours collectifs (hub) | `/sport/cours-collectifs` | Présenter les cours, montrer le planning, nourrir le SEO | Catalogue rangé par les 6 objectifs, recherche par nom, filtres (catégorie de clubs, club, objectif, intensité, format), liens vers les pages de famille, planning type filtrable (saisi au CMS), CTA essai, témoignages |
 | Pages de famille (même gabarit que les fiches, 4 pages) | `/cours/[discipline]` | Capter la recherche générique (Pilates, Yoga, Les Mills, Aqua), expliquer la discipline, distribuer vers les variantes et vers les clubs | Description de la discipline, variantes en sections avec ancres, clubs qui la proposent + créneaux, coachs associés, CTA essai et lien vers /tarifs |
 | Fiches cours (1 gabarit, ~30 pages) | `/cours/[cours]` | Page SEO par type de cours, convertir | Description + bénéfices, niveau/intensité, clubs qui le proposent + créneaux, coachs associés, CTA essai et lien vers /tarifs, FAQ intégrée. Pour un Small Group Training : mention « Extra », clubs où il est proposé et prix, lus sur l'Extra dans le CMS (une seule saisie) |
-| Plateau fitness | `/sport/plateau-fitness` | Présenter le cœur de l'offre, inclus dans toutes les formules et promesse de la catégorie GYM. SEO musculation et cardio | Présentation des zones (musculation, cardio, fonctionnel, cross training), matériel, photos, renvoi vers le bloc Équipements de chaque page club, lien vers /tarifs, CTA essai. Remplace la page Équipement : « équipements » ne garde qu'un sens, la liste fermée de la fiche club |
+| Plateau fitness | `/sport/plateau-fitness` | Présenter le cœur de l'offre, inclus dans toutes les formules et promesse de la catégorie Gym. SEO musculation et cardio | Présentation des zones (musculation, cardio, fonctionnel, cross training), matériel, photos, renvoi vers le bloc Équipements de chaque page club, lien vers /tarifs, CTA essai. Remplace la page Équipement : « équipements » ne garde qu'un sens, la liste fermée de la fiche club |
 | Small Group Training (hub) | `/sport/small-group-training` | Présenter l'entraînement en petit groupe, payant en Extra, et capter les recherches type « hyrox genève » | Principe (un coach, quelques personnes), mention « Extra » bien visible, liste des Small Group Training avec les clubs où ils sont proposés et leur prix (lus sur l'Extra), liens vers leurs fiches `/cours/[cours]`, lien vers /tarifs, CTA essai. S'il n'y a qu'un Small Group Training au lancement, le hub peut attendre : sa fiche suffit |
 | Coaching personnel | `/sport/coaching-personnel` | Mettre en valeur l'accompagnement Harmony : les coachs, les programmes, l'application de suivi | Voir « Page Coaching personnel » ci-dessous |
 
@@ -266,7 +266,7 @@ Objectif : montrer que l'abonnement Harmony, c'est aussi un accompagnement. On n
 4. **L'application de suivi** : ce qu'elle permet (programme, séances, progrès), captures d'écran, liens vers les stores. Nom et fonctionnalités à compléter
 5. **Les coachs** : grille filtrable par club et spécialité (composant Personne, badge « Coach personnel »)
 6. **Témoignages** : idéalement avec un résultat concret, accord écrit du membre
-7. **FAQ** : combien de séances incluses, comment les réserver, changer de coach, séances en plus, et la formule GYM (séances non incluses)
+7. **FAQ** : combien de séances incluses, comment les réserver, changer de coach, séances en plus, et la formule Gym (séances non incluses)
 8. **CTA final** : tarifs + essai
 
 ## Cours collectifs : périmètre et pages retenues
@@ -299,7 +299,7 @@ Soit une trentaine de fiches au lancement, contre environ 80 pages de cours aujo
 
 **Slugs.** Pages de famille et fiches partagent `/cours/[...]` : plus court, reprend le mot tapé, même chemin que le site actuel (redirections simplifiées). Le fil d'Ariane garde Sport > Cours collectifs > [cours]. Redirection 301 de `/cours/yoga-pilates` vers la page de famille Pilates : cette page fait 6 728 apparitions en position 41,5, c'est le cas d'école des deux pages faibles qui se partagent un sujet.
 
-**Vocabulaire.** « Catégorie » est réservé aux clubs (GYM, Essential, Premium). Pour les cours : **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours).
+**Vocabulaire.** « Catégorie » est réservé aux clubs (Gym, Essential, Premium). Pour les cours : **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours).
 
 **H1 et title des pages cours (résout Q21).** H1 = le nom du cours ou de la famille, seul, sans ajout géographique. Title = « Cours de [cours] à Genève et Vaud | Harmony », ou « [cours] à Genève et Vaud | Harmony » quand « cours de » sonne faux (formats Les Mills). Le mot « cours » est repris parce que les requêtes le portent (« cours pilates » 2 849 apparitions, « cours de pilates » 2 117). Aucune commune dans le title d'une fiche : le croisement cours + commune est produit par les pages club et par le bloc « clubs qui proposent ce cours », pas par du bourrage de titre.
 

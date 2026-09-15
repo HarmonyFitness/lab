@@ -38,7 +38,7 @@ window.HF = (function () {
   var regles = {
 
     /* B.3 > Page Tarifs > Règles : Premium couvre tous les clubs,
-       Essential couvre Essential et GYM, GYM couvre Pâquis. La règle est
+       Essential couvre Essential et Gym, Gym couvre Pâquis. La règle est
        portée par categorie.couvre, jamais par une liste de clubs. */
     clubsDeCategorie: function (idCat) {
       var cat = categorie(idCat);
@@ -302,7 +302,7 @@ window.HF = (function () {
       return retenu ? { valeur: retenu.valeur, promo: retenu.promo } : { valeur: null, promo: null };
     },
 
-    /* Q8 : sur un club GYM, la ligne informe au lieu de compter. */
+    /* Q8 : sur un club Gym, la ligne informe au lieu de compter. */
     ligneCoursCarteClub: function (idClub) {
       var c = club(idClub);
       if (!c) return '';
@@ -1570,7 +1570,7 @@ Object.assign(window.HF.vues, (function () {
     var formules = R.formulesDuClub(c.id);
     var extras = R.extrasDuClub(c.id);
     var estGym = c.categorie === 'gym';
-    return '<section data-spec="B.3 > Trame de la page club > ' + (estGym ? '5 (variante GYM)' : '6') + '">' +
+    return '<section data-spec="B.3 > Trame de la page club > ' + (estGym ? '5 (variante Gym)' : '6') + '">' +
       '<h2>Formules et Extras</h2>' +
       '<div class="grille grille--cartes">' + formules.map(function (p) {
         /* Même prix que sur /tarifs : le teaser suit la promo en cours,
@@ -1632,10 +1632,10 @@ Object.assign(window.HF.vues, (function () {
       '</div></section>';
   }
 
-  /* Variante GYM : passerelle secondaire vers les cours collectifs. */
+  /* Variante Gym : passerelle secondaire vers les cours collectifs. */
   function passerelleCoursCollectifs(c) {
     if (c.categorie !== 'gym') return '';
-    return '<section data-spec="B.3 > Variante GYM">' +
+    return '<section data-spec="B.3 > Variante Gym">' +
       '<div class="produit"><h2>Envie de cours collectifs ?</h2>' +
       '<p>Ils sont inclus dès la formule Essential.</p>' +
       '<p><a class="btn btn--secondaire" href="../../tarifs/?club=' + c.id +
@@ -1826,7 +1826,7 @@ Object.assign(window.HF.regles, (function () {
   }
 
   /* Une catégorie de clubs qui ne propose aucun cours collectif : le cas
-     existe (GYM). Déduit des données, pas écrit en dur : si Harmony en
+     existe (Gym). Déduit des données, pas écrit en dur : si Harmony en
      ajoute un jour, le message disparaît tout seul. */
   function categorieSansCours(idCat) {
     if (!idCat) return false;
@@ -2009,7 +2009,7 @@ Object.assign(window.HF.vues, (function () {
       '</section>';
   }
 
-  /* B.3 > Catégories de clubs : "Pas de cours collectifs" en GYM, des Small
+  /* B.3 > Catégories de clubs : "Pas de cours collectifs" en Gym, des Small
      Group Training y sont proposés en Extra. On informe, on ne laisse pas un
      "aucun résultat" sec là où il y a une raison. */
   function raisonCategorie(etat, base) {

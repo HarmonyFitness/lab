@@ -23,7 +23,7 @@ l'accueil, et le panneau qui s'ouvre au clic sur un badge catégorie.
   collectifs en salle. »
 - Premium : « Tout pour s'entraîner, piscine comprise : plateau fitness, cours
   collectifs et cours aquatiques. »
-GYM garde la promesse de B.3, qui est déjà rédigée.
+Gym garde la promesse de B.3, qui est déjà rédigée.
 **Dans les maquettes :** texte affiché tel quel, accompagné du marqueur « à
 valider par Harmony ». Pas de placeholder entre crochets : le texte existe.
 
@@ -42,13 +42,13 @@ compléter ») et B.3 > Titres de la branche Sport (sous-titre « un suivi dans
 l'application [nom] »).
 **Placeholder :** « [nom de l'application] ».
 
-### Q4 · Coaching personnel et formule GYM
+### Q4 · Coaching personnel et formule Gym
 **Statut :** tranchée
-**Source :** B.3 > Page Coaching personnel > bloc 7 (« et la formule GYM
+**Source :** B.3 > Page Coaching personnel > bloc 7 (« et la formule Gym
 (séances non incluses, à confirmer) »).
-Impacte la carte formule GYM sur /tarifs : la ligne « séances de coaching »
+Impacte la carte formule Gym sur /tarifs : la ligne « séances de coaching »
 est-elle absente, ou présente avec une mention ?
-**Réponse (Hugo, étape 1) :** pas de séances de coaching incluses en GYM.
+**Réponse (Hugo, étape 1) :** pas de séances de coaching incluses en Gym.
 Les 3 cartes formule affichent les mêmes lignes d'inclusion, dans le même
 ordre, avec « Non inclus » quand la formule ne couvre pas la ligne. Une ligne
 n'est jamais retirée d'une carte : les trois cartes restent comparables ligne
@@ -107,14 +107,14 @@ objectifs sont dans B.3, le mapping cours par cours est appliqué dans
 `data.js`. Les entrées marquées `objectifsAValider` sont les propositions de
 Hugo pour les trous du doc, pas des décisions. L'objectif secondaire existe
 comme champ et reste vide partout sauf sur Pilates et Les Mills Body Balance.
-### Q8 · Nombre de cours par semaine dans un club GYM
+### Q8 · Nombre de cours par semaine dans un club Gym
 **Statut :** tranchée
 **Source :** B.3 > Clubs > ligne « Clubs (hub) » (la carte club affiche « nombre de
-cours par semaine ») croisé avec B.3 > Catégories de clubs (GYM : « Pas de cours
+cours par semaine ») croisé avec B.3 > Catégories de clubs (Gym : « Pas de cours
 collectifs »).
 Que montre la carte de Genève · Pâquis : rien, un zéro, ou le nombre de séances
 de Small Group Training ?
-**Réponse (Hugo, étape 1) :** sur la carte d'un club GYM, le nombre de cours est
+**Réponse (Hugo, étape 1) :** sur la carte d'un club Gym, le nombre de cours est
 remplacé par « Pas de cours collectifs · Small Group Training en Extra ». La
 ligne n'est pas masquée : elle informe.
 
@@ -155,7 +155,7 @@ et les slugs, pas les adresses.
 
 ### Q13 · Carnets d'entrées
 **Statut :** partiellement tranchée (volumes posés le 2026-09-14)
-**Source :** B.3 > Page Tarifs > trame, bloc 5 (« filtres GYM / Essential /
+**Source :** B.3 > Page Tarifs > trame, bloc 5 (« filtres Gym / Essential /
 Premium sans club »).
 B.3 laisse entendre au moins un carnet par catégorie, sans le dire. Trois
 carnets sont maquettés, un par catégorie, prix et nombre d'entrées en
@@ -191,7 +191,7 @@ Jacuzzi, Jets massants, Parking.
 Hyrox est posé (Pâquis et Meyrin). Pour les deux autres, la répartition est
 une hypothèse, marquée `clubsAValider` dans `data/data.js` : service linge
 dans les 3 clubs Premium, séances de coaching en plus dans les 9 clubs hors
-GYM. Elle a été choisie pour que les maquettes montrent des cas contrastés,
+Gym. Elle a été choisie pour que les maquettes montrent des cas contrastés,
 pas parce qu'elle est juste.
 
 ## Relevées en construisant la page Tarifs (étape 3)
@@ -232,14 +232,14 @@ Rien n'est donné pour le hub /clubs.
 Les titres de section de la liste viennent bien de B.3 : « Nos clubs à Genève »
 et « Nos clubs dans le canton de Vaud ».
 
-### Q20 · Plage horaire élargie des clubs GYM
+### Q20 · Plage horaire élargie des clubs Gym
 **Statut :** ouverte
 **Source :** B.3 > Catégories de clubs (« Plateau fitness complet, horaires
-élargis ») et B.3 > Variante GYM (« Le hero met en avant les horaires
+élargis ») et B.3 > Variante Gym (« Le hero met en avant les horaires
 élargis »).
 La plage n'est donnée nulle part, alors que c'est l'argument central du hero
-d'un club GYM.
-**Placeholder :** « Horaires élargis : [plage horaire GYM]. »
+d'un club Gym.
+**Placeholder :** « Horaires élargis : [plage horaire Gym]. »
 
 ## Relevées en construisant la branche Sport (étape 5)
 
@@ -435,35 +435,35 @@ campagne redevient invisible depuis l'état par défaut.
 ### Q32 · Filtre par catégorie de clubs et recherche sur le hub des cours
 **Statut :** tranchée par Hugo, à répercuter dans B.3
 **Source :** Hugo, 2026-09-15. « Il serait également intéressant de filtrer par
-catégorie de clubs : GYM (en réalité pas de cours co pour GYM), Essential,
+catégorie de clubs : Gym (en réalité pas de cours co pour Gym), Essential,
 Premium. Aussi, intégrer une barre de recherche. »
 
 B.3 prévoit quatre filtres sur le hub : club, objectif, intensité, format. Deux
 s'ajoutent, et ce sont des ajouts, pas des lectures de B.3 :
-- **catégorie de clubs** (GYM, Essential, Premium), qui répond à « qu'est-ce que
+- **catégorie de clubs** (Gym, Essential, Premium), qui répond à « qu'est-ce que
   je peux faire dans un club Premium »
 - **recherche par nom**, pour qui sait déjà ce qu'il cherche
 
 Choix faits dans la maquette, à valider :
 - la catégorie porte sur la catégorie du club où le cours est donné, pas sur la
   règle d'accès des formules. Filtrer Essential ne remonte donc pas les cours
-  des clubs GYM, alors que la formule Essential y donne accès. Si c'est « ce à
+  des clubs Gym, alors que la formule Essential y donne accès. Si c'est « ce à
   quoi ma formule me donne droit » qui est attendu, c'est un autre filtre, celui
   de /clubs, qui s'appelle « Ma formule ».
 - la catégorie commande le menu des clubs : choisir Premium ne laisse que les
   trois clubs Premium, et relâche un club devenu incompatible. Sans ça on peut
   demander « Meyrin » et « Premium » en même temps, ce qui ne veut rien dire.
-- filtrer sur GYM ne renvoie rien. Plutôt qu'un « aucun résultat » sec, la page
-  explique : « Les clubs GYM ne proposent pas de cours collectifs. Des Small
+- filtrer sur Gym ne renvoie rien. Plutôt qu'un « aucun résultat » sec, la page
+  explique : « Les clubs Gym ne proposent pas de cours collectifs. Des Small
   Group Training y sont proposés en Extra », avec un lien vers le hub Small
   Group Training. Le cas est déduit des données : si un cours collectif arrive
-  un jour en GYM, le message disparaît tout seul.
+  un jour en Gym, le message disparaît tout seul.
 - la recherche porte sur le nom du cours, celui de sa famille et celui de ses
   objectifs. Chercher « danse » remonte les cours rangés sous « Danser » même
   si aucun ne porte le mot dans son nom. À confirmer : est-ce trop large ?
 - le bloc « Nos disciplines » (les 4 pages de famille) n'est pas filtré : ce
   sont des pages de navigation, pas un catalogue. Il reste donc visible sous le
-  message GYM. À trancher si ça gêne.
+  message Gym. À trancher si ça gêne.
 
 Reste ouvert : faut-il aussi une recherche sur le planning de la page club ?
 
@@ -477,7 +477,7 @@ Posé dans les maquettes :
 - 4e formule, après Premium. Catégorie d'accès : Premium, donc les 10 clubs.
 - nouveau champ `souscriptionDepuis: ['premium']`. L'accès et la souscription
   deviennent deux choses distinctes : Platinium ouvre les 10 clubs mais ne se
-  souscrit que depuis un club Premium. Depuis un club Essential ou GYM, la
+  souscrit que depuis un club Premium. Depuis un club Essential ou Gym, la
   carte n'apparaît pas et la formule est regroupée dans la ligne « Pas
   disponible depuis [club] », comme les autres produits indisponibles.
 - 5e ligne d'inclusion, « Extras », pour que les 4 cartes se comparent ligne à
@@ -508,3 +508,37 @@ Posé dans les maquettes :
   Platinium ? Non aujourd'hui dans le jeu de démonstration.
 - **le prix** de Platinium, et le libellé exact de la ligne d'inclusion
   « Extras », qui dit aujourd'hui juste « Extras ».
+
+### Q34 · Graphie « Gym » et système de nommage des formules
+**Statut :** graphie tranchée par Hugo, système de nommage à trancher
+**Source :** Hugo, 2026-09-15. « Pour une cohérence avec les autres formules, il
+faut écrire "Gym" et pas "GYM" en majuscule. »
+
+**Graphie.** Appliquée partout dans les maquettes. B.3 disait l'inverse : « Une
+seule graphie, GYM, identique en club, dans l'appli et sur le site. » La ligne
+est corrigée sur Notion et dans l'export local. À répercuter hors du site : en
+club, dans l'appli, dans Echino, et dans la section 7 du cahier des charges, que
+je ne modifie pas (fichier en lecture seule, il porte encore « GYM »).
+
+**Système de nommage.** Jusqu'ici une règle simple tenait : nom de formule = nom
+de catégorie de club. Elle disait au visiteur quels clubs sa formule ouvre.
+Platinium la casse : c'est une formule sans catégorie correspondante, et son nom
+ne dit rien des clubs auxquels elle donne accès.
+
+Trois options examinées, détail et recommandation dans la réponse à Hugo du
+2026-09-15 :
+1. le premier mot d'un nom de formule est toujours une catégorie de club, donc
+   « Premium Platinum » et non « Platinium » seul. La règle survit, elle
+   s'applique aux produits futurs, et Platinium reste vendable comme un niveau.
+2. garder « Platinium » seul, et rendre la restriction explicite partout : une
+   ligne « À souscrire dans l'un des 3 clubs Premium » sur la carte, et une
+   mention dans le module Catégories qui dit que Platinium est une formule, pas
+   une catégorie.
+3. faire de Platinium une option de Premium plutôt qu'une formule. Écarté :
+   Harmony veut un produit à vendre.
+
+**Orthographe de Platinium.** Le mot n'existe ni en français (« platine ») ni en
+anglais (« platinum »). Les autres noms du jeu sont anglophones : Gym,
+Essential, Premium. « Platinum » serait la graphie cohérente. À trancher avec
+Harmony : si le nom est déjà utilisé commercialement sous cette forme, il vaut
+mieux le garder que d'avoir deux graphies en circulation.
