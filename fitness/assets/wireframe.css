@@ -467,6 +467,13 @@ a { color: var(--accent); }
 .cta-essai { border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
   padding: 20px; text-align: center; }
 
+/* Sortie vers le conseil en club. Discrète par construction : pas de cadre,
+   pas de bouton, une ligne séparée par un filet. Elle existe pour qui en a
+   besoin, elle ne détourne pas de la souscription en ligne. */
+.conseil { font-size: 13px; color: var(--gris-60); line-height: 1.6;
+  border-top: 1px solid var(--gris-20); padding-top: 14px; margin: 32px 0 0; }
+.conseil strong { color: var(--gris-95); }
+
 .fil { font-size: 12px; color: var(--gris-60); padding: 10px 0; }
 .fil a { color: var(--gris-60); }
 

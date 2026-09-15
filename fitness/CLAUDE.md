@@ -124,6 +124,7 @@ Page Tarifs
 - Un composant collant rendu par `x-html` doit avoir un hôte en `display: contents` (classe `hote-collant`), sinon le conteneur fait exactement sa hauteur et `position: sticky` n'a aucune marge pour coller.
 - Une seule barre collante en haut. Pas de barre d'ancres.
 - Pas de cartes cadeaux.
+- Une ligne discrète en fin de catalogue pour qui ne se reconnaît dans aucune formule : « Vous ne trouvez pas la formule qui vous convient ? », renvoi vers un formulaire de contact avec le club présélectionné (décision Hugo, 2026-09-15, Q37). Pas de cadre, pas de bouton, une ligne séparée par un filet : elle existe pour ceux qui en ont besoin, elle ne détourne pas de la souscription en ligne. Le lien porte `club`, `motif` et `source`, pour que la demande soit comptée comme une demande d'essai.
 
 Cours
 - Vocabulaire strict : "catégorie" est réservé aux clubs (Gym, Essential, Premium). Pour les cours on dit **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours). Ne jamais écrire "catégorie de cours".

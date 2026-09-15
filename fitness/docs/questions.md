@@ -613,3 +613,52 @@ Manquent, tous posés dans les maquettes et validés par Hugo :
 
 À faire : mettre à jour la page section 7 dans Notion. Je ne l'ai pas touchée,
 c'est une autre page que B.3 et son export local est en lecture seule.
+
+### Q37 · Où envoyer une demande de conseil, alors qu'il n'y a pas de formulaire de contact
+**Statut :** ouverte, une décision à prendre avant de construire
+**Source :** Hugo, 2026-09-15. « Certains clubs proposent un peu du sur mesure,
+mais on ne peut pas complexifier l'offre ici. La page tarif devrait contenir une
+information pour interpeller ceux qui ne trouvent pas la bonne formule et les
+inviter à se rendre en club ou à contacter le club. Discret comme message. Il
+faudrait que ça renvoie un formulaire de contact avec le champ club
+présélectionné, pour tracker les demandes comme les demandes d'essai. »
+
+La ligne est posée sur /tarifs, après tous les produits, avant le module
+Catégories. Sans cadre, sans bouton : une ligne séparée par un filet. Elle
+existe pour qui en a besoin, elle ne détourne pas de la souscription en ligne.
+
+**Le problème : la destination n'existe pas.** B.3 dit « coordonnées sur chaque
+page club + bloc contact du footer, pas de formulaire ni de page contact dans le
+header ». Les pages club donnent une adresse e-mail. Un e-mail ne se compte pas,
+ne présélectionne pas le club et ne se dispatche pas.
+
+Trois options.
+
+**1. Réutiliser le formulaire de la séance d'essai.** B.3 lui donne déjà les bons
+champs : date indicative, club, **motif**, dispatch par club. Coût nul.
+Problème : on envoie sur une page « Séance d'essai » quelqu'un qui veut juste un
+conseil tarifaire. Le H1 ment, et la statistique mélange deux intentions.
+
+**2. Une page dédiée, même gabarit (recommandé).** `/nous-contacter`, qui
+réutilise le gabarit « demande de rappel » de la séance d'essai avec un motif
+différent, un H1 propre et une URL à part. Exactement le rapport qu'ont /tarifs
+et /tarifs/[club] : deux adresses, un gabarit.
+Coût devis : **+1 page, +0 gabarit.** Le tableau des volumes passe de ~18 à ~19
+pages à gabarit unique, le nombre de gabarits à concevoir ne bouge pas.
+Bénéfice : tracking propre, H1 juste, et le site gagne enfin un formulaire de
+contact, qui manque aussi au footer et aux pages club.
+
+**3. Le formulaire général de « Besoin d'aide ? ».** Il est déjà prévu en bas de
+cette page. Mais envoyer un prospect qui hésite entre deux formules sur une page
+de self-service SAV est un mauvais signal, et le club n'y est pas présélectionné.
+
+C'est l'option 2 qui est câblée dans la maquette, avec un marqueur « page de
+contact à valider » bien visible. Le lien porte déjà `club`, `motif=conseil` et
+`source=tarifs`, donc la demande est traçable dès qu'elle arrive.
+
+À trancher aussi, si l'option 2 est retenue :
+- le formulaire remplace-t-il l'adresse e-mail des pages club, ou coexiste-t-il ?
+  Deux canaux pour la même demande, c'est deux endroits à surveiller pour le
+  manager du club.
+- qui reçoit : le club, ou une adresse centrale qui redispatche ?
+- le délai de réponse annoncé, s'il y en a un.

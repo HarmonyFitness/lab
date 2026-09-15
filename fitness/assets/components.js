@@ -1233,6 +1233,25 @@ Object.assign(window.HF.vues, (function () {
       out.join('') + '</div>';
   }
 
+  /* B.3 > Page Tarifs > Trame > 6 : la sortie pour qui ne se reconnaît dans
+     aucune formule. Volontairement discrète, une ligne de texte et un lien,
+     pas un bloc de conversion : elle ne doit pas détourner de la souscription
+     en ligne, juste exister pour ceux qui en ont besoin. Le club est passé au
+     formulaire, qui le présélectionne, et la source permet de compter les
+     demandes venues d'ici (Q37). */
+  function ligneConseil(etat, base) {
+    var c = etat.club ? H.club(etat.club) : null;
+    var p = new URLSearchParams({ motif: 'conseil', source: 'tarifs' });
+    if (c) p.set('club', c.id);
+    return '<p class="conseil" data-spec="B.3 > Page Tarifs > Trame > 6">' +
+      '<strong>Vous ne trouvez pas la formule qui vous convient ?</strong> ' +
+      'Certains clubs proposent des arrangements sur mesure. ' +
+      (c ? 'Parlez-en avec ' + esc(c.nom) + '. ' : 'Parlez-en avec votre club. ') +
+      '<a class="lien-texte" href="' + (base || '') + 'nous-contacter/?' + p.toString() + '">' +
+      (c ? 'Contacter ' + esc(c.nom) : 'Contacter un club') + '</a>' +
+      ' <span class="wf-avalider">page de contact à valider</span></p>';
+  }
+
   /* Le CTA essai sert sur presque toutes les pages : sa référence de spec
      dépend donc de la page qui l'affiche, elle ne peut pas être figée. */
   function ctaEssai(base, spec) {
@@ -1260,6 +1279,7 @@ Object.assign(window.HF.vues, (function () {
     barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub,
     planning: planning, grilleCoachs: grilleCoachs, panneauCoach: panneauCoach,
     faq: faq, temoignages: temoignages, ctaEssai: ctaEssai, compteur: compteur,
+    ligneConseil: ligneConseil,
     desParMoisTexte: desParMoisTexte
   };
 })());
