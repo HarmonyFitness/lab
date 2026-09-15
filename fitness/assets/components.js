@@ -1172,7 +1172,8 @@ Object.assign(window.HF, (function () {
       coachOuvert: null,
       faqOuverte: null,
       message: null,
-      filtres: { jour: '', objectif: '', intensite: '', format: '' },
+      filtres: { club: '', categorie: '', jour: '', objectif: '', intensite: '',
+                 format: '', recherche: '' },
       source: params.get('source') || null
     };
   }
@@ -1283,7 +1284,15 @@ Object.assign(window.HF, (function () {
     racine.addEventListener('change', function (ev) {
       var el = ev.target.closest('[data-act="filtre"]');
       if (!el) return;
-      etat.filtres[el.getAttribute('data-cle')] = el.value;
+      var cle = el.getAttribute('data-cle');
+      etat.filtres[cle] = el.value;
+      /* Catégorie et club se contredisent vite : Meyrin est Essential, on ne
+         peut pas lui demander en même temps d'être Premium. La catégorie
+         commande, le club incompatible est relâché. */
+      if (cle === 'categorie' && etat.filtres.club) {
+        var c = H.club(etat.filtres.club);
+        if (el.value && (!c || c.categorie !== el.value)) etat.filtres.club = '';
+      }
     });
     racine.addEventListener('mouseover', function (ev) {
       var el = ev.target.closest('[data-survol]');
@@ -1710,16 +1719,66 @@ Object.assign(window.HF.regles, (function () {
   /* Catalogue du hub : les 6 objectifs, chaque cours une seule fois sous
      son objectif principal. Les cours absorbés en filtre ne sont pas des
      entrées de catalogue, ils vivent dans leur page de famille. */
+  /* Les catégories de clubs où ce cours est donné. Jamais saisi : déduit des
+     séances, comme les clubs d'un cours. */
+  function categoriesDuCours(idCours) {
+    var vus = {};
+    D.seances.forEach(function (s) {
+      if (s.cours !== idCours) return;
+      var c = H.club(s.club);
+      if (c) vus[c.categorie] = 1;
+    });
+    return Object.keys(vus);
+  }
+
+  /* Recherche : insensible à la casse et aux accents, sur le nom du cours,
+     celui de sa famille (chercher "pilates" doit sortir ses variantes) et
+     celui de ses objectifs (chercher "danse" doit sortir les cours rangés
+     sous "Danser", même si aucun ne porte le mot dans son nom). */
+  function sansAccent(t) {
+    return String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+  function nomObjectifRecherche(id) {
+    var o = D.referentiels.objectifs.find(function (x) { return x.id === id; });
+    return o ? o.nom : '';
+  }
+  function correspondRecherche(c, terme) {
+    var t = sansAccent(terme).trim();
+    if (!t) return true;
+    var fam = c.famille ? H.famille(c.famille) : null;
+    var champs = [c.nom, fam ? fam.nom : '',
+      nomObjectifRecherche(c.objectifPrincipal), nomObjectifRecherche(c.objectifSecondaire)];
+    return champs.some(function (x) { return sansAccent(x).indexOf(t) !== -1; });
+  }
+
+  /* Un cours passe-t-il les filtres du hub ? Une seule règle, utilisée par le
+     catalogue et par le planning, pour qu'ils ne divergent jamais. */
+  function coursFiltre(c, f) {
+    if (f.objectif && c.objectifPrincipal !== f.objectif) return false;
+    if (f.intensite && c.intensite !== f.intensite) return false;
+    if (f.format && c.format !== f.format) return false;
+    if (f.categorie && categoriesDuCours(c.id).indexOf(f.categorie) === -1) return false;
+    if (f.club && !R.seancesDuClub(f.club).some(function (s) { return s.cours === c.id; })) return false;
+    if (!correspondRecherche(c, f.recherche)) return false;
+    return true;
+  }
+
+  /* Une catégorie de clubs qui ne propose aucun cours collectif : le cas
+     existe (GYM). Déduit des données, pas écrit en dur : si Harmony en
+     ajoute un jour, le message disparaît tout seul. */
+  function categorieSansCours(idCat) {
+    if (!idCat) return false;
+    return !D.cours.some(function (c) {
+      return !c.estExtra && categoriesDuCours(c.id).indexOf(idCat) !== -1;
+    });
+  }
+
   function catalogueParObjectif(filtres) {
     var f = filtres || {};
     var visibles = D.cours.filter(function (c) {
       if (c.estExtra) return false;
       if (c.traitement === 'filtre-intensite' || c.traitement === 'filtre-format') return false;
-      if (f.objectif && c.objectifPrincipal !== f.objectif) return false;
-      if (f.intensite && c.intensite !== f.intensite) return false;
-      if (f.format && c.format !== f.format) return false;
-      if (f.club && !R.seancesDuClub(f.club).some(function (s) { return s.cours === c.id; })) return false;
-      return true;
+      return coursFiltre(c, f);
     });
     var groupes = D.referentiels.objectifs.map(function (o) {
       return { objectif: o, cours: visibles.filter(function (c) { return c.objectifPrincipal === o.id; }) };
@@ -1737,7 +1796,9 @@ Object.assign(window.HF.regles, (function () {
     smallGroupTrainings: smallGroupTrainings,
     creneauxDuCours: creneauxDuCours, creneauxDeFamille: creneauxDeFamille,
     coachsDuCours: coachsDuCours, coachsDeFamille: coachsDeFamille,
-    coachsPersonnels: coachsPersonnels, catalogueParObjectif: catalogueParObjectif
+    coachsPersonnels: coachsPersonnels, catalogueParObjectif: catalogueParObjectif,
+    categoriesDuCours: categoriesDuCours, coursFiltre: coursFiltre,
+    categorieSansCours: categorieSansCours
   };
 })());
 
@@ -1779,13 +1840,20 @@ Object.assign(window.HF.vues, (function () {
       }).join('') + '</select>';
   }
 
-  /* Les 4 filtres du hub, dans l'ordre de B.3 : club, objectif, intensité,
-     format. Une seule barre pour toute la page : elle pilote le catalogue
-     et le planning en même temps. Le filtre « type » n'existe plus. */
+  /* Les filtres du hub : catégorie de clubs, club, objectif, intensité,
+     format. Une seule barre pour toute la page : elle pilote le catalogue et
+     le planning en même temps. Le filtre « type » n'existe plus.
+     La catégorie vient en premier parce qu'elle commande la liste des clubs :
+     choisir Premium ne laisse que les clubs Premium dans le second menu. */
   function filtresCours(etat) {
     var f = etat.filtres || {};
+    var clubs = D.clubs.filter(function (c) {
+      return !f.categorie || c.categorie === f.categorie;
+    });
     return '<div class="filtres" data-spec="B.3 > Sport > Cours collectifs (hub)">' +
-      selectFiltre(D.clubs.map(function (c) { return { id: c.id, nom: c.nom }; }), f.club, 'club', 'Tous les clubs') +
+      selectFiltre(D.categories.map(function (c) { return { id: c.id, nom: 'Clubs ' + c.nom }; }),
+        f.categorie, 'categorie', 'Toutes les catégories de clubs') +
+      selectFiltre(clubs.map(function (c) { return { id: c.id, nom: c.nom }; }), f.club, 'club', 'Tous les clubs') +
       selectFiltre(D.referentiels.objectifs, f.objectif, 'objectif', 'Tous les objectifs') +
       selectFiltre(D.referentiels.intensites, f.intensite, 'intensite', 'Toutes les intensités') +
       selectFiltre(D.referentiels.formats, f.format, 'format', 'Tous les formats') +
@@ -1805,11 +1873,16 @@ Object.assign(window.HF.vues, (function () {
     var visibles = D.seances.filter(function (s) {
       var co = H.cours(s.cours); if (!co || co.estExtra) return false;
       if (f.club && s.club !== f.club) return false;
-      if (f.objectif && co.objectifPrincipal !== f.objectif) return false;
-      if (f.intensite && co.intensite !== f.intensite) return false;
-      if (f.format && co.format !== f.format) return false;
+      /* La catégorie se juge sur le club de la séance, pas sur le cours :
+         un cours donné à Meyrin et à Veyrier ne doit sortir qu'une fois
+         filtré Premium la séance de Veyrier. */
+      if (f.categorie) {
+        var cl = H.club(s.club);
+        if (!cl || cl.categorie !== f.categorie) return false;
+      }
       if (f.jour && s.jour !== f.jour) return false;
-      return true;
+      return R.coursFiltre(co, { objectif: f.objectif, intensite: f.intensite,
+        format: f.format, recherche: f.recherche });
     });
 
     var corps = '';
@@ -1832,7 +1905,7 @@ Object.assign(window.HF.vues, (function () {
       (corps
         ? '<table class="planning"><thead><tr><th>Heure</th><th>Cours</th><th>Club</th>' +
           '<th>Durée</th></tr></thead><tbody>' + corps + '</tbody></table>'
-        : '<p class="planning__vide">Aucune séance ne correspond à ces filtres.</p>') +
+        : videPlanning(etat, base)) +
       '<p class="mention">Planning type saisi au CMS. Mis à jour le [date de mise à jour].</p></section>';
   }
 
@@ -1853,8 +1926,29 @@ Object.assign(window.HF.vues, (function () {
                 ? '<p><span class="wf-avalider">page ou section à trancher</span></p>' : '') +
               '</div>';
           }).join('') + '</div>';
-      }).join('') : '<p class="planning__vide">Aucun cours ne correspond à ces filtres.</p>') +
+      }).join('') : videCatalogue(etat, base)) +
       '</section>';
+  }
+
+  /* B.3 > Catégories de clubs : "Pas de cours collectifs" en GYM, des Small
+     Group Training y sont proposés en Extra. On informe, on ne laisse pas un
+     "aucun résultat" sec là où il y a une raison. */
+  function raisonCategorie(etat, base) {
+    var f = etat.filtres || {};
+    if (!R.categorieSansCours(f.categorie)) return '';
+    var cat = H.categorie(f.categorie);
+    return 'Les clubs ' + esc(cat.nom) + ' ne proposent pas de cours collectifs. ' +
+      'Des Small Group Training y sont proposés en Extra. ' +
+      '<a class="lien-texte" href="' + (base || '') +
+      'sport/small-group-training/">Voir les Small Group Training</a>';
+  }
+  function videCatalogue(etat, base) {
+    return '<p class="planning__vide">' +
+      (raisonCategorie(etat, base) || 'Aucun cours ne correspond à ces filtres.') + '</p>';
+  }
+  function videPlanning(etat, base) {
+    return '<p class="planning__vide">' +
+      (raisonCategorie(etat, base) || 'Aucune séance ne correspond à ces filtres.') + '</p>';
   }
 
   /* Liens vers les 4 pages de famille (B.3 > Cours collectifs (hub)). */

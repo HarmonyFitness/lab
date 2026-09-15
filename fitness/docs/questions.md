@@ -431,3 +431,38 @@ un engagement : ce n'est pas la même chose, mais la ligne affichée porte quand
 même un pourcentage à côté du mot « engagement ». Si Hugo juge que c'est trop
 proche de ce que B.3 interdit, la ligne se retire en une ligne de code, et la
 campagne redevient invisible depuis l'état par défaut.
+
+### Q32 · Filtre par catégorie de clubs et recherche sur le hub des cours
+**Statut :** tranchée par Hugo, à répercuter dans B.3
+**Source :** Hugo, 2026-09-15. « Il serait également intéressant de filtrer par
+catégorie de clubs : GYM (en réalité pas de cours co pour GYM), Essential,
+Premium. Aussi, intégrer une barre de recherche. »
+
+B.3 prévoit quatre filtres sur le hub : club, objectif, intensité, format. Deux
+s'ajoutent, et ce sont des ajouts, pas des lectures de B.3 :
+- **catégorie de clubs** (GYM, Essential, Premium), qui répond à « qu'est-ce que
+  je peux faire dans un club Premium »
+- **recherche par nom**, pour qui sait déjà ce qu'il cherche
+
+Choix faits dans la maquette, à valider :
+- la catégorie porte sur la catégorie du club où le cours est donné, pas sur la
+  règle d'accès des formules. Filtrer Essential ne remonte donc pas les cours
+  des clubs GYM, alors que la formule Essential y donne accès. Si c'est « ce à
+  quoi ma formule me donne droit » qui est attendu, c'est un autre filtre, celui
+  de /clubs, qui s'appelle « Ma formule ».
+- la catégorie commande le menu des clubs : choisir Premium ne laisse que les
+  trois clubs Premium, et relâche un club devenu incompatible. Sans ça on peut
+  demander « Meyrin » et « Premium » en même temps, ce qui ne veut rien dire.
+- filtrer sur GYM ne renvoie rien. Plutôt qu'un « aucun résultat » sec, la page
+  explique : « Les clubs GYM ne proposent pas de cours collectifs. Des Small
+  Group Training y sont proposés en Extra », avec un lien vers le hub Small
+  Group Training. Le cas est déduit des données : si un cours collectif arrive
+  un jour en GYM, le message disparaît tout seul.
+- la recherche porte sur le nom du cours, celui de sa famille et celui de ses
+  objectifs. Chercher « danse » remonte les cours rangés sous « Danser » même
+  si aucun ne porte le mot dans son nom. À confirmer : est-ce trop large ?
+- le bloc « Nos disciplines » (les 4 pages de famille) n'est pas filtré : ce
+  sont des pages de navigation, pas un catalogue. Il reste donc visible sous le
+  message GYM. À trancher si ça gêne.
+
+Reste ouvert : faut-il aussi une recherche sur le planning de la page club ?

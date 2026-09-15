@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Cours collectifs fitness à Genève et Vaud | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-14p">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-15a">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -14,8 +14,12 @@
   <div class="conteneur"><p class="wf-note">
     B.3 &gt; Sport &gt; Cours collectifs (hub), version du 14 septembre.
     Le catalogue est rangé par les 6 objectifs, pas par catégorie : le mot
-    « catégorie » est réservé aux clubs. Filtres : club, objectif, intensité,
-    format. Le filtre « type » n'existe plus. Les 3 hubs de catégorie ont été
+    « catégorie » est réservé aux clubs. Filtres : catégorie de clubs, club,
+    objectif, intensité, format, plus une recherche par nom. Le filtre
+    « type » n'existe plus. La catégorie de clubs et la recherche ont été
+    demandées par Hugo le 15 septembre, elles ne sont pas dans B.3 d'origine.
+    Filtrer sur GYM ne renvoie rien : ces clubs n'ont pas de cours collectifs,
+    le message le dit plutôt que d'afficher un « aucun résultat » sec. Les 3 hubs de catégorie ont été
     supprimés, remplacés par 4 pages de famille en <code>/cours/[discipline]</code>.
     Les libellés des objectifs sont du contenu, jamais écrits en dur : ils
     seront validés par un test d'arborescence.
@@ -34,8 +38,21 @@
     </section>
 
     <section style="margin-top:28px" data-spec="B.3 &gt; Sport &gt; Cours collectifs (hub)">
-      <h2>Filtrer</h2>
-      <div x-html="HF.vues.filtresCours(etat)"></div>
+      <h2>Trouver un cours</h2>
+      <!-- La recherche est écrite en clair dans la page, pas rendue par
+           x-html : un composant re-rendu à chaque frappe ferait perdre le
+           curseur. Elle pilote le catalogue et le planning, comme les
+           filtres. -->
+      <div class="filtres">
+        <label class="filtres__label" for="recherche">Rechercher</label>
+        <input id="recherche" type="search" class="champ champ--recherche"
+               placeholder="Nom d'un cours, par exemple Pilates"
+               x-model="etat.filtres.recherche">
+        <button type="button" class="btn btn--discret btn--petit"
+                x-show="etat.filtres.recherche"
+                @click="etat.filtres.recherche = ''">Effacer</button>
+      </div>
+      <div style="margin-top:10px" x-html="HF.vues.filtresCours(etat)"></div>
       <p class="mention" x-text="compte()"></p>
     </section>
 
@@ -52,8 +69,8 @@
   </main>
   <div x-html="HF.vues.pied()"></div>
 </div>
-<script src="../../data/data.js?v=2026-09-14p"></script>
-<script src="../../assets/components.js?v=2026-09-14p"></script>
+<script src="../../data/data.js?v=2026-09-15a"></script>
+<script src="../../assets/components.js?v=2026-09-15a"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -69,6 +86,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-09-14p"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-09-15a"></script>
 </body>
 </html>

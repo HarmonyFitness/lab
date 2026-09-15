@@ -371,6 +371,10 @@ a { color: var(--accent); }
   margin-bottom: 14px; font-size: 13px; }
 .filtres select { font: inherit; font-size: 13px; padding: 5px 7px;
   border: 1px solid var(--gris-40); border-radius: var(--rayon); background: #fff; }
+.filtres__label { font-weight: 700; }
+.champ { font: inherit; font-size: 14px; padding: 7px 10px;
+  border: 1px solid var(--gris-40); border-radius: var(--rayon); background: #fff; }
+.champ--recherche { flex: 1 1 260px; min-width: 0; max-width: 420px; }
 
 .tableau, .planning { width: 100%; border-collapse: collapse; background: #fff; font-size: 14px; }
 .tableau th, .tableau td, .planning th, .planning td { text-align: left; padding: 9px 11px;

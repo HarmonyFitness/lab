@@ -115,6 +115,10 @@ Cours
 - Vocabulaire strict : "catégorie" est réservé aux clubs (GYM, Essential, Premium). Pour les cours on dit **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours). Ne jamais écrire "catégorie de cours".
 - Un cours porte un objectif principal, un objectif secondaire facultatif, une intensité (doux, modéré, intense) et un format (salle, aqua, petit groupe).
 - Les 6 objectifs sont du contenu, jamais du code. Leurs libellés seront validés par un test d'arborescence : les lire toujours dans `data.js`, ne jamais les écrire en dur.
+- Hub des cours collectifs : filtres catégorie de clubs, club, objectif, intensité, format, plus une recherche par nom (décision Hugo, 2026-09-15, Q32). La catégorie commande la liste des clubs : choisir Premium ne laisse que les clubs Premium dans le menu suivant, et relâche un club devenu incompatible.
+- La recherche porte sur le nom du cours, celui de sa famille et celui de ses objectifs, sans casse ni accents : chercher "danse" doit sortir les cours rangés sous "Danser", même si aucun ne porte le mot dans son nom.
+- Le champ de recherche est écrit en clair dans la page, jamais rendu par `x-html` : un composant re-rendu à chaque frappe ferait perdre le curseur.
+- Une catégorie sans aucun cours collectif (GYM aujourd'hui) n'affiche pas un "aucun résultat" sec : elle explique pourquoi et renvoie vers les Small Group Training. Le cas est déduit des données, jamais écrit en dur : si Harmony ajoute des cours en GYM, le message disparaît tout seul.
 - Rangement par objectif principal : catalogue du hub, bloc "cours du club" des pages club, filtres du planning. Un cours apparaît une seule fois, sous son objectif principal. L'objectif secondaire informe, il ne range jamais.
 - Un membre de famille peut être rangé sous un autre objectif que sa famille. La page de famille n'est donc jamais filtrée par objectif.
 - La page de famille liste tous ses membres. Membre avec page dédiée : un lien vers sa fiche. Membre sans page : une section sur la page de famille, avec ancre.
