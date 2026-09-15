@@ -584,3 +584,32 @@ Posé dans les maquettes :
   chose.
 - le point d'info n'est pas dans B.3 d'origine. Il est ajouté sur les cartes
   produit et dans le module Catégories de clubs, pas ailleurs.
+
+### Q36 · Le modèle de contenu (section 7) ne connaît pas les nouveautés
+**Statut :** ouverte, bloquante pour le développement
+**Source :** relecture de B.3 du 2026-09-15, à la demande de Hugo.
+
+B.3 est à jour. La **section 7, modèle de contenu**, ne l'est pas. C'est la page
+que Richard lira pour construire le CMS : tant qu'elle ne porte pas ces champs,
+ils n'existent pas pour lui. Elle décrit aujourd'hui le Produit ainsi :
+
+> type (formule, offre, carnet), nom, catégorie, engagements ou durée, ce qui
+> est inclus, tarifs couverts, conditions, verticale, identifiant dans l'outil
+> métier, dates de validité pour les offres.
+
+Manquent, tous posés dans les maquettes et validés par Hugo :
+- `photo` et son texte alternatif, sur le Produit (Q30)
+- `souscriptionDepuis` : les catégories de clubs depuis lesquelles le produit se
+  souscrit. C'est ce qui sépare l'accès de la souscription, et c'est la règle
+  qui fait exister Premium Platinum (Q33)
+- `inclutExtras` : la formule comprend les Extras vendus en ligne (Q33)
+- `nbEntrees` et `duree` sur les carnets (Q28)
+- une collection **Promotion** : nom, remise en pourcentage ou en montant,
+  liste des produits concernés, engagements concernés, dates de validité,
+  conditions (Q29)
+- la ligne d'inclusion `extras` dans la liste des inclusions, et le fait qu'une
+  ligne d'inclusion de cours porte un format, pour compter les cours (Q35)
+- la graphie « Gym » : la section 7 écrit encore « GYM » (Q34)
+
+À faire : mettre à jour la page section 7 dans Notion. Je ne l'ai pas touchée,
+c'est une autre page que B.3 et son export local est en lecture seule.

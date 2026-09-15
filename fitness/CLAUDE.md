@@ -79,6 +79,7 @@ Clubs et catégories
 - Une seule graphie, **Gym**, jamais GYM en capitales (décision Hugo, 2026-09-15, Q34). Idem en club, dans l'appli et dans Echino.
 - 3 catégories : Gym (Pâquis), Essential (Blandonnet, Eaux-Vives, Gland, Meyrin, Signy, Versoix), Premium (Denges, La Praille, Veyrier). Le mot est "catégorie".
 - Accès : Premium couvre tous les clubs, Essential couvre Essential et Gym, Gym couvre Pâquis.
+- La ligne d'accès d'une catégorie se dit avec "dès" : "Accessible dès la formule Essential". Une énumération ("avec les formules Essential et Premium") devient fausse dès qu'une formule s'ajoute, et il faut alors la corriger partout.
 - Les prix dépendent de la catégorie, jamais du club.
 - Listes de clubs groupées par canton (Genève, Vaud), ordre alphabétique, catégorie affichée à côté du nom.
 - Carte d'un club Gym : le nombre de cours par semaine est remplacé par "Pas de cours collectifs · Small Group Training en Extra". La ligne n'est jamais masquée.

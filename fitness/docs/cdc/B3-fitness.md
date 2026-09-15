@@ -139,8 +139,8 @@ Le mot retenu est « catégorie », sur le site, dans le CMS et dans les documen
 | Catégorie | Promesse | Socle garanti dans chaque club | Ligne d'accès affichée |
 |---|---|---|---|
 | Gym | Un plateau fitness complet, accessible sur une plage horaire plus large | Plateau fitness complet, horaires élargis. Pas de cours collectifs (des Small Group Training y sont proposés en extra) | « Accessible avec toutes nos formules » |
-| Essential | À compléter | Club 4 étoiles fitness-guide.ch, cours collectifs en salle | « Accessible avec les formules Essential et Premium » |
-| Premium | À compléter | Définition : club 5 étoiles fitness-guide.ch ET cours aquatiques en piscine. Plus les cours collectifs en salle | « Accessible avec la formule Premium » |
+| Essential | À compléter | Club 4 étoiles fitness-guide.ch, cours collectifs en salle | « Accessible dès la formule Essential » |
+| Premium | À compléter | Définition : club 5 étoiles fitness-guide.ch ET cours aquatiques en piscine. Plus les cours collectifs en salle | « Accessible dès la formule Premium » |
 
 **Règles d'affichage**
 
@@ -148,10 +148,10 @@ Le mot retenu est « catégorie », sur le site, dans le CMS et dans les documen
 - Les étoiles fitness-guide.ch servent uniquement à définir et différencier Essential et Premium, dans le module ci-dessous. Essential = 4 étoiles, Premium = 5 étoiles. Elles n'apparaissent ni sur les cartes club ni sur les pages club.
 - Gym est un concept, pas un premier niveau : le vocabulaire évite toute idée de hiérarchie (niveau, gamme). Comme Essential inclut Gym, Gym est aussi un argument de vente pour Essential.
 - Une seule graphie, Gym, identique en club, dans l'appli et sur le site.
-- Recommandé : nom de formule = nom de catégorie (« formule Premium »), sans le préfixe « Accès ».
+- Nommage des formules : le premier mot est toujours le nom d'une catégorie de club, il dit quels clubs la formule ouvre (« formule Premium »). Ce qui suit est le niveau (« Premium Platinum »), affiché dans un style distinct pour qu'on ne le prenne pas pour une catégorie. Pas de préfixe « Accès ». La règle passe à l'échelle : un niveau haut sur Essential s'appellerait « Essential quelque chose ».
 - Accès : la formule Premium inclut Essential et Gym, la formule Essential inclut Gym.
-- Extras : les Small Group Training et les services (linge…) ne sont inclus dans aucune formule. Chaque Small Group Training est un extra à part, et l'offre varie selon les clubs (Hyrox ne sera pas partout). Un seul mot, « Extra », identique en club, dans l'appli, sur le site et dans Echino.
-- Coaching personnel : des séances sont incluses dans les formules Essential et Premium (nombre à compléter). La formule Gym n'en inclut aucune. Les séances en plus sont un Extra vendu en club uniquement.
+- Extras : les Small Group Training et les services (linge…) ne sont inclus dans aucune formule, sauf **Premium Platinum**, qui comprend ceux vendus en ligne. Ceux vendus en club (séances de coaching en plus) ne sont compris dans aucune formule, y compris Premium Platinum : ils ne se vendent pas en ligne. Chaque Small Group Training est un extra à part, et l'offre varie selon les clubs (Hyrox ne sera pas partout). Un seul mot, « Extra », identique en club, dans l'appli, sur le site et dans Echino.
+- Coaching personnel : des séances sont incluses dans les formules Essential, Premium et Premium Platinum (nombre à compléter). La formule Gym n'en inclut aucune. Les séances en plus sont un Extra vendu en club uniquement.
 
 **Module « Catégories de clubs » (pas de page dédiée)**
 
@@ -160,7 +160,7 @@ Saisi une fois dans le CMS, affiché sur /clubs (ancre #categories), sur /tarifs
 ### Carte club (liste /clubs)
 
 - Toute la carte est cliquable vers la page club : pas de bouton « Voir le club ».
-- Un seul bouton, « S'abonner », qui ouvre `/tarifs/[slug du club]` avec le club référent présélectionné. À côté : « Tarif adulte dès CHF X.– / mois », prix de la formule la moins chère qui donne accès au club, au tarif Adulte (sinon « dès » afficherait le prix Jeune).
+- Un seul bouton, « S'abonner », qui ouvre `/tarifs/[slug du club]` avec le club référent présélectionné. À côté : « Tarif adulte dès CHF X.– / mois », prix de la formule la moins chère qui donne accès au club, au tarif Adulte (sinon « dès » afficherait le prix Jeune), tous engagements confondus et remise en cours comprise : sinon /clubs annonce un prix que /tarifs dément deux clics plus loin.
 - Un lien texte « Planning » vers le planning de la page club (ancre).
 - Sur un club Gym, le nombre de cours par semaine est remplacé par « Pas de cours collectifs · Small Group Training en Extra ». La ligne n'est jamais masquée : elle informe.
 - Accessibilité : le lien principal est porté par le nom du club et étendu à toute la carte, les boutons passent au-dessus. Pas de liens imbriqués.
@@ -230,7 +230,7 @@ Principe : l'utile d'abord, la conviction ensuite. Une grande partie des visiteu
 
 ## Sport
 
-**Rôle.** Présente l'offre sportive et alimente le SEO par type de pratique. Les pages suivent l'ordre de ce qui est inclus : plateau fitness (toutes les formules), cours collectifs (dès Essential), Small Group Training (Extra payant), coaching personnel (séances incluses en Essential et Premium). Gym n'est plus une verticale : c'est une catégorie de club (voir Clubs).
+**Rôle.** Présente l'offre sportive et alimente le SEO par type de pratique. Les pages suivent l'ordre de ce qui est inclus : plateau fitness (toutes les formules), cours collectifs (dès Essential), Small Group Training (Extra payant), coaching personnel (séances incluses dès Essential). Gym n'est plus une verticale : c'est une catégorie de club (voir Clubs).
 
 | Page | Slug | Intention | Composants clés |
 |---|---|---|---|
@@ -252,7 +252,7 @@ Le menu utilise le vocabulaire Harmony, le title les mots que les gens cherchent
 | Plateau fitness | Plateau fitness : musculation, cardio et fonctionnel | Salle de musculation à Genève et Vaud \| Harmony |
 | Cours collectifs | Cours collectifs (+ « Inclus dès la formule Essential ») | Cours collectifs fitness à Genève et Vaud \| Harmony |
 | Small Group Training | Small Group Training : l'entraînement en petit groupe (+ « Un coach pour quelques personnes, en Extra de votre abonnement. ») | Small Group Training et Hyrox à Genève \| Harmony (Hyrox seulement s'il est proposé au lancement) |
-| Coaching personnel | Coaching personnel : un coach et un programme pour vous (+ « Des séances incluses dans les formules Essential et Premium, un suivi dans l'application [nom]. ») | Coach sportif à Genève et Vaud \| Harmony |
+| Coaching personnel | Coaching personnel : un coach et un programme pour vous (+ « Des séances incluses dans les formules Essential, Premium et Premium Platinum, un suivi dans l'application [nom]. ») | Coach sportif à Genève et Vaud \| Harmony |
 
 Slug du plateau : `/sport/plateau-fitness` par défaut, `/sport/musculation` si les données de recherche le justifient. Traductions : « Small Group Training » reste en anglais dans toutes les langues ; en allemand, le coaching personnel se dit « Personal Training ».
 
@@ -261,7 +261,7 @@ Slug du plateau : `/sport/plateau-fitness` par défaut, `/sport/musculation` si 
 Objectif : montrer que l'abonnement Harmony, c'est aussi un accompagnement. On ne vend rien en ligne ici : les séances incluses font partie des formules, les séances en plus se prennent en club.
 
 1. **Hero** : H1, sous-titre, CTA « Voir les formules » (/tarifs) et « Demander une séance d'essai »
-2. **Comment ça marche** : bilan avec un coach, programme personnalisé, suivi dans l'application. Ce qui est inclus : [X] séances dans les formules Essential et Premium. Envie de plus : séances supplémentaires en Extra, sur demande en club
+2. **Comment ça marche** : bilan avec un coach, programme personnalisé, suivi dans l'application. Ce qui est inclus : [X] séances dans les formules Essential, Premium et Premium Platinum. Envie de plus : séances supplémentaires en Extra, sur demande en club
 3. **Les programmes** : rangés selon les 6 objectifs des cours collectifs, pour garder le même vocabulaire sur toute la branche Sport. Chacun avec sa durée, son rythme et pour qui il est fait. Liste des programmes à fournir par Harmony
 4. **L'application de suivi** : ce qu'elle permet (programme, séances, progrès), captures d'écran, liens vers les stores. Nom et fonctionnalités à compléter
 5. **Les coachs** : grille filtrable par club et spécialité (composant Personne, badge « Coach personnel »)

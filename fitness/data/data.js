@@ -159,7 +159,7 @@ window.DATA = {
         'Club 4 étoiles fitness-guide.ch',
         'Cours collectifs en salle'
       ],
-      ligneAcces: 'Accessible avec les formules Essential et Premium',
+      ligneAcces: 'Accessible dès la formule Essential',
       couvre: ['essential', 'gym'],
       etoiles: 4
     },
@@ -175,7 +175,7 @@ window.DATA = {
         'Cours aquatiques en piscine',
         'Cours collectifs en salle'
       ],
-      ligneAcces: 'Accessible avec la formule Premium',
+      ligneAcces: 'Accessible dès la formule Premium',
       couvre: ['premium', 'essential', 'gym'],
       etoiles: 5
     }
