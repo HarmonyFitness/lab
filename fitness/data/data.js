@@ -48,7 +48,11 @@ window.DATA = {
       { id: 'plateau',  libelle: 'Plateau fitness' },
       { id: 'cours',    libelle: 'Cours collectifs en salle' },
       { id: 'aqua',     libelle: 'Cours aquatiques' },
-      { id: 'coaching', libelle: 'Séances de coaching' }
+      { id: 'coaching', libelle: 'Séances de coaching' },
+      /* Ajoutée avec la formule Platinium : c'est la seule chose qui la
+         distingue de Premium, il faut donc que les cartes se comparent sur
+         cette ligne comme sur les autres. */
+      { id: 'extras',   libelle: 'Extras' }
     ],
 
     /* questions.md > Q7, provisoires. docs/cdc/cours-collectifs.md fera foi. */
@@ -302,6 +306,29 @@ window.DATA = {
         senior: { sans: null, '12mois': null }
       },
       conditions: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+      idMetier: null
+    },
+
+    /* Formule Platinium, décidée par Harmony le 2026-09-15. C'est Premium
+       plus les Extras inclus, et elle ne se souscrit que depuis un club
+       Premium : d'où souscriptionDepuis, qui restreint la souscription sans
+       toucher à l'accès. L'accès, lui, reste celui de Premium, les 10 clubs.
+       inclutExtras dit que les Extras vendus en ligne sont compris dans la
+       formule. Ceux vendus en club ne le sont pas : ils restent "Sur demande
+       en club", c'est la règle, pas une exception écrite en dur. */
+    {
+      id: 'formule-platinium', photo: 'Photo espace wellness, sauna et hammam',
+      type: 'formule', nom: 'Platinium', categorie: 'premium', ordre: 4,
+      souscriptionDepuis: ['premium'],
+      inclutExtras: true,
+      inclus: { plateau: true, cours: true, aqua: true, coaching: '[X] séances', extras: true },
+      prix: {
+        adulte: { sans: null, '12mois': null },
+        ado:    { sans: null, '12mois': null },
+        jeune:  { sans: null, '12mois': null },
+        senior: { sans: null, '12mois': null }
+      },
+      conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.',
       idMetier: null
     },
 

@@ -466,3 +466,45 @@ Choix faits dans la maquette, à valider :
   message GYM. À trancher si ça gêne.
 
 Reste ouvert : faut-il aussi une recherche sur le planning de la page club ?
+
+### Q33 · La formule Platinium
+**Statut :** tranchée par Harmony, points d'application ouverts
+**Source :** Hugo, 2026-09-15. « On va à nouveau intégrer une formule. La
+formule Platinium. C'est la formule Premium mais avec les services extra
+inclus. Elle est disponible uniquement pour les clubs Premium. »
+
+Posé dans les maquettes :
+- 4e formule, après Premium. Catégorie d'accès : Premium, donc les 10 clubs.
+- nouveau champ `souscriptionDepuis: ['premium']`. L'accès et la souscription
+  deviennent deux choses distinctes : Platinium ouvre les 10 clubs mais ne se
+  souscrit que depuis un club Premium. Depuis un club Essential ou GYM, la
+  carte n'apparaît pas et la formule est regroupée dans la ligne « Pas
+  disponible depuis [club] », comme les autres produits indisponibles.
+- 5e ligne d'inclusion, « Extras », pour que les 4 cartes se comparent ligne à
+  ligne : c'est la seule chose qui distingue Platinium de Premium.
+- champ `inclutExtras`. Quand Platinium est choisie, les Extras vendus en ligne
+  passent en « Inclus avec la formule Platinium », ceux vendus en club restent
+  « Sur demande en club ». La règle se déduit du mode de vente, elle ne cite
+  aucun Extra en particulier : « Séances de coaching en plus » reste donc en
+  « Sur demande en club » tout seul, comme demandé.
+- les Extras déjà ajoutés au récap sont retirés au moment du choix, avec un
+  message. On ne facture pas deux fois, et on ne vide pas en silence.
+
+À trancher avec Harmony :
+- **le nom de formule sans catégorie de club.** B.3 recommande « nom de formule
+  = nom de catégorie ». Platinium casse cette règle : il n'y a pas de club
+  Platinium. Un visiteur peut chercher « les clubs Platinium » et ne rien
+  trouver. Faut-il une phrase sur la carte, du type « Dans les 3 clubs
+  Premium » ? Aujourd'hui la carte affiche « Accès aux 10 clubs », ce qui est
+  juste mais ne dit pas la restriction de souscription.
+- **la ligne « Pourquoi ? »** de la ligne des produits indisponibles renvoie au
+  module Catégories de clubs, qui explique l'accès. Ici la raison est autre :
+  une restriction de souscription. Faut-il un mot dédié ?
+- **les tarifs réduits** (Ado, Jeune, Senior) s'appliquent-ils à Platinium ?
+  Posé comme Premium en attendant.
+- **l'engagement** : Platinium existe-t-elle sans engagement, ou seulement en
+  12 mois ?
+- **la promotion en cours** sur Essential et Premium porte-t-elle aussi sur
+  Platinium ? Non aujourd'hui dans le jeu de démonstration.
+- **le prix** de Platinium, et le libellé exact de la ligne d'inclusion
+  « Extras », qui dit aujourd'hui juste « Extras ».

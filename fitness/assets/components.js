@@ -56,13 +56,30 @@ window.HF = (function () {
       return 'Accès à ' + liste.length + ' clubs';
     },
 
-    /* Grisé : un seul sens, "pas accessible depuis ce club". */
+    /* Grisé : un seul sens, "pas accessible depuis ce club".
+       Deux conditions, à ne pas confondre. L'accès vient de la catégorie du
+       produit : Premium couvre tous les clubs. La souscription peut en plus
+       être restreinte à certaines catégories de clubs référents, c'est le cas
+       de Platinium, qui donne accès aux 10 clubs mais ne se souscrit que
+       depuis un club Premium. Sans souscriptionDepuis, seule l'accès compte. */
     produitDisponible: function (p, idClub) {
       if (!idClub) return true;
       var c = club(idClub);
       if (!c) return true;
       var cat = categorie(p.categorie);
-      return !!cat && cat.couvre.indexOf(c.categorie) !== -1;
+      if (!cat || cat.couvre.indexOf(c.categorie) === -1) return false;
+      if (p.souscriptionDepuis && p.souscriptionDepuis.indexOf(c.categorie) === -1) return false;
+      return true;
+    },
+
+    /* Un Extra est-il compris dans le produit choisi ? Seuls les Extras
+       vendus en ligne le sont : ceux vendus en club restent "Sur demande en
+       club", puisqu'ils ne se vendent pas ici. Règle déduite du mode de
+       vente, jamais une liste d'exceptions écrite à la main. */
+    extraInclus: function (e, etat) {
+      if (!etat || !etat.produitChoisi) return false;
+      var p = produit(etat.produitChoisi);
+      return !!p && !!p.inclutExtras && e.modeVente === 'en-ligne';
     },
 
     extraDisponible: function (e, idClub) {
@@ -865,6 +882,7 @@ Object.assign(window.HF.vues, (function () {
   function carteExtra(e, etat) {
     var enLigne = e.modeVente === 'en-ligne';
     var ajoute = (etat.extrasChoisis || []).indexOf(e.id) !== -1;
+    var inclus = R.extraInclus(e, etat);
     return '<div class="extra" data-spec="B.3 > Page Tarifs > Trame > 4 (Extras)">' +
       '<div class="extra__corps">' +
       '<strong>' + esc(e.nom) + '</strong> <span class="extra__marque">Extra</span>' +
@@ -872,14 +890,17 @@ Object.assign(window.HF.vues, (function () {
         ? ' <span class="wf-avalider">liste détaillée à fournir par Harmony</span>' : '') +
       '<p class="mention" style="margin:4px 0 0">' + esc(e.description) + '</p></div>' +
       '<div class="extra__droite">' +
-      (enLigne
-        ? '<strong>' + prixTexte(e.prix) + '</strong>' +
-          (etat.club
-            ? '<button type="button" class="btn btn--secondaire btn--petit" data-act="' +
-              (ajoute ? 'retirer-extra' : 'ajouter-extra') + '" data-id="' + e.id + '">' +
-              (ajoute ? 'Retirer' : 'Ajouter') + '</button>'
-            : '')
-        : '<span class="mention">Sur demande en club</span>') +
+      (inclus
+        ? '<span class="extra__inclus">Inclus avec la formule ' +
+          esc(H.produit(etat.produitChoisi).nom) + '</span>'
+        : enLigne
+          ? '<strong>' + prixTexte(e.prix) + '</strong>' +
+            (etat.club
+              ? '<button type="button" class="btn btn--secondaire btn--petit" data-act="' +
+                (ajoute ? 'retirer-extra' : 'ajouter-extra') + '" data-id="' + e.id + '">' +
+                (ajoute ? 'Retirer' : 'Ajouter') + '</button>'
+              : '')
+          : '<span class="mention">Sur demande en club</span>') +
       '</div></div>';
   }
 
@@ -1255,6 +1276,13 @@ Object.assign(window.HF, (function () {
       etat.produitChoisi = deja ? null : id;
       if (deja) return;
       var p = H.produit(id);
+      /* Une formule qui inclut les Extras rend caduc ce qu'on avait ajouté :
+         on ne facture pas deux fois. On le dit plutôt que de vider en
+         silence. */
+      if (p && p.inclutExtras && (etat.extrasChoisis || []).length) {
+        etat.extrasChoisis = [];
+        etat.message = 'Les Extras que vous aviez ajoutés sont compris dans la formule ' + p.nom + '.';
+      }
       if (p && p.type === 'formule') allerA('extras');
     },
     'ajouter-extra': function (etat, id) {

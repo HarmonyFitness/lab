@@ -302,6 +302,9 @@ a { color: var(--accent); }
 /* Pas de text-transform : B.3 impose un seul mot, "Extra", identique en
    club, dans l'appli, sur le site et dans Echino. Le CSS ne doit pas le
    réécrire en EXTRA. */
+.extra__inclus { font-size: 13px; font-weight: 700; color: var(--gris-95);
+  border: 1px solid var(--gris-95); border-radius: var(--rayon); padding: 3px 9px;
+  white-space: nowrap; }
 .extra__marque { font-size: 11px; font-weight: 700;
   border: 1px solid var(--gris-80); border-radius: var(--rayon);
   padding: 0 6px; white-space: nowrap; }
