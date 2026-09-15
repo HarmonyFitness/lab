@@ -49,7 +49,7 @@ window.DATA = {
       { id: 'cours',    libelle: 'Cours collectifs en salle' },
       { id: 'aqua',     libelle: 'Cours aquatiques' },
       { id: 'coaching', libelle: 'Séances de coaching' },
-      /* Ajoutée avec la formule Platinium : c'est la seule chose qui la
+      /* Ajoutée avec la formule Premium Platinum : c'est la seule chose qui la
          distingue de Premium, il faut donc que les cartes se comparent sur
          cette ligne comme sur les autres. */
       { id: 'extras',   libelle: 'Extras' }
@@ -309,16 +309,20 @@ window.DATA = {
       idMetier: null
     },
 
-    /* Formule Platinium, décidée par Harmony le 2026-09-15. C'est Premium
-       plus les Extras inclus, et elle ne se souscrit que depuis un club
-       Premium : d'où souscriptionDepuis, qui restreint la souscription sans
-       toucher à l'accès. L'accès, lui, reste celui de Premium, les 10 clubs.
+    /* Formule Premium Platinum, décidée par Harmony le 2026-09-15. C'est
+       Premium plus les Extras inclus, et elle ne se souscrit que depuis un
+       club Premium : d'où souscriptionDepuis, qui restreint la souscription
+       sans toucher à l'accès.
+       Le nom suit la règle posée le 2026-09-15 (Q34) : le premier mot d'une
+       formule est toujours le nom d'une catégorie de club, il dit quels clubs
+       la formule ouvre. Ce qui suit est le niveau. L'affichage déduit la
+       coupure du nom de la catégorie, il n'y a donc pas de champ en plus. L'accès, lui, reste celui de Premium, les 10 clubs.
        inclutExtras dit que les Extras vendus en ligne sont compris dans la
        formule. Ceux vendus en club ne le sont pas : ils restent "Sur demande
        en club", c'est la règle, pas une exception écrite en dur. */
     {
       id: 'formule-platinium', photo: 'Photo espace wellness, sauna et hammam',
-      type: 'formule', nom: 'Platinium', categorie: 'premium', ordre: 4,
+      type: 'formule', nom: 'Premium Platinum', categorie: 'premium', ordre: 4,
       souscriptionDepuis: ['premium'],
       inclutExtras: true,
       inclus: { plateau: true, cours: true, aqua: true, coaching: '[X] séances', extras: true },

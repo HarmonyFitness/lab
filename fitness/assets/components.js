@@ -28,6 +28,20 @@ window.HF = (function () {
   function engagement(id){ return D.referentiels.engagements.find(function (e) { return e.id === id; }) || null; }
   function promotion(id) { return (D.promotions || []).find(function (o) { return o.id === id; }) || null; }
 
+  /* Nom d'un produit, mis en forme. Règle de nommage (Q34) : le premier mot
+     d'une formule est le nom d'une catégorie de club, il dit quels clubs elle
+     ouvre ; ce qui suit est le niveau. Le niveau se distingue à l'oeil pour
+     qu'on ne le confonde pas avec une catégorie. La coupure se déduit du nom
+     de la catégorie : aucun champ en plus, et un nom qui ne suit pas la règle
+     s'affiche simplement tel quel. */
+  function nomProduitHtml(p) {
+    if (!p) return '';
+    var cat = p.categorie ? categorie(p.categorie) : null;
+    var base = cat ? cat.nom : null;
+    if (!base || p.nom.indexOf(base + ' ') !== 0) return esc(p.nom);
+    return esc(base) + ' <span class="niveau">' + esc(p.nom.slice(base.length + 1)) + '</span>';
+  }
+
   /* L'engagement présélectionné se lit dans le référentiel, jamais en dur :
      changer le défaut est une saisie, pas une reprise du code. */
   function engagementDefaut() {
@@ -60,7 +74,7 @@ window.HF = (function () {
        Deux conditions, à ne pas confondre. L'accès vient de la catégorie du
        produit : Premium couvre tous les clubs. La souscription peut en plus
        être restreinte à certaines catégories de clubs référents, c'est le cas
-       de Platinium, qui donne accès aux 10 clubs mais ne se souscrit que
+       de Premium Platinum, qui donne accès aux 10 clubs mais ne se souscrit que
        depuis un club Premium. Sans souscriptionDepuis, seule l'accès compte. */
     produitDisponible: function (p, idClub) {
       if (!idClub) return true;
@@ -435,6 +449,7 @@ window.HF = (function () {
     club: club, categorie: categorie, cours: cours, extra: extra,
     produit: produit, coach: coach, tarif: tarif, engagement: engagement,
     promotion: promotion, engagementDefaut: engagementDefaut,
+    nomProduitHtml: nomProduitHtml,
     regles: regles,
     prixTexte: prixTexte, texte: texte, esc: esc, spec: spec,
     aValider: aValider, position: position, positions: positions,
@@ -705,7 +720,7 @@ Object.assign(window.HF.vues, (function () {
 
   /* Les Extras compris dans une formule, nommés. Une ligne qui dit juste
      "Extras" ne vend rien : ce sont les noms qui font la différence entre
-     Premium et Platinium. Liste déduite du club référent quand il est choisi,
+     Premium et Premium Platinum. Liste déduite du club référent quand il est choisi,
      sinon tous les Extras vendus en ligne. Au-delà de MAX_EXTRAS, on compte
      le reste plutôt que d'allonger la carte sans fin. */
   var MAX_EXTRAS = 4;
@@ -903,7 +918,7 @@ Object.assign(window.HF.vues, (function () {
        tarif restent au-dessus du prix, où elles l'annoncent. */
     return '<article class="produit' + (choisi ? ' produit--choisi' : '') + '" data-spec="' + specRef + '">' +
       photoProduit(p, pr, etat) +
-      '<h3>' + esc(p.nom) + '</h3>' + haut +
+      '<h3>' + H.nomProduitHtml(p) + '</h3>' + haut +
       '<div class="produit__bas">' + bas +
       '<div class="produit__pied">' + pied + '</div></div></article>';
   }
@@ -1576,7 +1591,7 @@ Object.assign(window.HF.vues, (function () {
         /* Même prix que sur /tarifs : le teaser suit la promo en cours,
            sinon le club annoncerait un prix que la page Tarifs dément. */
         var pr = R.prixMini(p, 'adulte', etat);
-        return '<div class="produit"><h3>' + esc(p.nom) + '</h3>' +
+        return '<div class="produit"><h3>' + H.nomProduitHtml(p) + '</h3>' +
           '<p class="produit__acces">' + esc(R.ligneAcces(p.categorie)) + '</p>' +
           '<p class="mention">Tarif adulte dès ' + prixTexte(pr.valeur) + ' / mois' +
           (pr.promo ? ' <span class="pastille-remise">- ' + pr.promo.remise.valeur +

@@ -18,6 +18,12 @@
   --ui: #7a3fb8;              /* outillage du wireframe, jamais la maquette */
   --ui-fond: #f3ecfa;
 
+  /* Niveau d'une formule : le mot qui suit la catégorie dans son nom
+     (« Premium Platinum »). Ni l'accent, réservé aux éléments cliquables, ni
+     la couleur d'outillage : une teinte à part, pour qu'on ne prenne pas un
+     niveau pour une catégorie de club. */
+  --niveau: #8a6a1f;
+
   --police: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --rayon: 3px;
   --gouttiere: 24px;
@@ -251,6 +257,7 @@ a { color: var(--accent); }
   border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon); padding: 16px;
 }
 .produit--choisi { border-color: var(--gris-95); border-width: 2px; padding: 15px; }
+.niveau { font-style: italic; color: var(--niveau); }
 .produit__acces { font-size: 13px; color: var(--gris-60); margin-bottom: 10px; }
 .produit__inclus { list-style: none; padding: 0; margin: 0 0 14px; font-size: 13px; }
 .produit__inclus li { display: flex; gap: 8px; padding: 4px 0;

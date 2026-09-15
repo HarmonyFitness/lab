@@ -467,23 +467,23 @@ Choix faits dans la maquette, à valider :
 
 Reste ouvert : faut-il aussi une recherche sur le planning de la page club ?
 
-### Q33 · La formule Platinium
+### Q33 · La formule Premium Platinum
 **Statut :** tranchée par Harmony, points d'application ouverts
 **Source :** Hugo, 2026-09-15. « On va à nouveau intégrer une formule. La
-formule Platinium. C'est la formule Premium mais avec les services extra
+formule Premium Platinum. C'est la formule Premium mais avec les services extra
 inclus. Elle est disponible uniquement pour les clubs Premium. »
 
 Posé dans les maquettes :
 - 4e formule, après Premium. Catégorie d'accès : Premium, donc les 10 clubs.
 - nouveau champ `souscriptionDepuis: ['premium']`. L'accès et la souscription
-  deviennent deux choses distinctes : Platinium ouvre les 10 clubs mais ne se
+  deviennent deux choses distinctes : Premium Platinum ouvre les 10 clubs mais ne se
   souscrit que depuis un club Premium. Depuis un club Essential ou Gym, la
   carte n'apparaît pas et la formule est regroupée dans la ligne « Pas
   disponible depuis [club] », comme les autres produits indisponibles.
 - 5e ligne d'inclusion, « Extras », pour que les 4 cartes se comparent ligne à
-  ligne : c'est la seule chose qui distingue Platinium de Premium.
-- champ `inclutExtras`. Quand Platinium est choisie, les Extras vendus en ligne
-  passent en « Inclus avec la formule Platinium », ceux vendus en club restent
+  ligne : c'est la seule chose qui distingue Premium Platinum de Premium.
+- champ `inclutExtras`. Quand Premium Platinum est choisie, les Extras vendus en ligne
+  passent en « Inclus avec la formule Premium Platinum », ceux vendus en club restent
   « Sur demande en club ». La règle se déduit du mode de vente, elle ne cite
   aucun Extra en particulier : « Séances de coaching en plus » reste donc en
   « Sur demande en club » tout seul, comme demandé.
@@ -492,25 +492,25 @@ Posé dans les maquettes :
 
 À trancher avec Harmony :
 - **le nom de formule sans catégorie de club.** B.3 recommande « nom de formule
-  = nom de catégorie ». Platinium casse cette règle : il n'y a pas de club
-  Platinium. Un visiteur peut chercher « les clubs Platinium » et ne rien
+  = nom de catégorie ». Premium Platinum casse cette règle : il n'y a pas de club
+  Premium Platinum. Un visiteur peut chercher « les clubs Premium Platinum » et ne rien
   trouver. Faut-il une phrase sur la carte, du type « Dans les 3 clubs
   Premium » ? Aujourd'hui la carte affiche « Accès aux 10 clubs », ce qui est
   juste mais ne dit pas la restriction de souscription.
 - **la ligne « Pourquoi ? »** de la ligne des produits indisponibles renvoie au
   module Catégories de clubs, qui explique l'accès. Ici la raison est autre :
   une restriction de souscription. Faut-il un mot dédié ?
-- **les tarifs réduits** (Ado, Jeune, Senior) s'appliquent-ils à Platinium ?
+- **les tarifs réduits** (Ado, Jeune, Senior) s'appliquent-ils à Premium Platinum ?
   Posé comme Premium en attendant.
-- **l'engagement** : Platinium existe-t-elle sans engagement, ou seulement en
+- **l'engagement** : Premium Platinum existe-t-elle sans engagement, ou seulement en
   12 mois ?
 - **la promotion en cours** sur Essential et Premium porte-t-elle aussi sur
-  Platinium ? Non aujourd'hui dans le jeu de démonstration.
-- **le prix** de Platinium, et le libellé exact de la ligne d'inclusion
+  Premium Platinum ? Non aujourd'hui dans le jeu de démonstration.
+- **le prix** de Premium Platinum, et le libellé exact de la ligne d'inclusion
   « Extras », qui dit aujourd'hui juste « Extras ».
 
 ### Q34 · Graphie « Gym » et système de nommage des formules
-**Statut :** graphie tranchée par Hugo, système de nommage à trancher
+**Statut :** tranchée par Hugo le 2026-09-15
 **Source :** Hugo, 2026-09-15. « Pour une cohérence avec les autres formules, il
 faut écrire "Gym" et pas "GYM" en majuscule. »
 
@@ -522,22 +522,30 @@ je ne modifie pas (fichier en lecture seule, il porte encore « GYM »).
 
 **Système de nommage.** Jusqu'ici une règle simple tenait : nom de formule = nom
 de catégorie de club. Elle disait au visiteur quels clubs sa formule ouvre.
-Platinium la casse : c'est une formule sans catégorie correspondante, et son nom
+Premium Platinum la casse : c'est une formule sans catégorie correspondante, et son nom
 ne dit rien des clubs auxquels elle donne accès.
 
-Trois options examinées, détail et recommandation dans la réponse à Hugo du
-2026-09-15 :
+**Tranché : option 1.** Le premier mot d'un nom de formule est toujours le nom
+d'une catégorie de club, il dit quels clubs la formule ouvre ; ce qui suit est
+le niveau. La formule s'appelle donc « Premium Platinum », et l'orthographe
+anglaise « Platinum » est retenue, cohérente avec Gym, Essential et Premium.
+Le niveau s'affiche en italique et dans une teinte à part, pour qu'on ne le
+prenne pas pour une catégorie de club. À vérifier avant impression : le nom
+circule-t-il déjà commercialement sous la forme « Platinium » ? Mieux vaut une
+seule graphie, même imparfaite, que deux.
+
+Les trois options examinées :
 1. le premier mot d'un nom de formule est toujours une catégorie de club, donc
-   « Premium Platinum » et non « Platinium » seul. La règle survit, elle
-   s'applique aux produits futurs, et Platinium reste vendable comme un niveau.
-2. garder « Platinium » seul, et rendre la restriction explicite partout : une
+   « Premium Platinum » et non « Premium Platinum » seul. La règle survit, elle
+   s'applique aux produits futurs, et Premium Platinum reste vendable comme un niveau.
+2. garder « Premium Platinum » seul, et rendre la restriction explicite partout : une
    ligne « À souscrire dans l'un des 3 clubs Premium » sur la carte, et une
-   mention dans le module Catégories qui dit que Platinium est une formule, pas
+   mention dans le module Catégories qui dit que Premium Platinum est une formule, pas
    une catégorie.
-3. faire de Platinium une option de Premium plutôt qu'une formule. Écarté :
+3. faire de Premium Platinum une option de Premium plutôt qu'une formule. Écarté :
    Harmony veut un produit à vendre.
 
-**Orthographe de Platinium.** Le mot n'existe ni en français (« platine ») ni en
+**Orthographe de Premium Platinum.** Le mot n'existe ni en français (« platine ») ni en
 anglais (« platinum »). Les autres noms du jeu sont anglophones : Gym,
 Essential, Premium. « Platinum » serait la graphie cohérente. À trancher avec
 Harmony : si le nom est déjà utilisé commercialement sous cette forme, il vaut
