@@ -161,6 +161,18 @@ window.HF = (function () {
       return liste.filter(function (c) { return donnes[c.id]; });
     },
 
+    /* Deux chiffres de réassurance, déduits des données et jamais saisis.
+       Le nombre de clubs, et le nombre de séances d'un planning type sur une
+       semaine, Extras exclus : ce qu'on annonce est ce qui est compris. */
+    nbClubs: function () { return D.clubs.length; },
+
+    nbSeancesSemaine: function () {
+      return D.seances.filter(function (se) {
+        var co = cours(se.cours);
+        return !!co && !co.estExtra;
+      }).length;
+    },
+
     /* Les formules qui comprennent une ligne d'inclusion, dans l'ordre.
        Sert à dire « dès la formule X » sans jamais énumérer : une
        énumération devient fausse le jour où une formule s'ajoute, et
@@ -696,6 +708,23 @@ window.HF.vues = (function () {
           esc(opt.cta.libelle) + '</a></p>'
         : '') +
       (opt.mention ? '<p class="mention">' + esc(opt.mention) + '</p>' : '') +
+      /* Trois preuves dans le hero, pas plus : sur une landing d'annonce, la
+         première chose qu'on se demande devant un prix, c'est « c'est
+         sérieux ? » et « c'est près de chez moi ? ». Les chiffres se
+         déduisent des données ; ceux qu'on n'a pas restent en placeholder,
+         une note ne s'invente pas. */
+      (opt.preuves && opt.preuves.length
+        ? '<ul class="preuves">' + opt.preuves.map(function (pv) {
+            return '<li><span class="preuves__valeur">' + esc(pv.valeur) + '</span>' +
+              '<span class="preuves__libelle">' + esc(pv.libelle) + '</span></li>';
+          }).join('') + '</ul>' +
+          /* Les crochets disent déjà que la donnée manque : le marqueur
+             « à valider » irait en plus, dans une ligne de 12 px, et
+             casserait la seule chose que ce bloc doit faire, se lire vite.
+             Il est donc posé une fois, sous la rangée. */
+          (opt.preuves.some(function (pv) { return pv.aValider; })
+            ? '<p class="mention" style="margin-top:8px">' + H.aValider(true) + '</p>' : '')
+        : '') +
       '</div></section>';
   }
 

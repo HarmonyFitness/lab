@@ -1351,6 +1351,28 @@ d'essai.
   ils se mettent à jour : une note figée dans le CMS vieillit mal.
 - **Les témoignages** : de vrais membres, avec leur club.
 
+**Le hero porte trois preuves** (Hugo, 2026-09-16 : « qu'on soit tout de suite
+hooked »). Devant un prix, sur une page où on n'a jamais mis les pieds, deux
+questions viennent avant toutes les autres : c'est sérieux, et c'est près de
+chez moi ? Les trois chiffres y répondent, sous le bouton, séparés par un
+filet : le chiffre gros, le mot petit, c'est ce qui se lit en diagonale.
+
+| Preuve | D'où elle vient |
+|---|---|
+| **10** clubs en Suisse romande | déduit, `nbClubs()` |
+| **[note] / 5**, [nombre] avis | à fournir par Harmony |
+| **92** séances par semaine, incluses | déduit, `nbSeancesSemaine()`, Extras exclus |
+
+Deux précautions. Le troisième chiffre exclut les Small Group Training : on
+annonce ce qui est compris, pas ce qui se paie en plus. Et « Suisse romande »
+est le seul mot écrit en dur : il tient tant que les clubs restent dans les
+cantons de Genève et de Vaud.
+
+**La note reste un placeholder, et c'est important.** Une note s'invente encore
+moins qu'un prix : fausse, elle se retourne contre la marque, et personne ne la
+vérifie avant de la publier. Il faudra dire d'où elle vient et comment elle se
+met à jour.
+
 **Une correction dans la foulée.** Sans club, les cartes n'avaient aucun
 bouton : B.3 interdit un bouton de souscription tant que le club référent n'est
 pas choisi, et j'avais appliqué la règle à la lettre. Résultat, sur une landing,

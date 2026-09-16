@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Offre du moment | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-17c">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-17g">
 </head>
 <body>
 
@@ -24,14 +24,18 @@
       à tester avec le sélecteur ci-dessus : offres dédiées en cours, promotion
       seule sur des produits existants (décochez « Offre active »), et aucune
       campagne (décochez, puis choisissez « Aucune promo »).<br>
-      <strong>Deux écarts assumés avec B.3, à valider.</strong>
-      B.3 met « nom, durée, prix » dans le hero : ça marche pour une campagne à
-      un seul produit. Ici la campagne en porte deux, de durées et de prix
-      différents, donc la durée et le prix restent sur les cartes. Un prix au
-      hero annoncerait celui d'une carte et pas de l'autre.<br>
+      <strong>Gabarit de landing, à valider (Q50 à Q52).</strong>
+      Header et pied réduits, pas de barre groupe, pas de CTA séance d'essai :
+      la page est la destination d'annonces payées, tout ce qui emmène ailleurs
+      est un clic acheté qui ne convertit pas. Les blocs « Pourquoi Harmony »
+      et la preuve sociale sont un ajout à B.3.<br>
+      <strong>Deux écarts sur le hero.</strong> B.3 y met « nom, durée, prix » :
+      ça marche pour une campagne à un seul produit. Ici elle en porte deux, de
+      durées et de prix différents, donc durée et prix restent sur les cartes.
       Et le nom de la campagne n'existe nulle part dans les données : chaque
-      offre a son nom, la campagne qui les réunit n'en a pas. D'où le
-      placeholder (voir questions.md &gt; Q49).
+      offre a le sien, l'ensemble qui les réunit n'en a pas (Q49).<br>
+      Les chiffres du hero sont déduits des données, sauf la note, qui est un
+      fait à fournir : elle ne s'invente pas.
     </p>
   </div>
 
@@ -54,7 +58,8 @@
         titreHtml: titreCampagneHtml(),
         texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         compteur: HF.vues.compteur(HF.regles.finOffre(etat)),
-        cta: { libelle: offres().length ? 'Profiter de l\'offre' : 'Voir les produits en promotion', href: '#offre' }
+        cta: { libelle: offres().length ? 'Profiter de l\'offre' : 'Voir les produits en promotion', href: '#offre' },
+        preuves: preuves()
       })"></div>
     </template>
 
@@ -212,8 +217,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-17c"></script>
-<script src="../assets/components.js?v=2026-09-17c"></script>
+<script src="../data/data.js?v=2026-09-17g"></script>
+<script src="../assets/components.js?v=2026-09-17g"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageOffre', function () {
@@ -269,6 +274,18 @@ document.addEventListener('alpine:init', function () {
       majTitre: function () {
         document.title = (this.campagne ? this.titreCampagne() : 'Offre du moment') +
           ' | Harmony';
+      },
+      /* Les trois preuves du hero. Deux se déduisent des données, la
+         troisième est un fait qu'Harmony doit fournir : une note ne
+         s'invente pas, et une note fausse se retourne contre la marque.
+         « Suisse romande » est le seul mot écrit ici : il tient tant que les
+         clubs restent dans les cantons de Genève et de Vaud. */
+      preuves: function () {
+        return [
+          { valeur: String(HF.regles.nbClubs()), libelle: 'clubs en Suisse romande' },
+          { valeur: '[note] / 5', libelle: '[nombre] avis', aValider: true },
+          { valeur: String(HF.regles.nbSeancesSemaine()), libelle: 'séances par semaine, incluses' }
+        ];
       },
       /* Le header de landing ne porte qu'une action. Tant qu'une campagne
          tourne, elle emmène à l'offre ; sinon, aux tarifs, parce qu'il n'y a
@@ -329,7 +346,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-17c"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-17g"></script>
 
 </body>
 </html>
