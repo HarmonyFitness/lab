@@ -1271,3 +1271,33 @@ alors décider si c'est un gabarit du CMS ou un réglage par page.
 pour la direction visuelle. Ce domaine n'est pas joignable depuis
 l'environnement de travail : la maquette suit les conventions de landing et le
 système graphique du lab, pas ces pages-là. À recaler sur captures.
+
+### Q51 · Le choix du club passe après l'offre sur la landing
+**Statut :** tranchée par Hugo le 2026-09-16
+**Source :** Hugo : « cette page s'adresse principalement à une audience
+froide, on s'en servira comme landing page pour nos annonces Meta ou Google.
+Le choix du club avant le détail des offres n'est pas trop tôt ? »
+
+**Oui, c'était trop tôt.** Quelqu'un qui arrive d'une annonce vient vérifier
+une promesse : ce que c'est, combien ça coûte, jusqu'à quand. Lui demander son
+club avant de la tenir, c'est un péage à l'entrée, sur un trafic qui n'a encore
+rien investi et qui est payé au clic.
+
+**Le nouvel ordre :** hero, l'offre, le club, les conditions, la FAQ, le lien
+vers tous les tarifs. On tient la promesse d'abord, on demande ensuite, au
+moment où c'est nécessaire pour agir.
+
+**La ligne sans club n'est plus une impasse.** Elle disait « Choisissez d'abord
+votre club pour souscrire » alors que le choix était au-dessus, puis en dessous
+de l'offre. Elle porte maintenant un lien qui descend au bloc du club. Une
+phrase qui dit quoi faire sans donner le moyen de le faire, c'est un cul-de-sac
+poli.
+
+**Le bon cas, celui qu'il faut viser côté acquisition :** quand l'annonce porte
+déjà le club dans son adresse (`?club=meyrin`), le bloc de choix se replie en
+une ligne de rappel et les boutons sont actifs dès la première carte. Une
+annonce géolocalisée devrait toujours transporter son club : c'est une étape en
+moins pour quelqu'un qui vient de cliquer.
+
+**Ce qui n'a pas changé :** pas de bouton de souscription sans club référent.
+C'est une règle de B.3, elle vaut ici comme sur Tarifs.

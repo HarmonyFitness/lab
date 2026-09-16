@@ -143,6 +143,8 @@ Page Offre du moment
 - Le title se remet à jour quand l'état change (`x-effect`), pas seulement au chargement : le contenu de la page change avec la campagne.
 - **Gabarit de landing, pas gabarit de site** (Hugo, 2026-09-16, Q50). La page est la destination d'annonces payées : chaque sortie du parcours est un clic acheté qui ne convertit pas. D'où `enteteLanding` (logo + une action), `heroLanding` (photo pleine largeur, panneau posé dessus), `piedLanding` (mentions légales et contact), pas de barre groupe, pas de CTA séance d'essai. Le logo reste cliquable : c'est la sortie de secours que tout le monde cherche.
 - Variante non prévue par B.3, à valider par Harmony. Si elle passe, elle vaut pour toute landing de campagne, pas seulement celle-ci.
+- **L'offre avant le club** (Hugo, 2026-09-16, Q51). Le trafic vient d'annonces payées : on tient la promesse avant de demander quoi que ce soit. Ordre : hero, l'offre, le club, les conditions, la FAQ. La ligne « sans club » porte un lien vers le bloc du club, sinon elle dit quoi faire sans donner le moyen de le faire.
+- Une annonce géolocalisée devrait transporter son club dans l'adresse (`?club=meyrin`) : le bloc de choix se replie alors en ligne de rappel et les boutons sont actifs dès la première carte. C'est une étape en moins pour quelqu'un qui vient de cliquer.
 
 Cours
 - Vocabulaire strict : "catégorie" est réservé aux clubs (Gym, Essential, Premium). Pour les cours on dit **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours). Ne jamais écrire "catégorie de cours".

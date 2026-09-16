@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Offre du moment | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-16w">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-16y">
 </head>
 <body>
 
@@ -81,16 +81,9 @@
       <div>
 
         <!-- ====================================================== BLOC 2 -->
-        <!-- Même composant que Tarifs : le club référent est obligatoire pour
-             souscrire, ici comme là-bas. Il porte son propre titre, donc on
-             n'en ajoute pas : ça ferait deux titres pour un seul bloc. -->
-        <section style="margin-top:32px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
-          <div class="ordi-seulement" x-html="HF.vues.choixClub(etat, {})"></div>
-          <div class="mobile-seulement"
-               x-html="etat.club ? HF.vues.clubReplie(etat, {}) : HF.vues.pastillesMobile(etat)"></div>
-        </section>
-
-        <!-- ====================================================== BLOC 3 -->
+        <!-- L'offre avant le club : la page reçoit du trafic froid venu
+             d'une annonce. On tient d'abord la promesse de la publicité,
+             on demande ensuite (Hugo, 2026-09-16, Q51). -->
         <section id="offre" style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
           <h2 x-text="offres().length ? 'L\'offre' : 'Ce qui est en promotion'"></h2>
 
@@ -104,8 +97,12 @@
           <div x-show="!offres().length"
                x-html="HF.vues.annoncePromo(etat, { lienBase: '../tarifs/' + (etat.club ? '?club=' + etat.club : '') })"></div>
 
-          <div x-html="HF.vues.ligneSansClub(etat)" style="margin-top:12px"
-               x-show="offres().length"></div>
+          <!-- Sans club, la ligne n'est pas une impasse : elle descend au
+               bloc du choix, qui est maintenant plus bas dans la page. -->
+          <div style="margin-top:12px" x-show="offres().length"
+               x-html="HF.vues.ligneSansClub(etat, {
+                 texte: 'Choisissez votre club pour profiter de l\'offre.',
+                 lien: { href: '#club', libelle: 'Choisir mon club' } })"></div>
 
           <!-- Simulation du départ vers le tunnel : le wireframe ne redirige
                pas, il montre ce qui partirait en paramètre. -->
@@ -117,6 +114,20 @@
             </template>
           </div>
           <div x-html="HF.vues.ligneIndisponible(tous('offre'), etat)"></div>
+        </section>
+
+        <!-- ====================================================== BLOC 3 -->
+        <!-- Même composant que Tarifs : le club référent est obligatoire pour
+             souscrire, ici comme là-bas. Il porte son propre titre, donc on
+             n'en ajoute pas : ça ferait deux titres pour un seul bloc.
+             Placé après l'offre : c'est l'étape qui suit, pas un péage à
+             l'entrée. Quand l'annonce porte déjà le club (?club=), le bloc se
+             replie en une ligne de rappel et les boutons sont actifs plus
+             haut. -->
+        <section id="club" style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
+          <div class="ordi-seulement" x-html="HF.vues.choixClub(etat, {})"></div>
+          <div class="mobile-seulement"
+               x-html="etat.club ? HF.vues.clubReplie(etat, {}) : HF.vues.pastillesMobile(etat)"></div>
         </section>
 
         <!-- ====================================================== BLOC 4 -->
@@ -156,8 +167,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-16w"></script>
-<script src="../assets/components.js?v=2026-09-16w"></script>
+<script src="../data/data.js?v=2026-09-16y"></script>
+<script src="../assets/components.js?v=2026-09-16y"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageOffre', function () {
@@ -250,7 +261,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-16w"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-16y"></script>
 
 </body>
 </html>

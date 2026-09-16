@@ -1215,11 +1215,18 @@ Object.assign(window.HF.vues, (function () {
       '<a class="lien-texte" href="#categories">Pourquoi ?</a></p>';
   }
 
-  /* Sans club : ligne en tête de section, aucun bouton désactivé. */
-  function ligneSansClub(etat) {
+  /* Sans club : ligne en tête de section, aucun bouton désactivé.
+     opts.lien rend la ligne actionnable : sur une landing, le choix du club
+     est plus bas dans la page, et une phrase qui dit quoi faire sans donner
+     le moyen de le faire est une impasse. */
+  function ligneSansClub(etat, opts) {
     if (etat.club) return '';
+    var o = opts || {};
     return '<p class="indispo" data-spec="B.3 > Page Tarifs > Règles > Sans club">' +
-      'Choisissez d\'abord votre club pour souscrire.</p>';
+      esc(o.texte || 'Choisissez d\'abord votre club pour souscrire.') +
+      (o.lien
+        ? ' <a class="lien-texte" href="' + o.lien.href + '">' + esc(o.lien.libelle) + '</a>'
+        : '') + '</p>';
   }
 
   /* Une seule barre collante en haut. Pas de barre d'ancres. */
