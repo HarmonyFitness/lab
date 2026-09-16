@@ -2402,9 +2402,19 @@ Object.assign(window.HF.vues, (function () {
     var prefixe = (opts && opts.prefixe) || 'Inclus';
     var avec = R.formulesAvec(idInclusion);
     var toutes = D.produits.filter(function (p) { return p.type === 'formule'; });
-    if (!avec.length) return 'En Extra de votre abonnement';
+    if (!avec.length) return ligneExtra();
     if (avec.length === toutes.length) return prefixe + ' dans toutes les formules';
     return prefixe + ' dès la formule ' + H.nomProduitHtml(avec[0]);
+  }
+
+  /* Ce qui se vend en Extra n'est compris dans aucune formule, sauf celle qui
+     les inclut tous. La ligne le dit dans cet ordre : ce que ça coûte
+     d'abord, la sortie par le haut ensuite (Hugo, 2026-09-16). Le nom de la
+     formule se lit dans les données, il n'est jamais écrit dans une page. */
+  function ligneExtra() {
+    var f = R.formuleAvecExtras();
+    return 'En Extra de votre abonnement' +
+      (f ? ' ou inclus dans la formule ' + H.nomProduitHtml(f) : '');
   }
 
   /* Bloc « variantes » : actif seulement sur une page de famille. */
@@ -2525,7 +2535,8 @@ Object.assign(window.HF.vues, (function () {
     attributsCours: attributsCours, nomObjectif: nomObjectif,
     nomIntensite: nomIntensite, nomFormat: nomFormat,
     filtresCours: filtresCours, planningType: planningType, catalogueCours: catalogueCours,
-    blocVariantes: blocVariantes, ligneInclusion: ligneInclusion,
+    blocVariantes: blocVariantes,
+    ligneInclusion: ligneInclusion, ligneExtra: ligneExtra,
     creneaux: creneaux, blocExtraDuCours: blocExtraDuCours
   };
 })());

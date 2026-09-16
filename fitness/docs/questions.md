@@ -1177,6 +1177,13 @@ Platinum » : il avait donc déjà été corrigé une fois. Il dit maintenant «
 la formule Essential », avec la raison, pour que la correction ne soit pas à
 refaire.
 
+**Complément du même jour.** La ligne des Small Group Training disait « En
+Extra de votre abonnement » et s'arrêtait là. Hugo l'a complétée : « En Extra
+de votre abonnement ou inclus dans la formule Premium Platinum ». Dans cet
+ordre, ce que ça coûte d'abord, la sortie par le haut ensuite. Le nom de la
+formule est déduit de son champ `inclutExtras`, jamais écrit dans la page :
+c'est la même règle, appliquée au dernier des quatre piliers.
+
 **Ce que ça ne change pas :** la mention « Pas de séances de coaching incluses
 dans la formule Gym » reste. Dire ce qui commence à Essential ne dit pas
 explicitement ce qui manque en Gym, et sur cette page-là c'est une question que

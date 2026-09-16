@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Musculation, cours collectifs et coaching | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-16r">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-16s">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -57,8 +57,8 @@
 
   <div x-html="HF.vues.pied()"></div>
 </div>
-<script src="../data/data.js?v=2026-09-16r"></script>
-<script src="../assets/components.js?v=2026-09-16r"></script>
+<script src="../data/data.js?v=2026-09-16s"></script>
+<script src="../assets/components.js?v=2026-09-16s"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -75,7 +75,7 @@ document.addEventListener('alpine:init', function () {
           texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.' },
         { titre: 'Small Group Training', href: 'small-group-training/', lien: 'Voir le Small Group Training',
           photo: 'Photo entraînement en petit groupe',
-          inclus: 'En Extra de votre abonnement',
+          inclus: HF.vues.ligneExtra(),
           texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.' },
         { titre: 'Coaching personnel', href: 'coaching-personnel/', lien: 'Voir le coaching personnel',
           photo: 'Photo séance de coaching',
@@ -87,6 +87,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-16r"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-16s"></script>
 </body>
 </html>
