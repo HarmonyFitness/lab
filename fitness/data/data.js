@@ -51,6 +51,11 @@ window.DATA = {
          Premium quand les deux disent juste "Cours collectifs". */
       { id: 'cours',    libelle: 'Cours collectifs en salle', format: 'salle' },
       { id: 'aqua',     libelle: 'Cours aquatiques', format: 'aqua' },
+      /* Ligne déduite, jamais saisie : les espaces wellness accessibles avec
+         la formule sont ceux des clubs qu'elle ouvre. C'est un vrai écart
+         entre Essential et Premium, et il n'apparaissait nulle part
+         (Hugo, 2026-09-17). */
+      { id: 'wellness', libelle: 'Espaces wellness', derive: 'wellness' },
       { id: 'coaching', libelle: 'Séances de coaching' },
       /* Ajoutée avec la formule Premium Platinum : c'est la seule chose qui la
          distingue de Premium, il faut donc que les cartes se comparent sur

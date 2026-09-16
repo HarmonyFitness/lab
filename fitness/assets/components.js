@@ -186,6 +186,16 @@ window.HF = (function () {
       });
     },
 
+    /* Les espaces wellness qu'une formule ouvre : ceux des clubs que sa
+       catégorie couvre. Rien n'est saisi sur la formule, tout se déduit des
+       équipements des clubs, comme le nombre de cours. */
+    espacesDeFormule: function (idCategorie) {
+      var clubs = regles.clubsDeCategorie(idCategorie);
+      return regles.espacesBienEtre().filter(function (e) {
+        return clubs.some(function (c) { return c.equipements.indexOf(e.id) !== -1; });
+      });
+    },
+
     clubsBienEtre: function () {
       var ids = regles.espacesBienEtre().map(function (e) { return e.id; });
       return D.clubs.filter(function (c) {
@@ -955,19 +965,24 @@ Object.assign(window.HF.vues, (function () {
      sinon tous les Extras vendus en ligne. Au-delà de MAX_EXTRAS, on compte
      le reste plutôt que d'allonger la carte sans fin. */
   var MAX_EXTRAS = 4;
-  function detailExtras(etat) {
-    var liste = (etat && etat.club ? R.extrasDuClub(etat.club) : D.extras)
-      .filter(function (e) { return e.modeVente === 'en-ligne'; });
-    if (!liste.length) return '';
-    var montres = liste.slice(0, MAX_EXTRAS);
-    var reste = liste.length - montres.length;
+  /* Une seule grammaire pour tout ce qu'une ligne d'inclusion nomme : des
+     tags, quatre au plus, puis on compte le reste. Allonger la carte sans
+     fin la rend incomparable avec sa voisine. */
+  function tagsListe(noms) {
+    if (!noms.length) return '';
+    var montres = noms.slice(0, MAX_EXTRAS);
+    var reste = noms.length - montres.length;
     return '<span class="tags tags--inclus">' +
-      montres.map(function (e) {
-        return '<span class="tag">' + esc(e.nom) + '</span>';
-      }).join('') +
+      montres.map(function (n) { return '<span class="tag">' + esc(n) + '</span>'; }).join('') +
       (reste ? '<span class="tag tag--secondaire">et ' + reste + ' autre' +
         (reste > 1 ? 's' : '') + '</span>' : '') +
       '</span>';
+  }
+
+  function detailExtras(etat) {
+    var liste = (etat && etat.club ? R.extrasDuClub(etat.club) : D.extras)
+      .filter(function (e) { return e.modeVente === 'en-ligne'; });
+    return tagsListe(liste.map(function (e) { return e.nom; }));
   }
 
   /* B.3 > Page Tarifs > trame > 4 : les lignes d'inclusion sont toujours
@@ -978,6 +993,20 @@ Object.assign(window.HF.vues, (function () {
       /* Seule la ligne Extras porte un détail, et seulement quand elle est
          incluse : sur les autres formules, "Non inclus" dit déjà tout. */
       var detail = (inc.id === 'extras' && v === true) ? detailExtras(etat) : '';
+      /* Ligne déduite : la valeur n'est pas dans le produit, elle se calcule.
+         Les espaces wellness ouverts par la formule séparent nettement Gym,
+         Essential et Premium, et personne n'a à les saisir produit par
+         produit. */
+      if (inc.derive === 'wellness') {
+        var espaces = R.espacesDeFormule(p.categorie);
+        if (!espaces.length) {
+          return '<li class="non"><span class="produit__marque">·</span><span>' +
+            esc(inc.libelle) + ' : Non inclus</span></li>';
+        }
+        return '<li><span class="produit__marque">✓</span><span>' +
+          esc(inc.libelle) + tagsListe(espaces.map(function (e) { return e.nom; })) +
+          '</span></li>';
+      }
       /* Une ligne de cours dit combien de cours différents la formule ouvre,
          pas combien de séances : c'est ce qui sépare Essential de Premium. */
       var compte = '';

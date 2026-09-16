@@ -1456,6 +1456,16 @@ Espaces s'aligne sur les quatre espaces de B.3, la piscine restant un
 équipement comme un autre. Soit B.3 l'ajoute à sa liste, et il faut dire ce
 qu'elle apporte ici que les cours aquatiques ne disent pas déjà.
 
+**La question est devenue plus visible le 2026-09-17**, avec la ligne
+d'inclusion « Espaces wellness » sur les cartes formule. Sur Premium, la carte
+affiche « Piscine » en premier tag, juste sous « Cours aquatiques : 4 cours ».
+Le même bassin y est donc annoncé deux fois, dans deux registres. C'est
+l'argument le plus net pour lui retirer le drapeau.
+
+**Et c'est aussi la démonstration de l'intérêt de tout déduire** : le jour où
+la réponse tombe, un seul drapeau dans `data.js` change la page Espaces, le
+bloc bien-être des dix pages club et les quatre cartes formule, d'un coup.
+
 ### Q56 · Ce qu'il manque pour construire la page Soins
 **Statut :** bloquante, page non maquettée
 **Source :** B.3 > Bien-être : « Massage & physiothérapie. Vitrine des soins,
