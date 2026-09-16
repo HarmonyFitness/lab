@@ -546,6 +546,26 @@ textarea.champ { resize: vertical; }
   padding: 14px 18px; margin-top: 10px; }
 .finalise__prix { font-size: 20px; font-weight: 700; margin-left: auto; }
 
+/* Déroulé d'une séance d'essai : une étape par ligne, numérotée. Une grille
+   de cinq cartes laisserait deux trous et casserait la lecture, alors que le
+   déroulé est justement un ordre. */
+.etapes { list-style: none; counter-reset: etape; margin: 0; padding: 0; }
+.etapes li { counter-increment: etape; display: grid;
+  grid-template-columns: 34px 1fr; gap: 14px; align-items: start;
+  padding: 14px 0; border-top: 1px solid var(--gris-20); }
+.etapes li:first-child { border-top: 0; }
+.etapes li::before { content: counter(etape); display: block; text-align: center;
+  font-weight: 700; background: var(--gris-95); color: #fff;
+  border-radius: 50%; width: 26px; height: 26px; line-height: 26px; font-size: 13px; }
+.etapes h3 { margin: 0 0 2px; font-size: 15px; }
+.etapes p { margin: 0; }
+
+/* Condition tarifaire d'un formulaire : encadrée et posée avant les champs,
+   jamais sous le bouton. Une condition qu'on découvre après avoir rempli est
+   une condition cachée. */
+.condition { border: 1px solid var(--gris-40); border-radius: var(--rayon);
+  background: var(--gris-05); padding: 14px 16px; margin: 0 0 18px; font-size: 14px; }
+
 /* Note et nombre d'avis : une preuve sociale se lit d'un coup d'oeil, donc
    le chiffre est gros et le reste petit. Les valeurs sont des placeholders :
    une note est un fait, elle ne s'invente pas. */

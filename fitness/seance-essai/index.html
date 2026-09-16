@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Séance d'essai | Harmony</title>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-17g">
+</head>
+<body>
+
+<div x-data="pageEssai" x-init="init()">
+
+  <!-- Outillage du wireframe, hors maquette -->
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../' })"></div>
+  <div class="conteneur">
+    <p class="wf-note">
+      B.3 &gt; Tarifs et offres &gt; Séance d'essai. Demande de rappel, jamais
+      une réservation ferme : c'est ce que dit B.3, et c'est ce que doit
+      comprendre le visiteur avant de remplir quoi que ce soit.<br>
+      <strong>Deux points à trancher.</strong> Le client dit « journée d'essai »
+      dans sa phrase tarifaire, B.3 dit « séance d'essai » partout, y compris
+      sur le bouton du header. Un seul mot par chose : il faut choisir
+      (questions.md &gt; Q54).<br>
+      Et le « motif » de B.3 est ici l'objectif de la personne, repris du
+      référentiel des cours plutôt que d'une liste à part (Q53).<br>
+      Le déroulé et la condition tarifaire viennent du client (2026-09-16).
+      Les 20 CHF sont un prix donné, pas inventé.
+    </p>
+  </div>
+
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete(null, '../')"></div>
+
+  <main class="conteneur">
+
+    <!-- ====================================================== BLOC 1 -->
+    <section style="padding-top:8px" data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
+      <h1>Venez essayer</h1>
+      <p>Dites-nous quand et où, votre club vous rappelle pour convenir du
+         rendez-vous.
+         <span class="wf-avalider">H1 et sous-titre à valider par Harmony</span></p>
+    </section>
+
+    <!-- ====================================================== BLOC 2 -->
+    <!-- Le déroulé avant le formulaire : on dit ce qu'on propose avant de
+         demander des coordonnées, et à plus forte raison quand c'est payant.
+         Déroulé donné par le client le 2026-09-16. -->
+    <section style="margin-top:32px" data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
+      <h2>Comment ça se passe</h2>
+      <ol class="etapes" style="margin-top:12px">
+        <template x-for="e in deroule" :key="e.titre">
+          <li>
+            <div>
+              <h3 x-text="e.titre"></h3>
+              <p x-text="e.texte"></p>
+            </div>
+          </li>
+        </template>
+      </ol>
+    </section>
+
+    <!-- ====================================================== BLOC 3 -->
+    <!-- Choix du club : le composant de Tarifs, avec son libellé à lui.
+         Ici la question n'est pas « quel club me concerne » mais « lequel est
+         près de chez moi », d'où la carte plutôt qu'un menu déroulant. -->
+    <section id="club" style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
+      <div class="ordi-seulement"
+           x-html="HF.vues.choixClub(etat, { libelle: 'Club où faire votre essai' })"></div>
+      <div class="mobile-seulement"
+           x-html="etat.club ? HF.vues.clubReplie(etat, {}) : HF.vues.pastillesMobile(etat)"></div>
+    </section>
+
+    <!-- ====================================================== BLOC 4 -->
+    <!-- Les champs sont écrits en clair dans la page, jamais rendus par
+         x-html : un composant re-rendu à chaque frappe ferait perdre le
+         curseur. -->
+    <section style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
+      <h2>Demander à être rappelé</h2>
+      <div class="formulaire" style="margin-top:12px">
+
+        <!-- La condition tarifaire est au-dessus des champs, pas sous le
+             bouton : une condition qu'on découvre après avoir tout rempli est
+             une condition cachée. Phrase du client, reprise telle quelle. -->
+        <p class="condition">
+          La journée d'essai Harmony est proposée au tarif de 20 CHF, déduits
+          en cas de souscription à un abonnement avec engagement (hors
+          abonnements mensuels sans engagement).
+        </p>
+
+        <p class="champ-bloc">
+          <label class="champ-label" for="date">Date souhaitée</label>
+          <input id="date" type="date" class="champ" :min="dateMin" :max="dateMax"
+                 :value="etat.essaiDate"
+                 @change="etat.essaiDate = $event.target.value">
+          <span class="mention">Entre demain et dans deux semaines. La date est
+            indicative : le club vous rappelle pour la confirmer.</span>
+        </p>
+
+        <p class="champ-bloc">
+          <label class="champ-label" for="objectif">Ce que vous venez chercher</label>
+          <!-- :selected plutôt que x-model : avec des options rendues par
+               x-for, x-model s'applique avant que les options existent. -->
+          <select id="objectif" class="champ"
+                  @change="etat.essaiObjectif = $event.target.value">
+            <option value="">Sans préférence</option>
+            <template x-for="o in HF.data.referentiels.objectifs" :key="o.id">
+              <option :value="o.id" :selected="o.id === etat.essaiObjectif" x-text="o.nom"></option>
+            </template>
+          </select>
+          <span class="mention">Le coach prépare la séance avec cette réponse.</span>
+        </p>
+
+        <p class="champ-bloc">
+          <label class="champ-label" for="nom">Nom et prénom</label>
+          <input id="nom" type="text" class="champ" autocomplete="name">
+        </p>
+        <p class="champ-bloc">
+          <label class="champ-label" for="tel">Téléphone</label>
+          <input id="tel" type="tel" class="champ" autocomplete="tel">
+          <span class="mention">C'est par là qu'on vous rappelle.</span>
+        </p>
+        <p class="champ-bloc">
+          <label class="champ-label" for="courriel">E-mail</label>
+          <input id="courriel" type="email" class="champ" autocomplete="email">
+        </p>
+        <p class="champ-bloc">
+          <label class="champ-label" for="message">Un mot pour le club (facultatif)</label>
+          <textarea id="message" class="champ" rows="4"></textarea>
+        </p>
+
+        <div x-html="HF.vues.destinataireEssai(etat.club)"></div>
+
+        <p style="margin-top:16px">
+          <button type="button" class="btn" data-act="envoyer-essai">
+            Demander à être rappelé
+          </button>
+        </p>
+        <p class="mention" x-show="etat.message" x-text="etat.message"></p>
+        <p class="mention">
+          Vos données servent uniquement à traiter votre demande.
+          <a class="lien-texte" href="#">Confidentialité</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- ====================================================== BLOC 5 -->
+    <section style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
+      <h2>Ils ont commencé comme ça</h2>
+      <div style="margin-top:12px" x-html="HF.vues.temoignages(3)"></div>
+    </section>
+
+    <!-- ====================================================== BLOC 6 -->
+    <section style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
+      <h2>Bon à savoir</h2>
+      <div class="grille grille--3" style="margin-top:12px">
+        <template x-for="r in reassurance" :key="r.titre">
+          <div class="bloc">
+            <h3 x-text="r.titre"></h3>
+            <p x-text="r.texte"></p>
+          </div>
+        </template>
+      </div>
+      <p class="mention" style="margin-top:14px">
+        Envie de voir les formules avant de venir ?
+        <a class="lien-texte" href="../tarifs/">Voir tous nos tarifs</a>
+      </p>
+    </section>
+
+  </main>
+
+  <div x-html="HF.vues.pied()"></div>
+
+  <!-- Carte en plein écran sur mobile -->
+  <template x-if="etat.carteOuverte">
+    <div x-html="HF.vues.cartePleinEcran(etat, { fixe: true })"></div>
+  </template>
+
+</div>
+
+<script src="../data/data.js?v=2026-09-17g"></script>
+<script src="../assets/components.js?v=2026-09-17g"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('pageEssai', function () {
+    /* La fenêtre de prise de rendez-vous se calcule, elle n'est pas écrite :
+       J+1 à J+14 (B.3). Le champ date natif la fait respecter par le
+       navigateur, sans JavaScript de validation. */
+    var jour = function (n) {
+      var d = new Date();
+      d.setDate(d.getDate() + n);
+      return d.toISOString().slice(0, 10);
+    };
+    return {
+      etat: HF.etatInitial(),
+      dateMin: jour(1),
+      dateMax: jour(14),
+      /* Déroulé donné par le client le 2026-09-16. Les titres sont les siens,
+         les descriptions sont du remplissage en attendant les vraies. */
+      deroule: [
+        { titre: 'Accueil', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.' },
+        { titre: 'Entretien', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.' },
+        { titre: 'Accompagnement', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat.' },
+        { titre: 'Autonomie', texte: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.' },
+        { titre: 'Entretien de fin', texte: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.' }
+      ],
+      reassurance: [
+        { titre: '[Réassurance 1]', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' },
+        { titre: '[Réassurance 2]', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.' },
+        { titre: '[Réassurance 3]', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.' }
+      ],
+      init: function () {
+        HF.brancher(this.$el, this.etat);
+        HF.brancherSelecteur(this.$el, this.etat);
+      }
+    };
+  });
+});
+</script>
+<script defer src="../assets/alpine.min.js?v=2026-09-17g"></script>
+
+</body>
+</html>

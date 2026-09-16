@@ -1497,6 +1497,20 @@ Object.assign(window.HF.vues, (function () {
       '</strong>. ' + esc(D.contact.delai) + '</p>';
   }
 
+  /* Une demande d'essai part toujours au club : c'est lui qui rappelle et
+     qui reçoit la personne. Pas de sujet à choisir, donc pas la même règle
+     que le formulaire de contact, mais la même ligne à l'écran, pour que le
+     visiteur sache où part sa demande avant de l'envoyer. */
+  function destinataireEssai(idClub) {
+    var c = idClub ? H.club(idClub) : null;
+    if (!c) {
+      return '<p class="destinataire destinataire--vide">Choisissez votre club : ' +
+        'c\'est lui qui vous rappelle.</p>';
+    }
+    return '<p class="destinataire">Votre demande part à <strong>Harmony ' +
+      esc(c.nom) + '</strong>. ' + esc(D.contact.delai) + '</p>';
+  }
+
   /* Le CTA essai sert sur presque toutes les pages : sa référence de spec
      dépend donc de la page qui l'affiche, elle ne peut pas être figée. */
   function ctaEssai(base, spec) {
@@ -1524,6 +1538,7 @@ Object.assign(window.HF.vues, (function () {
     barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub,
     planning: planning, grilleCoachs: grilleCoachs, panneauCoach: panneauCoach,
     faq: faq, temoignages: temoignages, noteAvis: noteAvis,
+    destinataireEssai: destinataireEssai,
     ctaEssai: ctaEssai, compteur: compteur,
     ligneConseil: ligneConseil, destinataireLigne: destinataireLigne,
     desParMoisTexte: desParMoisTexte
@@ -1556,6 +1571,11 @@ Object.assign(window.HF, (function () {
       promo: (promo === null) ? 'carnets-10' : (H.promotion(promo) ? promo : null),
       contactMotif: (motif && D.contact.motifs.some(function (m) { return m.id === motif; }))
         ? motif : '',
+      /* Demande d'essai : la date indicative et ce que la personne vient
+         chercher. L'objectif reprend le référentiel des cours, il n'y a pas
+         de liste à part (Q53). */
+      essaiDate: '',
+      essaiObjectif: '',
       produitChoisi: null,
       extrasChoisis: [],
       carteOuverte: false,
@@ -1679,6 +1699,21 @@ Object.assign(window.HF, (function () {
     },
     /* Simulation : le wireframe ne poste rien. On montre où part la demande,
        c'est ce qui compte pour valider le dispatch. */
+    /* Simulation, comme le formulaire de contact : le wireframe ne poste
+       rien. Ce qu'on veut valider ici, c'est que la demande part au club, que
+       la date est dans la fenêtre annoncée, et que l'origine du clic est
+       transmise : sans elle, impossible de savoir quelle page génère les
+       essais. */
+    'envoyer-essai': function (etat) {
+      if (!etat.club) { etat.message = 'Choisissez d\'abord votre club.'; return; }
+      if (!etat.essaiDate) { etat.message = 'Choisissez une date indicative.'; return; }
+      var c = H.club(etat.club);
+      var obj = D.referentiels.objectifs.find(function (o) { return o.id === etat.essaiObjectif; });
+      etat.message = 'Simulation : la demande de rappel partirait à Harmony ' + c.nom +
+        ', pour le ' + etat.essaiDate +
+        (obj ? ', objectif « ' + obj.nom + ' »' : '') +
+        (etat.source ? ', origine « ' + etat.source + ' »' : '') + '.';
+    },
     'envoyer-contact': function (etat) {
       var d = H.regles.destinataireContact(etat.contactMotif, etat.club);
       if (!d.motif) { etat.message = 'Choisissez d\'abord un sujet.'; return; }

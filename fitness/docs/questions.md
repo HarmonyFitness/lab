@@ -1386,3 +1386,52 @@ chose.
 carte en haut et dans la dernière étape en bas. Ce n'est pas un produit
 dupliqué, c'est la même action rappelée en fin de page, ce que fait toute
 landing qui convertit.
+
+### Q53 · Le « motif » d'une demande d'essai est un objectif
+**Statut :** tranchée avec Hugo le 2026-09-16
+**Source :** B.3 > Séance d'essai : « Formulaire demande de rappel (date
+indicative J+1 à J+14, club, motif, dispatch par club) ».
+
+« Motif » pouvait se lire de deux façons : un sujet, comme sur le formulaire de
+contact, ou ce que la personne vient chercher. La seconde lecture est retenue :
+le champ reprend **les six objectifs des cours**, sans créer de liste à part.
+
+Trois raisons. Aucun référentiel en plus à saisir et à maintenir. Le coach sait
+quoi préparer avant la séance. Et la demande d'essai parle le même vocabulaire
+que le catalogue de cours, ce qui ouvre la porte à un rapprochement plus tard :
+proposer à quelqu'un qui a coché « Se détendre » les cours rangés sous cet
+objectif dans son club.
+
+Le champ n'est pas obligatoire, « Sans préférence » est une réponse valable.
+
+### Q54 · « Séance d'essai » ou « journée d'essai » ?
+**Statut :** ouverte, bloquante pour la copy
+**Source :** le client, 2026-09-16 : « La journée d'essai Harmony est proposée
+au tarif de 20 CHF, déduits en cas de souscription à un abonnement avec
+engagement (hors abonnements mensuels sans engagement). »
+
+**Deux mots pour la même chose.** B.3 dit « séance d'essai » partout : le
+bouton du header, les CTA de toutes les pages, l'adresse `/seance-essai`. La
+phrase tarifaire du client dit « journée d'essai ». Et le déroulé qu'il a donné,
+accueil, entretien, accompagnement, autonomie, entretien de fin, ressemble
+davantage à une demi-journée qu'à une séance.
+
+C'est exactement le genre d'écart que B.3 combat ailleurs : un seul mot par
+chose, en club, dans l'appli, sur le site et dans Echino. Deux mots, et le
+visiteur se demande s'il a droit à une séance ou à une journée, alors que c'est
+la même chose et qu'elle est payante.
+
+**Dans la maquette :** « séance d'essai » partout, puisque c'est B.3, et la
+phrase tarifaire reprise **telle quelle**, avec « journée », parce que c'est une
+condition commerciale du client et qu'on ne réécrit pas une condition sans son
+accord. L'écart est donc visible à l'écran, volontairement.
+
+**Ce qu'il faut trancher :** le mot, et ce qu'il recouvre. Si c'est une journée,
+l'adresse, le bouton du header et tous les CTA changent.
+
+**Un point de fond à ne pas rater.** L'essai est **payant**, 20 CHF. Tous les
+CTA du site disent « Demander une séance d'essai » sans le mentionner. Sur la
+page, la condition est posée au-dessus des champs, jamais sous le bouton : une
+condition qu'on découvre après avoir tout rempli est une condition cachée. Mais
+il faut décider si les CTA eux-mêmes doivent le dire, et notamment celui du
+header, qui est présent sur toutes les pages.

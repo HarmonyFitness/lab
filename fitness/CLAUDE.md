@@ -151,6 +151,16 @@ Page Offre du moment
 - **Le hero porte trois preuves**, sous le bouton : nombre de clubs, note et avis, nombre de séances incluses par semaine. Devant un prix, sur une page où on n'a jamais mis les pieds, on se demande d'abord si c'est sérieux et si c'est près de chez soi. Deux des trois chiffres sont déduits (`nbClubs`, `nbSeancesSemaine`, Extras exclus), le troisième est un fait à fournir.
 - Différenciants et note d'avis sont du contenu Harmony : placeholders visibles, jamais de valeur inventée. Une note est un fait, et il faudra dire d'où elle vient et comment elle se met à jour.
 
+Page Séance d'essai
+- **Demande de rappel, jamais une réservation ferme** (B.3). Le titre, le libellé du bouton et la mention sous le champ date le disent tous les trois : « Demander à être rappelé », « la date est indicative : le club vous rappelle pour la confirmer ».
+- Date bornée à J+1 et J+14, par un champ date natif dont les bornes sont calculées : le navigateur fait respecter la fenêtre, sans code de validation.
+- Le « motif » de B.3 est **l'objectif de la personne**, repris du référentiel des cours (Q53). Pas de liste à part à saisir, le coach sait quoi préparer, et la demande parle le vocabulaire du catalogue.
+- Le club se choisit avec le composant de Tarifs, libellé « Club où faire votre essai » : la question est « lequel est près de chez moi », pas « lequel me concerne ». C'est ce qui distingue cette page de `/nous-contacter`, qui route un message avec un simple menu. « Même gabarit » dans B.3 veut dire même structure, pas mêmes champs.
+- La demande part toujours au club, jamais au central : c'est lui qui rappelle et qui reçoit. Le club est donc obligatoire.
+- **L'essai est payant, 20 CHF, déduits en cas de souscription avec engagement** (client, 2026-09-16). La condition est posée **au-dessus des champs**, jamais sous le bouton : une condition qu'on découvre après avoir tout rempli est une condition cachée. Le déroulé en cinq étapes vient avant le formulaire, pour la même raison : on dit ce qu'on propose avant de demander des coordonnées, à plus forte raison quand c'est payant.
+- Le paramètre `source` du lien est repris dans la demande : sans lui, impossible de savoir quelle page génère les essais.
+- **« Séance » et « journée » désignent aujourd'hui la même chose dans deux mots différents** (Q54). B.3 dit séance partout, la condition tarifaire du client dit journée. La phrase du client est reprise telle quelle, l'écart est visible à l'écran exprès : c'est une condition commerciale, on ne la réécrit pas sans son accord.
+
 Cours
 - Vocabulaire strict : "catégorie" est réservé aux clubs (Gym, Essential, Premium). Pour les cours on dit **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours). Ne jamais écrire "catégorie de cours".
 - Un cours porte un objectif principal, un objectif secondaire facultatif, une intensité (doux, modéré, intense) et un format (salle, aqua, petit groupe).
