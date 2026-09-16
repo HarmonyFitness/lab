@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Cours | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-16h">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-16j">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -73,8 +73,11 @@
         <div style="margin-top:32px" x-show="estFamille"
              x-html="estFamille ? HF.vues.blocVariantes(famille.id, '../../') : ''"></div>
 
-        <!-- Small Group Training : clubs et prix lus sur l'Extra -->
-        <div style="margin-top:32px" x-show="cours && cours.estExtra"
+        <!-- Small Group Training : clubs sur le planning, prix sur l'Extra.
+             Le bloc sort aussi sur une fiche partagée, dont l'entrée
+             principale est un cours collectif : c'est là qu'il faut dire que
+             dans certains clubs, la même pratique est un Extra. -->
+        <div style="margin-top:32px" x-show="aUnExtra()"
              x-html="cours ? HF.vues.blocExtraDuCours(cours, '../../') : ''"></div>
 
         <div style="margin-top:32px" x-html="creneaux()"></div>
@@ -100,8 +103,8 @@
     </div>
   </template>
 </div>
-<script src="../../data/data.js?v=2026-09-16h"></script>
-<script src="../../assets/components.js?v=2026-09-16h"></script>
+<script src="../../data/data.js?v=2026-09-16j"></script>
+<script src="../../assets/components.js?v=2026-09-16j"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -132,6 +135,15 @@ document.addEventListener('alpine:init', function () {
       titre: function () {
         var c = this.cible;
         return c ? c.nom : '';
+      },
+      /* Vrai dès qu'une des entrées de la fiche est un Extra, pas seulement
+         l'entrée principale : une fiche partagée porte les deux formes. */
+      aUnExtra: function () {
+        var c = this.cours;
+        if (!c) return false;
+        return HF.regles.coursDeLaFiche(c.id).some(function (x) {
+          return x.estExtra && x.extra;
+        });
       },
       ariane: function () {
         var c = this.cours;
@@ -190,6 +202,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-09-16h"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-09-16j"></script>
 </body>
 </html>

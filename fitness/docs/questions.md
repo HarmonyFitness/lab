@@ -334,11 +334,13 @@ clubs où chacun est proposé.
 - L'Extra « Service linge », que j'avais posé d'après la mention « les services
   (linge…) » de B.3, est remplacé par « Service Pressing », le nom donné par
   Hugo. Si les deux services sont distincts, il faut les rétablir tous les deux.
-- Un Small Group Training de remplissage, nommé « Lorem Ipsum », est donné
-  dans les neuf clubs sauf Genève · Pâquis (Hugo, 2026-09-16). Son nom dit ce
-  qu'il est : un placeholder, qui part le jour où Harmony donne la vraie liste.
-  Il sert à montrer que l'offre de trainings varie d'un club à l'autre, ce
-  qu'un seul vrai training par club ne montrait pas.
+- **Genève · La Praille a sa vraie liste** (Harmony, 2026-09-16) : TRX Pilates,
+  HIIT, HIIT Boxing, Flow, Cross Training, Ceremony Hyrox Max. Le remplissage
+  « Lorem Ipsum » y a donc été retiré.
+- Un Small Group Training de remplissage, nommé « Lorem Ipsum », reste dans les
+  huit autres clubs sauf Genève · Pâquis, qui a le sien (Hugo, 2026-09-16). Son
+  nom dit ce qu'il est : un placeholder, qui part club par club à mesure
+  qu'Harmony donne les vraies listes.
 - Le point « un Extra par Small Group Training » est tranché depuis : voir Q43.
   Il n'y a plus qu'un Extra pour tous les Small Group Training, donc plus de
   liste d'Extras à fournir de ce côté-là. Ce qui manque encore, c'est la liste
@@ -982,3 +984,38 @@ une page Tarifs ne puissent jamais se contredire.
 par club. Aujourd'hui le hub en montre deux, Cross Training (La Praille,
 Pâquis) et Ceremony Hyrox Max (Meyrin), pendant que l'Extra est proposé dans
 les dix clubs.
+
+### Q44 · La liste de La Praille corrige deux cours, et pose une question de nom
+**Statut :** appliquée le 2026-09-16, deux points à confirmer
+**Source :** Harmony, la liste des Small Group Training de Genève · La Praille :
+TRX Pilates, HIIT, HIIT Boxing, Flow, Cross Training, Ceremony Hyrox Max.
+
+**Deux cours étaient saisis en cours collectif par erreur.**
+- **TRX Pilates** n'était donné qu'à La Praille. Il devient donc un Small Group
+  Training partout où il existe : il quitte le catalogue des cours collectifs
+  et il est compté en moins dans les formules. Il reste membre de la famille
+  Pilates, qui dit la pratique et pas le mode d'accès, et la page de famille le
+  marque « Extra ».
+- **HIIT** reste un cours collectif à Meyrin, Blandonnet, Genève · Eaux-Vives et
+  Signy, et devient un Small Group Training à La Praille seulement. Deux
+  entrées, une seule fiche, comme Cross Training : le tableau « Où le
+  pratiquer » marque « Extra » sur la ligne de La Praille et pas ailleurs.
+
+**Deux cours sont créés :** HIIT Boxing et Flow, qui n'existent qu'à La Praille
+et n'ont pas d'équivalent en cours collectif.
+
+**Ceremony Hyrox Max** n'était qu'à Meyrin : il est aussi donné à La Praille.
+
+**Ce qu'il faut confirmer.**
+1. **« Flow » ou « FLOW » ?** La liste l'écrit en capitales. Je l'ai écrit
+   « Flow », comme on écrit « Gym » et non « GYM » : on ne crie pas un nom de
+   cours. Si c'est une marque déposée qui impose ses capitales, ça change.
+2. **Les autres clubs.** Si TRX Pilates et HIIT étaient mal saisis à La Praille,
+   la même erreur est probable ailleurs. Il faut la liste des Small Group
+   Training club par club, et pas seulement les plannings : devant une série de
+   séances, on ne voit pas si c'est inclus ou payant.
+
+**Ce que ça a révélé au passage.** Le bloc « Aussi en Small Group Training »
+d'une fiche partagée était construit mais jamais affiché : la condition
+d'affichage regardait l'entrée principale de la fiche, qui est un cours
+collectif. Corrigé : elle regarde maintenant toutes les entrées de la fiche.

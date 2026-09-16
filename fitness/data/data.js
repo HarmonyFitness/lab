@@ -540,9 +540,13 @@ window.DATA = {
       coachs: ['sofia'],
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, quis nostrud exercitation ullamco laboris.',
       benefices: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit', 'Sed do eiusmod tempor'] },
+    /* Small Group Training, pas un cours collectif (Harmony, 2026-09-16) :
+       il n'est donné qu'à Genève · La Praille, et là-bas c'est un Extra.
+       Il reste membre de la famille Pilates : la famille dit la pratique,
+       pas le mode d'accès. La page de famille le marque « Extra ». */
     { id: 'trx-pilates', nom: 'TRX Pilates', famille: 'pilates', traitement: 'page',
       objectifPrincipal: 'se-renforcer', objectifSecondaire: null,
-      intensite: 'modere', format: 'salle', estExtra: false, extra: null,
+      intensite: 'modere', format: 'petit-groupe', estExtra: true, extra: 'small-group-training',
       coachs: ['sofia'],
       description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       benefices: ['Ut enim ad minim veniam', 'Quis nostrud exercitation', 'Ullamco laboris nisi'] },
@@ -871,6 +875,38 @@ window.DATA = {
        et ce Small Group Training, « Ceremony Hyrox Max ». Le nom de la
        licence seul ne désigne rien et ne doit apparaître nulle part comme
        nom de produit (client, 2026-09-16, Q42). */
+    /* HIIT existe sous les deux formes : cours collectif inclus à Meyrin,
+       Blandonnet, Eaux-Vives et Signy, Small Group Training payant à
+       Genève · La Praille (Harmony, 2026-09-16). Même fiche pour les deux,
+       comme Cross Training : c'est la même pratique, ce qui change est le
+       club. Le tableau « Où le pratiquer » marque « Extra » là où elle l'est. */
+    { id: 'hiit-sgt', nom: 'HIIT', famille: null, traitement: 'page',
+      memeFicheQue: 'hiit',
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null,
+      intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'small-group-training',
+      coachs: ['thomas'],
+      description: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',
+      benefices: ['Nemo enim ipsam', 'Quia voluptas sit', 'Aspernatur aut odit'] },
+
+    /* Deux Small Group Training qui n'existent qu'à Genève · La Praille et
+       n'ont pas d'équivalent en cours collectif (Harmony, 2026-09-16). */
+    { id: 'hiit-boxing', nom: 'HIIT Boxing', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null,
+      intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'small-group-training',
+      coachs: ['thomas'],
+      description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
+      benefices: ['Sed ut perspiciatis', 'Unde omnis iste', 'Natus error sit'] },
+
+    /* Nom écrit « Flow » et non « FLOW » : on ne crie pas un nom de cours,
+       comme on écrit « Gym » et non « GYM ». À confirmer si c'est une marque
+       déposée qui impose ses capitales (questions.md > Q44). */
+    { id: 'flow', nom: 'Flow', famille: null, traitement: 'page',
+      objectifPrincipal: 'bouger-mieux', objectifSecondaire: 'se-detendre',
+      intensite: 'modere', format: 'petit-groupe', estExtra: true, extra: 'small-group-training',
+      coachs: ['sofia'],
+      description: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit.',
+      benefices: ['Neque porro quisquam', 'Est qui dolorem', 'Ipsum quia dolor'] },
+
     /* Small Group Training de remplissage, en attendant la liste d'Harmony
        (Hugo, 2026-09-16, Q27). Donné partout sauf à Genève · Pâquis, pour
        qu'un club au moins montre une offre différente des autres. Son nom
@@ -934,8 +970,21 @@ window.DATA = {
        n'en proposent pas encore. */
     { club: 'versoix', jour: 'mardi',    heure: '18:30', duree: 45, cours: 'cross-training' },
     { club: 'versoix', jour: 'vendredi', heure: '12:15', duree: 45, cours: 'cross-training' },
-    { club: 'geneve-la-praille', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'cross-training-sgt' },
-    { club: 'geneve-la-praille', jour: 'jeudi',    heure: '18:00', duree: 45, cours: 'cross-training-sgt' },
+
+    /* Genève · La Praille : les six Small Group Training donnés par Harmony
+       le 2026-09-16. Deux d'entre eux étaient saisis en cours collectif par
+       erreur : TRX Pilates, qui n'existe qu'ici et devient un Extra partout
+       où il est donné, et HIIT, qui reste un cours collectif dans les quatre
+       autres clubs et n'est un Extra qu'ici. */
+    { club: 'geneve-la-praille', jour: 'lundi',     heure: '18:30', duree: 60, cours: 'trx-pilates' },
+    { club: 'geneve-la-praille', jour: 'mardi',     heure: '12:15', duree: 45, cours: 'cross-training-sgt' },
+    { club: 'geneve-la-praille', jour: 'mercredi',  heure: '07:15', duree: 45, cours: 'flow' },
+    { club: 'geneve-la-praille', jour: 'mercredi',  heure: '18:00', duree: 45, cours: 'hiit-boxing' },
+    { club: 'geneve-la-praille', jour: 'jeudi',     heure: '12:15', duree: 60, cours: 'ceremony-hyrox-max' },
+    { club: 'geneve-la-praille', jour: 'jeudi',     heure: '18:00', duree: 45, cours: 'cross-training-sgt' },
+    { club: 'geneve-la-praille', jour: 'vendredi',  heure: '12:15', duree: 45, cours: 'hiit-sgt' },
+    { club: 'geneve-la-praille', jour: 'samedi',    heure: '09:00', duree: 60, cours: 'ceremony-hyrox-max' },
+    { club: 'geneve-la-praille', jour: 'samedi',    heure: '11:15', duree: 45, cours: 'flow' },
     /* Genève · Pâquis, club Gym : uniquement des Small Group Training.
        Planning donné par le client le 2026-09-16. */
     { club: 'geneve-paquis', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'cross-training-sgt' },
@@ -948,7 +997,6 @@ window.DATA = {
     { club: 'blandonnet',        jour: 'jeudi',    heure: '18:30', duree: 45, cours: 'lorem-ipsum' },
     { club: 'geneve-eaux-vives', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'lorem-ipsum' },
     { club: 'geneve-eaux-vives', jour: 'vendredi', heure: '18:00', duree: 45, cours: 'lorem-ipsum' },
-    { club: 'geneve-la-praille', jour: 'mercredi', heure: '07:15', duree: 45, cours: 'lorem-ipsum' },
     { club: 'meyrin',            jour: 'mercredi', heure: '12:15', duree: 45, cours: 'lorem-ipsum' },
     { club: 'meyrin',            jour: 'vendredi', heure: '07:15', duree: 45, cours: 'lorem-ipsum' },
     { club: 'versoix',           jour: 'lundi',    heure: '18:30', duree: 45, cours: 'lorem-ipsum' },
@@ -970,13 +1018,11 @@ window.DATA = {
 
     { club: 'geneve-la-praille', jour: 'lundi',    heure: '07:00', duree: 45, cours: 'aqua-bike' },
     { club: 'geneve-la-praille', jour: 'lundi',    heure: '12:15', duree: 45, cours: 'les-mills-body-pump' },
-    { club: 'geneve-la-praille', jour: 'lundi',    heure: '18:30', duree: 60, cours: 'trx-pilates' },
     { club: 'geneve-la-praille', jour: 'mardi',    heure: '10:00', duree: 45, cours: 'aqua-gym' },
     { club: 'geneve-la-praille', jour: 'mardi',    heure: '18:30', duree: 60, cours: 'yoga-vinyasa' },
     { club: 'geneve-la-praille', jour: 'mercredi', heure: '12:15', duree: 45, cours: 'pilates' },
     { club: 'geneve-la-praille', jour: 'mercredi', heure: '19:00', duree: 45, cours: 'aqua-zumba' },
     { club: 'geneve-la-praille', jour: 'jeudi',    heure: '19:00', duree: 55, cours: 'les-mills-body-combat' },
-    { club: 'geneve-la-praille', jour: 'vendredi', heure: '12:15', duree: 45, cours: 'hiit' },
     { club: 'geneve-la-praille', jour: 'vendredi', heure: '18:30', duree: 60, cours: 'les-mills-body-balance' },
     { club: 'geneve-la-praille', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'hybrid-training' },
 

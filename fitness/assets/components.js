@@ -2321,9 +2321,14 @@ Object.assign(window.HF.vues, (function () {
     var out = '<section data-spec="B.3 > Sport > Pages de famille"><h2>Les cours ' + esc(f.nom) + '</h2>';
 
     if (m.liens.length) {
+      /* Un membre de la famille peut être un Extra : la famille dit la
+         pratique, pas le mode d'accès. On le marque, sinon le visiteur le
+         croit inclus comme ses voisins. */
       out += '<div class="grille grille--cartes">' + m.liens.map(function (co) {
         return '<div class="produit"><h3><a href="' + H.lienCours(co, base) + '">' +
-          esc(co.nom) + '</a></h3>' + attributsCours(co) +
+          esc(co.nom) + '</a>' +
+          (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') +
+          '</h3>' + attributsCours(co) +
           '<p>' + esc(co.description) + '</p></div>';
       }).join('') + '</div>';
     }
@@ -2331,6 +2336,7 @@ Object.assign(window.HF.vues, (function () {
     m.sections.forEach(function (co) {
       out += '<section id="' + co.id + '" style="margin-top:26px">' +
         '<h3>' + esc(co.nom) +
+        (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') +
         (co.traitement === null ? ' <span class="wf-avalider">page ou section à trancher</span>' : '') +
         '</h3>' + attributsCours(co) +
         '<p>' + esc(co.description) + '</p>' +
