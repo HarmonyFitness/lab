@@ -850,3 +850,43 @@ cours : trois mots pour une action, c'est un mot de trop.
   encore de compte mais plus long. Le lien sort vers l'outil métier : à
   confirmer que c'est bien une redirection et non une page intermédiaire, et
   que le membre revient ensuite sur le site.
+
+### Q42 · Hyrox est une licence, et Cross Training porte deux sens
+**Statut :** appliqué, un point à confirmer
+**Source :** le client via Hugo, 2026-09-16. « HYROX c'est une licence. On
+l'utilise pour un cours collectif nommé Les Mills Ceremony Hyrox et un Small
+Group Training nommé Ceremony Hyrox Max. Donc pas de SGT "Hyrox". D'ailleurs
+l'Hyrox n'est finalement pas chez Pâquis, c'est un autre SGT appelé Cross
+Training. 3 cours par semaine, 45 min : mardi 12h15, jeudi 18h30, vendredi
+12h15. »
+
+Appliqué :
+- le cours collectif « Les Mills Ceremony » devient « Les Mills Ceremony
+  Hyrox », dans la famille Les Mills. Slug `/cours/les-mills-ceremony-hyrox`.
+- le Small Group Training « Hyrox » devient « Ceremony Hyrox Max ». Il quitte
+  Genève · Pâquis et reste proposé à Meyrin.
+- Genève · Pâquis reçoit le Small Group Training « Cross Training », avec les
+  trois créneaux donnés. Le club est un club Gym : son planning n'a que des
+  Small Group Training, la règle tient toujours.
+- règle posée : une licence n'est pas un produit. Le nom seul, Hyrox ou Les
+  Mills, ne désigne rien et n'apparaît jamais comme nom de produit. Seule
+  exception, les titles SEO, parce que c'est le mot que les gens cherchent :
+  le title du hub Small Group Training garde « Hyrox ».
+
+**Le point à confirmer : Cross Training portait déjà deux sens.**
+- B.3 le cite comme une **zone du plateau fitness** (musculation, cardio,
+  fonctionnel, cross training)
+- la liste de juillet en faisait un **cours collectif en salle**, que j'avais
+  saisi à Meyrin et Denges
+- le client en fait maintenant un **Small Group Training** à Pâquis
+
+J'ai tranché pour le Small Group Training, seul cas dont on soit sûr, et
+retiré les séances de cours collectif inventées. La zone du plateau reste,
+elle ne gêne pas : un nom de zone et un nom de cours peuvent coexister.
+
+Ce qu'il faut confirmer : **Cross Training existe-t-il aussi comme cours
+collectif inclus, dans les clubs Essential et Premium ?** Si oui, le même nom
+serait inclus dans un club et payant dans un autre. C'est tenable seulement si
+on l'affiche clairement, et ça mérite plutôt deux noms distincts. La question
+vaut pour tout futur Small Group Training : un nom de Small Group Training ne
+devrait jamais être aussi un nom de cours collectif.

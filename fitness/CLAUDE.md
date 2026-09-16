@@ -151,6 +151,7 @@ Cours
 - La page de famille liste tous ses membres. Membre avec page dédiée : un lien vers sa fiche. Membre sans page : une section sur la page de famille, avec ancre.
 - Chaque cours porte un champ `destination` résolu dans `data.js`, jamais une règle recalculée à l'affichage. Les composants lisent `cours.destination`.
 - La règle d'exclusion Aqua vaut **aussi pour les légendes de photo et tout texte de remplissage** : Fitness ne dit jamais "natation" ni "bassin de natation" pour parler de son offre. On dit "cours aquatique". Le mot natation n'apparaît que dans la passerelle vers l'école de natation et dans la barre groupe, qui pointent vers l'autre site.
+- **Une licence n'est pas un produit.** Hyrox et Les Mills sont des licences : le nom seul ne désigne rien et n'apparaît jamais comme nom de produit. Hyrox sert à deux produits distincts, le cours collectif "Les Mills Ceremony Hyrox" et le Small Group Training "Ceremony Hyrox Max" (client, 2026-09-16, Q42). Seule exception : un title SEO peut porter le nom de la licence, parce que c'est lui que les gens cherchent.
 - Les Mills s'écrit en deux mots partout, noms de cours et slugs compris : "Les Mills Body Pump", `/cours/les-mills`.
 - H1 = le nom du cours ou de la famille, seul, sans mention géographique. Title = "Cours de [cours] à Genève et Vaud | Harmony", ou "[cours] à Genève et Vaud | Harmony" quand "cours de" sonne faux, ce qui est le cas des formats Les Mills. Aucune commune dans le title d'une fiche.
 

@@ -473,10 +473,15 @@ window.DATA = {
   /* et Premium, c'est-à-dire partout sauf Genève · Pâquis, le seul Gym.   */
   /* ------------------------------------------------------------------ */
   extras: [
-    /* Hyrox a sa propre fiche cours et ses propres clubs. */
-    { id: 'hyrox', nom: 'Hyrox', type: 'sgt',
-      clubs: ['geneve-paquis', 'meyrin'],
-      modeVente: 'en-ligne', prix: null, idMetier: null, cours: 'hyrox',
+    /* Hyrox est une licence, pas un produit. Harmony l'utilise pour deux
+       choses distinctes : un cours collectif, « Les Mills Ceremony Hyrox »,
+       et ce Small Group Training, « Ceremony Hyrox Max ». Le nom de la
+       licence seul ne désigne rien et ne doit apparaître nulle part comme
+       nom de produit (client, 2026-09-16, Q42).
+       Plus proposé à Genève · Pâquis : c'est Cross Training qui y est donné. */
+    { id: 'ceremony-hyrox-max', nom: 'Ceremony Hyrox Max', type: 'sgt',
+      clubs: ['meyrin'],
+      modeVente: 'en-ligne', prix: null, idMetier: null, cours: 'ceremony-hyrox-max',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.' },
 
     /* Tous les autres Small Group Training, en attendant leur liste
@@ -488,6 +493,11 @@ window.DATA = {
       modeVente: 'en-ligne', prix: null, idMetier: null, cours: null,
       regroupeAValider: true,
       description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.' },
+
+    { id: 'cross-training', nom: 'Cross Training', type: 'sgt',
+      clubs: ['geneve-paquis'],
+      modeVente: 'en-ligne', prix: null, idMetier: null, cours: 'cross-training',
+      description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.' },
 
     { id: 'service-pressing', nom: 'Service Pressing', type: 'service',
       clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'meyrin',
@@ -657,7 +667,7 @@ window.DATA = {
       coachs: ['lea'],
       description: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur.',
       benefices: [] },
-    { id: 'les-mills-ceremony', nom: 'Les Mills Ceremony', famille: 'les-mills', traitement: 'page',
+    { id: 'les-mills-ceremony-hyrox', nom: 'Les Mills Ceremony Hyrox', famille: 'les-mills', traitement: 'page',
       objectifPrincipal: 'se-depasser', objectifSecondaire: null,
       intensite: 'intense', format: 'salle', estExtra: false, extra: null,
       coachs: ['thomas'],
@@ -739,9 +749,15 @@ window.DATA = {
       coachs: ['thomas'],
       description: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur.',
       benefices: ['Neque porro quisquam', 'Est qui dolorem ipsum', 'Quia dolor sit amet'] },
+    /* Cross Training est le Small Group Training de Genève · Pâquis, pas un
+       cours collectif : un club Gym n'en propose aucun. Il était saisi en
+       cours collectif en salle à Meyrin et Denges, ce qui venait de la liste
+       de juillet. À confirmer s'il existe aussi comme cours collectif
+       ailleurs : le même nom ne peut pas être inclus ici et payant là sans
+       qu'on le dise (Q42). */
     { id: 'cross-training', nom: 'Cross Training', famille: null, traitement: 'page',
       objectifPrincipal: 'se-depenser', objectifSecondaire: null,
-      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
+      intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'cross-training',
       coachs: ['thomas', 'karim'],
       description: 'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.',
       benefices: ['Quis autem vel eum iure', 'Reprehenderit qui in ea', 'Voluptate velit esse'] },
@@ -837,9 +853,9 @@ window.DATA = {
       benefices: [] },
 
     /* --- Small Group Training : un Extra, pas un cours inclus --------- */
-    { id: 'hyrox', nom: 'Hyrox', famille: null, traitement: 'page',
+    { id: 'ceremony-hyrox-max', nom: 'Ceremony Hyrox Max', famille: null, traitement: 'page',
       objectifPrincipal: 'se-depasser', objectifSecondaire: null,
-      intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'hyrox',
+      intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'ceremony-hyrox-max',
       coachs: ['thomas'],
       description: 'Cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus.',
       benefices: ['Cum soluta nobis', 'Est eligendi optio', 'Cumque nihil impedit'] }
@@ -882,19 +898,20 @@ window.DATA = {
   /* Training. Le format aqua n'existe que dans les clubs Premium.         */
   /* ------------------------------------------------------------------ */
   seances: [
-    { club: 'geneve-paquis', jour: 'lundi',    heure: '18:30', duree: 60, cours: 'hyrox' },
-    { club: 'geneve-paquis', jour: 'mercredi', heure: '12:15', duree: 45, cours: 'hyrox' },
-    { club: 'geneve-paquis', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'hyrox' },
+    /* Genève · Pâquis, club Gym : uniquement des Small Group Training.
+       Planning donné par le client le 2026-09-16. */
+    { club: 'geneve-paquis', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'cross-training' },
+    { club: 'geneve-paquis', jour: 'jeudi',    heure: '18:30', duree: 45, cours: 'cross-training' },
+    { club: 'geneve-paquis', jour: 'vendredi', heure: '12:15', duree: 45, cours: 'cross-training' },
 
     { club: 'meyrin', jour: 'lundi',    heure: '12:15', duree: 45, cours: 'les-mills-body-pump' },
     { club: 'meyrin', jour: 'lundi',    heure: '19:00', duree: 55, cours: 'hiit' },
     { club: 'meyrin', jour: 'mardi',    heure: '09:30', duree: 60, cours: 'yoga' },
     { club: 'meyrin', jour: 'mardi',    heure: '18:30', duree: 60, cours: 'pilates' },
     { club: 'meyrin', jour: 'mercredi', heure: '18:30', duree: 50, cours: 'les-mills-rpm' },
-    { club: 'meyrin', jour: 'jeudi',    heure: '12:15', duree: 45, cours: 'cross-training' },
     { club: 'meyrin', jour: 'jeudi',    heure: '19:00', duree: 60, cours: 'yoga-dos' },
     { club: 'meyrin', jour: 'vendredi', heure: '18:00', duree: 60, cours: 'zumba' },
-    { club: 'meyrin', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'hyrox' },
+    { club: 'meyrin', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'ceremony-hyrox-max' },
     { club: 'meyrin', jour: 'samedi',   heure: '11:15', duree: 60, cours: 'hybrid-training' },
 
     { club: 'geneve-la-praille', jour: 'lundi',    heure: '07:00', duree: 45, cours: 'aqua-bike' },
@@ -939,7 +956,6 @@ window.DATA = {
     { club: 'veyrier', jour: 'vendredi', heure: '18:00', duree: 60, cours: 'pilates-privilege' },
     { club: 'veyrier', jour: 'samedi',   heure: '10:00', duree: 60, cours: 'air-yoga' },
 
-    { club: 'denges', jour: 'lundi',    heure: '12:15', duree: 45, cours: 'cross-training' },
     { club: 'denges', jour: 'lundi',    heure: '18:30', duree: 60, cours: 'pilates-gym-dos' },
     { club: 'denges', jour: 'mardi',    heure: '10:00', duree: 45, cours: 'aqua-gym' },
     { club: 'denges', jour: 'mercredi', heure: '18:30', duree: 55, cours: 'les-mills-body-attack' },
@@ -980,9 +996,9 @@ window.DATA = {
     { club: 'geneve-la-praille', jour: 'lundi', heure: '10:30', duree: 55, cours: 'gym-douce-dos' },
     { club: 'meyrin', jour: 'mercredi', heure: '09:30', duree: 55, cours: 'gym-douce-dos' },
     { club: 'gland', jour: 'vendredi', heure: '12:15', duree: 55, cours: 'gym-douce-dos' },
-    { club: 'geneve-la-praille', jour: 'lundi', heure: '19:00', duree: 45, cours: 'les-mills-ceremony' },
-    { club: 'meyrin', jour: 'mercredi', heure: '19:00', duree: 45, cours: 'les-mills-ceremony' },
-    { club: 'gland', jour: 'vendredi', heure: '18:30', duree: 45, cours: 'les-mills-ceremony' },
+    { club: 'geneve-la-praille', jour: 'lundi', heure: '19:00', duree: 45, cours: 'les-mills-ceremony-hyrox' },
+    { club: 'meyrin', jour: 'mercredi', heure: '19:00', duree: 45, cours: 'les-mills-ceremony-hyrox' },
+    { club: 'gland', jour: 'vendredi', heure: '18:30', duree: 45, cours: 'les-mills-ceremony-hyrox' },
     { club: 'blandonnet', jour: 'lundi', heure: '18:00', duree: 55, cours: 'les-mills-shapes' },
     { club: 'versoix', jour: 'mercredi', heure: '18:00', duree: 55, cours: 'les-mills-shapes' },
     { club: 'signy', jour: 'vendredi', heure: '18:00', duree: 55, cours: 'les-mills-shapes' },
