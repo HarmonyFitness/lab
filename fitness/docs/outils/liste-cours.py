@@ -6,10 +6,14 @@ Harmony, pré-rempli avec les données du lab.
     python3 docs/outils/liste-cours.py        (depuis fitness/)
 
 Rien n'est saisi ici : tout est lu dans data/data.js, et le fichier se
-régénère à chaque fois que les données bougent. Un cours qui partage sa
-fiche avec un autre (memeFicheQue) ne fait qu'une ligne : c'est un seul
-cours pour le client, et ce sont les colonnes des clubs qui disent sous
-quelle forme il y est donné.
+régénère à chaque fois que les données bougent.
+
+Une ligne = une forme de vente. Quand la même pratique existe en cours
+collectif dans un club et en Small Group Training dans un autre, ça fait
+deux lignes, reliées par la colonne « Même cours que ». C'est ce que veut
+Echino, où les deux sont deux articles distincts avec deux codes, et ce
+que veulent les données : une durée et un nombre de places par forme, pas
+une moyenne des deux. Le site, lui, n'en fait qu'une page.
 
 Le document sert deux systèmes, le site et Echino. D'où deux clés en tête
 de tableau : notre identifiant, qui ne change jamais, et le code Echino,
@@ -36,21 +40,24 @@ var D = window.DATA;
 function nom(l, id) { var x = D.referentiels[l].find(function (y) { return y.id === id; }); return x ? x.nom : ''; }
 var clubs = D.clubs.map(function (c) {
   return { id: c.id, nom: c.nom, cat: c.categorie, canton: c.canton }; });
-var lignes = D.cours.filter(function (c) { return !c.memeFicheQue; }).map(function (c) {
-  var ids = D.cours.filter(function (x) { return x.id === c.id || x.memeFicheQue === c.id; });
-  var parClub = {}, durees = [];
+/* Une ligne par entrée, y compris celles qui partagent leur fiche : ce sont
+   deux formes de vente, donc deux lignes, reliées par memeFicheQue. */
+var lignes = D.cours.map(function (c) {
+  var mesClubs = {}, durees = [];
   D.seances.forEach(function (s) {
-    var e = ids.find(function (x) { return x.id === s.cours; }); if (!e) return;
-    parClub[s.club] = e.estExtra ? 'SGT' : 'Cours co';
-    durees.push(s.duree);
+    if (s.cours !== c.id) return;
+    mesClubs[s.club] = 1; durees.push(s.duree);
   });
-  return { id: c.id, nom: c.nom,
+  var f = c.famille ? D.referentiels.familles.find(function (x) { return x.id === c.famille; }) : null;
+  return { id: c.id, nom: c.nom, extra: !!c.estExtra, memeCours: c.memeFicheQue || '',
+    famille: f ? f.nom : '',
     objP: nom('objectifs', c.objectifPrincipal),
     objS: nom('objectifs', c.objectifSecondaire),
     intensite: nom('intensites', c.intensite), format: nom('formats', c.format),
-    clubs: parClub, durees: durees };
+    clubs: mesClubs, durees: durees };
 });
 console.log(JSON.stringify({ clubs: clubs, lignes: lignes,
+  familles: D.referentiels.familles.map(function (f) { return f.nom; }),
   objectifs: D.referentiels.objectifs.map(function (o) { return o.nom; }),
   intensites: D.referentiels.intensites.map(function (o) { return o.nom; }),
   formats: D.referentiels.formats.map(function (o) { return o.nom; }) }));
@@ -63,9 +70,27 @@ except (OSError, subprocess.CalledProcessError) as e:
 d = json.loads(brut.decode('utf-8'))
 clubs, lignes = d['clubs'], d['lignes']
 
+# La ligne SGT se place juste sous le cours collectif dont elle est l'autre
+# forme : côte à côte, le lien se voit sans avoir à lire la colonne.
+def rapprochees(liste):
+    par_id = dict((l['id'], l) for l in liste)
+    enfants = {}
+    for l in liste:
+        if l['memeCours'] in par_id:
+            enfants.setdefault(l['memeCours'], []).append(l)
+    sortie = []
+    for l in liste:
+        if l['memeCours'] in par_id:
+            continue
+        sortie.append(l)
+        sortie.extend(enfants.get(l['id'], []))
+    return sortie
+
+lignes = rapprochees(lignes)
+
 CAT = {'gym': 'Gym', 'essential': 'Essential', 'premium': 'Premium'}
-TYPES = ['Cours co', 'SGT', 'Les deux selon le club']
-FORMES = ['Cours co', 'SGT']
+TYPES = ['Cours co', 'SGT']
+COCHE = ['x']
 STATUTS = ['Actif', 'Nouveau', 'À retirer']
 LICENCES = ['Aucune', 'Les Mills', 'Hyrox', 'Les Mills + Hyrox', 'Autre']
 
@@ -98,8 +123,9 @@ wb = Workbook()
 # ------------------------------------------------------------------ Listes
 ls = wb.create_sheet('Listes')
 colonnes = [('Objectifs', d['objectifs']), ('Intensites', d['intensites']),
-            ('Formats', d['formats']), ('Types', TYPES), ('Formes', FORMES),
-            ('Statuts', STATUTS), ('Licences', LICENCES)]
+            ('Formats', d['formats']), ('Types', TYPES), ('Coche', COCHE),
+            ('Statuts', STATUTS), ('Licences', LICENCES),
+            ('Familles', ['Aucune'] + d['familles'])]
 for i, (titre, vals) in enumerate(colonnes, start=1):
     c = ls.cell(row=1, column=i, value=titre); c.font = BLANC; c.fill = F_ENTETE
     for j, v in enumerate(vals, start=2):
@@ -117,8 +143,9 @@ def plage(i, n):
 # ------------------------------------------------------------------ Cours
 ws = wb.create_sheet('Cours', 0)
 entetes = ['Identifiant', 'Code Echino', 'Cours', 'Statut', 'Type',
-           'Objectif principal', 'Objectif secondaire', 'Intensité', 'Format',
-           'Durée (min)', 'Licence', 'Places (petit groupe)']
+           'Même cours que', 'Famille (page hub)', 'Objectif principal',
+           'Objectif secondaire', 'Intensité', 'Format', 'Durée (min)',
+           'Licence', 'Places (petit groupe)']
 NB_FIXES = len(entetes)
 for c in clubs:
     entetes.append('%s\n(%s)' % (c['nom'], CAT[c['cat']]))
@@ -139,37 +166,39 @@ ws.row_dimensions[1].height = 36
 
 def controle(r):
     zone = '%s%d:%s%d' % (LG, r, LP, r)
-    attendu = ('IF(COUNTIF({z},"Cours co")>0,IF(COUNTIF({z},"SGT")>0,'
-               '"Les deux selon le club","Cours co"),"SGT")').format(z=zone)
+    connus = '$A$2:$A$%d' % derniere
     return (
         '=IF(C{r}="","",'
         'IF(E{r}="","Type à choisir",'
-        'IF(F{r}="","Objectif principal à choisir",'
-        'IF(H{r}="","Intensité à choisir",'
-        'IF(I{r}="","Format à choisir",'
-        'IF(COUNTIF({z},"Cours co")+COUNTIF({z},"SGT")=0,"Aucun club coché",'
-        'IF(E{r}={a},"OK","Type et clubs se contredisent")))))))'
-    ).format(r=r, z=zone, a=attendu)
+        'IF(H{r}="","Objectif principal à choisir",'
+        'IF(J{r}="","Intensité à choisir",'
+        'IF(K{r}="","Format à choisir",'
+        'IF(COUNTA({z})=0,"Aucun club coché",'
+        'IF(AND(F{r}<>"",COUNTIF({k},F{r})=0),"Même cours que : identifiant inconnu",'
+        'IF(AND(F{r}<>"",F{r}=A{r}),"Même cours que : la ligne se cite elle-même",'
+        '"OK")))))))) '
+    ).format(r=r, z=zone, k=connus).strip()
 
 VIDES = 25
 derniere = 1 + len(lignes) + VIDES
 
 for k, l in enumerate(lignes):
     r = 2 + k
-    formes = set(l['clubs'].values())
     ws.cell(row=r, column=1, value=l['id'])
     ws.cell(row=r, column=3, value=l['nom'])
     ws.cell(row=r, column=4, value='Actif')
-    ws.cell(row=r, column=5, value=('Les deux selon le club' if len(formes) > 1
-                                    else (list(formes)[0] if formes else '')))
-    ws.cell(row=r, column=6, value=l['objP'])
-    ws.cell(row=r, column=7, value=l['objS'])
-    ws.cell(row=r, column=8, value=l['intensite'])
-    ws.cell(row=r, column=9, value=l['format'])
-    ws.cell(row=r, column=10, value=duree(l))
-    ws.cell(row=r, column=11, value=licence(l['nom']))
+    ws.cell(row=r, column=5, value='SGT' if l['extra'] else 'Cours co')
+    ws.cell(row=r, column=6, value=l['memeCours'])
+    ws.cell(row=r, column=7, value=l['famille'] or 'Aucune')
+    ws.cell(row=r, column=8, value=l['objP'])
+    ws.cell(row=r, column=9, value=l['objS'])
+    ws.cell(row=r, column=10, value=l['intensite'])
+    ws.cell(row=r, column=11, value=l['format'])
+    ws.cell(row=r, column=12, value=duree(l))
+    ws.cell(row=r, column=13, value=licence(l['nom']))
     for j, c in enumerate(clubs):
-        ws.cell(row=r, column=G + j, value=l['clubs'].get(c['id'], ''))
+        if l['clubs'].get(c['id']):
+            ws.cell(row=r, column=G + j, value='x')
 
 for r in range(2, derniere + 1):
     neuve = r > 1 + len(lignes)
@@ -178,7 +207,7 @@ for r in range(2, derniere + 1):
         c.font = GRIS if i == 1 else NOIR
         c.border = BORD
         c.alignment = Alignment(
-            horizontal='center' if (G <= i <= P or i in (10, 12)) else 'left',
+            horizontal='center' if (G <= i <= P or i in (12, 14)) else 'left',
             vertical='center')
         if neuve and i != 1:
             c.fill = F_ASAISIR
@@ -198,11 +227,12 @@ def valide(formule, col_debut, col_fin=None):
 
 valide(plage(6, len(STATUTS)), 4)
 valide(plage(4, len(TYPES)), 5)
-valide(plage(1, len(d['objectifs'])), 6, 7)
-valide(plage(2, len(d['intensites'])), 8)
-valide(plage(3, len(d['formats'])), 9)
-valide(plage(7, len(LICENCES)), 11)
-valide(plage(5, len(FORMES)), G, P)
+valide(plage(8, len(d['familles']) + 1), 7)
+valide(plage(1, len(d['objectifs'])), 8, 9)
+valide(plage(2, len(d['intensites'])), 10)
+valide(plage(3, len(d['formats'])), 11)
+valide(plage(7, len(LICENCES)), 13)
+valide(plage(5, len(COCHE)), G, P)
 
 rouge = PatternFill('solid', fgColor='FCE4E4')
 vert = PatternFill('solid', fgColor='E8F3E8')
@@ -212,19 +242,21 @@ ws.conditional_formatting.add(
                 font=Font(name=POLICE, size=10, bold=True, color='9C0006')))
 for col in range(G, P + 1):
     L = get_column_letter(col)
+    # La couleur d'une case cochée vient du type de la ligne : on voit d'un
+    # coup d'oeil ce qui est inclus et ce qui est payant.
     ws.conditional_formatting.add('%s2:%s%d' % (L, L, derniere), FormulaRule(
-        formula=['$%s2="SGT"' % L], fill=rouge,
+        formula=['AND(%s2<>"",$E2="SGT")' % L], fill=rouge,
         font=Font(name=POLICE, size=10, bold=True, color='9C3B00')))
     ws.conditional_formatting.add('%s2:%s%d' % (L, L, derniere), FormulaRule(
-        formula=['$%s2="Cours co"' % L], fill=vert,
+        formula=['AND(%s2<>"",$E2="Cours co")' % L], fill=vert,
         font=Font(name=POLICE, size=10, color='2E5C2E')))
 
 ws.freeze_panes = 'D2'
 ws.auto_filter.ref = 'A1:%s%d' % (get_column_letter(COL_REM), derniere)
-largeurs = {1: 24, 2: 16, 3: 30, 4: 12, 5: 21, 6: 28, 7: 28, 8: 12, 9: 13,
-            10: 11, 11: 17, 12: 12, COL_CTRL: 30, COL_REM: 40}
+largeurs = {1: 24, 2: 16, 3: 30, 4: 12, 5: 11, 6: 24, 7: 18, 8: 28, 9: 28,
+            10: 12, 11: 13, 12: 11, 13: 17, 14: 12, COL_CTRL: 34, COL_REM: 40}
 for col in range(G, P + 1):
-    largeurs[col] = 15
+    largeurs[col] = 13
 for col, w in largeurs.items():
     ws.column_dimensions[get_column_letter(col)].width = w
 
@@ -279,9 +311,23 @@ contenu = [
              "aujourd'hui, à vérifier et à compléter"),
     ('vide', ''),
     ('h2', "Ce qu'on vous demande"),
-    ('p', "Onglet « Cours » : un cours par ligne, et pour chaque club, dire "
-          "si le cours y est donné et sous quelle forme. C'est la seule chose "
+    ('p', "Onglet « Cours » : une ligne par cours, et une croix dans la "
+          "colonne de chaque club où il est donné. C'est la seule chose "
           "urgente. Les onglets « Textes » et « Clubs » peuvent attendre."),
+    ('vide', ''),
+    ('h2', "La règle à retenir : une ligne = une forme de vente"),
+    ('p', "Un cours collectif est compris dans l'abonnement. Un Small Group "
+          "Training se paie en plus, en Extra. Ce sont deux choses "
+          "différentes, avec deux prix, deux durées parfois, et deux articles "
+          "dans Echino. Donc deux lignes."),
+    ('p', "Quand la même pratique existe sous les deux formes selon le club, "
+          "faites deux lignes et reliez-les par la colonne « Même cours que ». "
+          "Exemple, déjà dans le fichier : Cross Training est un cours "
+          "collectif à Versoix, et un Small Group Training à Genève · La "
+          "Praille et Genève · Pâquis. Deux lignes, et le site n'en fera "
+          "qu'une seule page."),
+    ('p', "Un club ne peut pas être coché sur les deux lignes d'un même "
+          "cours : il propose une forme ou l'autre, jamais les deux."),
     ('vide', ''),
     ('h2', "Les deux colonnes grises, à ne pas négliger"),
     ('p', "Identifiant · notre clé technique. Elle ne change jamais, même si "
@@ -289,14 +335,23 @@ contenu = [
           "elle qui permet de recharger ce fichier sans tout recasser."),
     ('p', "Code Echino · à vous. C'est le pont entre le site et Echino. Sans "
           "lui, les deux bases se rapprochent par le nom du cours, et ça casse "
-          "au premier accent ou au premier renommage."),
+          "au premier accent ou au premier renommage. Un code par ligne, donc "
+          "un code par forme de vente."),
     ('vide', ''),
     ('h2', 'Les autres colonnes'),
-    ('p', "Cours · le nom exact, tel qu'il doit apparaître sur le site."),
+    ('p', "Cours · le nom exact, tel qu'il doit apparaître sur le site. Les "
+          "deux lignes d'un même cours portent le même nom, c'est normal."),
     ('p', "Statut · Actif, Nouveau, ou À retirer. Ne supprimez pas une ligne : "
           "marquez-la À retirer, on saura quoi faire de l'existant."),
-    ('p', "Type · Cours co, SGT, ou « Les deux selon le club » quand la même "
-          "pratique est incluse ici et payante ailleurs."),
+    ('p', "Type · Cours co ou SGT. C'est lui qui donne sa couleur aux croix de "
+          "la ligne : vert pour ce qui est inclus, orange pour ce qui se paie."),
+    ('p', "Même cours que · l'identifiant de l'autre ligne, quand la même "
+          "pratique existe sous les deux formes. À remplir sur la ligne SGT, "
+          "en pointant la ligne du cours collectif."),
+    ('p', "Famille (page hub) · la page qui réunit les variantes d'une même "
+          "discipline, quand il y en a une : Pilates, Yoga, Les Mills, Aqua. "
+          "Un cours qui appartient à une famille est listé sur sa page en plus "
+          "du catalogue. « Aucune » si le cours ne se décline pas."),
     ('p', "Objectif principal · obligatoire. C'est lui qui range le cours dans "
           "le catalogue du site, classé par objectif. Un cours n'apparaît que "
           "dans un seul groupe, sinon le visiteur croit à deux cours."),
@@ -309,37 +364,25 @@ contenu = [
           "pas un produit : elle ne s'affiche jamais seule comme nom de cours."),
     ('p', "Places · seulement pour les petits groupes, le nombre de personnes "
           "maximum. C'est ce qui rend la réservation Echino nécessaire."),
-    ('p', "Une colonne par club · vide si le cours n'y est pas donné, sinon "
-          "Cours co (compris dans l'abonnement) ou SGT (payant, en Extra)."),
+    ('p', "Une colonne par club · une croix si le cours y est donné, rien "
+          "sinon."),
     ('p', "Contrôle · calculé, ne rien y écrire. La case devient rouge quand "
-          "il manque quelque chose ou quand le Type et les clubs se "
-          "contredisent."),
+          "il manque quelque chose."),
     ('vide', ''),
-    ('h2', 'Exemple de ligne'),
-    ('p', "HIIT · Type « Les deux selon le club » · Objectif principal « Se "
-          "dépenser » · Intensité « Intense » · Format « Salle » · Durée 45 · "
-          "Licence « Aucune » · Meyrin, Blandonnet, Genève · Eaux-Vives et "
-          "Signy en « Cours co » · Genève · La Praille en « SGT » · les autres "
-          "clubs laissés vides."),
-    ('vide', ''),
-    ('h2', "Deux points d'attention"),
-    ('p', "1. Un Small Group Training n'est pas un cours collectif au sens du "
-          "prix : il n'est compris dans aucune formule et s'ajoute à "
-          "l'abonnement. C'est la distinction la plus importante de ce "
-          "document, et la plus facile à rater : un planning ne dit pas si une "
-          "séance est incluse ou payante."),
-    ('p', "2. Un même nom peut porter les deux formes selon le club. C'est "
-          "prévu : une seule ligne, et ce sont les colonnes des clubs qui le "
-          "disent."),
+    ('h2', "Le point le plus facile à rater"),
+    ('p', "Un planning ne dit pas si une séance est incluse ou payante. C'est "
+          "exactement là que des Small Group Training nous ont été transmis "
+          "comme des cours collectifs. Pour chaque ligne, la question à se "
+          "poser est : est-ce que ça se paie en plus de l'abonnement ?"),
     ('vide', ''),
     ('h2', 'Les couleurs'),
-    ('p', "Jaune pâle · à remplir. Vert · cours compris dans l'abonnement. "
-          "Orange · Small Group Training. Rouge · une incohérence à regarder."),
+    ('p', "Jaune pâle · à remplir. Vert · une croix sur une ligne Cours co. "
+          "Orange · une croix sur une ligne SGT. Rouge · une incohérence à "
+          "regarder."),
     ('vide', ''),
     ('gris', "Les lignes déjà remplies viennent des plannings qui nous ont été "
              "transmis. Elles sont à vérifier, pas à prendre pour argent "
-             "comptant : c'est justement là que des cours collectifs et des "
-             "Small Group Training ont été confondus."),
+             "comptant."),
 ]
 r = 2
 for genre, txt in contenu:
