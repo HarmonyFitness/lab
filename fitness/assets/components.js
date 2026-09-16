@@ -817,8 +817,11 @@ window.HF.vues = (function () {
     var o = opts || {};
     var libelle = o.libelle || 'Choisissez votre club référent';
     if (etat.club) return clubReplie(etat, o);
+    /* sansTitre : quand le composant est déjà sous un titre de la page, il
+       n'en remet pas un. Deux titres qui se suivent pour un seul bloc
+       cassent la hiérarchie et se lisent comme deux sections. */
     return '<section class="choix-club" data-spec="B.3 > Page Tarifs > Trame > 2">' +
-      '<div><h2>' + esc(libelle) + '</h2>' +
+      '<div>' + (o.sansTitre ? '' : '<h2>' + esc(libelle) + '</h2>') +
       R.clubsParCanton().map(function (g) {
         return '<div class="choix-club__canton">' + esc(H.libelleCanton(g.canton)) + '</div>' +
           g.clubs.map(function (c) {
