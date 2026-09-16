@@ -2337,7 +2337,8 @@ Object.assign(window.HF.vues, (function () {
                phrase, sans liseré ni marqueur, sinon on ferait fuir d'un
                cours qui est inclus presque partout. */
             var forme = R.formeExtra(co.id, { club: f.club, categorie: f.categorie });
-            return '<div class="produit' + (forme === 'toujours' ? ' produit--extra' : '') + '">' +
+            return '<div class="produit produit--lien' +
+              (forme === 'toujours' ? ' produit--extra' : '') + '">' +
               '<h4><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a>' +
               (forme === 'toujours' ? ' <span class="extra__marque">Extra</span>' : '') + '</h4>' +
               attributsCours(co, { sansObjectif: true }) +
@@ -2392,7 +2393,7 @@ Object.assign(window.HF.vues, (function () {
          pratique, pas le mode d'accès. On le marque, sinon le visiteur le
          croit inclus comme ses voisins. */
       out += '<div class="grille grille--cartes">' + m.liens.map(function (co) {
-        return '<div class="produit"><h3><a href="' + H.lienCours(co, base) + '">' +
+        return '<div class="produit produit--lien"><h3><a href="' + H.lienCours(co, base) + '">' +
           esc(co.nom) + '</a>' +
           (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') +
           '</h3>' + attributsCours(co) +

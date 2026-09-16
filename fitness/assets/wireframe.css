@@ -263,6 +263,23 @@ a { color: var(--accent); }
   border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon); padding: 16px;
 }
 .produit--choisi { border-color: var(--gris-95); border-width: 2px; padding: 15px; }
+
+/* Carte qui mène quelque part : toute la surface est cliquable, pas
+   seulement le titre. Une carte dans une grille se lit comme un bouton, et
+   viser un titre au pouce sur mobile est pénible.
+   Le lien du titre reste le seul lien de la carte : il s'étire par-dessus
+   en ::after. Deux conséquences voulues. Un seul lien dans l'arbre
+   d'accessibilité, donc rien n'est annoncé deux fois à un lecteur d'écran.
+   Et aucun JavaScript : un clic sur la carte est un vrai clic sur un vrai
+   lien, qui s'ouvre dans un nouvel onglet au clic du milieu comme il faut.
+   Les liens à l'intérieur (la famille) repassent au-dessus de la nappe.
+   Contrepartie assumée : on ne peut plus sélectionner le texte de la carte. */
+.produit--lien { position: relative; }
+.produit--lien:hover { border-color: var(--gris-60); }
+.produit--lien:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.produit--lien h3 a::after,
+.produit--lien h4 a::after { content: ""; position: absolute; inset: 0; }
+.produit--lien a:not(h3 a):not(h4 a) { position: relative; z-index: 1; }
 .niveau { font-style: italic; color: var(--niveau); }
 .produit__acces { font-size: 13px; color: var(--gris-60); margin-bottom: 10px; }
 

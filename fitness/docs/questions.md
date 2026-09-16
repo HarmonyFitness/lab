@@ -1102,3 +1102,43 @@ cahier des charges est précisée, pas contredite.
 il reste de la famille Pilates : son fil d'Ariane donne
 `Accueil › Sport › Small Group Training › Pilates › TRX Pilates`. La famille
 dit la pratique, le hub dit le mode d'accès.
+
+### Q47 · Carte de cours cliquable en entier, sans bouton
+**Statut :** tranchée par Hugo le 2026-09-16
+**Source :** Hugo : « doit-on rendre les cartes cours (cours co, SGT)
+cliquables ou ajouter un CTA ? Plutôt que le titre cliquable ? »
+
+**La carte entière, sans bouton.** Une carte dans une grille se lit comme un
+bouton : on la vise, on tape dessus, et il ne se passait rien parce que seul
+le titre était cliquable. Sur mobile, viser un titre au pouce est pénible ;
+la carte fait 358 px de large.
+
+**Pourquoi pas un bouton par carte.** Le catalogue en compte cinquante et un.
+Cinquante et un boutons « Voir le cours » alourdissent la page, répètent la
+même chose, et surtout entrent en concurrence avec les vraies actions :
+« S'abonner », « Demander une séance d'essai ». Une carte de cours ne
+déclenche rien, elle emmène quelque part. La règle qui en sort :
+
+> Une carte qui mène quelque part est cliquable en entier. Une carte qui
+> déclenche une action porte un bouton.
+
+Les cartes produit de la page Tarifs gardent donc « Choisir [formule] » :
+elles ne mènent nulle part, elles enregistrent un choix.
+
+**Comment c'est fait.** Le lien du titre s'étire par-dessus la carte
+(`::after` en `inset: 0`), plutôt que d'envelopper la carte dans un `<a>` ou
+de poser un gestionnaire de clic. Trois raisons : envelopper la carte est
+impossible tant qu'elle contient un autre lien, celui de la famille, car des
+liens imbriqués sont invalides ; un seul lien reste dans l'arbre
+d'accessibilité, donc un lecteur d'écran n'annonce pas deux fois la même
+destination ; et sans JavaScript, le clic du milieu ouvre un nouvel onglet
+comme sur n'importe quel lien.
+
+Les liens à l'intérieur de la carte repassent au-dessus de la nappe par
+`z-index` : cliquer « Famille Pilates » mène bien à la famille, pas au cours.
+
+**Contrepartie assumée :** le texte d'une carte n'est plus sélectionnable.
+C'est le prix de cette technique, et il est faible sur une carte de catalogue.
+
+**Le bouton « Voir le cours » du hub Small Group Training disparaît**, pour que
+les cartes de cours se comportent partout pareil.
