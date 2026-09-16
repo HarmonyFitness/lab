@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Cours | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-16g">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-16h">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -37,9 +37,10 @@
   <template x-if="cible">
     <div>
       <main class="conteneur">
-        <div x-html="HF.vues.filAriane([
-          {nom:'Accueil',href:'../../'},{nom:'Sport',href:'../../sport/'},
-          {nom:'Cours collectifs',href:'../../sport/cours-collectifs/'},{nom:titre()}])"></div>
+        <!-- Un Small Group Training n'est pas un cours collectif : son fil
+             remonte vers son hub à lui. Une fiche partagée reste sous Cours
+             collectifs, puisque c'est sous cette forme qu'elle existe d'abord. -->
+        <div x-html="HF.vues.filAriane(ariane())"></div>
 
         <!-- Hero. H1 = le nom du cours ou de la famille, seul. -->
         <section data-spec="B.3 &gt; Cours collectifs &gt; H1 et title des pages cours">
@@ -52,7 +53,8 @@
               </p>
               <p x-show="cours && cours.estExtra">
                 <span class="extra__marque">Extra</span>
-                <span class="mention"> Ce cours n'est inclus dans aucune formule.</span>
+                <span class="mention"> Ce cours se prend en Extra, en option de
+                votre formule. Détail plus bas.</span>
               </p>
               <p x-text="description()"></p>
               <div x-show="cours" x-html="cours ? HF.vues.attributsCours(cours) : ''"></div>
@@ -98,8 +100,8 @@
     </div>
   </template>
 </div>
-<script src="../../data/data.js?v=2026-09-16g"></script>
-<script src="../../assets/components.js?v=2026-09-16g"></script>
+<script src="../../data/data.js?v=2026-09-16h"></script>
+<script src="../../assets/components.js?v=2026-09-16h"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -130,6 +132,15 @@ document.addEventListener('alpine:init', function () {
       titre: function () {
         var c = this.cible;
         return c ? c.nom : '';
+      },
+      ariane: function () {
+        var c = this.cours;
+        var hub = (c && c.estExtra)
+          ? { nom: 'Small Group Training', href: '../../sport/small-group-training/' }
+          : { nom: 'Cours collectifs', href: '../../sport/cours-collectifs/' };
+        return [{ nom: 'Accueil', href: '../../' },
+                { nom: 'Sport', href: '../../sport/' },
+                hub, { nom: this.titre() }];
       },
       /* B.3 : « Cours de [cours] à Genève et Vaud | Harmony », ou
          « [cours] à Genève et Vaud | Harmony » quand « cours de » sonne
@@ -179,6 +190,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-09-16g"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-09-16h"></script>
 </body>
 </html>

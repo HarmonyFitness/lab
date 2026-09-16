@@ -150,6 +150,17 @@ window.HF = (function () {
       return D.extras.filter(function (e) { return e.clubs.indexOf(idClub) !== -1; });
     },
 
+    /* Les Small Group Training donnés dans un club, lus sur le planning et
+       nulle part ailleurs. Sans club, toute la liste : la page Tarifs sans
+       club référent montre l'offre entière. */
+    sgtDuClub: function (idClub) {
+      var liste = regles.smallGroupTrainings();
+      if (!idClub) return liste;
+      var donnes = {};
+      D.seances.forEach(function (s) { if (s.club === idClub) donnes[s.cours] = 1; });
+      return liste.filter(function (c) { return donnes[c.id]; });
+    },
+
     /* La formule qui comprend les Extras. On la retrouve par son champ,
        jamais par son identifiant : demain il peut y en avoir une autre. */
     formuleAvecExtras: function () {
@@ -1052,6 +1063,19 @@ Object.assign(window.HF.vues, (function () {
      le lit et on l'ajoute.
      Vendu en ligne : prix + "Ajouter". Vendu en club : "Sur demande en
      club", sans prix ni bouton. */
+  /* Pour l'Extra qui regroupe les Small Group Training, la description
+     générique n'apprend rien : ce que le visiteur veut savoir, c'est ce qu'il
+     pourra faire dans SON club. On liste donc les trainings, lus sur le
+     planning. Un club sans séance encore saisie garde la description. */
+  function descriptionExtra(e, etat) {
+    if (e.type !== 'sgt') return esc(e.description);
+    var idClub = etat && etat.club;
+    var liste = R.sgtDuClub(idClub);
+    if (!liste.length) return esc(e.description);
+    return (idClub ? 'Dans ce club : ' : 'Selon les clubs : ') +
+      liste.map(function (c) { return esc(c.nom); }).join(' · ');
+  }
+
   function carteExtra(e, etat) {
     var enLigne = e.modeVente === 'en-ligne';
     var ajoute = (etat.extrasChoisis || []).indexOf(e.id) !== -1;
@@ -1059,7 +1083,7 @@ Object.assign(window.HF.vues, (function () {
     return '<div class="extra" data-spec="B.3 > Page Tarifs > Trame > 4 (Extras)">' +
       '<div class="extra__corps">' +
       '<strong>' + esc(e.nom) + '</strong> <span class="extra__marque">Extra</span>' +
-      '<p class="mention" style="margin:4px 0 0">' + esc(e.description) + '</p></div>' +
+      '<p class="mention" style="margin:4px 0 0">' + descriptionExtra(e, etat) + '</p></div>' +
       '<div class="extra__droite">' +
       (inclus
         ? '<span class="extra__inclus">Inclus avec la formule ' +

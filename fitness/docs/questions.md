@@ -334,6 +334,11 @@ clubs où chacun est proposé.
 - L'Extra « Service linge », que j'avais posé d'après la mention « les services
   (linge…) » de B.3, est remplacé par « Service Pressing », le nom donné par
   Hugo. Si les deux services sont distincts, il faut les rétablir tous les deux.
+- Un Small Group Training de remplissage, nommé « Lorem Ipsum », est donné
+  dans les neuf clubs sauf Genève · Pâquis (Hugo, 2026-09-16). Son nom dit ce
+  qu'il est : un placeholder, qui part le jour où Harmony donne la vraie liste.
+  Il sert à montrer que l'offre de trainings varie d'un club à l'autre, ce
+  qu'un seul vrai training par club ne montrait pas.
 - Le point « un Extra par Small Group Training » est tranché depuis : voir Q43.
   Il n'y a plus qu'un Extra pour tous les Small Group Training, donc plus de
   liste d'Extras à fournir de ce côté-là. Ce qui manque encore, c'est la liste

@@ -871,6 +871,17 @@ window.DATA = {
        et ce Small Group Training, « Ceremony Hyrox Max ». Le nom de la
        licence seul ne désigne rien et ne doit apparaître nulle part comme
        nom de produit (client, 2026-09-16, Q42). */
+    /* Small Group Training de remplissage, en attendant la liste d'Harmony
+       (Hugo, 2026-09-16, Q27). Donné partout sauf à Genève · Pâquis, pour
+       qu'un club au moins montre une offre différente des autres. Son nom
+       est un placeholder assumé : il part le jour où Harmony donne le vrai. */
+    { id: 'lorem-ipsum', nom: 'Lorem Ipsum', famille: null, traitement: 'page',
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: null,
+      intensite: 'modere', format: 'petit-groupe', estExtra: true, extra: 'small-group-training',
+      coachs: ['lea', 'thomas'],
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+      benefices: ['Ut enim ad minim veniam', 'Quis nostrud exercitation', 'Ullamco laboris nisi'] },
+
     { id: 'ceremony-hyrox-max', nom: 'Ceremony Hyrox Max', famille: null, traitement: 'page',
       objectifPrincipal: 'se-depasser', objectifSecondaire: null,
       intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'small-group-training',
@@ -930,6 +941,22 @@ window.DATA = {
     { club: 'geneve-paquis', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'cross-training-sgt' },
     { club: 'geneve-paquis', jour: 'jeudi',    heure: '18:30', duree: 45, cours: 'cross-training-sgt' },
     { club: 'geneve-paquis', jour: 'vendredi', heure: '12:15', duree: 45, cours: 'cross-training-sgt' },
+
+    /* Lorem Ipsum : tous les clubs sauf Genève · Pâquis. Les clubs de
+       l'Extra Small Group Training se complètent d'eux-mêmes à partir d'ici. */
+    { club: 'blandonnet',        jour: 'lundi',    heure: '12:15', duree: 45, cours: 'lorem-ipsum' },
+    { club: 'blandonnet',        jour: 'jeudi',    heure: '18:30', duree: 45, cours: 'lorem-ipsum' },
+    { club: 'geneve-eaux-vives', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'lorem-ipsum' },
+    { club: 'geneve-eaux-vives', jour: 'vendredi', heure: '18:00', duree: 45, cours: 'lorem-ipsum' },
+    { club: 'geneve-la-praille', jour: 'mercredi', heure: '07:15', duree: 45, cours: 'lorem-ipsum' },
+    { club: 'meyrin',            jour: 'mercredi', heure: '12:15', duree: 45, cours: 'lorem-ipsum' },
+    { club: 'meyrin',            jour: 'vendredi', heure: '07:15', duree: 45, cours: 'lorem-ipsum' },
+    { club: 'versoix',           jour: 'lundi',    heure: '18:30', duree: 45, cours: 'lorem-ipsum' },
+    { club: 'veyrier',           jour: 'mardi',    heure: '18:30', duree: 45, cours: 'lorem-ipsum' },
+    { club: 'veyrier',           jour: 'samedi',   heure: '10:00', duree: 45, cours: 'lorem-ipsum' },
+    { club: 'denges',            jour: 'jeudi',    heure: '12:15', duree: 45, cours: 'lorem-ipsum' },
+    { club: 'gland',             jour: 'lundi',    heure: '19:00', duree: 45, cours: 'lorem-ipsum' },
+    { club: 'signy',             jour: 'mercredi', heure: '18:30', duree: 45, cours: 'lorem-ipsum' },
 
     { club: 'meyrin', jour: 'lundi',    heure: '12:15', duree: 45, cours: 'les-mills-body-pump' },
     { club: 'meyrin', jour: 'lundi',    heure: '19:00', duree: 55, cours: 'hiit' },
