@@ -1127,7 +1127,11 @@ Object.assign(window.HF.vues, (function () {
         : '';
     }
 
-    if (o.pied && etat.club) pied = o.pied(p);
+    /* Le pied fourni par la page décide seul, club ou pas : sur une landing,
+       une carte sans club doit quand même porter l'étape suivante, sinon
+       elle n'a aucune action (Hugo, 2026-09-16). Sans pied fourni, la règle
+       de B.3 tient : pas de bouton de souscription sans club référent. */
+    if (o.pied) pied = o.pied(p, etat);
 
     /* Le bloc bas est collé en pied de carte, et ne contient que le prix, le
        total et le bouton : trois éléments de hauteur constante. Les prix se

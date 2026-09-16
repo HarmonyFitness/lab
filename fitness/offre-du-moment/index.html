@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Offre du moment | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-17a">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-17c">
 </head>
 <body>
 
@@ -96,13 +96,6 @@
                d'arriver pour la première. -->
           <div x-show="!offres().length"
                x-html="HF.vues.annoncePromo(etat, { lienBase: '../tarifs/' + (etat.club ? '?club=' + etat.club : '') })"></div>
-
-          <!-- Sans club, la ligne n'est pas une impasse : elle descend au
-               bloc du choix, qui est maintenant plus bas dans la page. -->
-          <div style="margin-top:12px" x-show="offres().length"
-               x-html="HF.vues.ligneSansClub(etat, {
-                 texte: 'Choisissez votre club pour profiter de l\'offre.',
-                 lien: { href: '#club', libelle: 'Choisir mon club' } })"></div>
 
           <div class="grille grille--cartes" style="margin-top:12px">
             <template x-for="p in offres()" :key="p.id">
@@ -219,8 +212,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-17a"></script>
-<script src="../assets/components.js?v=2026-09-17a"></script>
+<script src="../data/data.js?v=2026-09-17c"></script>
+<script src="../assets/components.js?v=2026-09-17c"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageOffre', function () {
@@ -295,8 +288,17 @@ document.addEventListener('alpine:init', function () {
       },
       /* B.3 : « Profiter de l'offre » part droit au tunnel, avec l'offre et le
          club en paramètre. Pas de barre récap ici : sur une landing, on ne
-         compose pas un panier, on prend l'offre annoncée par la pub. */
-      bouton: function (p) {
+         compose pas un panier, on prend l'offre annoncée par la pub.
+         Sans club, la carte porte quand même une action, l'étape suivante :
+         une carte sans bouton sur une landing est une impasse, et c'était le
+         cas ici (Hugo, 2026-09-16). Ce n'est pas un bouton de souscription,
+         la règle de B.3 tient toujours. */
+      bouton: function (p, etat) {
+        /* etat vient de carteProduit, pas de `this` : la fonction est passée
+           en référence, elle perd son contexte. */
+        if (!etat.club) {
+          return '<a class="btn btn--bloc" href="#club">Choisir mon club</a>';
+        }
         return '<button type="button" class="btn btn--bloc" data-act="profiter" data-id="' +
           p.id + '">Profiter de l\'offre</button>';
       },
@@ -327,7 +329,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-17a"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-17c"></script>
 
 </body>
 </html>

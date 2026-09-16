@@ -1351,6 +1351,15 @@ d'essai.
   ils se mettent à jour : une note figée dans le CMS vieillit mal.
 - **Les témoignages** : de vrais membres, avec leur club.
 
+**Une correction dans la foulée.** Sans club, les cartes n'avaient aucun
+bouton : B.3 interdit un bouton de souscription tant que le club référent n'est
+pas choisi, et j'avais appliqué la règle à la lettre. Résultat, sur une landing,
+des cartes en cul-de-sac. Elles portent maintenant « Choisir mon club », qui
+descend au bloc du club. Ce n'est pas un bouton de souscription : la règle tient,
+la page ne laisse plus le visiteur sans rien à faire. La ligne d'explication
+au-dessus des cartes a disparu du même coup, elle aurait dit deux fois la même
+chose.
+
 **Une répétition assumée.** Quand un club est déjà choisi, le bouton est sur la
 carte en haut et dans la dernière étape en bas. Ce n'est pas un produit
 dupliqué, c'est la même action rappelée en fin de page, ce que fait toute
