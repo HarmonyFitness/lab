@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Cours | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-16b">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-16c">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -98,8 +98,8 @@
     </div>
   </template>
 </div>
-<script src="../../data/data.js?v=2026-09-16b"></script>
-<script src="../../assets/components.js?v=2026-09-16b"></script>
+<script src="../../data/data.js?v=2026-09-16c"></script>
+<script src="../../assets/components.js?v=2026-09-16c"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -113,7 +113,11 @@ document.addEventListener('alpine:init', function () {
       get cours() {
         var f = this.famille;
         if (f && f.coursGenerique) return HF.cours(f.coursGenerique);
-        return f ? null : HF.cours(this.id);
+        if (f) return null;
+        var c = HF.cours(this.id);
+        /* Une entrée qui partage sa fiche avec une autre n'a pas de page à
+           elle : on rend celle qu'elle désigne. */
+        return (c && c.memeFicheQue) ? HF.cours(c.memeFicheQue) : c;
       },
       get estFamille() { return !!this.famille; },
       get cible() { return this.famille || this.cours; },
@@ -175,6 +179,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-09-16b"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-09-16c"></script>
 </body>
 </html>

@@ -1917,10 +1917,21 @@ Object.assign(window.HF.regles, (function () {
     return D.extras.filter(function (e) { return e.type === 'sgt'; });
   }
 
-  /* Créneaux d'un cours, groupés par club. */
+  /* Les entrées qui partagent une fiche : le cours lui-même, et celles qui
+     pointent sur lui. Une fiche montre tout ce qui vit dessus. */
+  function coursDeLaFiche(idCours) {
+    return D.cours.filter(function (c) {
+      return c.id === idCours || c.memeFicheQue === idCours;
+    });
+  }
+
+  /* Créneaux d'un cours, groupés par club. Une fiche partagée rassemble les
+     créneaux de ses deux entrées : le visiteur cherche où pratiquer, pas
+     comment c'est rangé dans le CMS. */
   function creneauxDuCours(idCours) {
+    var ids = coursDeLaFiche(idCours).map(function (c) { return c.id; });
     var parClub = {};
-    D.seances.filter(function (s) { return s.cours === idCours; }).forEach(function (s) {
+    D.seances.filter(function (s) { return ids.indexOf(s.cours) !== -1; }).forEach(function (s) {
       (parClub[s.club] = parClub[s.club] || []).push(s);
     });
     return Object.keys(parClub).map(function (idClub) {
@@ -2055,7 +2066,8 @@ Object.assign(window.HF.regles, (function () {
     smallGroupTrainings: smallGroupTrainings,
     creneauxDuCours: creneauxDuCours, creneauxDeFamille: creneauxDeFamille,
     coachsDuCours: coachsDuCours, coachsDeFamille: coachsDeFamille,
-    coachsPersonnels: coachsPersonnels, catalogueParObjectif: catalogueParObjectif,
+    coachsPersonnels: coachsPersonnels, coursDeLaFiche: coursDeLaFiche,
+    catalogueParObjectif: catalogueParObjectif,
     categoriesDuCours: categoriesDuCours, coursFiltre: coursFiltre,
     coursAccessible: coursAccessible, categorieSansCours: categorieSansCours
   };
@@ -2311,14 +2323,26 @@ Object.assign(window.HF.vues, (function () {
       }).join('') + '</tbody></table></section>';
   }
 
-  /* Bloc « en Extra » d'une fiche Small Group Training. */
+  /* Bloc « en Extra » d'une fiche Small Group Training.
+     Une fiche peut être partagée par deux entrées : le cours collectif, inclus,
+     et le Small Group Training du même nom, payant. Le bloc sort alors sur la
+     fiche du cours inclus, avec une autre phrase : il ne s'agit plus de dire
+     « ce cours est un Extra » mais « dans certains clubs, il l'est ». */
   function blocExtraDuCours(co, base) {
-    if (!co.estExtra || !co.extra) return '';
-    var e = H.extra(co.extra); if (!e) return '';
+    var entree = R.coursDeLaFiche(co.id).filter(function (c) {
+      return c.estExtra && c.extra;
+    })[0];
+    if (!entree) return '';
+    var e = H.extra(entree.extra); if (!e) return '';
+    var partage = entree.id !== co.id;
     return '<section data-spec="B.3 > Sport > Fiches cours (Extra)">' +
       '<div class="produit">' +
-      '<h2>' + esc(e.nom) + ' <span class="extra__marque">Extra</span></h2>' +
-      '<p>Ce cours n\'est inclus dans aucune formule : c\'est un Extra de votre abonnement.</p>' +
+      '<h2>' + (partage ? 'Aussi en Small Group Training' : esc(e.nom)) +
+      ' <span class="extra__marque">Extra</span></h2>' +
+      '<p>' + (partage
+        ? 'Dans certains clubs, ce cours est donné en petit groupe avec un coach. ' +
+          'Cette formule-là n\'est comprise dans aucun abonnement : c\'est un Extra.'
+        : 'Ce cours n\'est inclus dans aucune formule : c\'est un Extra de votre abonnement.') + '</p>' +
       '<p><strong>' + prixTexte(e.prix) + '</strong></p>' +
       '<p class="mention">Proposé à : ' + e.clubs.map(function (id) {
         var c = H.club(id); return c ? esc(c.nom) : esc(id);

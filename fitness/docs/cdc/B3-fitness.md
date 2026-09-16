@@ -222,6 +222,8 @@ Principe : l'utile d'abord, la conviction ensuite. Une grande partie des visiteu
 
 **Variante Gym.** Le hero met en avant les horaires élargis. Pas de cours collectifs inclus : le planning (bloc 4) n'affiche que les Small Group Training, marqués « Extra », et le bloc 5 est remplacé par le bloc Extras. Passerelle secondaire : « Envie de cours collectifs ? Ils sont inclus dès la formule Essential. »
 
+**Un même nom, plusieurs formes.** Cross Training est à la fois une zone du plateau qu'on utilise en autonomie, un cours collectif encadré par un coach, et un Small Group Training à Genève · Pâquis. La zone vit sur la page Plateau fitness. Les deux cours partagent **une seule fiche** : un format n'est jamais une page, c'est un filtre, et deux pages du même nom se cannibaliseraient au référencement. La fiche rassemble les créneaux des deux et porte un bloc « Aussi en Small Group Training » qui dit que cette forme-là est un Extra. Conséquence pour le CMS : **le caractère Extra se juge sur la séance, pas sur le cours** : la même pratique est incluse à Meyrin et payante à Pâquis, et le planning marque « Extra » là où elle l'est.
+
 **Destination des cours.** Chaque cours du planning a une destination : sa fiche, la page de famille avec ancre sur la bonne section pour une variante, la page mère pour un niveau ou un format. Champ « destination » à prévoir par cours dans le CMS.
 
 ### SEO des pages clubs

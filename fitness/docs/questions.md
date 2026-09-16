@@ -873,7 +873,30 @@ Appliqué :
   exception, les titles SEO, parce que c'est le mot que les gens cherchent :
   le title du hub Small Group Training garde « Hyrox ».
 
-**Le point à confirmer : Cross Training portait déjà deux sens.**
+**Confirmé par le client le 2026-09-16 : Cross Training a bien trois formes,
+et les trois sont justes.**
+- une **zone du plateau**, qu'on utilise en autonomie avec le matériel adapté.
+  Elle vit sur la page Plateau fitness, elle n'est pas un cours.
+- un **cours collectif**, en groupe avec un coach, inclus dans les formules.
+  Rétabli à Meyrin et Denges.
+- un **Small Group Training** à Genève · Pâquis, payant en Extra.
+
+Retenu dans les maquettes : les deux cours partagent **une seule fiche**,
+`/cours/cross-training`. Deux pages du même nom se cannibaliseraient au
+référencement, et B.3 dit déjà qu'un format n'est jamais une page mais un
+filtre. La fiche rassemble les créneaux des deux formes et porte un bloc
+« Aussi en Small Group Training » qui explique que celle-là est un Extra.
+
+**La vraie question que ça pose au modèle de contenu**, et elle est
+structurante : le caractère Extra ne tient pas au cours, il tient à la séance.
+La même pratique est incluse à Meyrin et payante à Pâquis. Dans les maquettes
+je porte la distinction avec deux entrées de cours, dont la seconde renvoie à
+la fiche de la première. Au CMS, c'est un choix à faire, et il appartient à la
+section 7 (Q36) : soit deux produits liés, soit un cours dont chaque séance dit
+si elle est incluse ou en Extra. La seconde option est plus juste mais elle
+change la saisie du planning.
+
+**Historique du point, désormais clos.**
 - B.3 le cite comme une **zone du plateau fitness** (musculation, cardio,
   fonctionnel, cross training)
 - la liste de juillet en faisait un **cours collectif en salle**, que j'avais

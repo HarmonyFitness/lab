@@ -496,7 +496,7 @@ window.DATA = {
 
     { id: 'cross-training', nom: 'Cross Training', type: 'sgt',
       clubs: ['geneve-paquis'],
-      modeVente: 'en-ligne', prix: null, idMetier: null, cours: 'cross-training',
+      modeVente: 'en-ligne', prix: null, idMetier: null, cours: 'cross-training-sgt',
       description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.' },
 
     { id: 'service-pressing', nom: 'Service Pressing', type: 'service',
@@ -749,15 +749,15 @@ window.DATA = {
       coachs: ['thomas'],
       description: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur.',
       benefices: ['Neque porro quisquam', 'Est qui dolorem ipsum', 'Quia dolor sit amet'] },
-    /* Cross Training est le Small Group Training de Genève · Pâquis, pas un
-       cours collectif : un club Gym n'en propose aucun. Il était saisi en
-       cours collectif en salle à Meyrin et Denges, ce qui venait de la liste
-       de juillet. À confirmer s'il existe aussi comme cours collectif
-       ailleurs : le même nom ne peut pas être inclus ici et payant là sans
-       qu'on le dise (Q42). */
+    /* Cross Training existe sous trois formes, et les trois sont justes
+       (client, 2026-09-16, Q42) : une zone du plateau qu'on utilise en
+       autonomie, ce cours collectif encadré par un coach, et un Small Group
+       Training à Genève · Pâquis. La zone vit sur la page Plateau fitness,
+       les deux cours se partagent une seule fiche : un format n'est jamais
+       une page, c'est un filtre (B.3). */
     { id: 'cross-training', nom: 'Cross Training', famille: null, traitement: 'page',
       objectifPrincipal: 'se-depenser', objectifSecondaire: null,
-      intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'cross-training',
+      intensite: 'intense', format: 'salle', estExtra: false, extra: null,
       coachs: ['thomas', 'karim'],
       description: 'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.',
       benefices: ['Quis autem vel eum iure', 'Reprehenderit qui in ea', 'Voluptate velit esse'] },
@@ -853,6 +853,20 @@ window.DATA = {
       benefices: [] },
 
     /* --- Small Group Training : un Extra, pas un cours inclus --------- */
+    /* Même nom et même fiche que le cours collectif Cross Training : c'est
+       la même pratique, en petit groupe et payante ici. memeFicheQue évite
+       deux pages pour un seul nom, qui se cannibaliseraient au référencement
+       et sèmeraient le doute. Ce qui distingue les deux, c'est le club où la
+       séance est donnée : le planning marque « Extra » à Pâquis et rien
+       ailleurs. */
+    { id: 'cross-training-sgt', nom: 'Cross Training', famille: null, traitement: 'page',
+      memeFicheQue: 'cross-training',
+      objectifPrincipal: 'se-depenser', objectifSecondaire: null,
+      intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'cross-training',
+      coachs: ['thomas', 'karim'],
+      description: 'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.',
+      benefices: ['Quis autem vel eum iure', 'Reprehenderit qui in ea', 'Voluptate velit esse'] },
+
     { id: 'ceremony-hyrox-max', nom: 'Ceremony Hyrox Max', famille: null, traitement: 'page',
       objectifPrincipal: 'se-depasser', objectifSecondaire: null,
       intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'ceremony-hyrox-max',
@@ -898,11 +912,13 @@ window.DATA = {
   /* Training. Le format aqua n'existe que dans les clubs Premium.         */
   /* ------------------------------------------------------------------ */
   seances: [
+    { club: 'meyrin', jour: 'jeudi',  heure: '12:15', duree: 45, cours: 'cross-training' },
+    { club: 'denges', jour: 'lundi',  heure: '12:15', duree: 45, cours: 'cross-training' },
     /* Genève · Pâquis, club Gym : uniquement des Small Group Training.
        Planning donné par le client le 2026-09-16. */
-    { club: 'geneve-paquis', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'cross-training' },
-    { club: 'geneve-paquis', jour: 'jeudi',    heure: '18:30', duree: 45, cours: 'cross-training' },
-    { club: 'geneve-paquis', jour: 'vendredi', heure: '12:15', duree: 45, cours: 'cross-training' },
+    { club: 'geneve-paquis', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'cross-training-sgt' },
+    { club: 'geneve-paquis', jour: 'jeudi',    heure: '18:30', duree: 45, cours: 'cross-training-sgt' },
+    { club: 'geneve-paquis', jour: 'vendredi', heure: '12:15', duree: 45, cours: 'cross-training-sgt' },
 
     { club: 'meyrin', jour: 'lundi',    heure: '12:15', duree: 45, cours: 'les-mills-body-pump' },
     { club: 'meyrin', jour: 'lundi',    heure: '19:00', duree: 55, cours: 'hiit' },
@@ -1033,6 +1049,13 @@ window.DATA = {
     return D.referentiels.familles.find(function (f) { return f.id === id; }) || null;
   }
   D.cours.forEach(function (c) {
+    /* Deux entrées peuvent partager une fiche : même nom, même pratique, un
+       format et un mode d'accès différents. On ne crée pas deux pages. */
+    if (c.memeFicheQue) {
+      c.destination = '/cours/' + c.memeFicheQue;
+      c.aSaPage = false;
+      return;
+    }
     var f = c.famille ? famille(c.famille) : null;
 
     if (!f) { c.destination = '/cours/' + c.id; c.aSaPage = true; return; }
