@@ -358,6 +358,10 @@ a { color: var(--accent); }
   padding: 0 6px; white-space: nowrap; }
 
 
+/* Une carte de cours en Extra dans le catalogue. Le liseré suffit à la
+   distinguer du coin de l'oeil ; le mot « Extra » fait le reste. */
+.produit--extra { border-left: 3px solid var(--gris-80); }
+
 .indispo {
   border: 1px solid var(--gris-20); background: var(--gris-05);
   border-radius: var(--rayon); padding: 12px 14px; font-size: 13px; margin-top: 14px;

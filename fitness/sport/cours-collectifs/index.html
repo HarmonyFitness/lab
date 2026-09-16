@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Cours collectifs fitness à Genève et Vaud | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-16j">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-16n">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -33,6 +33,15 @@
     <section data-spec="B.3 &gt; Titres de la branche Sport">
       <h1>Cours collectifs</h1>
       <p><strong>Inclus dès la formule Essential</strong></p>
+      <!-- Un Small Group Training est un cours collectif, en petit groupe et
+           payant. Il a sa place dans ce catalogue, à condition que la page
+           dise dès le départ que tout n'y est pas inclus (Q45). -->
+      <p class="mention"><span class="extra__marque">Extra</span>
+         Les cours marqués Extra sont donnés en petit groupe avec un coach :
+         ils s'ajoutent à votre abonnement, et sont compris dans la formule
+         Premium <span class="niveau">Platinum</span>.
+         <a class="lien-texte" href="../small-group-training/">Voir les Small
+         Group Training</a></p>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod
          tempor incididunt ut labore et dolore magna aliqua.</p>
     </section>
@@ -69,23 +78,31 @@
   </main>
   <div x-html="HF.vues.pied()"></div>
 </div>
-<script src="../../data/data.js?v=2026-09-16j"></script>
-<script src="../../assets/components.js?v=2026-09-16j"></script>
+<script src="../../data/data.js?v=2026-09-16n"></script>
+<script src="../../assets/components.js?v=2026-09-16n"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
     return {
       etat: HF.etatInitial(),
       init: function () { HF.brancher(this.$el, this.etat); HF.brancherSelecteur(this.$el, this.etat); },
+      /* Le nombre annoncé est celui du catalogue affiché. On sépare ce qui
+         est inclus de ce qui est en Extra : un total unique ferait croire
+         que tout vient avec l'abonnement. */
       compte: function () {
-        var n = HF.regles.catalogueParObjectif(this.etat.filtres)
-          .reduce(function (t, g) { return t + g.cours.length; }, 0);
-        return n + ' cours' + (n > 1 ? '' : '');
+        var f = this.etat.filtres;
+        var liste = HF.regles.catalogueParObjectif(f)
+          .reduce(function (t, g) { return t.concat(g.cours); }, []);
+        var extras = liste.filter(function (c) {
+          return HF.regles.formeExtra(c.id, { club: f.club, categorie: f.categorie }) === 'toujours';
+        }).length;
+        return liste.length + ' cours' +
+          (extras ? ', dont ' + extras + ' en Extra' : '');
       }
     };
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-09-16j"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-09-16n"></script>
 </body>
 </html>

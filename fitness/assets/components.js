@@ -2024,9 +2024,10 @@ Object.assign(window.HF.regles, (function () {
   /* Les catégories de clubs où ce cours est donné. Jamais saisi : déduit des
      séances, comme les clubs d'un cours. */
   function categoriesDuCours(idCours) {
+    var ids = coursDeLaFiche(idCours).map(function (c) { return c.id; });
     var vus = {};
     D.seances.forEach(function (s) {
-      if (s.cours !== idCours) return;
+      if (ids.indexOf(s.cours) === -1) return;
       var c = H.club(s.club);
       if (c) vus[c.categorie] = 1;
     });
@@ -2068,29 +2069,78 @@ Object.assign(window.HF.regles, (function () {
   /* Un cours passe-t-il les filtres du hub ? Une seule règle, utilisée par le
      catalogue et par le planning, pour qu'ils ne divergent jamais. */
   function coursFiltre(c, f) {
+    /* Une fiche partagée porte deux entrées : le cours collectif et le Small
+       Group Training du même nom. Les filtres qui portent sur la séance ou
+       sur le format regardent les deux, sinon HIIT disparaît dès qu'on filtre
+       le club où il n'est donné qu'en Extra. */
+    var entrees = coursDeLaFiche(c.id);
     if (f.objectif && c.objectifPrincipal !== f.objectif) return false;
     if (f.intensite && c.intensite !== f.intensite) return false;
-    if (f.format && c.format !== f.format) return false;
+    if (f.format && !entrees.some(function (x) { return x.format === f.format; })) return false;
     if (f.categorie && !coursAccessible(c.id, f.categorie)) return false;
-    if (f.club && !R.seancesDuClub(f.club).some(function (s) { return s.cours === c.id; })) return false;
+    if (f.club && !entrees.some(function (x) {
+      return R.seancesDuClub(f.club).some(function (s) { return s.cours === x.id; });
+    })) return false;
     if (!correspondRecherche(c, f.recherche)) return false;
     return true;
+  }
+
+  /* Sous quelle forme ce cours se paie-t-il ?
+     '' : inclus partout. 'toujours' : c'est un Small Group Training, donc un
+     Extra partout où il est donné. 'parfois' : la même pratique est incluse
+     dans certains clubs et en Extra dans d'autres, deux entrées, une fiche.
+     Déduit des données : personne ne saisit cette information. */
+  function formeExtra(idCours, portee) {
+    var entrees = coursDeLaFiche(idCours);
+    var p = portee || {};
+    /* Avec un club ou une catégorie en filtre, la réponse se restreint à ce
+       périmètre : HIIT est « parfois » un Extra dans l'absolu, mais à
+       Genève · La Praille il l'est toujours. Dire « parfois » à quelqu'un qui
+       a choisi son club, c'est le laisser payer sans le savoir. */
+    if (p.club || p.categorie) {
+      var cat = p.categorie ? H.categorie(p.categorie) : null;
+      var donnes = {};
+      D.seances.forEach(function (s) {
+        if (p.club && s.club !== p.club) return;
+        if (cat) {
+          var cl = H.club(s.club);
+          if (!cl || cat.couvre.indexOf(cl.categorie) === -1) return;
+        }
+        donnes[s.cours] = 1;
+      });
+      entrees = entrees.filter(function (c) { return donnes[c.id]; });
+    }
+    if (!entrees.length) return '';
+    var extras = entrees.filter(function (c) { return c.estExtra; });
+    if (!extras.length) return '';
+    return extras.length === entrees.length ? 'toujours' : 'parfois';
   }
 
   /* Une catégorie de clubs qui ne propose aucun cours collectif : le cas
      existe (Gym). Déduit des données, pas écrit en dur : si Harmony en
      ajoute un jour, le message disparaît tout seul. */
   function categorieSansCours(idCat) {
-    if (!idCat) return false;
-    return !D.cours.some(function (c) {
-      return !c.estExtra && coursAccessible(c.id, idCat);
+    var cat = idCat ? H.categorie(idCat) : null;
+    if (!cat) return false;
+    /* La question se pose sur les séances, pas sur les cours : une fiche
+       partagée existe dans les deux formes, et c'est le club qui tranche.
+       Compter les cours ferait croire à un cours collectif en Gym parce que
+       la même pratique est incluse ailleurs. */
+    return !D.seances.some(function (s) {
+      var co = H.cours(s.cours); if (!co || co.estExtra) return false;
+      var cl = H.club(s.club);
+      return cl && cat.couvre.indexOf(cl.categorie) !== -1;
     });
   }
 
   function catalogueParObjectif(filtres) {
     var f = filtres || {};
     var visibles = D.cours.filter(function (c) {
-      if (c.estExtra) return false;
+      /* Un Small Group Training est un cours collectif payant : il a sa place
+         ici, marqué « Extra » (Hugo, 2026-09-16, Q45). Ce qu'on ne veut pas,
+         c'est deux cartes du même nom : une entrée qui partage sa fiche avec
+         une autre n'est pas une entrée du catalogue, c'est la même carte. */
+      if (c.memeFicheQue) return false;
       if (c.traitement === 'filtre-intensite' || c.traitement === 'filtre-format') return false;
       return coursFiltre(c, f);
     });
@@ -2113,6 +2163,7 @@ Object.assign(window.HF.regles, (function () {
     coachsPersonnels: coachsPersonnels, coursDeLaFiche: coursDeLaFiche,
     catalogueParObjectif: catalogueParObjectif,
     categoriesDuCours: categoriesDuCours, coursFiltre: coursFiltre,
+    formeExtra: formeExtra,
     coursAccessible: coursAccessible, categorieSansCours: categorieSansCours
   };
 })());
@@ -2206,7 +2257,7 @@ Object.assign(window.HF.vues, (function () {
       '</div>';
 
     var visibles = D.seances.filter(function (s) {
-      var co = H.cours(s.cours); if (!co || co.estExtra) return false;
+      var co = H.cours(s.cours); if (!co) return false;
       if (f.club && s.club !== f.club) return false;
       /* Accès cumulatif, comme au catalogue : filtrer Premium garde les
          séances des clubs Essential et Gym, puisque la formule Premium y
@@ -2230,14 +2281,23 @@ Object.assign(window.HF.vues, (function () {
         duJour.map(function (s) {
           var co = H.cours(s.cours), c = H.club(s.club);
           return '<tr><td>' + esc(s.heure) + '</td>' +
-            '<td><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a></td>' +
+            '<td><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a>' +
+            (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') + '</td>' +
             '<td><a href="' + base + 'clubs/club/?club=' + c.id + '">' + esc(c.nom) + '</a></td>' +
             '<td>' + esc(s.duree) + ' min</td></tr>';
         }).join('');
     });
 
+    /* Le planning mêle des séances incluses et des séances en Extra : on le
+       dit une fois, en tête, plutôt que de laisser le marqueur s'expliquer
+       tout seul. La ligne ne sort pas si rien n'est en Extra. */
+    var mixte = visibles.some(function (s) {
+      var co = H.cours(s.cours); return co && co.estExtra;
+    });
+
     return '<section id="planning" data-spec="B.3 > Sport > Cours collectifs (hub)">' +
       '<h2>Planning type</h2>' + filtres +
+      (mixte ? '<p class="mention">Inclus dans votre abonnement, sauf mention « Extra ».</p>' : '') +
       (corps
         ? '<table class="planning"><thead><tr><th>Heure</th><th>Cours</th><th>Club</th>' +
           '<th>Durée</th></tr></thead><tbody>' + corps + '</tbody></table>'
@@ -2247,16 +2307,34 @@ Object.assign(window.HF.vues, (function () {
 
   /* Catalogue rangé par les 6 objectifs (B.3 > Cours collectifs (hub)). */
   function catalogueCours(etat, base) {
-    var groupes = R.catalogueParObjectif(etat.filtres || {});
+    var f = etat.filtres || {};
+    var groupes = R.catalogueParObjectif(f);
     return '<section id="catalogue" data-spec="B.3 > Sport > Cours collectifs (hub)">' +
       '<h2>Nos cours par objectif</h2>' +
+      (raisonCategorie(etat, base) && groupes.length
+        ? '<p class="mention">' + raisonCategorie(etat, base) + '</p>' : '') +
       (groupes.length ? groupes.map(function (g) {
         return '<h3 style="margin-top:24px">' + esc(g.objectif.nom) + aValider(g.aValider) + '</h3>' +
           '<div class="grille grille--cartes">' + g.cours.map(function (co) {
             var fam = co.famille ? H.famille(co.famille) : null;
-            return '<div class="produit"><h4><a href="' + H.lienCours(co, base) + '">' +
-              esc(co.nom) + '</a></h4>' +
+            /* Un Small Group Training se lit dans le catalogue comme les
+               autres, mais jamais comme les autres : la carte porte le mot
+               Extra et dit en clair ce que ça coûte en plus. */
+            /* Trois cas, trois traitements. Inclus partout : rien de plus.
+               Extra partout : le liseré, le mot et la phrase, parce que c'est
+               un autre produit. Extra dans certains clubs seulement : une
+               phrase, sans liseré ni marqueur, sinon on ferait fuir d'un
+               cours qui est inclus presque partout. */
+            var forme = R.formeExtra(co.id, { club: f.club, categorie: f.categorie });
+            return '<div class="produit' + (forme === 'toujours' ? ' produit--extra' : '') + '">' +
+              '<h4><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a>' +
+              (forme === 'toujours' ? ' <span class="extra__marque">Extra</span>' : '') + '</h4>' +
               attributsCours(co, { sansObjectif: true }) +
+              (forme
+                ? '<p class="mention">' + (forme === 'toujours'
+                    ? 'En option de votre formule, pas inclus'
+                    : 'Inclus, sauf dans les clubs où il est donné en Extra') + '</p>'
+                : '') +
               (fam ? '<p class="mention">Famille ' + esc(fam.nom) + '</p>' : '') +
               (co.traitement === null
                 ? '<p><span class="wf-avalider">page ou section à trancher</span></p>' : '') +
@@ -2273,8 +2351,8 @@ Object.assign(window.HF.vues, (function () {
     var f = etat.filtres || {};
     if (!R.categorieSansCours(f.categorie)) return '';
     var cat = H.categorie(f.categorie);
-    return 'Les clubs ' + esc(cat.nom) + ' ne proposent pas de cours collectifs. ' +
-      'Des Small Group Training y sont proposés en Extra. ' +
+    return 'Les clubs ' + esc(cat.nom) + ' ne proposent aucun cours collectif ' +
+      'inclus dans la formule. Ce qui s\'y donne est en Extra, marqué comme tel. ' +
       '<a class="lien-texte" href="' + (base || '') +
       'sport/small-group-training/">Voir les Small Group Training</a>';
   }

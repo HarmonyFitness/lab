@@ -1019,3 +1019,49 @@ et n'ont pas d'équivalent en cours collectif.
 d'une fiche partagée était construit mais jamais affiché : la condition
 d'affichage regardait l'entrée principale de la fiche, qui est un cours
 collectif. Corrigé : elle regarde maintenant toutes les entrées de la fiche.
+
+### Q45 · Les Small Group Training entrent dans le catalogue des cours collectifs
+**Statut :** tranchée par Hugo le 2026-09-16
+**Source :** Hugo : « techniquement, un Small Group Training est un cours
+collectif. Donc pourquoi pas les faire remonter dans les cours collectifs mais
+visuellement bien montrer que ce sont des Small Group Training et que ça
+sous-entend un Extra. Par contre garder quand même la page
+/sport/small-group-training/. »
+
+**Il a raison, et ça réparait un trou.** Un visiteur qui cherchait HIIT à
+Genève · La Praille ne trouvait rien : le cours existe, il a une fiche, mais le
+catalogue le cachait parce qu'il est payant là-bas. Pâquis, lui, apparaissait
+comme un club sans aucun cours.
+
+**Ce qui a été fait.**
+- Le catalogue et le planning type du hub contiennent les Small Group Training.
+- Trois traitements sur la carte, selon ce que le cours coûte vraiment :
+  inclus partout, rien de plus ; Extra partout, liseré, marqueur « Extra » et
+  « En option de votre formule, pas inclus » ; Extra dans certains clubs
+  seulement, la phrase sans le marqueur, sinon on ferait fuir d'un cours qui
+  est inclus presque partout.
+- Le planning marque « Extra » sur les séances concernées, sous la ligne
+  « Inclus dans votre abonnement, sauf mention Extra ».
+- Le compteur annonce « 51 cours, dont 5 en Extra ».
+- La page `/sport/small-group-training/` reste : elle explique le principe,
+  porte le prix de l'Extra et capte les recherches propres à ces cours.
+
+**Les garde-fous, parce que c'est là que ça peut déraper.**
+1. **Le nombre de cours d'une formule ne change pas** : il ne compte que ce qui
+   est inclus. Le catalogue montre plus que ce que la formule promet, et c'est
+   l'affichage qui dit la différence, jamais le compte.
+2. **Filtrer un club ou une formule restreint la réponse à ce périmètre.** HIIT
+   est « parfois » un Extra dans l'absolu, mais à La Praille il l'est toujours.
+   Dire « parfois » à quelqu'un qui a choisi son club, c'est le laisser payer
+   sans le savoir.
+3. **Une fiche partagée reste une seule carte.** Deux cartes du même nom
+   feraient croire à deux cours.
+4. **Le message Gym se calcule sur les séances, pas sur les cours.** Sinon la
+   fiche partagée de Cross Training, incluse ailleurs, faisait croire à un
+   cours collectif inclus à Pâquis.
+
+**Ce que ça laisse ouvert :** la page `/sport/cours-collectifs/` promet
+« Inclus dès la formule Essential » en sous-titre, et montre maintenant des
+cours qui ne le sont pas. La mention sous le titre le dit, mais si Harmony
+trouve que ça brouille la promesse, l'autre option est de reléguer les Extras
+dans une section en fin de catalogue.
