@@ -643,10 +643,60 @@ window.HF.vues = (function () {
       '</div></footer>';
   }
 
+  /* Pied de landing : la même logique que le header. On garde ce qu'on ne
+     peut pas retirer, les mentions légales, et un seul lien utile, le
+     contact. Le reste emmènerait ailleurs (Q50). */
+  function piedLanding(base) {
+    return '<footer class="pied pied--landing" data-spec="B.3 > Tarifs et offres > Offre du moment (variante à valider)">' +
+      '<div class="pied__inner"><div class="pied__bas">' +
+      '<a href="' + (base || '') + 'nous-contacter/">Nous contacter</a> · ' +
+      'Mentions légales · Confidentialité · Harmony Fitness</div></div></footer>';
+  }
+
   function filAriane(items) {
     return '<nav class="fil">' + items.map(function (it, i) {
       return (i ? ' &rsaquo; ' : '') + (it.href ? '<a href="' + it.href + '">' + esc(it.nom) + '</a>' : esc(it.nom));
     }).join('') + '</nav>';
+  }
+
+  /* Header de landing (Hugo, 2026-09-16, Q50). Une page de campagne a un
+     seul but : prendre l'offre annoncée par la publicité. Tout ce qui
+     emmène ailleurs, menu, espace membre, séance d'essai, coûte des
+     conversions payées au clic. Reste le logo, qui est la sortie de
+     secours attendue de tout le monde, et une action.
+     Ce header n'est pas dans B.3 : c'est une variante à valider. */
+  function enteteLanding(base, opts) {
+    var o = opts || {};
+    return '<header class="entete entete--landing" data-spec="B.3 > Tarifs et offres > Offre du moment (variante à valider)">' +
+      '<div class="entete__inner">' +
+      '<a class="entete__logo" href="' + (base || '') + '">Harmony Fitness</a>' +
+      '<div class="entete__actions">' +
+      (o.cta
+        ? '<a class="btn" href="' + o.cta.href + '">' + esc(o.cta.libelle) + '</a>'
+        : '') +
+      '</div></div></header>';
+  }
+
+  /* Hero de landing : la photo porte la promesse, le panneau porte le nom,
+     l'échéance et l'action. La photo va d'un bord à l'autre, elle n'est pas
+     une illustration à côté du texte : sur une page de campagne, c'est elle
+     qu'on voit avant de lire. */
+  function heroLanding(o) {
+    var opt = o || {};
+    return '<section class="hero-landing" data-spec="B.3 > Tarifs et offres > Offre du moment">' +
+      '<div class="hero-landing__photo">' +
+      blocImage(opt.photo || 'Visuel de campagne, pleine largeur', 'landing') + '</div>' +
+      '<div class="hero-landing__panneau">' +
+      (opt.surtitre ? '<p class="hero-landing__sur">' + esc(opt.surtitre) + '</p>' : '') +
+      '<h1>' + (opt.titreHtml || esc(opt.titre || '')) + '</h1>' +
+      (opt.texte ? '<p>' + esc(opt.texte) + '</p>' : '') +
+      (opt.compteur || '') +
+      (opt.cta
+        ? '<p class="hero-landing__actions"><a class="btn" href="' + opt.cta.href + '">' +
+          esc(opt.cta.libelle) + '</a></p>'
+        : '') +
+      (opt.mention ? '<p class="mention">' + esc(opt.mention) + '</p>' : '') +
+      '</div></section>';
   }
 
   function blocImage(legende, variante) {
@@ -826,7 +876,9 @@ window.HF.vues = (function () {
       }).join('') + '</div>';
   }
   return {
-    barreGroupe: barreGroupe, entete: entete, pied: pied, filAriane: filAriane,
+    barreGroupe: barreGroupe, entete: entete, enteteLanding: enteteLanding,
+    heroLanding: heroLanding, pied: pied, piedLanding: piedLanding,
+    filAriane: filAriane,
     blocImage: blocImage, badgeCategorie: badgeCategorie, panneauCategorie: panneauCategorie,
     moduleCategories: moduleCategories, carte: carte, choixClub: choixClub,
     clubReplie: clubReplie, pastillesMobile: pastillesMobile, cartePleinEcran: cartePleinEcran,

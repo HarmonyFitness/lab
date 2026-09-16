@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Offre du moment | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-16u">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-16w">
 </head>
 <body>
 
@@ -35,46 +35,47 @@
     </p>
   </div>
 
-  <div x-html="HF.vues.barreGroupe()"></div>
-  <div x-html="HF.vues.entete('Tarifs', '../')"></div>
+  <!-- Header de landing : logo et une seule action. Ni menu, ni espace
+       membre, ni séance d'essai, et pas de barre groupe : sur une page de
+       campagne, tout ce qui emmène ailleurs coûte des conversions payées au
+       clic. Variante non prévue par B.3, à valider (Q50). -->
+  <div x-html="HF.vues.enteteLanding('../', { cta: ctaEntete() })"></div>
 
   <main class="conteneur">
 
     <!-- ====================================================== BLOC 1 -->
-    <!-- Hero : reprendre la promesse de la pub. Le compteur est ici, une
-         seule fois pour toute la page : sur une landing de campagne,
-         l'échéance est celle de la campagne, pas d'un produit. -->
-    <section data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment" style="padding-top:28px">
-      <template x-if="campagne">
-        <div>
-          <h1>
-            <span x-text="titreCampagne()"></span>
-            <span class="wf-avalider" x-show="!nomConnu()">nom de la campagne à saisir</span>
-          </h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do
-             eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <div style="margin-top:12px" x-html="HF.vues.compteur(HF.regles.finOffre(etat))"></div>
-        </div>
-      </template>
+    <!-- Hero de landing : la photo porte la promesse, le panneau porte le
+         nom, l'échéance et l'action. Le compteur est ici, une seule fois
+         pour la page : les cartes ne le répètent pas. -->
+    <template x-if="campagne">
+      <div x-html="HF.vues.heroLanding({
+        photo: 'Visuel de campagne, pleine largeur',
+        surtitre: 'Offre du moment',
+        titreHtml: titreCampagneHtml(),
+        texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        compteur: HF.vues.compteur(HF.regles.finOffre(etat)),
+        cta: { libelle: offres().length ? 'Profiter de l\'offre' : 'Voir les produits en promotion', href: '#offre' }
+      })"></div>
+    </template>
 
-      <!-- Sans campagne : la page reste, l'entrée disparaît du menu. On ne
-           renvoie pas une 404 sur une adresse qui vit dans des pubs déjà
-           diffusées et dans des e-mails déjà envoyés. -->
-      <template x-if="!campagne">
-        <div>
-          <h1>Pas d'offre en ce moment</h1>
-          <p>Nos tarifs restent accessibles, et la séance d'essai aussi.</p>
-          <p style="margin-top:16px">
-            <a class="btn" href="../tarifs/">Voir tous nos tarifs</a>
-            <a class="btn btn--secondaire" href="../seance-essai/">Demander une séance d'essai</a>
-          </p>
-          <p class="mention" style="margin-top:12px">
-            L'entrée « Offre du moment » est retirée du menu tant qu'aucune
-            campagne ne tourne.
-          </p>
-        </div>
-      </template>
-    </section>
+    <!-- Sans campagne : la page reste, l'entrée disparaît du menu. On ne
+         renvoie pas une 404 sur une adresse qui vit dans des pubs déjà
+         diffusées et dans des e-mails déjà envoyés. Pas de hero de campagne
+         non plus : il n'y a pas de promesse à porter. -->
+    <template x-if="!campagne">
+      <section data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment" style="padding-top:28px">
+        <h1>Pas d'offre en ce moment</h1>
+        <p>Nos tarifs restent accessibles, et la séance d'essai aussi.</p>
+        <p style="margin-top:16px">
+          <a class="btn" href="../tarifs/">Voir tous nos tarifs</a>
+          <a class="btn btn--secondaire" href="../seance-essai/">Demander une séance d'essai</a>
+        </p>
+        <p class="mention" style="margin-top:12px">
+          L'entrée « Offre du moment » est retirée du menu tant qu'aucune
+          campagne ne tourne.
+        </p>
+      </section>
+    </template>
 
     <template x-if="campagne">
       <div>
@@ -90,7 +91,7 @@
         </section>
 
         <!-- ====================================================== BLOC 3 -->
-        <section style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
+        <section id="offre" style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
           <h2 x-text="offres().length ? 'L\'offre' : 'Ce qui est en promotion'"></h2>
 
           <!-- Campagne sans produit dédié : la remise porte sur des produits
@@ -140,12 +141,13 @@
       </div>
     </template>
 
-    <div style="margin-top:40px"
-         x-html="HF.vues.ctaEssai('../', 'B.3 &gt; Tarifs et offres &gt; Offre du moment')"></div>
+    <!-- Pas de CTA séance d'essai ici, et ce n'est pas un oubli : B.3 ne le
+         met pas dans les blocs de cette page, et sur une landing il entrerait
+         en concurrence avec « Profiter de l'offre ». -->
 
   </main>
 
-  <div x-html="HF.vues.pied()"></div>
+  <div x-html="HF.vues.piedLanding('../')"></div>
 
   <!-- Carte en plein écran sur mobile -->
   <template x-if="etat.carteOuverte">
@@ -154,8 +156,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-16u"></script>
-<script src="../assets/components.js?v=2026-09-16u"></script>
+<script src="../data/data.js?v=2026-09-16w"></script>
+<script src="../assets/components.js?v=2026-09-16w"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageOffre', function () {
@@ -204,6 +206,22 @@ document.addEventListener('alpine:init', function () {
         document.title = (this.campagne ? this.titreCampagne() : 'Offre du moment') +
           ' | Harmony';
       },
+      /* Le header de landing ne porte qu'une action. Tant qu'une campagne
+         tourne, elle emmène à l'offre ; sinon, aux tarifs, parce qu'il n'y a
+         plus rien à prendre ici. */
+      ctaEntete: function () {
+        return this.campagne
+          ? { libelle: "Profiter de l'offre", href: '#offre' }
+          : { libelle: 'Voir nos tarifs', href: '../tarifs/' };
+      },
+      /* Le titre du hero passe en HTML : un nom de formule peut porter son
+         niveau en italique, et l'échapper l'afficherait en clair. */
+      titreCampagneHtml: function () {
+        var offres = this.offres();
+        if (offres.length === 1) return HF.nomProduitHtml(offres[0]);
+        return HF.esc(this.titreCampagne()) +
+          (this.nomConnu() ? '' : ' <span class="wf-avalider">nom de la campagne à saisir</span>');
+      },
       /* B.3 : « Profiter de l'offre » part droit au tunnel, avec l'offre et le
          club en paramètre. Pas de barre récap ici : sur une landing, on ne
          compose pas un panier, on prend l'offre annoncée par la pub. */
@@ -232,7 +250,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-16u"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-16w"></script>
 
 </body>
 </html>

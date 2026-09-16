@@ -1233,3 +1233,41 @@ pas d'affichage.
 la page, donc les cartes ne portent plus leur pastille « jours restants » ici :
 le même nombre deux fois à l'écran ne renseigne personne. Sur /tarifs, où il
 n'y a pas de hero de campagne, la règle inverse continue de s'appliquer.
+
+### Q50 · Un header et un pied réduits sur la landing de campagne
+**Statut :** demandé par Hugo le 2026-09-16, à valider par Harmony
+**Source :** Hugo : « j'aimerais que ça ressemble plus à une landing page avec
+hero spécial. Il faut une photo en place. Et je réfléchis du coup à pousser
+l'idée de la landing page et avoir une version 2 du header. Sans distraction à
+part s'abonner ou bien choisir son offre promotionnelle. »
+
+**Pourquoi c'est justifié.** Cette page est la destination d'annonces payées.
+Chaque sortie du parcours, menu, espace membre, séance d'essai, barre groupe,
+est un clic acheté qui ne convertit pas. Le reste du site sert à explorer ;
+cette page sert à prendre l'offre annoncée.
+
+**Ce qui est en place.**
+- **Hero de campagne** : photo pleine largeur du conteneur, panneau posé
+  dessus qui porte le sur-titre « Offre du moment », le nom, l'échéance et
+  l'action. En mobile le panneau passe sous la photo : un texte sur une image
+  n'est lisible ni l'un ni l'autre sur 390 px.
+- **Header réduit** : le logo et une seule action, « Profiter de l'offre »,
+  qui descend à l'offre. Pas de menu, pas d'espace membre, pas de séance
+  d'essai, pas de barre groupe. Le logo reste cliquable : c'est la sortie de
+  secours que tout le monde cherche, et la retirer est plus irritant
+  qu'efficace.
+- **Pied réduit** : mentions légales et un lien de contact. Le reste
+  emmènerait ailleurs.
+- **Pas de CTA séance d'essai.** Ce n'est pas un oubli : B.3 ne le met pas
+  dans les blocs de cette page, et sur une landing il entrerait en concurrence
+  avec « Profiter de l'offre ».
+
+**Ce que ça ouvre.** Si la variante est validée, elle ne concerne pas que cette
+page : toute landing de campagne future en hériterait, et le gabarit vaut aussi
+pour une page d'atterrissage d'annonce sur un club ou sur un cours. Il faudra
+alors décider si c'est un gabarit du CMS ou un réglage par page.
+
+**Ce que je n'ai pas pu faire.** Hugo renvoie aux pages d'offres.harmony.ch
+pour la direction visuelle. Ce domaine n'est pas joignable depuis
+l'environnement de travail : la maquette suit les conventions de landing et le
+système graphique du lab, pas ces pages-là. À recaler sur captures.

@@ -141,6 +141,8 @@ Page Offre du moment
 - **Pas de barre récap ici.** Sur une landing, on ne compose pas un panier : « Profiter de l'offre » part droit au tunnel, avec l'offre et le club référent en paramètre. C'est la seule page où la carte produit change de bouton (`carteProduit(p, etat, { pied: ... })`).
 - Sans campagne, la page reste, avec un message court et deux liens. On ne renvoie pas une 404 sur une adresse qui vit dans des publicités déjà diffusées et des e-mails déjà envoyés. C'est l'entrée du menu qui disparaît, pas la page.
 - Le title se remet à jour quand l'état change (`x-effect`), pas seulement au chargement : le contenu de la page change avec la campagne.
+- **Gabarit de landing, pas gabarit de site** (Hugo, 2026-09-16, Q50). La page est la destination d'annonces payées : chaque sortie du parcours est un clic acheté qui ne convertit pas. D'où `enteteLanding` (logo + une action), `heroLanding` (photo pleine largeur, panneau posé dessus), `piedLanding` (mentions légales et contact), pas de barre groupe, pas de CTA séance d'essai. Le logo reste cliquable : c'est la sortie de secours que tout le monde cherche.
+- Variante non prévue par B.3, à valider par Harmony. Si elle passe, elle vaut pour toute landing de campagne, pas seulement celle-ci.
 
 Cours
 - Vocabulaire strict : "catégorie" est réservé aux clubs (Gym, Essential, Premium). Pour les cours on dit **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours). Ne jamais écrire "catégorie de cours".
