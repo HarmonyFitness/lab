@@ -83,7 +83,8 @@ Clubs et catégories
 - Une seule graphie, **Gym**, jamais GYM en capitales (décision Hugo, 2026-09-15, Q34). Idem en club, dans l'appli et dans Echino.
 - 3 catégories : Gym (Pâquis), Essential (Blandonnet, Eaux-Vives, Gland, Meyrin, Signy, Versoix), Premium (Denges, La Praille, Veyrier). Le mot est "catégorie".
 - Accès : Premium couvre tous les clubs, Essential couvre Essential et Gym, Gym couvre Pâquis.
-- La ligne d'accès d'une catégorie se dit avec "dès" : "Accessible dès la formule Essential". Une énumération ("avec les formules Essential et Premium") devient fausse dès qu'une formule s'ajoute, et il faut alors la corriger partout.
+- La ligne d'accès d'une catégorie se dit avec "dès" : "Accessible dès la formule Essential". Une énumération ("avec les formules Essential et Premium") devient fausse dès qu'une formule s'ajoute, et il faut alors la corriger partout. Ce n'est pas théorique : la page Coaching personnel et le hub Sport disaient encore "Essential et Premium" un jour après la naissance de Premium Platinum (Q48).
+- **La règle vaut pour toute ligne d'inclusion, pas seulement pour l'accès aux clubs**, et elle ne se saisit pas : `HF.vues.ligneInclusion(id)` la déduit des formules. Trois réponses possibles, "dans toutes les formules", "dès la formule X", ou "En Extra de votre abonnement" quand aucune formule ne la comprend. Une phrase écrite dans une page est une phrase que personne ne corrigera.
 - Les prix dépendent de la catégorie, jamais du club.
 - Listes de clubs groupées par canton, ordre alphabétique, catégorie affichée à côté du nom.
 - Un regroupement géographique s'écrit toujours **"Canton de Genève"**, jamais "Genève" seul : Meyrin, Versoix et Blandonnet ne sont pas dans la ville de Genève (décision Hugo, 2026-09-15). Même formule pour les deux cantons, y compris dans les titres du hub : "Nos clubs dans le canton de Genève". Le nom d'une commune, lui, reste nu : "Genève · Pâquis".

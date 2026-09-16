@@ -1142,3 +1142,42 @@ C'est le prix de cette technique, et il est faible sur une carte de catalogue.
 
 **Le bouton « Voir le cours » du hub Small Group Training disparaît**, pour que
 les cartes de cours se comportent partout pareil.
+
+### Q48 · « Inclus dès Essential » contre « dans les formules Essential et Premium »
+**Statut :** corrigé le 2026-09-16
+**Source :** Hugo, sur `/sport` : « Pour Cours collectifs on dit "Inclus dès la
+formule Essential". Pour Coaching personnel on dit "Des séances incluses dans
+les formules Essential et Premium". Cohérent ? »
+
+**Non, et l'énumération était déjà fausse.** Premium Platinum comprend elle
+aussi des séances de coaching. La phrase datait d'avant sa création : elle est
+devenue fausse le jour où la formule est née, et personne ne l'a vue, y compris
+moi, y compris en relisant la page pour d'autres raisons.
+
+C'est exactement ce que la règle du « dès » sert à éviter. Elle existait déjà
+pour l'accès aux clubs ; elle n'avait pas été appliquée aux lignes d'inclusion.
+
+**Ce qui est fait.** Ces phrases ne sont plus écrites dans les pages : elles se
+déduisent des formules, avec `HF.vues.ligneInclusion(id)`. Trois réponses
+possibles :
+
+| Cas | Ce qui s'affiche |
+|---|---|
+| Toutes les formules la comprennent | Inclus dans toutes les formules |
+| Certaines seulement | Inclus dès la formule [la première, dans l'ordre] |
+| Aucune | En Extra de votre abonnement |
+
+Le hub Sport et la page Coaching personnel lisent cette fonction. Le jour où
+une formule s'ajoute, ou change ce qu'elle comprend, les quatre lignes suivent
+toutes seules.
+
+**Le cahier des charges portait la même faute.** Le sous-titre de la page
+Coaching personnel, dans B.3, énumérait « Essential, Premium et Premium
+Platinum » : il avait donc déjà été corrigé une fois. Il dit maintenant « dès
+la formule Essential », avec la raison, pour que la correction ne soit pas à
+refaire.
+
+**Ce que ça ne change pas :** la mention « Pas de séances de coaching incluses
+dans la formule Gym » reste. Dire ce qui commence à Essential ne dit pas
+explicitement ce qui manque en Gym, et sur cette page-là c'est une question que
+les visiteurs se posent.

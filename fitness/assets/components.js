@@ -161,6 +161,18 @@ window.HF = (function () {
       return liste.filter(function (c) { return donnes[c.id]; });
     },
 
+    /* Les formules qui comprennent une ligne d'inclusion, dans l'ordre.
+       Sert à dire « dès la formule X » sans jamais énumérer : une
+       énumération devient fausse le jour où une formule s'ajoute, et
+       Premium Platinum l'a prouvé (Q48). */
+    formulesAvec: function (idInclusion) {
+      return D.produits
+        .filter(function (p) {
+          return p.type === 'formule' && p.inclus && p.inclus[idInclusion];
+        })
+        .sort(function (a, b) { return (a.ordre || 0) - (b.ordre || 0); });
+    },
+
     /* La formule qui comprend les Extras. On la retrouve par son champ,
        jamais par son identifiant : demain il peut y en avoir une autre. */
     formuleAvecExtras: function () {
@@ -2382,6 +2394,19 @@ Object.assign(window.HF.vues, (function () {
       (raisonCategorie(etat, base) || 'Aucune séance ne correspond à ces filtres.') + '</p>';
   }
 
+  /* La ligne « ce qui l'inclut » d'une discipline, déduite des formules.
+     Trois cas : toutes les formules la comprennent, certaines seulement, ou
+     aucune, et c'est alors un Extra. Personne ne saisit cette phrase : elle
+     se recalcule le jour où une formule change. */
+  function ligneInclusion(idInclusion, opts) {
+    var prefixe = (opts && opts.prefixe) || 'Inclus';
+    var avec = R.formulesAvec(idInclusion);
+    var toutes = D.produits.filter(function (p) { return p.type === 'formule'; });
+    if (!avec.length) return 'En Extra de votre abonnement';
+    if (avec.length === toutes.length) return prefixe + ' dans toutes les formules';
+    return prefixe + ' dès la formule ' + H.nomProduitHtml(avec[0]);
+  }
+
   /* Bloc « variantes » : actif seulement sur une page de famille. */
   function blocVariantes(idFamille, base) {
     var f = H.famille(idFamille); if (!f) return '';
@@ -2500,7 +2525,7 @@ Object.assign(window.HF.vues, (function () {
     attributsCours: attributsCours, nomObjectif: nomObjectif,
     nomIntensite: nomIntensite, nomFormat: nomFormat,
     filtresCours: filtresCours, planningType: planningType, catalogueCours: catalogueCours,
-    blocVariantes: blocVariantes,
+    blocVariantes: blocVariantes, ligneInclusion: ligneInclusion,
     creneaux: creneaux, blocExtraDuCours: blocExtraDuCours
   };
 })());

@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Musculation, cours collectifs et coaching | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-16q">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-16r">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -15,7 +15,9 @@
     H1 et title repris tels quels de B.3 &gt; Titres de la branche Sport.
     L'ordre des blocs suit ce qui est inclus : plateau fitness (toutes les
     formules), cours collectifs (dès Essential), Small Group Training (Extra
-    payant), coaching personnel (séances incluses en Essential et Premium).
+    payant), coaching personnel (séances incluses dès Essential). Les lignes
+    « inclus » ne sont pas écrites ici : elles se déduisent des formules, sinon
+    elles deviennent fausses le jour où une formule s'ajoute (Q48).
   </p></div>
   <div x-html="HF.vues.barreGroupe()"></div>
   <div x-html="HF.vues.entete('Sport', '../')"></div>
@@ -34,7 +36,7 @@
             <div x-html="HF.vues.blocImage(p.photo, 'large')"></div>
             <h2 style="margin-top:14px" x-text="p.titre"></h2>
             <p x-text="p.texte"></p>
-            <p class="mention"><strong x-text="p.inclus"></strong></p>
+            <p class="mention"><strong x-html="p.inclus"></strong></p>
             <div class="produit__pied">
               <a class="btn btn--secondaire" :href="p.href" x-text="p.lien"></a>
             </div>
@@ -55,8 +57,8 @@
 
   <div x-html="HF.vues.pied()"></div>
 </div>
-<script src="../data/data.js?v=2026-09-16q"></script>
-<script src="../assets/components.js?v=2026-09-16q"></script>
+<script src="../data/data.js?v=2026-09-16r"></script>
+<script src="../assets/components.js?v=2026-09-16r"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -65,11 +67,11 @@ document.addEventListener('alpine:init', function () {
       piliers: [
         { titre: 'Plateau fitness', href: 'plateau-fitness/', lien: 'Voir le plateau fitness',
           photo: 'Photo plateau musculation',
-          inclus: 'Inclus dans toutes les formules',
+          inclus: HF.vues.ligneInclusion('plateau'),
           texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.' },
         { titre: 'Cours collectifs', href: 'cours-collectifs/', lien: 'Voir les cours collectifs',
           photo: 'Photo cours collectif en salle',
-          inclus: 'Inclus dès la formule Essential',
+          inclus: HF.vues.ligneInclusion('cours'),
           texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.' },
         { titre: 'Small Group Training', href: 'small-group-training/', lien: 'Voir le Small Group Training',
           photo: 'Photo entraînement en petit groupe',
@@ -77,7 +79,7 @@ document.addEventListener('alpine:init', function () {
           texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.' },
         { titre: 'Coaching personnel', href: 'coaching-personnel/', lien: 'Voir le coaching personnel',
           photo: 'Photo séance de coaching',
-          inclus: 'Des séances incluses dans les formules Essential et Premium',
+          inclus: HF.vues.ligneInclusion('coaching', { prefixe: 'Des séances incluses' }),
           texte: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.' }
       ],
       init: function () { HF.brancher(this.$el, this.etat); HF.brancherSelecteur(this.$el, this.etat); }
@@ -85,6 +87,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-16q"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-16r"></script>
 </body>
 </html>
