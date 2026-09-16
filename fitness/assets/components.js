@@ -2309,11 +2309,22 @@ Object.assign(window.HF.vues, (function () {
   /* Créneaux, pour une fiche comme pour une famille. */
   function creneaux(groupes, base, titre) {
     if (!groupes.length) return '';
+    /* Un même cours peut être inclus dans un club et en Extra dans un autre :
+       le tableau doit le dire club par club, sinon le visiteur lit la même
+       ligne pour deux réalités qui ne coûtent pas le même prix. */
+    var mixte = groupes.some(function (g) {
+      return g.seances.some(function (s) { var c = H.cours(s.cours); return c && c.estExtra; });
+    });
     return '<section data-spec="B.3 > Sport > Fiches cours"><h2>' + esc(titre) + '</h2>' +
+      (mixte ? '<p class="mention">Inclus dans votre abonnement, sauf mention « Extra ».</p>' : '') +
       '<table class="tableau"><thead><tr><th>Club</th><th>Catégorie</th><th>Créneaux</th></tr></thead><tbody>' +
       groupes.map(function (g) {
+        var enExtra = g.seances.some(function (s) {
+          var c = H.cours(s.cours); return c && c.estExtra;
+        });
         return '<tr><td><a href="' + base + 'clubs/club/?club=' + g.club.id + '">' +
-          esc(g.club.nom) + '</a></td>' +
+          esc(g.club.nom) + '</a>' +
+          (enExtra ? ' <span class="extra__marque">Extra</span>' : '') + '</td>' +
           '<td>' + esc(H.categorie(g.club.categorie).nom) + '</td>' +
           '<td>' + g.seances.map(function (s) {
             var co = H.cours(s.cours);

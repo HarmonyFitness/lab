@@ -495,7 +495,7 @@ window.DATA = {
       description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.' },
 
     { id: 'cross-training', nom: 'Cross Training', type: 'sgt',
-      clubs: ['geneve-paquis'],
+      clubs: ['geneve-paquis', 'geneve-la-praille'],
       modeVente: 'en-ligne', prix: null, idMetier: null, cours: 'cross-training-sgt',
       description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.' },
 
@@ -912,8 +912,15 @@ window.DATA = {
   /* Training. Le format aqua n'existe que dans les clubs Premium.         */
   /* ------------------------------------------------------------------ */
   seances: [
-    { club: 'meyrin', jour: 'jeudi',  heure: '12:15', duree: 45, cours: 'cross-training' },
-    { club: 'denges', jour: 'lundi',  heure: '12:15', duree: 45, cours: 'cross-training' },
+    /* Cross Training : un club le propose soit en cours collectif inclus,
+       soit en Small Group Training payant, jamais les deux (client,
+       2026-09-16). Aujourd'hui Versoix en cours collectif, Genève · La
+       Praille et Genève · Pâquis en Small Group Training. Les autres clubs
+       n'en proposent pas encore. */
+    { club: 'versoix', jour: 'mardi',    heure: '18:30', duree: 45, cours: 'cross-training' },
+    { club: 'versoix', jour: 'vendredi', heure: '12:15', duree: 45, cours: 'cross-training' },
+    { club: 'geneve-la-praille', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'cross-training-sgt' },
+    { club: 'geneve-la-praille', jour: 'jeudi',    heure: '18:00', duree: 45, cours: 'cross-training-sgt' },
     /* Genève · Pâquis, club Gym : uniquement des Small Group Training.
        Planning donné par le client le 2026-09-16. */
     { club: 'geneve-paquis', jour: 'mardi',    heure: '12:15', duree: 45, cours: 'cross-training-sgt' },
