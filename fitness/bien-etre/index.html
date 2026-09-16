@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Bien-être : sauna, hammam et soins | Harmony</title>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-17j">
+</head>
+<body>
+
+<div x-data="pageBienEtre" x-init="init()">
+
+  <!-- Outillage du wireframe, hors maquette -->
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../' })"></div>
+  <div class="conteneur">
+    <p class="wf-note">
+      B.3 &gt; Bien-être &gt; hub. Rôle : porter la vision bien-être et router
+      vers les deux pages filles. <strong>Vitrine</strong> : la réservation des
+      soins reste chez le prestataire, rien ne se réserve ici.<br>
+      La liste des clubs concernés est déduite des équipements saisis sur
+      chaque club, elle n'est écrite nulle part. Le storytelling et les titres
+      sont rédigés ici, B.3 ne les fournit pas : marqués à valider.<br>
+      La page Soins n'est pas encore maquettée : il manque la liste des
+      prestations, les praticiens, les tarifs indicatifs et le nom de l'outil
+      de réservation (questions.md &gt; Q56).
+    </p>
+  </div>
+
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('Bien-être', '../')"></div>
+
+  <main class="conteneur">
+
+    <div x-html="HF.vues.filAriane([{nom:'Accueil',href:'../'},{nom:'Bien-être'}])"></div>
+
+    <!-- ====================================================== BLOC 1 -->
+    <section data-spec="B.3 &gt; Bien-être &gt; hub">
+      <div class="hero-club">
+        <div>
+          <h1>Le bien-être fait partie de l'entraînement</h1>
+          <p>Récupérer compte autant que s'entraîner. Sauna, hammam, jacuzzi
+             et jets massants selon les clubs, et des soins avec des
+             praticiens, sur rendez-vous.
+             <span class="wf-avalider">H1 et sous-titre à valider par Harmony</span></p>
+        </div>
+        <div x-html="HF.vues.blocImage('Photo espace wellness, ambiance calme', 'large')"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================== BLOC 2 -->
+    <!-- Storytelling. B.3 demande d'incarner la signature « Espaces de sport
+         et de bien-être » : trois idées, pas une tartine. -->
+    <section style="margin-top:40px" data-spec="B.3 &gt; Bien-être &gt; hub">
+      <div class="grille grille--3">
+        <template x-for="b in vision" :key="b.titre">
+          <div class="bloc">
+            <h2 style="font-size:16px" x-text="b.titre"></h2>
+            <p x-text="b.texte"></p>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <!-- ====================================================== BLOC 3 -->
+    <!-- Les deux portes de la branche. Cartes cliquables en entier, comme
+         les cartes de cours : elles mènent quelque part, elles ne déclenchent
+         pas d'action. -->
+    <section style="margin-top:44px" data-spec="B.3 &gt; Bien-être &gt; hub">
+      <h2>Deux façons de souffler</h2>
+      <div class="grille grille--2" style="margin-top:12px">
+
+        <div class="produit produit--lien">
+          <div x-html="HF.vues.blocImage('Photo sauna', 'large')"></div>
+          <h3 style="margin-top:12px"><a href="espaces/">Espaces wellness</a></h3>
+          <p>Sauna, hammam, jacuzzi et jets massants, compris dans votre
+             abonnement là où le club en dispose.</p>
+          <p class="mention" x-text="resumeEspaces()"></p>
+        </div>
+
+        <div class="produit produit--lien">
+          <div x-html="HF.vues.blocImage('Photo cabine de soin', 'large')"></div>
+          <h3 style="margin-top:12px"><a href="soins/">Massage et physiothérapie</a>
+            <span class="wf-avalider">page à construire</span></h3>
+          <p>Des praticiens, sur rendez-vous. La réservation se fait chez eux,
+             pas ici.</p>
+          <p class="mention">[liste des soins et praticiens à fournir]</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================== BLOC 4 -->
+    <!-- Clubs concernés. B.3 dit « surtout Premium » : on ne l'écrit pas,
+         on le montre. La liste vient des équipements de chaque club. -->
+    <section style="margin-top:44px" data-spec="B.3 &gt; Bien-être &gt; hub">
+      <h2>Où en profiter</h2>
+      <p class="mention" x-text="lignePremium()"></p>
+      <div class="grille grille--3" style="margin-top:12px">
+        <template x-for="c in clubs()" :key="c.id">
+          <div class="bloc">
+            <h3 style="font-size:15px">
+              <a :href="'../clubs/club/?club=' + c.id" x-text="c.nom"></a>
+              <span class="mention" x-text="' · ' + HF.categorie(c.categorie).nom"></span>
+            </h3>
+            <p class="mention" x-text="espacesDe(c)"></p>
+          </div>
+        </template>
+      </div>
+      <p style="margin-top:14px">
+        <a class="lien-texte" href="espaces/">Voir la répartition club par club</a>
+      </p>
+    </section>
+
+    <!-- ====================================================== BLOC 5 -->
+    <div style="margin-top:44px" x-html="HF.vues.ctaEssai('../', 'B.3 &gt; Bien-être &gt; hub')"></div>
+
+  </main>
+
+  <div x-html="HF.vues.pied()"></div>
+
+</div>
+
+<script src="../data/data.js?v=2026-09-17j"></script>
+<script src="../assets/components.js?v=2026-09-17j"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('pageBienEtre', function () {
+    return {
+      etat: HF.etatInitial(),
+      vision: [
+        { titre: '[Idée 1]', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.' },
+        { titre: '[Idée 2]', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.' },
+        { titre: '[Idée 3]', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.' }
+      ],
+      init: function () {
+        HF.brancher(this.$el, this.etat);
+        HF.brancherSelecteur(this.$el, this.etat);
+      },
+      clubs: function () { return HF.regles.clubsBienEtre(); },
+      espacesDe: function (c) {
+        return HF.regles.bienEtreDuClub(c.id).map(function (e) { return e.nom; }).join(' · ');
+      },
+      resumeEspaces: function () {
+        var n = HF.regles.clubsBienEtre().length;
+        return n + ' clubs sur ' + HF.regles.nbClubs() + ' en proposent au moins un.';
+      },
+      /* B.3 dit « surtout Premium ». On le vérifie sur les données plutôt que
+         de le recopier : si l'offre change, la phrase suit. */
+      lignePremium: function () {
+        var clubs = HF.regles.clubsBienEtre();
+        var premium = clubs.filter(function (c) { return c.categorie === 'premium'; }).length;
+        var total = HF.data.clubs.filter(function (c) { return c.categorie === 'premium'; }).length;
+        return premium === total
+          ? 'Tous les clubs Premium en sont équipés, et une partie des clubs Essential.'
+          : premium + ' clubs Premium sur ' + total + ', et une partie des clubs Essential.';
+      }
+    };
+  });
+});
+</script>
+<script defer src="../assets/alpine.min.js?v=2026-09-17j"></script>
+
+</body>
+</html>

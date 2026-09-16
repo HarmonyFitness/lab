@@ -173,6 +173,26 @@ window.HF = (function () {
       }).length;
     },
 
+    /* Les espaces bien-être du référentiel, et les clubs qui en ont au moins
+       un. Tout se déduit des équipements saisis sur les clubs : la page
+       Espaces wellness ne saisit rien, elle lit. */
+    espacesBienEtre: function () {
+      return D.referentiels.equipements.filter(function (e) { return e.bienEtre; });
+    },
+
+    clubsAvecEspace: function (idEquipement) {
+      return D.clubs.filter(function (c) {
+        return c.equipements.indexOf(idEquipement) !== -1;
+      });
+    },
+
+    clubsBienEtre: function () {
+      var ids = regles.espacesBienEtre().map(function (e) { return e.id; });
+      return D.clubs.filter(function (c) {
+        return c.equipements.some(function (e) { return ids.indexOf(e) !== -1; });
+      });
+    },
+
     /* Les formules qui comprennent une ligne d'inclusion, dans l'ordre.
        Sert à dire « dès la formule X » sans jamais énumérer : une
        énumération devient fausse le jour où une formule s'ajoute, et
@@ -597,7 +617,7 @@ window.HF.vues = (function () {
     var nav = [
       { nom: 'Clubs',      href: base + 'clubs/' },
       { nom: 'Sport',      href: base + 'sport/' },
-      { nom: 'Bien-être',  href: '#' },
+      { nom: 'Bien-être',  href: base + 'bien-etre/' },
       { nom: 'Tarifs',     href: base + 'tarifs/' }
     ];
     /* Menu collé au logo, à gauche. À droite, les actions, de la plus
@@ -2014,13 +2034,14 @@ Object.assign(window.HF.vues, (function () {
   }
 
   /* B.3 > Trame de la page club > 9 */
-  function bienEtreBloc(c) {
+  function bienEtreBloc(c, base) {
     var espaces = R.bienEtreDuClub(c.id);
     if (!espaces.length) return '';
     return '<section data-spec="B.3 > Trame de la page club > 9">' +
       '<h2>Bien-être</h2>' +
       '<ul>' + espaces.map(function (e) { return '<li>' + esc(e.nom) + '</li>'; }).join('') + '</ul>' +
-      '<p><a class="lien-texte" href="#">Voir nos espaces bien-être</a></p></section>';
+      '<p><a class="lien-texte" href="' + (base || '') +
+      'bien-etre/espaces/">Voir nos espaces bien-être</a></p></section>';
   }
 
   /* B.3 > Trame de la page club > 10 : une carte, un lien vers le site de

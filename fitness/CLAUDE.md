@@ -35,6 +35,7 @@ Consultant et décideur sur la structure : Hugo.
 - `/seance-essai`
 - `/nous-contacter` : formulaire unique de contact, ajouté le 2026-09-15 (Q37). Même gabarit que la séance d'essai, un autre motif.
 - `/sport`, `/sport/plateau-fitness`, `/sport/cours-collectifs`, `/sport/small-group-training`, `/sport/coaching-personnel`
+- `/bien-etre` et `/bien-etre/espaces`, ajoutés au périmètre le 2026-09-17. `/bien-etre/soins` attend la liste des prestations, les praticiens, les tarifs indicatifs et le nom de l'outil de réservation : sans eux, la page serait une coquille à refaire (Q56).
 - `/cours/[...]` : gabarit unique, deux cas. Une fiche de cours, ou une page de famille qui active en plus le bloc "variantes".
 
 Cours collectifs : 2 templates seulement, le hub et le gabarit cours. On maquette les gabarits, pas les ~34 pages.
@@ -163,6 +164,13 @@ Page Séance d'essai
 - **L'essai est payant, 20 CHF, déduits en cas de souscription avec engagement** (client, 2026-09-16). La condition est posée **au-dessus des champs**, jamais sous le bouton : une condition qu'on découvre après avoir tout rempli est une condition cachée. Le déroulé en cinq étapes vient avant le formulaire, pour la même raison : on dit ce qu'on propose avant de demander des coordonnées, à plus forte raison quand c'est payant.
 - Le paramètre `source` du lien est repris dans la demande : sans lui, impossible de savoir quelle page génère les essais.
 - **« Séance » et « journée » désignent aujourd'hui la même chose dans deux mots différents** (Q54). B.3 dit séance partout, la condition tarifaire du client dit journée. La phrase du client est reprise telle quelle, l'écart est visible à l'écran exprès : c'est une condition commerciale, on ne la réécrit pas sans son accord.
+
+Bien-être
+- **Vitrine, pas transaction** : la réservation des soins reste chez le prestataire, comme les abonnements restent chez l'outil métier. Rien ne se réserve sur le site.
+- Les espaces et leur répartition ne se saisissent nulle part : ils se déduisent des équipements de chaque club (`espacesBienEtre`, `clubsAvecEspace`, `clubsBienEtre`). Ajouter un sauna à un club le fait apparaître sur la page Espaces, sans y toucher.
+- B.3 dit que les espaces sont « surtout Premium ». On ne recopie pas la phrase, on la calcule : si l'offre change, le texte suit.
+- **B.3 nomme quatre espaces, les données en marquent cinq** : la piscine porte aussi `bienEtre` (Q55). Elle apparaît donc sur la page Espaces et sur le bloc bien-être des pages club, avec un marqueur visible. À trancher, et attention : une piscine n'est pas un argument bien-être au même titre qu'un sauna, elle sert aussi aux cours aquatiques et à l'école de natation.
+- Les horaires d'accès et les règles d'usage restent sur les pages club : ils varient d'un club à l'autre, et les centraliser créerait une deuxième vérité.
 
 Cours
 - Vocabulaire strict : "catégorie" est réservé aux clubs (Gym, Essential, Premium). Pour les cours on dit **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours). Ne jamais écrire "catégorie de cours".

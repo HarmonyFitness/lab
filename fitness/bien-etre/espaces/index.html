@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Sauna, hammam et jacuzzi à Genève et Vaud | Harmony</title>
+<link rel="icon" href="../../favicon.png">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-17j">
+</head>
+<body>
+
+<div x-data="pageEspaces" x-init="init()">
+
+  <!-- Outillage du wireframe, hors maquette -->
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../../' })"></div>
+  <div class="conteneur">
+    <p class="wf-note">
+      B.3 &gt; Bien-être &gt; Espaces wellness. Présentation des espaces,
+      tableau de disponibilité par club, galerie, renvoi vers les pages club.<br>
+      <strong>Rien n'est saisi ici.</strong> Les espaces et leur répartition
+      sont déduits des équipements de chaque club : ajouter un sauna à un club
+      le fait apparaître dans le tableau, sans toucher à cette page.<br>
+      <strong>Un écart à trancher.</strong> B.3 nomme quatre espaces, sauna,
+      hammam, jacuzzi et jets massants. Les données en marquent cinq : la
+      piscine porte aussi le drapeau bien-être, et elle apparaît donc ici et
+      sur le bloc bien-être des pages club (questions.md &gt; Q55).
+    </p>
+  </div>
+
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('Bien-être', '../../')"></div>
+
+  <main class="conteneur">
+
+    <div x-html="HF.vues.filAriane([
+      {nom:'Accueil',href:'../../'},{nom:'Bien-être',href:'../'},{nom:'Espaces wellness'}])"></div>
+
+    <!-- ====================================================== BLOC 1 -->
+    <section data-spec="B.3 &gt; Bien-être &gt; Espaces wellness">
+      <div class="hero-club">
+        <div>
+          <h1>Espaces wellness</h1>
+          <p>Récupérer après l'effort, ou venir juste pour ça. Compris dans
+             votre abonnement, dans les clubs qui en disposent.
+             <span class="wf-avalider">H1 et sous-titre à valider par Harmony</span></p>
+        </div>
+        <div x-html="HF.vues.blocImage('Photo sauna, vue d\'ensemble', 'large')"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================== BLOC 2 -->
+    <!-- Un bloc par espace, avec le nombre de clubs qui l'ont : c'est
+         l'information qu'on cherche ici, autant la donner sur la carte. -->
+    <section style="margin-top:40px" data-spec="B.3 &gt; Bien-être &gt; Espaces wellness">
+      <h2>Nos espaces</h2>
+      <div class="grille grille--cartes" style="margin-top:12px">
+        <template x-for="e in espaces()" :key="e.id">
+          <div class="produit">
+            <div x-html="HF.vues.blocImage('Photo ' + e.nom.toLowerCase(), 'large')"></div>
+            <h3 style="margin-top:12px">
+              <span x-text="e.nom"></span>
+              <span class="wf-avalider" x-show="e.id === 'piscine'">hors des quatre espaces nommés par B.3</span>
+            </h3>
+            <p x-text="description(e)"></p>
+            <p class="mention" x-text="combienDeClubs(e)"></p>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <!-- ====================================================== BLOC 3 -->
+    <!-- Tableau de disponibilité. Une croix par case, le nom du club
+         cliquable : c'est la page club qui porte les horaires et l'accès. -->
+    <section style="margin-top:44px" data-spec="B.3 &gt; Bien-être &gt; Espaces wellness">
+      <h2>Quel club propose quoi</h2>
+      <p class="mention">Les clubs qui n'ont aucun espace wellness ne figurent
+         pas dans ce tableau.</p>
+      <div style="overflow-x:auto; margin-top:12px">
+        <table class="tableau">
+          <thead>
+            <tr>
+              <th>Club</th>
+              <th>Catégorie</th>
+              <template x-for="e in espaces()" :key="e.id">
+                <th x-text="e.nom"></th>
+              </template>
+            </tr>
+          </thead>
+          <tbody>
+            <template x-for="c in clubs()" :key="c.id">
+              <tr>
+                <td><a :href="'../../clubs/club/?club=' + c.id" x-text="c.nom"></a></td>
+                <td x-text="HF.categorie(c.categorie).nom"></td>
+                <template x-for="e in espaces()" :key="e.id">
+                  <td x-text="c.equipements.indexOf(e.id) !== -1 ? '✓' : ''"
+                      :aria-label="c.equipements.indexOf(e.id) !== -1 ? 'oui' : 'non'"></td>
+                </template>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====================================================== BLOC 4 -->
+    <section style="margin-top:44px" data-spec="B.3 &gt; Bien-être &gt; Espaces wellness">
+      <h2>En images</h2>
+      <div class="grille grille--3" style="margin-top:12px">
+        <template x-for="g in galerie" :key="g">
+          <div x-html="HF.vues.blocImage(g, 'large')"></div>
+        </template>
+      </div>
+    </section>
+
+    <!-- ====================================================== BLOC 5 -->
+    <section style="margin-top:44px" data-spec="B.3 &gt; Bien-être &gt; Espaces wellness">
+      <h2>Bon à savoir</h2>
+      <div class="grille grille--3" style="margin-top:12px">
+        <template x-for="r in pratique" :key="r.titre">
+          <div class="bloc">
+            <h3 x-text="r.titre"></h3>
+            <p x-text="r.texte"></p>
+          </div>
+        </template>
+      </div>
+      <p class="mention" style="margin-top:14px">
+        Les horaires d'accès et les règles d'usage se lisent sur chaque page
+        club : ils varient d'un club à l'autre.
+      </p>
+    </section>
+
+    <div style="margin-top:44px"
+         x-html="HF.vues.ctaEssai('../../', 'B.3 &gt; Bien-être &gt; Espaces wellness')"></div>
+
+  </main>
+
+  <div x-html="HF.vues.pied()"></div>
+
+</div>
+
+<script src="../../data/data.js?v=2026-09-17j"></script>
+<script src="../../assets/components.js?v=2026-09-17j"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('pageEspaces', function () {
+    return {
+      etat: HF.etatInitial(),
+      galerie: ['Photo espace détente', 'Photo hammam', 'Photo jets massants'],
+      pratique: [
+        { titre: '[Accès]', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' },
+        { titre: '[À apporter]', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.' },
+        { titre: '[Règles]', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.' }
+      ],
+      init: function () {
+        HF.brancher(this.$el, this.etat);
+        HF.brancherSelecteur(this.$el, this.etat);
+      },
+      espaces: function () { return HF.regles.espacesBienEtre(); },
+      clubs: function () { return HF.regles.clubsBienEtre(); },
+      combienDeClubs: function (e) {
+        var n = HF.regles.clubsAvecEspace(e.id).length;
+        return n === 1 ? 'Dans 1 club' : 'Dans ' + n + ' clubs';
+      },
+      /* Les descriptions sont du remplissage : B.3 ne les fournit pas et
+         elles ne s'inventent pas mieux qu'un prix. */
+      description: function () {
+        return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do ' +
+          'eiusmod tempor incididunt ut labore et dolore magna.';
+      }
+    };
+  });
+});
+</script>
+<script defer src="../../assets/alpine.min.js?v=2026-09-17j"></script>
+
+</body>
+</html>

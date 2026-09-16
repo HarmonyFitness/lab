@@ -321,7 +321,7 @@ Soit une trentaine de fiches au lancement, contre environ 80 pages de cours aujo
 | Page | Slug | Intention | Composants clés |
 |---|---|---|---|
 | Bien-être (hub) | `/bien-etre` | Porter la vision bien-être et router vers espaces et soins | Storytelling bien-être, blocs vers espaces / soins, clubs concernés (surtout Premium), CTA |
-| Espaces wellness | `/bien-etre/espaces` | Présenter sauna, hammam, jacuzzi, jets massants et leur répartition par club | Présentation des espaces, tableau de disponibilité par club, galerie, renvoi pages club |
+| Espaces wellness | `/bien-etre/espaces` | Présenter sauna, hammam, jacuzzi, jets massants et leur répartition par club | Présentation des espaces, tableau de disponibilité par club, galerie, renvoi pages club. La répartition ne se saisit pas sur cette page : elle se déduit des équipements de chaque club, donc ajouter un sauna à un club l'inscrit au tableau sans y toucher. **Attention**, cette liste nomme quatre espaces alors que le modèle en marque cinq comme bien-être : la piscine en fait partie, et elle sert aussi aux cours aquatiques et à l'école de natation. À trancher (questions.md > Q55) |
 | Massage & physiothérapie | `/bien-etre/soins` | Vitrine des soins, orienter vers la réservation externe | Présentation des soins, praticiens, tarifs indicatifs, CTA sortant vers l'outil de réservation (paramétré si possible) |
 
 ## Actualités, Besoin d'aide ? & pages légales

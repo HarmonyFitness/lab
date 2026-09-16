@@ -1435,3 +1435,51 @@ page, la condition est posée au-dessus des champs, jamais sous le bouton : une
 condition qu'on découvre après avoir tout rempli est une condition cachée. Mais
 il faut décider si les CTA eux-mêmes doivent le dire, et notamment celui du
 header, qui est présent sur toutes les pages.
+
+### Q55 · La piscine est-elle un espace bien-être ?
+**Statut :** ouverte, visible à l'écran
+**Source :** B.3 > Bien-être > Espaces wellness : « Présenter sauna, hammam,
+jacuzzi, jets massants et leur répartition par club ». Quatre espaces. Les
+données en marquent cinq : `piscine` porte `bienEtre: true`.
+
+**Où ça se voit.** La piscine apparaît sur la page Espaces wellness et dans le
+bloc bien-être des pages club, à côté du sauna. Le marqueur « hors des quatre
+espaces nommés par B.3 » est affiché sur sa carte, exprès.
+
+**Pourquoi ce n'est pas anodin.** Une piscine ne joue pas le même rôle qu'un
+sauna. Elle sert aux cours aquatiques, qui sont au planning fitness, et à
+l'école de natation, qui est un autre site. La ranger en bien-être la fait
+compter trois fois, dans trois discours différents.
+
+**Deux sorties.** Soit la piscine perd son drapeau `bienEtre` et la page
+Espaces s'aligne sur les quatre espaces de B.3, la piscine restant un
+équipement comme un autre. Soit B.3 l'ajoute à sa liste, et il faut dire ce
+qu'elle apporte ici que les cours aquatiques ne disent pas déjà.
+
+### Q56 · Ce qu'il manque pour construire la page Soins
+**Statut :** bloquante, page non maquettée
+**Source :** B.3 > Bien-être : « Massage & physiothérapie. Vitrine des soins,
+orienter vers la réservation externe. Présentation des soins, praticiens,
+tarifs indicatifs, CTA sortant vers l'outil de réservation (paramétré si
+possible) ».
+
+Quatre choses manquent, et sans elles la page serait une coquille à refaire :
+
+1. **La liste des soins**, avec leur durée.
+2. **Les praticiens** : sont-ils salariés d'Harmony ou indépendants hébergés ?
+   La réponse change le discours de la page, et la responsabilité de la prise
+   de rendez-vous.
+3. **Les tarifs indicatifs.** Un prix ne s'invente pas. « Indicatif » veut-il
+   dire une fourchette, ou un prix qui dépend du praticien ?
+4. **L'outil de réservation externe** : son nom, son adresse, et surtout s'il
+   accepte des paramètres. B.3 dit « paramétré si possible » : si l'outil sait
+   recevoir le club et le soin, le lien évite au visiteur de tout resaisir.
+   Sinon le bouton l'envoie sur une page d'accueil et une partie s'y perd.
+
+**Une question de fond derrière la quatrième.** Les soins sont-ils proposés
+dans tous les clubs, ou seulement dans certains ? Si c'est par club, il faut un
+champ sur la fiche club, comme pour les équipements, et la page Soins pourra
+dire où, comme la page Espaces le fait.
+
+En attendant, le hub renvoie vers `/bien-etre/soins` avec le marqueur « page à
+construire » : le lien existe dans la site map, on ne le cache pas.
