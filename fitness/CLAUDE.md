@@ -134,6 +134,14 @@ Page Tarifs
 - Pas de cartes cadeaux.
 - Une ligne discrète en fin de catalogue pour qui ne se reconnaît dans aucune formule : « Vous ne trouvez pas la formule qui vous convient ? », renvoi vers un formulaire de contact avec le club présélectionné (décision Hugo, 2026-09-15, Q37). Pas de cadre, pas de bouton, une ligne séparée par un filet : elle existe pour ceux qui en ont besoin, elle ne détourne pas de la souscription en ligne. Le lien porte `club`, `motif` et `source`, pour que la demande soit comptée comme une demande d'essai.
 
+Page Offre du moment
+- Landing de campagne : adresse stable, contenu qui change. H1 et title au nom de la campagne, qui n'existe pas encore dans le modèle (Q49) : placeholder marqué tant qu'il y a plusieurs offres dédiées.
+- **Une seule campagne annoncée à la fois.** La page reprend la promesse d'une publicité, une seule. Quand des offres dédiées tournent, l'annonce d'une promotion sur des produits existants ne s'affiche pas : elle renverrait ailleurs quelqu'un qui vient d'arriver pour la première. Les conditions suivent la même règle.
+- **Le compteur est au hero, une seule fois pour la page**, donc les cartes n'y portent pas leur pastille « jours restants » (`carteProduit(p, etat, { sansJours: true })`). Le même nombre deux fois à l'écran ne renseigne personne. Sur /tarifs, où il n'y a pas de hero de campagne, la règle inverse s'applique.
+- **Pas de barre récap ici.** Sur une landing, on ne compose pas un panier : « Profiter de l'offre » part droit au tunnel, avec l'offre et le club référent en paramètre. C'est la seule page où la carte produit change de bouton (`carteProduit(p, etat, { pied: ... })`).
+- Sans campagne, la page reste, avec un message court et deux liens. On ne renvoie pas une 404 sur une adresse qui vit dans des publicités déjà diffusées et des e-mails déjà envoyés. C'est l'entrée du menu qui disparaît, pas la page.
+- Le title se remet à jour quand l'état change (`x-effect`), pas seulement au chargement : le contenu de la page change avec la campagne.
+
 Cours
 - Vocabulaire strict : "catégorie" est réservé aux clubs (Gym, Essential, Premium). Pour les cours on dit **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours). Ne jamais écrire "catégorie de cours".
 - Un cours porte un objectif principal, un objectif secondaire facultatif, une intensité (doux, modéré, intense) et un format (salle, aqua, petit groupe).

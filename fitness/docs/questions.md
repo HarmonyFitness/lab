@@ -1188,3 +1188,48 @@ c'est la même règle, appliquée au dernier des quatre piliers.
 dans la formule Gym » reste. Dire ce qui commence à Essential ne dit pas
 explicitement ce qui manque en Gym, et sur cette page-là c'est une question que
 les visiteurs se posent.
+
+### Q49 · Une campagne n'a pas de nom dans le modèle
+**Statut :** ouverte, posée en construisant `/offre-du-moment` le 2026-09-16
+**Source :** B.3 > Tarifs et offres : « Adresse stable, contenu qui change (H1
+et title au nom de l'offre) ».
+
+**Le problème.** La phrase suppose une campagne à un seul produit. La nôtre en
+a deux, Black Friday Premium et Black Friday Essential, qui portent chacun son
+nom. Le nom qui les réunit, « Black Friday », n'existe nulle part : ni sur les
+produits, ni ailleurs dans le modèle. Le H1 et le title de la landing n'ont
+donc rien à afficher.
+
+**Ce que fait la maquette en attendant.**
+
+| Cas | H1 et title |
+|---|---|
+| Une seule offre dédiée | son nom |
+| Plusieurs offres dédiées | `[Nom de la campagne]`, marqué à saisir |
+| Une remise sur des produits existants | le nom de la promotion, qui en a un |
+| Aucune campagne | « Pas d'offre en ce moment » |
+
+**Ce qu'il faudrait trancher.** Soit une campagne devient une entité du CMS,
+avec son nom, ses dates et les produits qu'elle réunit, et les offres dédiées
+s'y rattachent comme les promotions s'y rattacheraient. Soit on accepte qu'une
+campagne ne porte qu'un produit, et la question disparaît. La première est plus
+juste, la seconde est plus simple : c'est une décision de modèle (section 7),
+pas d'affichage.
+
+**Deux autres écarts avec B.3, tranchés dans la maquette et à valider.**
+
+1. **Le hero ne porte ni durée ni prix.** B.3 demande « nom, durée, prix,
+   compteur ». Avec deux produits de durées et de prix différents, un prix au
+   hero annoncerait celui d'une carte et pas de l'autre. Durée et prix restent
+   donc sur les cartes, le hero garde le nom et le compteur.
+2. **Une seule campagne annoncée à la fois.** Quand des offres dédiées
+   tournent, la page ne montre pas l'annonce de la promotion sur les carnets,
+   qui tourne en même temps dans le lab. Cette page reprend la promesse d'une
+   publicité, une seule : renvoyer ailleurs quelqu'un qui vient d'arriver pour
+   la première campagne, c'est le perdre. Les conditions suivent la même règle,
+   elles ne parlent que de ce que la page montre.
+
+**Et une conséquence sur le compteur.** Le compteur est au hero, une fois pour
+la page, donc les cartes ne portent plus leur pastille « jours restants » ici :
+le même nombre deux fois à l'écran ne renseigne personne. Sur /tarifs, où il
+n'y a pas de hero de campagne, la règle inverse continue de s'appliquer.

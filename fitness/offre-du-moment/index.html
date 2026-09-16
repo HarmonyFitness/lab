@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Offre du moment | Harmony</title>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-16u">
+</head>
+<body>
+
+<!-- x-effect et pas seulement x-init : le contenu de la page change avec la
+     campagne, donc le title aussi. Posé une fois au chargement, il resterait
+     sur la campagne précédente. -->
+<div x-data="pageOffre" x-init="init()" x-effect="majTitre()">
+
+  <!-- Outillage du wireframe, hors maquette -->
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../' })"></div>
+  <div class="conteneur">
+    <p class="wf-note">
+      Landing de campagne (B.3 &gt; Tarifs et offres). Adresse stable, contenu
+      qui change : le H1 et le title portent le nom de la campagne. Trois états
+      à tester avec le sélecteur ci-dessus : offres dédiées en cours, promotion
+      seule sur des produits existants (décochez « Offre active »), et aucune
+      campagne (décochez, puis choisissez « Aucune promo »).<br>
+      <strong>Deux écarts assumés avec B.3, à valider.</strong>
+      B.3 met « nom, durée, prix » dans le hero : ça marche pour une campagne à
+      un seul produit. Ici la campagne en porte deux, de durées et de prix
+      différents, donc la durée et le prix restent sur les cartes. Un prix au
+      hero annoncerait celui d'une carte et pas de l'autre.<br>
+      Et le nom de la campagne n'existe nulle part dans les données : chaque
+      offre a son nom, la campagne qui les réunit n'en a pas. D'où le
+      placeholder (voir questions.md &gt; Q49).
+    </p>
+  </div>
+
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('Tarifs', '../')"></div>
+
+  <main class="conteneur">
+
+    <!-- ====================================================== BLOC 1 -->
+    <!-- Hero : reprendre la promesse de la pub. Le compteur est ici, une
+         seule fois pour toute la page : sur une landing de campagne,
+         l'échéance est celle de la campagne, pas d'un produit. -->
+    <section data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment" style="padding-top:28px">
+      <template x-if="campagne">
+        <div>
+          <h1>
+            <span x-text="titreCampagne()"></span>
+            <span class="wf-avalider" x-show="!nomConnu()">nom de la campagne à saisir</span>
+          </h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do
+             eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <div style="margin-top:12px" x-html="HF.vues.compteur(HF.regles.finOffre(etat))"></div>
+        </div>
+      </template>
+
+      <!-- Sans campagne : la page reste, l'entrée disparaît du menu. On ne
+           renvoie pas une 404 sur une adresse qui vit dans des pubs déjà
+           diffusées et dans des e-mails déjà envoyés. -->
+      <template x-if="!campagne">
+        <div>
+          <h1>Pas d'offre en ce moment</h1>
+          <p>Nos tarifs restent accessibles, et la séance d'essai aussi.</p>
+          <p style="margin-top:16px">
+            <a class="btn" href="../tarifs/">Voir tous nos tarifs</a>
+            <a class="btn btn--secondaire" href="../seance-essai/">Demander une séance d'essai</a>
+          </p>
+          <p class="mention" style="margin-top:12px">
+            L'entrée « Offre du moment » est retirée du menu tant qu'aucune
+            campagne ne tourne.
+          </p>
+        </div>
+      </template>
+    </section>
+
+    <template x-if="campagne">
+      <div>
+
+        <!-- ====================================================== BLOC 2 -->
+        <!-- Même composant que Tarifs : le club référent est obligatoire pour
+             souscrire, ici comme là-bas. Il porte son propre titre, donc on
+             n'en ajoute pas : ça ferait deux titres pour un seul bloc. -->
+        <section style="margin-top:32px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
+          <div class="ordi-seulement" x-html="HF.vues.choixClub(etat, {})"></div>
+          <div class="mobile-seulement"
+               x-html="etat.club ? HF.vues.clubReplie(etat, {}) : HF.vues.pastillesMobile(etat)"></div>
+        </section>
+
+        <!-- ====================================================== BLOC 3 -->
+        <section style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
+          <h2 x-text="offres().length ? 'L\'offre' : 'Ce qui est en promotion'"></h2>
+
+          <!-- Campagne sans produit dédié : la remise porte sur des produits
+               qui vivent sur Tarifs. On l'annonce et on y renvoie, on ne
+               duplique jamais une carte (Q49).
+               Seulement quand c'est elle la campagne : cette page reprend la
+               promesse d'une publicité, une seule. Annoncer une deuxième
+               campagne à côté renverrait ailleurs le visiteur qui vient
+               d'arriver pour la première. -->
+          <div x-show="!offres().length"
+               x-html="HF.vues.annoncePromo(etat, { lienBase: '../tarifs/' + (etat.club ? '?club=' + etat.club : '') })"></div>
+
+          <div x-html="HF.vues.ligneSansClub(etat)" style="margin-top:12px"
+               x-show="offres().length"></div>
+
+          <!-- Simulation du départ vers le tunnel : le wireframe ne redirige
+               pas, il montre ce qui partirait en paramètre. -->
+          <p class="annonce annonce--message" x-show="etat.message" x-text="etat.message"></p>
+
+          <div class="grille grille--cartes" style="margin-top:12px">
+            <template x-for="p in offres()" :key="p.id">
+              <div x-html="HF.vues.carteProduit(p, etat, { pied: bouton, sansJours: true })"></div>
+            </template>
+          </div>
+          <div x-html="HF.vues.ligneIndisponible(tous('offre'), etat)"></div>
+        </section>
+
+        <!-- ====================================================== BLOC 4 -->
+        <section style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
+          <h2>Conditions</h2>
+          <template x-for="c in conditions()" :key="c.nom">
+            <p class="mention"><strong x-text="c.nom"></strong> : <span x-text="c.texte"></span></p>
+          </template>
+        </section>
+
+        <!-- ====================================================== BLOC 5 -->
+        <section style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
+          <h2>Questions sur l'offre</h2>
+          <div x-html="HF.vues.faq(faqOffre, etat)"></div>
+        </section>
+
+        <!-- ====================================================== BLOC 6 -->
+        <p style="margin-top:32px">
+          <a class="lien-texte" href="../tarifs/">Voir tous nos tarifs</a>
+        </p>
+
+      </div>
+    </template>
+
+    <div style="margin-top:40px"
+         x-html="HF.vues.ctaEssai('../', 'B.3 &gt; Tarifs et offres &gt; Offre du moment')"></div>
+
+  </main>
+
+  <div x-html="HF.vues.pied()"></div>
+
+  <!-- Carte en plein écran sur mobile -->
+  <template x-if="etat.carteOuverte">
+    <div x-html="HF.vues.cartePleinEcran(etat, { fixe: true })"></div>
+  </template>
+
+</div>
+
+<script src="../data/data.js?v=2026-09-16u"></script>
+<script src="../assets/components.js?v=2026-09-16u"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('pageOffre', function () {
+    return {
+      etat: HF.etatInitial(),
+      faqOffre: [
+        { q: "Jusqu'à quand puis-je en profiter ?",
+          r: "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore." },
+        { q: "L'offre est-elle valable dans tous les clubs ?",
+          r: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo." },
+        { q: "Que se passe-t-il à la fin de la période ?",
+          r: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." }
+      ],
+      init: function () {
+        HF.brancher(this.$el, this.etat);
+        HF.brancherSelecteur(this.$el, this.etat);
+        this.majTitre();
+      },
+      /* Une campagne tourne dès qu'il y a l'un ou l'autre : un produit promo
+         dédié, ou une remise sur des produits existants. Même règle que la
+         section de /tarifs, lue au même endroit. */
+      get campagne() { return HF.regles.offreDuMoment(this.etat); },
+      offres: function () { return HF.regles.offresVisibles(this.etat); },
+      tous: function (type) {
+        return HF.data.produits.filter(function (p) { return p.type === type; });
+      },
+      /* Le nom de la campagne. Une remise sur des produits existants en a un,
+         saisi sur la promotion. Un ensemble d'offres dédiées n'en a pas :
+         chaque offre porte son nom, la campagne qui les réunit n'existe pas
+         dans le modèle. Voir questions.md > Q49. */
+      nomConnu: function () {
+        var offres = this.offres();
+        if (offres.length === 1) return true;
+        return offres.length === 0 && !!HF.regles.promoVisible(this.etat);
+      },
+      titreCampagne: function () {
+        var offres = this.offres();
+        if (offres.length === 1) return offres[0].nom;
+        if (!offres.length) {
+          var promo = HF.regles.promoVisible(this.etat);
+          return promo ? promo.nom : 'Offre du moment';
+        }
+        return '[Nom de la campagne]';
+      },
+      majTitre: function () {
+        document.title = (this.campagne ? this.titreCampagne() : 'Offre du moment') +
+          ' | Harmony';
+      },
+      /* B.3 : « Profiter de l'offre » part droit au tunnel, avec l'offre et le
+         club en paramètre. Pas de barre récap ici : sur une landing, on ne
+         compose pas un panier, on prend l'offre annoncée par la pub. */
+      bouton: function (p) {
+        return '<button type="button" class="btn btn--bloc" data-act="profiter" data-id="' +
+          p.id + '">Profiter de l\'offre</button>';
+      },
+      /* Les conditions de ce que la page montre, et rien d'autre. Quand la
+         campagne est une remise sur des produits existants, ce sont les
+         siennes ; quand ce sont des offres dédiées, ce sont les leurs. Une
+         campagne dont la page ne parle pas n'a pas à poser ses conditions
+         ici. */
+      conditions: function () {
+        var offres = this.offres();
+        if (offres.length) {
+          return offres.map(function (p) {
+            return { nom: p.nom, texte: p.conditions || '[conditions à fournir]' };
+          });
+        }
+        var promo = HF.regles.promoVisible(this.etat);
+        return promo
+          ? [{ nom: promo.nom, texte: promo.conditions || '[conditions à fournir]' }]
+          : [];
+      }
+    };
+  });
+});
+</script>
+<script defer src="../assets/alpine.min.js?v=2026-09-16u"></script>
+
+</body>
+</html>

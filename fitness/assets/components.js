@@ -926,11 +926,15 @@ Object.assign(window.HF.vues, (function () {
      sinon une remise réservée aux 12 mois serait invisible depuis l'état par
      défaut de la page. Le prix, lui, n'est pas barré : il n'est pas remisé.
      Une carte sans photo saisie n'affiche pas de cadre vide. */
-  function photoProduit(p, pr, etat) {
+  function photoProduit(p, pr, etat, opts) {
     var ailleurs = pr.promo ? null : R.promoAutreEngagement(p, etat);
     var promo = pr.promo || ailleurs;
-    var jours = joursRestants(promo && promo.validite ? promo.validite.fin
-      : (p.validite ? p.validite.fin : null));
+    /* Sur la landing d'une campagne, l'échéance est déjà au hero, une seule
+       fois pour toute la page : la répéter sur chaque carte donnerait le
+       même nombre deux fois à l'écran. */
+    var jours = (opts && opts.sansJours) ? null
+      : joursRestants(promo && promo.validite ? promo.validite.fin
+        : (p.validite ? p.validite.fin : null));
     var gauche = !promo ? '' :
       '<span class="pastille-remise pastille-remise--sur-photo' +
       (ailleurs ? ' pastille-remise--conditionnee' : '') + '">' + texteRemise(promo) +
@@ -1000,7 +1004,12 @@ Object.assign(window.HF.vues, (function () {
 
   /* Carte produit, trois variantes : formule, offre, carnet.
      Sans club : aucun bouton de souscription, jamais un bouton désactivé. */
-  function carteProduit(p, etat) {
+  /* opts.pied remplace le bouton de pied de carte. La page Tarifs fait
+     choisir un produit, qui remplit la barre récap ; la landing d'une
+     campagne, elle, envoie directement au tunnel (B.3 > Offre du moment).
+     Deux parcours différents, une seule carte. */
+  function carteProduit(p, etat, opts) {
+    var o = opts || {};
     var dispo = R.produitDisponible(p, etat.club);
     if (!dispo) return '';
     var choisi = etat.produitChoisi === p.id;
@@ -1066,13 +1075,15 @@ Object.assign(window.HF.vues, (function () {
         : '';
     }
 
+    if (o.pied && etat.club) pied = o.pied(p);
+
     /* Le bloc bas est collé en pied de carte, et ne contient que le prix, le
        total et le bouton : trois éléments de hauteur constante. Les prix se
        lisent donc sur la même ligne d'une carte à l'autre, quelle que soit la
        longueur de ce qu'il y a au-dessus. Les mentions de campagne et de
        tarif restent au-dessus du prix, où elles l'annoncent. */
     return '<article class="produit' + (choisi ? ' produit--choisi' : '') + '" data-spec="' + specRef + '">' +
-      photoProduit(p, pr, etat) +
+      photoProduit(p, pr, etat, o) +
       '<h3>' + H.nomProduitHtml(p) + '</h3>' + haut +
       '<div class="produit__bas">' + bas +
       '<div class="produit__pied">' + pied + '</div></div></article>';
@@ -1553,6 +1564,16 @@ Object.assign(window.HF, (function () {
     'panneau-coach': function (etat, id) { etat.coachOuvert = (etat.coachOuvert === id) ? null : id; },
     'faq': function (etat, id) { var n = Number(id); etat.faqOuverte = (etat.faqOuverte === n) ? null : n; },
     'finaliser': function (etat) { etat.message = 'Redirection vers le tunnel de souscription.'; },
+    /* Landing de campagne : pas de barre récap, le bouton part droit au
+       tunnel. Le lien est paramétré par l'offre et le club référent, sans
+       quoi le visiteur devrait rechoisir ce qu'il vient de choisir. */
+    'profiter': function (etat, id) {
+      var p = H.produit(id), c = etat.club ? H.club(etat.club) : null;
+      etat.produitChoisi = id;
+      etat.message = 'Redirection vers le tunnel de souscription, avec ' +
+        (p ? '« ' + p.nom + ' »' : 'l\'offre') +
+        (c ? ' et ' + c.nom : '') + ' en paramètre.';
+    },
     /* Simulation : le wireframe ne poste rien. On montre où part la demande,
        c'est ce qui compte pour valider le dispatch. */
     'envoyer-contact': function (etat) {
