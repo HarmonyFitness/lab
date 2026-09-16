@@ -1,0 +1,9 @@
+# Le dossier reste protégé comme le reste du lab : la règle de la racine
+# s'applique partout où un .htaccess ne dit pas autre chose.
+#
+# Seule l'icône du site sort, pour qu'un compte limité ne se voie pas
+# redemander un mot de passe à cause d'elle sur chaque page.
+
+<Files "favicon.png">
+  Require user marketing sport
+</Files>

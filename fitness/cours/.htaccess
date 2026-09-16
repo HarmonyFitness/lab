@@ -1,0 +1,7 @@
+# Les fiches de cours. Elles ne sont pas dans /sport, mais chaque carte du
+# catalogue de /sport/cours-collectifs/ renvoie ici : sans ce dossier, le
+# compte « sport » tomberait sur un refus au premier clic sur un cours.
+#
+# À retirer si l'accès doit porter sur /sport au sens strict.
+
+Require user marketing sport

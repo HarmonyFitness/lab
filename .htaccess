@@ -1,0 +1,37 @@
+# ---------------------------------------------------------------------
+# lab.harmony.ch — tout le lab derrière un mot de passe.
+#
+# Le chemin ci-dessous a été relevé sur le serveur le 2026-09-16. Apache
+# exige un chemin absolu : un chemin relatif ne marche pas, il serait
+# résolu depuis la racine d'Apache et pas depuis ce dossier.
+#
+# Si le site déménage ou est renommé, ce chemin devient faux et TOUT le
+# site répond 500. C'est la première chose à regarder.
+# ---------------------------------------------------------------------
+
+AuthType Basic
+AuthName "Harmony Lab"
+AuthUserFile /home/clients/de689a3b51d476d9dabc281e543b9349/sites/lab.harmony.ch/.htpasswd
+
+# Le compte qui voit tout le lab. Les comptes limités ne sont pas ici :
+# c'est justement leur absence qui les arrête, et chaque dossier qui doit
+# leur être ouvert redit la règle en les incluant.
+Require user marketing
+
+# Le fichier des mots de passe ne se sert jamais.
+<Files ".htpasswd">
+  Require all denied
+</Files>
+
+# Deux fichiers restent lisibles sans compte : la page d'explication, qui
+# sinon redemanderait elle-même un mot de passe et ferait tourner le
+# navigateur en rond, et robots.txt, qui doit continuer de dire aux
+# moteurs de ne rien indexer.
+<Files "401.html">
+  Require all granted
+</Files>
+<Files "robots.txt">
+  Require all granted
+</Files>
+
+ErrorDocument 401 /401.html

@@ -1,0 +1,7 @@
+# Les données. Une page ne s'affiche pas sans elles.
+#
+# Attention : data.js contient TOUT, tarifs compris. Un compte limité aux
+# pages Sport peut donc lire les tarifs en ouvrant ce fichier directement.
+# Restreindre des pages ne restreint pas les données : voir acces/README.md.
+
+Require user marketing sport

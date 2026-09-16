@@ -1,0 +1,9 @@
+# Le compte « sport » échoue à la règle de la racine partout ailleurs :
+# c'est ce qui le limite. Ici, il passe, et la règle vaut pour tout le
+# sous-arbre, donc pour les pages Plateau fitness, Cours collectifs,
+# Small Group Training et Coaching personnel.
+#
+# AuthType, AuthName et AuthUserFile sont hérités de la racine : on ne les
+# répète pas, ils seraient à maintenir en double.
+
+Require user marketing sport

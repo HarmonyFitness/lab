@@ -11,23 +11,22 @@ possible à une partie des pages.
 Les mots de passe sont dans `.htpasswd` à la racine du repo, hachés en
 bcrypt. Apache 2.4 et LiteSpeed lisent ce format nativement.
 
-## La mise en service, une seule fois
+## En service depuis le 2026-09-16
+
+Les six `.htaccess` sont dans le repo, à leur place, et repartent à chaque
+déploiement comme le reste du site.
 
 Apache exige un chemin **absolu** pour désigner le fichier des mots de
-passe, et ce chemin n'est connu que du serveur. Plutôt que de le deviner
-et de risquer un 500 sur tout le site, PHP le donne : il le connaît.
+passe, et ce chemin n'était connu que du serveur. Un installeur PHP, ouvert
+une fois puis auto-supprimé, l'a relevé et écrit les fichiers. Le chemin
+retenu, visible dans le `.htaccess` de la racine :
 
-Après le déploiement, ouvrir une fois dans le navigateur le fichier
-`installer-acces-<jeton>.php` déposé à la racine, en ajoutant `?go=<jeton>`
-à l'adresse. Le jeton est celui qui figure dans le nom du fichier.
+```
+/home/clients/…/sites/lab.harmony.ch/.htpasswd
+```
 
-Le script écrit les six `.htaccess` avec le bon chemin, affiche ce qu'il a
-fait, puis se supprime. Il n'écrit rien d'autre, et il s'arrête sans rien
-toucher si `.htpasswd` n'est pas arrivé sur le serveur.
-
-Il affiche à la fin la ligne `AuthUserFile` complète : la transmettre
-permet de verser les `.htaccess` dans le repo, pour qu'ils soient
-versionnés et redéployés comme le reste.
+> Si le site déménage ou est renommé, ce chemin devient faux et **tout le
+> site répond 500**. C'est la première chose à regarder.
 
 ## Ce que ça suppose de l'hébergement
 

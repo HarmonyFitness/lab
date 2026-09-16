@@ -1,0 +1,5 @@
+# Feuille de style et scripts communs. Sans eux, une page s'affiche nue et
+# sans comportement : les rendre inaccessibles à un compte limité
+# reviendrait à lui donner des pages cassées.
+
+Require user marketing sport
