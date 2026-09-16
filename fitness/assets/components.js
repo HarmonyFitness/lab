@@ -510,6 +510,13 @@ window.HF = (function () {
       (morceaux[1] ? '#' + morceaux[1] : '');
   }
 
+  /* La page d'une famille est une fiche comme une autre, désignée par son
+     slug. Une seule fonction pour la construire, sinon l'adresse se
+     réécrit à la main à chaque endroit qui y renvoie. */
+  function lienFamille(f, base) {
+    return f ? (base || '') + 'cours/fiche/?cours=' + f.slug : '';
+  }
+
   /* Un club à Meyrin ou à Versoix n'est pas à Genève-ville. On écrit donc
      toujours « Canton de Genève », jamais « Genève » seul, dès qu'il s'agit
      d'un regroupement géographique. Le nom de la commune, lui, reste nu. */
@@ -530,7 +537,8 @@ window.HF = (function () {
     regles: regles,
     prixTexte: prixTexte, texte: texte, esc: esc, spec: spec,
     aValider: aValider, position: position, positions: positions,
-    lienCours: lienCours, famille: famille, libelleCanton: libelleCanton
+    lienCours: lienCours, lienFamille: lienFamille,
+    famille: famille, libelleCanton: libelleCanton
   };
 })();
 
@@ -2316,7 +2324,10 @@ Object.assign(window.HF.vues, (function () {
       (groupes.length ? groupes.map(function (g) {
         return '<h3 style="margin-top:24px">' + esc(g.objectif.nom) + aValider(g.aValider) + '</h3>' +
           '<div class="grille grille--cartes">' + g.cours.map(function (co) {
+            /* Sur la carte du cours qui EST la page de famille, la mention
+               renverrait sur la carte elle-même : on l'enlève. */
             var fam = co.famille ? H.famille(co.famille) : null;
+            if (fam && R.familleDuCoursGenerique(co.id)) fam = null;
             /* Un Small Group Training se lit dans le catalogue comme les
                autres, mais jamais comme les autres : la carte porte le mot
                Extra et dit en clair ce que ça coûte en plus. */
@@ -2335,7 +2346,12 @@ Object.assign(window.HF.vues, (function () {
                     ? 'En option de votre formule, pas inclus'
                     : 'Inclus, sauf dans les clubs où il est donné en Extra') + '</p>'
                 : '') +
-              (fam ? '<p class="mention">Famille ' + esc(fam.nom) + '</p>' : '') +
+              /* La famille est un lien, pas une étiquette : c'est par là que
+                 les pages de famille se trouvent, depuis chaque cours qui en
+                 fait partie, et non par une liste qui se ferait passer pour
+                 l'inventaire des disciplines (Hugo, 2026-09-16, Q46). */
+              (fam ? '<p class="mention">Famille <a class="lien-texte" href="' +
+                H.lienFamille(fam, base) + '">' + esc(fam.nom) + '</a></p>' : '') +
               (co.traitement === null
                 ? '<p><span class="wf-avalider">page ou section à trancher</span></p>' : '') +
               '</div>';
@@ -2363,33 +2379,6 @@ Object.assign(window.HF.vues, (function () {
   function videPlanning(etat, base) {
     return '<p class="planning__vide">' +
       (raisonCategorie(etat, base) || 'Aucune séance ne correspond à ces filtres.') + '</p>';
-  }
-
-  /* Liens vers les 4 pages de famille (B.3 > Cours collectifs (hub)). */
-  /* « Nos disciplines » laissait croire que ces quatre-là étaient toute
-     l'offre, alors que le catalogue en compte des dizaines. Ces pages
-     existent pour une autre raison : ce sont les disciplines à plusieurs
-     variantes, qui méritent une page qui les réunit. Le titre et la phrase
-     le disent, et renvoient au catalogue pour le reste. */
-  function liensFamilles(base) {
-    var noms = D.referentiels.familles.map(function (f) { return f.nom; });
-    var liste = noms.length > 1
-      ? noms.slice(0, -1).join(', ') + ' et ' + noms[noms.length - 1]
-      : noms[0];
-    return '<section data-spec="B.3 > Sport > Cours collectifs (hub)">' +
-      '<h2>Des disciplines déclinées en plusieurs cours</h2>' +
-      '<p class="mention">' + esc(liste) + ' réunissent chacun plusieurs cours : ' +
-      'une page présente la discipline et ses variantes. ' +
-      '<a class="lien-texte" href="#catalogue">Tous les autres cours sont dans le catalogue</a>.</p>' +
-      '<div class="grille grille--cartes">' + D.referentiels.familles.map(function (f) {
-        var m = R.membresRanges(f.id);
-        var total = m.liens.length + m.sections.length + m.filtres.length;
-        return '<div class="produit"><h3><a href="' + base + 'cours/fiche/?cours=' + f.slug + '">' +
-          esc(f.nom) + '</a>' +
-          (f.slugAValider ? ' <span class="wf-avalider">slug à confirmer</span>' : '') + '</h3>' +
-          '<p>' + esc(f.description) + '</p>' +
-          '<p class="mention">' + total + ' cours dans cette famille</p></div>';
-      }).join('') + '</div></section>';
   }
 
   /* Bloc « variantes » : actif seulement sur une page de famille. */
@@ -2510,7 +2499,7 @@ Object.assign(window.HF.vues, (function () {
     attributsCours: attributsCours, nomObjectif: nomObjectif,
     nomIntensite: nomIntensite, nomFormat: nomFormat,
     filtresCours: filtresCours, planningType: planningType, catalogueCours: catalogueCours,
-    liensFamilles: liensFamilles, blocVariantes: blocVariantes,
+    blocVariantes: blocVariantes,
     creneaux: creneaux, blocExtraDuCours: blocExtraDuCours
   };
 })());

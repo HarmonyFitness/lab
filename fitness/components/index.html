@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Composants partagés · Lab Harmony Fitness</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-16n">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-16p">
 </head>
 <body>
 
@@ -272,7 +272,11 @@
     <div x-html="HF.vues.blocVariantes('les-mills', '../')"></div>
 
     <h3 style="margin-top:28px">4.9 Liens vers les pages de famille</h3>
-    <div x-html="HF.vues.liensFamilles('../')"></div>
+    <p class="wf-note">Il n'y a plus de bloc : une liste de quatre disciplines
+      se lisait comme l'inventaire de l'offre (Q40, puis Q46). Les pages de
+      famille se trouvent depuis les cours qui en font partie, par la mention
+      « Famille » de chaque carte du catalogue, qui est un lien, et par le fil
+      d'Ariane des fiches.</p>
 
     <!-- ============================================================ -->
     <h2 id="outillage" style="margin-top:44px">5. Outillage du wireframe</h2>
@@ -291,8 +295,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-16n"></script>
-<script src="../assets/components.js?v=2026-09-16n"></script>
+<script src="../data/data.js?v=2026-09-16p"></script>
+<script src="../assets/components.js?v=2026-09-16p"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('galerie', function () {
@@ -334,7 +338,7 @@ document.addEventListener('alpine:init', function () {
 });
 </script>
 <!-- Alpine 3.14.1, copie locale : les wireframes s'ouvrent sans serveur et sans réseau. -->
-<script defer src="../assets/alpine.min.js?v=2026-09-16n"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-16p"></script>
 
 </body>
 </html>

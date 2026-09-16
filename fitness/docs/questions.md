@@ -1065,3 +1065,40 @@ comme un club sans aucun cours.
 cours qui ne le sont pas. La mention sous le titre le dit, mais si Harmony
 trouve que ça brouille la promesse, l'autre option est de reléguer les Extras
 dans une section en fin de catalogue.
+
+### Q46 · La section des familles disparaît du hub
+**Statut :** tranchée par Hugo le 2026-09-16
+**Source :** Hugo : « J'ai encore du mal avec la section Des disciplines
+déclinées en plusieurs cours. Pour moi on pense encore que ce sont les seules
+disciplines. Cette section est-elle obligatoire ? On peut pas tout simplement,
+sur une fiche cours co qui appartient à une famille, rendre cliquable la
+famille ? »
+
+**Ce qui a été essayé avant.** Q40 avait déjà changé le titre, de « Nos
+disciplines » à « Des disciplines déclinées en plusieurs cours », avec une
+phrase qui renvoyait au catalogue. Ça n'a pas suffi, et c'est logique : une
+section de quatre cartes en pleine largeur se lit comme un sommaire, quoi
+qu'annonce son titre. Le problème n'était pas la formulation, c'était la forme.
+
+**Ce qui est fait.** La section est supprimée. Les pages de famille se trouvent
+maintenant depuis les cours qui en font partie :
+- dans le catalogue, la mention « Famille Pilates » de chaque carte est un lien ;
+- sur une fiche, la famille est un cran du fil d'Ariane, entre le hub et le
+  cours : `Accueil › Sport › Cours collectifs › Pilates › Swiss Ball Pilates`.
+
+**Ce que ça change pour le maillage.** Vingt-quatre cours renvoient vers une page
+de famille, là où la section en offrait quatre liens. C'est plus de liens
+internes, mieux situés, et chacun arrive avec son contexte.
+
+**Ce qu'on perd.** La description de chaque famille et son nombre de cours,
+qui n'existaient que sur ces cartes. Les deux vivent sur la page de famille
+elle-même, qui est leur place.
+
+**B.3 demandait « liens vers les pages de famille » sur le hub.** C'est
+toujours le cas : ce sont les mentions de famille du catalogue. La ligne du
+cahier des charges est précisée, pas contredite.
+
+**Sur une fiche de Small Group Training aussi.** TRX Pilates est un Extra, mais
+il reste de la famille Pilates : son fil d'Ariane donne
+`Accueil › Sport › Small Group Training › Pilates › TRX Pilates`. La famille
+dit la pratique, le hub dit le mode d'accès.
