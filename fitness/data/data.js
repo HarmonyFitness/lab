@@ -652,8 +652,13 @@ window.DATA = {
       coachs: ['lea'],
       description: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',
       benefices: ['Nemo enim ipsam voluptatem', 'Quia voluptas sit', 'Aspernatur aut odit'] },
+    /* Shapes est un cours inspiré de la barre classique : ballet, Pilates et
+       yoga mêlés, pour sculpter, gainer et tenir la posture. Il vise donc
+       « Se renforcer et sculpter », et « Bouger mieux » en second. Pas
+       « Danser » : il n'y a pas de chorégraphie à apprendre, et quelqu'un qui
+       cherche à danser attend Zumba ou Salsa (Hugo, 2026-09-16, Q26). */
     { id: 'les-mills-shapes', nom: 'Les Mills Shapes', famille: 'les-mills', traitement: 'page',
-      objectifPrincipal: null, objectifSecondaire: null,
+      objectifPrincipal: 'se-renforcer', objectifSecondaire: 'bouger-mieux',
       intensite: 'modere', format: 'salle', estExtra: false, extra: null,
       coachs: ['lea'],
       description: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur.',

@@ -294,12 +294,33 @@ aquafitness que aqua seul ».
 Tranché avec les volumes de recherche.
 
 ### Q26 · Objectif principal de Les Mills Shapes
-**Statut :** ouverte
+**Statut :** proposition posée le 2026-09-16, à confirmer par Harmony
 **Source :** le mapping du doc de septembre ne mentionne pas ce cours, et il
-ne figure pas non plus dans les propositions de Hugo pour les trous.
-**Dans les maquettes :** `objectifPrincipal: null`. Le cours remonte dans un
-groupe « [Objectif à définir] » en fin de catalogue, visible exprès. Un cours
-sans objectif principal n'a pas sa place dans un catalogue rangé par objectif.
+ne figurait pas non plus dans les propositions de Hugo pour les trous.
+
+**Ce qu'est Shapes.** Un cours inspiré de la barre classique : ballet, Pilates
+et yoga mêlés, en petites amplitudes et en répétitions, pour sculpter,
+gainer et tenir la posture. Peu d'impact, beaucoup de brûlure musculaire.
+
+**Proposition :** `objectifPrincipal: 'se-renforcer'` (Se renforcer et
+sculpter), `objectifSecondaire: 'bouger-mieux'`. Le mot « sculpter » est
+littéralement la promesse du cours, et la posture est le bénéfice qu'on en
+retire sans l'avoir cherché.
+
+**Pourquoi pas « Danser ».** L'inspiration vient du ballet, mais il n'y a pas
+de chorégraphie à apprendre. Quelqu'un qui filtre sur « Danser » attend Zumba,
+Salsa ou All Styles Dance : Shapes le décevrait, et le cours se ferait
+ignorer par ceux qui le cherchaient vraiment.
+
+**Le cours qui va sur plusieurs objectifs n'est pas un problème de modèle.**
+Un cours est rangé sous un seul objectif dans le catalogue et dans le filtre,
+sinon il apparaît deux fois et le visiteur croit à deux cours. Le second
+objectif existe quand même : il s'affiche en tag « aussi bouger mieux » et il
+est pris en compte par la recherche. Même traitement que Pilates (aussi bouger
+mieux) et Les Mills Body Balance (aussi bouger mieux).
+
+**À confirmer par Harmony :** la façon dont le cours est donné dans les clubs.
+Si les coachs le poussent côté cardio ou côté détente, le classement bouge.
 
 ### Q27 · Liste détaillée des Extras
 **Statut :** ouverte
