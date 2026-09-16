@@ -133,9 +133,15 @@ a { color: var(--accent); }
 .entete__inner { display: flex; align-items: center; gap: 20px;
   max-width: var(--large); margin: 0 auto; padding: 13px var(--gouttiere); }
 .entete__logo { font-weight: 700; font-size: 17px; text-decoration: none; color: var(--gris-95); }
-.entete__nav { display: flex; gap: 18px; margin-left: auto; }
+/* Menu à gauche, collé au logo. Les actions sont poussées à droite. */
+.entete__nav { display: flex; gap: 18px; }
 .entete__nav a { text-decoration: none; color: var(--gris-95); font-weight: 500; }
 .entete__nav a[aria-current] { text-decoration: underline; }
+.entete__actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+.entete__compte { display: inline-flex; align-items: center; gap: 6px; font-size: 14px;
+  text-decoration: none; color: var(--gris-95); white-space: nowrap; }
+.entete__compte:hover { text-decoration: underline; }
+.entete__icone { width: 20px; height: 20px; flex: none; }
 
 .pied { background: var(--gris-95); color: var(--gris-10); margin-top: 40px; }
 .pied__inner { max-width: var(--large); margin: 0 auto; padding: 26px var(--gouttiere); }
@@ -533,7 +539,13 @@ textarea.champ { resize: vertical; }
   .grille--3, .grille--2 { grid-template-columns: 1fr; }
   .coachs { grid-template-columns: repeat(2, 1fr); }
   .pied__cols { grid-template-columns: repeat(2, 1fr); }
+  /* Mobile : le menu passe derrière un burger, non maquetté ici (Q41).
+     Restent le compte, en icône seule, et l'action principale. La séance
+     d'essai reste accessible par le CTA de chaque page. */
   .entete__nav { display: none; }
+  .entete__compte-texte { display: none; }
+  .entete__essai { display: none; }
+  .entete__inner { gap: 10px; }
   .planning th:nth-child(4), .planning td:nth-child(4) { display: none; }
   .tableau-large { display: block; overflow-x: auto; }
 }

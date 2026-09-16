@@ -542,6 +542,19 @@ window.HF.vues = (function () {
       { nom: 'Bien-être',  href: '#' },
       { nom: 'Tarifs',     href: base + 'tarifs/' }
     ];
+    /* Menu collé au logo, à gauche. À droite, les actions, de la plus
+       discrète à la plus engageante : se connecter, essayer, s'abonner.
+       « S'abonner » et non « S'inscrire » : c'est déjà le mot des cartes
+       club et de la barre récap, et B.3 tient à un seul mot par chose.
+       La connexion ouvre l'espace membre, hébergé par l'outil métier, dont
+       le nom n'apparaît jamais (B.3). */
+    var compte = '<a class="entete__compte" href="#" rel="noopener">' +
+      '<svg class="entete__icone" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
+      '<circle cx="10" cy="6.5" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/>' +
+      '<path d="M3.4 17c0-3.4 3-5.6 6.6-5.6s6.6 2.2 6.6 5.6" fill="none" ' +
+      'stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>' +
+      '<span class="entete__compte-texte">Se connecter</span></a>';
+
     return '<header class="entete" data-spec="B.3 > Arborescence > Header">' +
       '<div class="entete__inner">' +
       '<a class="entete__logo" href="' + base + '">Harmony Fitness</a>' +
@@ -549,8 +562,10 @@ window.HF.vues = (function () {
         return '<a href="' + e.href + '"' + (e.nom === courante ? ' aria-current="page"' : '') +
           '>' + esc(e.nom) + '</a>';
       }).join('') + '</nav>' +
-      '<a class="btn btn--secondaire" href="' + base + 'seance-essai/">Séance d\'essai</a>' +
-      '</div></header>';
+      '<div class="entete__actions">' + compte +
+      '<a class="btn btn--secondaire entete__essai" href="' + base + 'seance-essai/">Séance d\'essai</a>' +
+      '<a class="btn" href="' + base + 'tarifs/">S\'abonner</a>' +
+      '</div></div></header>';
   }
 
   /* Les cantons où Harmony a des clubs, déduits des clubs eux-mêmes : une

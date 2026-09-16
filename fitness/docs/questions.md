@@ -815,3 +815,38 @@ Stretching par exemple, s'ajouterait à la phrase toute seule.
   cohérent : on découvre l'offre complète, puis on entre dans une discipline.
   Le remonter au-dessus rendrait ces quatre pages plus visibles pour le SEO,
   au prix de la même ambiguïté qu'on vient de corriger.
+
+### Q41 · Composition du header
+**Statut :** tranchée par Hugo, trois points à valider
+**Source :** Hugo, 2026-09-16. « Le menu devrait être aligné à gauche. À droite,
+Séance d'essai est un bouton secondaire, bouton principal S'inscrire ou bien
+S'abonner vers la page tarif. Il faut une icône pour l'espace membre ou bien
+Se connecter, ça renvoie vers la plateforme Echino. »
+
+Appliqué : menu collé au logo à gauche, actions à droite dans l'ordre
+croissant d'engagement, « Se connecter » avec icône, « Séance d'essai » en
+secondaire, « S'abonner » en principal vers /tarifs.
+
+**S'abonner plutôt que S'inscrire**, et c'est une recommandation, pas un
+détail. « S'abonner » est déjà le mot de la carte club et de la barre récap.
+B.3 tient à un seul mot par chose, c'est la règle qui a fait choisir « Extra »
+et « catégorie ». « S'inscrire » se dirait aussi d'une newsletter ou d'un
+cours : trois mots pour une action, c'est un mot de trop.
+
+À valider :
+- **la destination du bouton principal.** Il mène à /tarifs, donc il promet un
+  abonnement et livre une page de prix. C'est l'usage courant et /tarifs est la
+  page de conversion, mais on peut aussi assumer « Voir les tarifs », plus
+  honnête et moins vendeur. Mon avis : garder « S'abonner », le prospect qui
+  clique cherche à s'abonner, pas à lire un tableau.
+- **le header mobile.** Le menu passe derrière un burger, qui n'est pas
+  maquetté à ce stade : la maquette se contente de masquer le menu, comme
+  avant. Restent le compte en icône seule et « S'abonner ». « Séance d'essai »
+  disparaît du header mobile faute de place ; elle reste dans le CTA de chaque
+  page. À trancher : est-ce acceptable, ou faut-il la garder et sacrifier autre
+  chose ? Le burger est de toute façon à maquetter.
+- **l'espace membre.** Le libellé est « Se connecter », avec une icône de
+  personne. Alternative : « Espace membre », plus explicite pour qui n'a pas
+  encore de compte mais plus long. Le lien sort vers l'outil métier : à
+  confirmer que c'est bien une redirection et non une page intermédiaire, et
+  que le membre revient ensuite sur le site.

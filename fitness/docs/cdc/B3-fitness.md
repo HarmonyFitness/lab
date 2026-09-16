@@ -6,7 +6,7 @@
 > (engagements, coaching Gym, carte club Gym, carnets).
 > Lecture seule : ne pas modifier ici, modifier dans Notion.
 
-Site de marque, d'acquisition et d'orientation. Aucune transaction sur le site : les abonnements et les séances d'essai renvoient vers Echino, la réservation des soins bien-être vers l'outil du prestataire. Quatre entrées dans le header (Clubs, Sport, Bien-être, Tarifs) et un bouton « Séance d'essai », plus les pages « Besoin d'aide ? » et Actualités accessibles depuis le footer. Trois niveaux de navigation.
+Site de marque, d'acquisition et d'orientation. Aucune transaction sur le site : les abonnements et les séances d'essai renvoient vers Echino, la réservation des soins bien-être vers l'outil du prestataire. Header : quatre entrées alignées à gauche, collées au logo (Clubs, Sport, Bien-être, Tarifs). À droite, les actions, de la plus discrète à la plus engageante : « Se connecter » avec une icône, qui ouvre l'espace membre de l'outil métier dont le nom n'apparaît jamais ; « Séance d'essai » en bouton secondaire ; « S'abonner » en bouton principal, vers /tarifs. On dit « S'abonner » et non « S'inscrire » : c'est déjà le mot de la carte club et de la barre récap. Sur mobile, le menu passe derrière un burger, le compte garde son icône seule et l'action principale reste. Les pages « Besoin d'aide ? » et Actualités restent accessibles depuis le footer. Trois niveaux de navigation.
 
 ## Arborescence
 

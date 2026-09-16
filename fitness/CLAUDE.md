@@ -154,6 +154,12 @@ Cours
 - Les Mills s'écrit en deux mots partout, noms de cours et slugs compris : "Les Mills Body Pump", `/cours/les-mills`.
 - H1 = le nom du cours ou de la famille, seul, sans mention géographique. Title = "Cours de [cours] à Genève et Vaud | Harmony", ou "[cours] à Genève et Vaud | Harmony" quand "cours de" sonne faux, ce qui est le cas des formats Les Mills. Aucune commune dans le title d'une fiche.
 
+Header
+- Menu à gauche, collé au logo. Les actions à droite, de la plus discrète à la plus engageante : "Se connecter", "Séance d'essai" en bouton secondaire, "S'abonner" en bouton principal vers `/tarifs` (décision Hugo, 2026-09-16, Q41).
+- **"S'abonner", jamais "S'inscrire"** : c'est déjà le mot de la carte club et de la barre récap. B.3 tient à un seul mot par chose, et "s'inscrire" se dirait aussi d'une newsletter ou d'un cours.
+- "Se connecter" ouvre l'espace membre, hébergé par l'outil métier. Son nom n'apparaît jamais, ni dans le libellé ni ailleurs.
+- Mobile : le menu passe derrière un burger, non maquetté à ce stade. Restent le compte en icône seule et l'action principale ; la séance d'essai reste accessible par le CTA de chaque page.
+
 Composants partagés
 - Choix du club + carte : un seul composant pour /clubs, /tarifs, /offre-du-moment, /seance-essai.
 - Repères de carte distingués par forme et lettre (G, E, P), avec légende. Jamais la couleur seule.
