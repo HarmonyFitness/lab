@@ -24,7 +24,7 @@ L'arborescence des pages Fitness suit la sitemap officielle (voir Annexe B — N
 Auto via GitHub Actions à chaque push sur `main`. Le repo entier est uploadé à la racine `/sites/lab.harmony.ch/`. Voir `.github/workflows/deploy.yml`.
 
 ## Accès
-Le lab est destiné à passer derrière un identifiant et un mot de passe, avec des accès limités possibles à une partie des pages (par exemple les pages de cours seules). Les fichiers de configuration sont prêts dans [`acces/`](acces/README.md), pas encore actifs : il manque le chemin absolu du site sur le serveur. Le dossier `acces/` n'est pas déployé.
+Le lab est protégé par identifiant et mot de passe : `marketing` voit tout, `sport` voit `/fitness/sport`, ses sous-pages et `/fitness/cours`. La mise en service se fait en ouvrant une fois l'installeur déposé à la racine, qui écrit les `.htaccess` avec le chemin absolu du serveur puis se supprime. Voir [`acces/README.md`](acces/README.md).
 
 ## Développement local
 ```bash
