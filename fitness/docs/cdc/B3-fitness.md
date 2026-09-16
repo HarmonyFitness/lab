@@ -259,7 +259,9 @@ Le menu utilise le vocabulaire Harmony, le title les mots que les gens cherchent
 | Plateau fitness | Plateau fitness : musculation, cardio et fonctionnel | Salle de musculation à Genève et Vaud \| Harmony |
 | Cours collectifs | Cours collectifs (+ « Inclus dès la formule Essential ») | Cours collectifs fitness à Genève et Vaud \| Harmony |
 | Small Group Training | Small Group Training : l'entraînement en petit groupe (+ « Un coach pour quelques personnes, en Extra de votre abonnement. ») | Small Group Training et Hyrox à Genève \| Harmony (le title garde le nom de la licence, qui est le mot cherché ; le produit, lui, s'appelle Ceremony Hyrox Max) |
-| Coaching personnel | Coaching personnel : un coach et un programme pour vous (+ « Des séances incluses dès la formule Essential (on dit « dès », jamais la liste des formules : l'énumération a déjà dû être corrigée à l'arrivée de Premium Platinum, et sur le site cette ligne est déduite des formules, pas saisie), un suivi dans l'application [nom]. ») | Coach sportif à Genève et Vaud \| Harmony |
+| Coaching personnel | Coaching personnel : un coach et un programme pour vous (+ « Des séances incluses dès la formule Essential, un suivi dans l'application [nom]. ») | Coach sportif à Genève et Vaud \| Harmony |
+
+**Une ligne d'inclusion se dit toujours avec « dès », jamais en énumérant les formules.** Le sous-titre du coaching a dû être corrigé à l'arrivée de Premium Platinum, et il l'aurait été à chaque formule suivante. Sur le site, ces lignes sont déduites des formules, jamais saisies dans une page.
 
 Slug du plateau : `/sport/plateau-fitness` par défaut, `/sport/musculation` si les données de recherche le justifient. Traductions : « Small Group Training » reste en anglais dans toutes les langues ; en allemand, le coaching personnel se dit « Personal Training ».
 
