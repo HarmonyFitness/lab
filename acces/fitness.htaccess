@@ -1,0 +1,11 @@
+# ---------------------------------------------------------------------
+# À déposer sous le nom .htaccess dans fitness/
+#
+# Le dossier reste protégé comme le reste du lab. Seul le favicon sort,
+# pour que le navigateur d'un compte limité ne redemande pas un mot de
+# passe à chaque page à cause d'une icône.
+# ---------------------------------------------------------------------
+
+<Files "favicon.png">
+  Require user hugo harmony cours
+</Files>

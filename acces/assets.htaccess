@@ -1,0 +1,12 @@
+# ---------------------------------------------------------------------
+# Fichiers communs, sans lesquels une page de cours s'affiche cassée
+# À déposer sous le nom .htaccess dans CHACUN de ces dossiers :
+#   fitness/assets/     (wireframe.css, components.js, alpine.min.js)
+#   fitness/data/       (data.js)
+#
+# Attention : data.js contient TOUTES les données du lab, tarifs compris.
+# Un compte limité aux pages de cours peut donc lire le fichier. Voir le
+# README : restreindre des pages ne restreint pas les données.
+# ---------------------------------------------------------------------
+
+Require user hugo harmony cours

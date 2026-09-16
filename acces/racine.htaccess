@@ -1,0 +1,38 @@
+# ---------------------------------------------------------------------
+# lab.harmony.ch — tout le lab derrière un mot de passe
+# À déposer à la racine du site, sous le nom .htaccess
+#
+# UNE SEULE LIGNE À ADAPTER : AuthUserFile. Apache veut un chemin ABSOLU
+# sur le serveur. Un chemin relatif ne marche pas : Apache le résout
+# depuis sa propre racine, pas depuis ce dossier.
+#
+# Un chemin faux fait répondre 500 à TOUT le site. Ouvrir une page juste
+# après la mise en ligne, et garder le FTP ouvert pour pouvoir renommer
+# ce fichier si besoin.
+# ---------------------------------------------------------------------
+
+AuthType Basic
+AuthName "Harmony Lab"
+AuthUserFile /chemin/absolu/vers/lab.harmony.ch/.htpasswd
+
+# Les comptes qui voient tout le lab. Pour en ajouter un, l'ajouter au
+# fichier .htpasswd puis ici, séparé par une espace.
+Require user hugo harmony
+
+# Le fichier des mots de passe ne se sert jamais, même en direct.
+<Files ".htpasswd">
+  Require all denied
+</Files>
+
+# Deux exceptions qui restent lisibles sans compte :
+# - la page d'explication, sinon elle redemanderait elle-même un mot de
+#   passe et le navigateur tournerait en rond
+# - robots.txt, pour qu'il continue de dire aux moteurs de ne rien indexer
+<Files "401.html">
+  Require all granted
+</Files>
+<Files "robots.txt">
+  Require all granted
+</Files>
+
+ErrorDocument 401 /401.html

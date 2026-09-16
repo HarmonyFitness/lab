@@ -1,0 +1,13 @@
+# ---------------------------------------------------------------------
+# Accès élargi aux pages de cours
+# À déposer sous le nom .htaccess dans CHACUN de ces dossiers :
+#   fitness/cours/
+#   fitness/sport/cours-collectifs/
+#
+# Le compte « cours » échoue à la règle de la racine partout ailleurs :
+# c'est ce qui le limite. Ici, il passe.
+# AuthType, AuthName et AuthUserFile sont hérités de la racine : ne pas
+# les répéter, ils seraient à maintenir en double.
+# ---------------------------------------------------------------------
+
+Require user hugo harmony cours
