@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Offre du moment | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-16y">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-17a">
 </head>
 <body>
 
@@ -104,10 +104,6 @@
                  texte: 'Choisissez votre club pour profiter de l\'offre.',
                  lien: { href: '#club', libelle: 'Choisir mon club' } })"></div>
 
-          <!-- Simulation du départ vers le tunnel : le wireframe ne redirige
-               pas, il montre ce qui partirait en paramètre. -->
-          <p class="annonce annonce--message" x-show="etat.message" x-text="etat.message"></p>
-
           <div class="grille grille--cartes" style="margin-top:12px">
             <template x-for="p in offres()" :key="p.id">
               <div x-html="HF.vues.carteProduit(p, etat, { pied: bouton, sansJours: true })"></div>
@@ -117,34 +113,90 @@
         </section>
 
         <!-- ====================================================== BLOC 3 -->
-        <!-- Même composant que Tarifs : le club référent est obligatoire pour
-             souscrire, ici comme là-bas. Il porte son propre titre, donc on
-             n'en ajoute pas : ça ferait deux titres pour un seul bloc.
-             Placé après l'offre : c'est l'étape qui suit, pas un péage à
-             l'entrée. Quand l'annonce porte déjà le club (?club=), le bloc se
-             replie en une ligne de rappel et les boutons sont actifs plus
-             haut. -->
-        <section id="club" style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
-          <div class="ordi-seulement" x-html="HF.vues.choixClub(etat, {})"></div>
-          <div class="mobile-seulement"
-               x-html="etat.club ? HF.vues.clubReplie(etat, {}) : HF.vues.pastillesMobile(etat)"></div>
+        <!-- Pourquoi Harmony. Une landing d'annonce s'adresse à des gens qui
+             ne connaissent pas la marque : le prix seul ne dit pas pourquoi
+             ici plutôt qu'ailleurs. Bloc absent de B.3, ajouté à la demande
+             de Hugo, à valider (Q52). -->
+        <section style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment (ajout à valider)">
+          <h2>Pourquoi Harmony</h2>
+          <div class="grille grille--4" style="margin-top:12px">
+            <template x-for="d in differenciants" :key="d.titre">
+              <div class="bloc">
+                <h3 x-text="d.titre"></h3>
+                <p x-text="d.texte"></p>
+              </div>
+            </template>
+          </div>
         </section>
 
         <!-- ====================================================== BLOC 4 -->
-        <section style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
+        <!-- Preuve sociale. La note et le nombre d'avis sont des faits : ils
+             restent en placeholder tant qu'Harmony ne les a pas donnés, ils
+             ne s'inventent pas. Les témoignages sont le composant partagé,
+             déjà utilisé sur Tarifs et sur le hub des cours. -->
+        <section style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment (ajout à valider)">
+          <h2>Ils s'entraînent chez Harmony</h2>
+          <div style="margin-top:12px" x-html="HF.vues.noteAvis()"></div>
+          <div style="margin-top:16px" x-html="HF.vues.temoignages(3)"></div>
+        </section>
+
+        <!-- ====================================================== BLOC 5 -->
+        <!-- Le club, en dernière étape. Ce n'est plus un péage à l'entrée ni
+             un bloc qui coupe la page en deux : c'est le geste qui suit les
+             arguments. Une fois le club choisi, l'action est ici, pas
+             seulement en haut : personne ne remonte la page pour finir.
+             Quand l'annonce porte déjà le club (?club=), le bloc s'ouvre
+             directement sur l'action. -->
+        <section id="club" style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
+          <template x-if="!etat.club">
+            <div>
+              <div class="ordi-seulement" x-html="HF.vues.choixClub(etat, {})"></div>
+              <div class="mobile-seulement" x-html="HF.vues.pastillesMobile(etat)"></div>
+            </div>
+          </template>
+
+          <template x-if="etat.club">
+            <div>
+              <h2>Dernière étape</h2>
+              <div style="margin-top:12px" x-html="HF.vues.clubReplie(etat, {})"></div>
+              <div class="finalise" style="margin-top:12px">
+                <template x-for="p in offres()" :key="p.id">
+                  <div class="finalise__ligne">
+                    <div>
+                      <strong x-html="HF.nomProduitHtml(p)"></strong>
+                      <div class="mention" x-text="p.duree"></div>
+                    </div>
+                    <div class="finalise__prix" x-text="prixOffre(p)"></div>
+                    <button type="button" class="btn" :data-act="'profiter'" :data-id="p.id">
+                      Profiter de l'offre
+                    </button>
+                  </div>
+                </template>
+                <p class="mention" x-show="!offres().length">
+                  Aucune offre dédiée depuis ce club.
+                  <a class="lien-texte" href="../tarifs/">Voir tous nos tarifs</a>
+                </p>
+              </div>
+              <p class="annonce annonce--message" x-show="etat.message" x-text="etat.message"></p>
+            </div>
+          </template>
+        </section>
+
+        <!-- ====================================================== BLOC 6 -->
+        <section style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
           <h2>Conditions</h2>
           <template x-for="c in conditions()" :key="c.nom">
             <p class="mention"><strong x-text="c.nom"></strong> : <span x-text="c.texte"></span></p>
           </template>
         </section>
 
-        <!-- ====================================================== BLOC 5 -->
-        <section style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
+        <!-- ====================================================== BLOC 7 -->
+        <section style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
           <h2>Questions sur l'offre</h2>
           <div x-html="HF.vues.faq(faqOffre, etat)"></div>
         </section>
 
-        <!-- ====================================================== BLOC 6 -->
+        <!-- ====================================================== BLOC 8 -->
         <p style="margin-top:32px">
           <a class="lien-texte" href="../tarifs/">Voir tous nos tarifs</a>
         </p>
@@ -167,13 +219,21 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-16y"></script>
-<script src="../assets/components.js?v=2026-09-16y"></script>
+<script src="../data/data.js?v=2026-09-17a"></script>
+<script src="../assets/components.js?v=2026-09-17a"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageOffre', function () {
     return {
       etat: HF.etatInitial(),
+      /* Contenu à fournir par Harmony : ce sont des arguments de marque, ils
+         ne s'inventent pas. Quatre, parce qu'au-delà personne ne les lit. */
+      differenciants: [
+        { titre: '[Différenciant 1]', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.' },
+        { titre: '[Différenciant 2]', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.' },
+        { titre: '[Différenciant 3]', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.' },
+        { titre: '[Différenciant 4]', texte: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.' }
+      ],
       faqOffre: [
         { q: "Jusqu'à quand puis-je en profiter ?",
           r: "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore." },
@@ -245,6 +305,12 @@ document.addEventListener('alpine:init', function () {
          siennes ; quand ce sont des offres dédiées, ce sont les leurs. Une
          campagne dont la page ne parle pas n'a pas à poser ses conditions
          ici. */
+      /* Le prix de l'offre, lu par la même règle que les cartes : une seule
+         source, sinon le bloc de finalisation et la carte finiraient par
+         annoncer deux montants. */
+      prixOffre: function (p) {
+        return HF.prixTexte(HF.regles.prix(p, this.etat.tarif, this.etat.engagement, this.etat).valeur);
+      },
       conditions: function () {
         var offres = this.offres();
         if (offres.length) {
@@ -261,7 +327,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-16y"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-17a"></script>
 
 </body>
 </html>

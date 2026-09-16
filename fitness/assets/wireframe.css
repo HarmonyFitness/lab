@@ -238,6 +238,7 @@ a { color: var(--accent); }
 .grille { display: grid; gap: var(--gouttiere); align-items: stretch; }
 .grille--3 { grid-template-columns: repeat(3, 1fr); }
 .grille--2 { grid-template-columns: repeat(2, 1fr); }
+.grille--4 { grid-template-columns: repeat(4, 1fr); }
 
 /* Cartes produit : 4 par ligne sur la largeur d'une section, soit 290 px en
    1280. Une section qui en a moins garde la même largeur de carte et laisse
@@ -536,6 +537,24 @@ textarea.champ { resize: vertical; }
 .hero-club__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
   margin-top: 14px; }
 
+/* Bloc de finalisation d'une landing : une ligne par offre disponible, le
+   prix et l'action. Ce n'est pas une carte produit, on ne compare plus, on
+   valide. L'action est ici parce que personne ne remonte la page pour
+   finir ce qu'il a commencé en bas. */
+.finalise__ligne { display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
+  padding: 14px 18px; margin-top: 10px; }
+.finalise__prix { font-size: 20px; font-weight: 700; margin-left: auto; }
+
+/* Note et nombre d'avis : une preuve sociale se lit d'un coup d'oeil, donc
+   le chiffre est gros et le reste petit. Les valeurs sont des placeholders :
+   une note est un fait, elle ne s'invente pas. */
+.note { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
+  padding: 14px 18px; }
+.note__valeur { font-size: 26px; font-weight: 700; line-height: 1; }
+.note__detail { font-size: 13px; color: var(--gris-60); }
+
 /* Header de landing : logo et une seule action. Rien qui emmène ailleurs.
    Voir questions.md > Q50. */
 .entete--landing .entete__inner { justify-content: space-between; }
@@ -560,7 +579,13 @@ textarea.champ { resize: vertical; }
 .hero-landing__actions { margin: 16px 0 0; }
 .hero-landing .compteur { margin-top: 12px; }
 
+@media (max-width: 1020px) {
+  .grille--4 { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 760px) {
+  .finalise__ligne .btn { width: 100%; }
+  .finalise__prix { margin-left: 0; }
   .hero-landing__photo .img.img--landing { aspect-ratio: 4 / 3; min-height: 0; }
   .hero-landing__panneau {
     position: static; transform: none; width: auto; margin-top: -24px;

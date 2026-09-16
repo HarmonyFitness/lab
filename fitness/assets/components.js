@@ -1418,6 +1418,16 @@ Object.assign(window.HF.vues, (function () {
       out.join('') + '</div>';
   }
 
+  /* Bloc de note, pour une landing d'annonce. Les chiffres ne sont pas
+     inventés : une note et un nombre d'avis sont des faits, ils se lisent
+     dans l'outil qui les collecte ou ils restent en placeholder. */
+  function noteAvis() {
+    return '<div class="note" data-spec="Annexe A > A.2 > Preuve sociale (à valider)">' +
+      '<div class="note__valeur">[note] / 5</div>' +
+      '<div class="note__detail">[nombre] avis · [source des avis]' +
+      H.aValider(true) + '</div></div>';
+  }
+
   /* B.3 > Page Tarifs > Trame > 6 : la sortie pour qui ne se reconnaît dans
      aucune formule. Volontairement discrète, une ligne de texte et un lien,
      pas un bloc de conversion : elle ne doit pas détourner de la souscription
@@ -1480,7 +1490,8 @@ Object.assign(window.HF.vues, (function () {
     ligneIndisponible: ligneIndisponible, ligneSansClub: ligneSansClub,
     barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub,
     planning: planning, grilleCoachs: grilleCoachs, panneauCoach: panneauCoach,
-    faq: faq, temoignages: temoignages, ctaEssai: ctaEssai, compteur: compteur,
+    faq: faq, temoignages: temoignages, noteAvis: noteAvis,
+    ctaEssai: ctaEssai, compteur: compteur,
     ligneConseil: ligneConseil, destinataireLigne: destinataireLigne,
     desParMoisTexte: desParMoisTexte
   };

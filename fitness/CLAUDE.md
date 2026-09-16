@@ -145,6 +145,9 @@ Page Offre du moment
 - Variante non prévue par B.3, à valider par Harmony. Si elle passe, elle vaut pour toute landing de campagne, pas seulement celle-ci.
 - **L'offre avant le club** (Hugo, 2026-09-16, Q51). Le trafic vient d'annonces payées : on tient la promesse avant de demander quoi que ce soit. Ordre : hero, l'offre, le club, les conditions, la FAQ. La ligne « sans club » porte un lien vers le bloc du club, sinon elle dit quoi faire sans donner le moyen de le faire.
 - Une annonce géolocalisée devrait transporter son club dans l'adresse (`?club=meyrin`) : le bloc de choix se replie alors en ligne de rappel et les boutons sont actifs dès la première carte. C'est une étape en moins pour quelqu'un qui vient de cliquer.
+- **Composition** (Hugo, 2026-09-16, Q52) : hero, l'offre, Pourquoi Harmony, preuve sociale, dernière étape (le club puis l'action), conditions, FAQ, lien vers tous les tarifs. Les arguments sont entre l'offre et l'engagement, là où le doute arrive : le prix a été vu, il faut une raison de choisir Harmony plutôt qu'un autre.
+- **Le club est le dernier geste, pas un bloc au milieu.** Ce qui clochait n'était pas l'ordre mais le poids : dix clubs et une carte coupent la page en deux. Corollaire indispensable : une fois le club choisi en bas de page, l'action est là, rappel du club et une ligne par offre disponible avec son prix et son bouton. Personne ne remonte une page pour finir ce qu'il a commencé en bas.
+- Différenciants et note d'avis sont du contenu Harmony : placeholders visibles, jamais de valeur inventée. Une note est un fait, et il faudra dire d'où elle vient et comment elle se met à jour.
 
 Cours
 - Vocabulaire strict : "catégorie" est réservé aux clubs (Gym, Essential, Premium). Pour les cours on dit **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours). Ne jamais écrire "catégorie de cours".

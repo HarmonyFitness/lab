@@ -1301,3 +1301,57 @@ moins pour quelqu'un qui vient de cliquer.
 
 **Ce qui n'a pas changé :** pas de bouton de souscription sans club référent.
 C'est une règle de B.3, elle vaut ici comme sur Tarifs.
+
+### Q52 · Composition de la landing : arguments, preuve sociale, et le club en dernière étape
+**Statut :** demandé par Hugo le 2026-09-16, contenu à fournir par Harmony
+**Source :** Hugo : « il manque des sections pour présenter Harmony, ses
+avantages, sa philosophie. Des éléments différenciants. Aussi de la social
+proof comme des témoignages ou des notes. Et mettre le choix après la formule
+fait un peu bizarre finalement, qu'en penses-tu ? »
+
+**Sur le club : ce n'était pas l'ordre, c'était le poids.** Une liste de dix
+clubs avec sa carte, posée entre l'offre et le reste, coupe la page en deux.
+Le bloc n'était pas au mauvais endroit dans le raisonnement, il était trop
+lourd au milieu d'une page qui doit se lire d'une traite. Il est maintenant le
+dernier geste, après les arguments, sous le titre « Dernière étape ».
+
+**Conséquence, et c'est ce qui manquait :** une fois le club choisi en bas de
+page, l'action est là, pas seulement en haut. Le bloc affiche le rappel du club
+et une ligne par offre disponible, avec son prix et son bouton. Personne ne
+remonte une page pour finir ce qu'il a commencé en bas.
+
+**La composition, du haut vers le bas.**
+
+| Bloc | Ce qu'il fait |
+|---|---|
+| Hero | tient la promesse de l'annonce, échéance, action |
+| L'offre | ce qu'on achète, prix, ce qui est inclus |
+| Pourquoi Harmony | quatre différenciants : la landing s'adresse à des gens qui ne connaissent pas la marque |
+| Ils s'entraînent chez Harmony | la note, le nombre d'avis, trois témoignages |
+| Dernière étape | le club, puis l'action |
+| Conditions, FAQ, lien vers tous les tarifs | ce qu'on vérifie avant de s'engager |
+
+Les arguments sont **entre** l'offre et l'engagement, à l'endroit où le doute
+arrive : le prix a été vu, il faut maintenant une raison de choisir Harmony
+plutôt qu'un autre.
+
+**Deux blocs absents de B.3**, ajoutés sur demande et notés comme tels dans le
+cahier des charges : « Pourquoi Harmony » et la preuve sociale. Les témoignages
+ne sont pas une nouveauté, c'est le composant partagé déjà utilisé sur Tarifs
+et sur le hub des cours ; B.3 les prévoit sur l'Accueil et sur la séance
+d'essai.
+
+**Ce qui attend Harmony.**
+- **Les quatre différenciants** : ce sont des arguments de marque, ils ne
+  s'inventent pas. Placeholders `[Différenciant 1]` à `[Différenciant 4]`.
+  Quatre, parce qu'au-delà personne ne les lit.
+- **La note et le nombre d'avis** : ce sont des faits. `[note] / 5`,
+  `[nombre] avis`, `[source des avis]`, marqués à valider. Il faudra dire d'où
+  ils viennent (Google, une plateforme d'avis, une enquête interne) et comment
+  ils se mettent à jour : une note figée dans le CMS vieillit mal.
+- **Les témoignages** : de vrais membres, avec leur club.
+
+**Une répétition assumée.** Quand un club est déjà choisi, le bouton est sur la
+carte en haut et dans la dernière étape en bas. Ce n'est pas un produit
+dupliqué, c'est la même action rappelée en fin de page, ce que fait toute
+landing qui convertit.
