@@ -150,6 +150,21 @@ window.HF = (function () {
       return D.extras.filter(function (e) { return e.clubs.indexOf(idClub) !== -1; });
     },
 
+    /* La formule qui comprend les Extras. On la retrouve par son champ,
+       jamais par son identifiant : demain il peut y en avoir une autre. */
+    formuleAvecExtras: function () {
+      return D.produits.find(function (p) {
+        return p.type === 'formule' && p.inclutExtras;
+      }) || null;
+    },
+
+    /* L'unique Extra qui couvre tous les Small Group Training. Il n'y en a
+       qu'un : on l'appelle par son type, pas par son identifiant, pour que
+       le code n'ait pas à connaître le nom du produit. */
+    extraDesSgt: function () {
+      return D.extras.find(function (e) { return e.type === 'sgt'; }) || null;
+    },
+
     /* La promotion en cours qui porte sur ce produit, ou null. Une promo
        s'applique à des produits qui existent déjà, abonnements ou carnets
        indifféremment : le type du produit n'entre pas dans la règle.
@@ -1044,8 +1059,6 @@ Object.assign(window.HF.vues, (function () {
     return '<div class="extra" data-spec="B.3 > Page Tarifs > Trame > 4 (Extras)">' +
       '<div class="extra__corps">' +
       '<strong>' + esc(e.nom) + '</strong> <span class="extra__marque">Extra</span>' +
-      (e.regroupeAValider
-        ? ' <span class="wf-avalider">liste détaillée à fournir par Harmony</span>' : '') +
       '<p class="mention" style="margin:4px 0 0">' + esc(e.description) + '</p></div>' +
       '<div class="extra__droite">' +
       (inclus
@@ -1913,8 +1926,15 @@ Object.assign(window.HF.regles, (function () {
     return D.referentiels.familles.find(function (f) { return f.coursGenerique === idCours; }) || null;
   }
 
+  /* Les Small Group Training sont des cours, pas des produits : un seul
+     Extra les couvre tous, et c'est lui qui porte le prix et les clubs.
+     Le hub liste donc les cours qui en font partie, jamais l'Extra
+     lui-même : « Small Group Training » est le nom de l'Extra, pas celui
+     d'un training (Hugo, 2026-09-16). */
   function smallGroupTrainings() {
-    return D.extras.filter(function (e) { return e.type === 'sgt'; });
+    var e = R.extraDesSgt();
+    if (!e) return [];
+    return D.cours.filter(function (c) { return c.estExtra && c.extra === e.id; });
   }
 
   /* Les entrées qui partagent une fiche : le cours lui-même, et celles qui
@@ -2335,6 +2355,9 @@ Object.assign(window.HF.vues, (function () {
   }
 
   /* Bloc « en Extra » d'une fiche Small Group Training.
+     Le prix n'est pas celui du training : c'est celui de l'Extra « Small
+     Group Training », qui les couvre tous. On le dit, sinon le visiteur croit
+     payer ce training-là et compte deux fois s'il en pratique deux.
      Une fiche peut être partagée par deux entrées : le cours collectif, inclus,
      et le Small Group Training du même nom, payant. Le bloc sort alors sur la
      fiche du cours inclus, avec une autre phrase : il ne s'agit plus de dire
@@ -2346,18 +2369,31 @@ Object.assign(window.HF.vues, (function () {
     if (!entree) return '';
     var e = H.extra(entree.extra); if (!e) return '';
     var partage = entree.id !== co.id;
+    /* Les clubs listés sont ceux où CE training est donné, pas ceux où
+       l'Extra est vendu : la fiche répond à « où je le pratique ». */
+    var clubs = R.clubsDuCours(entree.id);
+    var platinum = R.formuleAvecExtras();
     return '<section data-spec="B.3 > Sport > Fiches cours (Extra)">' +
       '<div class="produit">' +
-      '<h2>' + (partage ? 'Aussi en Small Group Training' : esc(e.nom)) +
+      '<h2>' + (partage ? 'Aussi en Small Group Training' : 'Un Small Group Training') +
       ' <span class="extra__marque">Extra</span></h2>' +
       '<p>' + (partage
         ? 'Dans certains clubs, ce cours est donné en petit groupe avec un coach. ' +
-          'Cette formule-là n\'est comprise dans aucun abonnement : c\'est un Extra.'
-        : 'Ce cours n\'est inclus dans aucune formule : c\'est un Extra de votre abonnement.') + '</p>' +
-      '<p><strong>' + prixTexte(e.prix) + '</strong></p>' +
-      '<p class="mention">Proposé à : ' + e.clubs.map(function (id) {
-        var c = H.club(id); return c ? esc(c.nom) : esc(id);
-      }).join(', ') + '</p>' +
+          'Cette forme-là ne s\'ajoute pas à votre abonnement toute seule : ' +
+          'elle se prend en Extra.'
+        : 'Ce cours ne se pratique qu\'en petit groupe avec un coach, et se prend ' +
+          'en Extra de votre abonnement.') + '</p>' +
+      '<p>Il fait partie de l\'Extra <strong>' + esc(e.nom) + '</strong>, ' +
+      'qui donne accès à tous les Small Group Training du club.' +
+      (platinum ? ' Cet Extra est compris dans la formule ' +
+        H.nomProduitHtml(platinum) + '.' : '') + '</p>' +
+      '<p><strong>' + prixTexte(e.prix) + '</strong> ' +
+      '<span class="mention">pour l\'Extra, quel que soit le nombre de Small Group Training pratiqués</span></p>' +
+      (clubs.length
+        ? '<p class="mention">Proposé à : ' + clubs.map(function (c) {
+            return esc(c.nom);
+          }).join(', ') + '</p>'
+        : '') +
       '<p><a class="btn" href="' + base + 'tarifs/">Voir les tarifs</a></p>' +
       '</div></section>';
   }

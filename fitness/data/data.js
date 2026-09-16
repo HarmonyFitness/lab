@@ -473,31 +473,22 @@ window.DATA = {
   /* et Premium, c'est-à-dire partout sauf Genève · Pâquis, le seul Gym.   */
   /* ------------------------------------------------------------------ */
   extras: [
-    /* Hyrox est une licence, pas un produit. Harmony l'utilise pour deux
-       choses distinctes : un cours collectif, « Les Mills Ceremony Hyrox »,
-       et ce Small Group Training, « Ceremony Hyrox Max ». Le nom de la
-       licence seul ne désigne rien et ne doit apparaître nulle part comme
-       nom de produit (client, 2026-09-16, Q42).
-       Plus proposé à Genève · Pâquis : c'est Cross Training qui y est donné. */
-    { id: 'ceremony-hyrox-max', nom: 'Ceremony Hyrox Max', type: 'sgt',
-      clubs: ['meyrin'],
-      modeVente: 'en-ligne', prix: null, idMetier: null, cours: 'ceremony-hyrox-max',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.' },
-
-    /* Tous les autres Small Group Training, en attendant leur liste
-       détaillée : B.3 veut un Extra par Small Group Training, celui-ci les
-       représente tous. Voir questions.md > Q27. */
+    /* Un seul Extra pour tous les Small Group Training (Hugo, 2026-09-16).
+       On n'achète pas un training à la fois : on ajoute « Small Group
+       Training » à sa formule, ou on prend Premium Platinum qui l'inclut.
+       Le prix se saisit donc ici, une fois, et sur aucun training.
+       Les trainings eux-mêmes sont des cours de format petit groupe qui
+       pointent sur cet Extra : voir cours > estExtra / extra. C'est aussi
+       pour ça que « Small Group Training » ne peut pas être un training :
+       c'est le nom de l'Extra qui les regroupe.
+       Les clubs restent saisis ici, comme pour tout Extra ; la liste réelle
+       est attendue d'Harmony (questions.md > Q27). Un club où une séance de
+       Small Group Training est programmée y est ajouté d'office, plus bas. */
     { id: 'small-group-training', nom: 'Small Group Training', type: 'sgt',
-      clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'meyrin',
-              'versoix', 'veyrier', 'denges', 'gland', 'signy'],
+      clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'geneve-paquis',
+              'meyrin', 'versoix', 'veyrier', 'denges', 'gland', 'signy'],
       modeVente: 'en-ligne', prix: null, idMetier: null, cours: null,
-      regroupeAValider: true,
       description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.' },
-
-    { id: 'cross-training', nom: 'Cross Training', type: 'sgt',
-      clubs: ['geneve-paquis', 'geneve-la-praille'],
-      modeVente: 'en-ligne', prix: null, idMetier: null, cours: 'cross-training-sgt',
-      description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.' },
 
     { id: 'service-pressing', nom: 'Service Pressing', type: 'service',
       clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'meyrin',
@@ -853,6 +844,9 @@ window.DATA = {
       benefices: [] },
 
     /* --- Small Group Training : un Extra, pas un cours inclus --------- */
+    /* Les deux entrées ci-dessous sont des Small Group Training. Elles n'ont
+       pas de prix à elles : elles pointent toutes les deux sur l'unique
+       Extra « Small Group Training », qui porte le prix et les clubs. */
     /* Même nom et même fiche que le cours collectif Cross Training : c'est
        la même pratique, en petit groupe et payante ici. memeFicheQue évite
        deux pages pour un seul nom, qui se cannibaliseraient au référencement
@@ -862,14 +856,19 @@ window.DATA = {
     { id: 'cross-training-sgt', nom: 'Cross Training', famille: null, traitement: 'page',
       memeFicheQue: 'cross-training',
       objectifPrincipal: 'se-depenser', objectifSecondaire: null,
-      intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'cross-training',
+      intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'small-group-training',
       coachs: ['thomas', 'karim'],
       description: 'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.',
       benefices: ['Quis autem vel eum iure', 'Reprehenderit qui in ea', 'Voluptate velit esse'] },
 
+    /* Hyrox est une licence, pas un produit. Harmony l'utilise pour deux
+       choses distinctes : un cours collectif, « Les Mills Ceremony Hyrox »,
+       et ce Small Group Training, « Ceremony Hyrox Max ». Le nom de la
+       licence seul ne désigne rien et ne doit apparaître nulle part comme
+       nom de produit (client, 2026-09-16, Q42). */
     { id: 'ceremony-hyrox-max', nom: 'Ceremony Hyrox Max', famille: null, traitement: 'page',
       objectifPrincipal: 'se-depasser', objectifSecondaire: null,
-      intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'ceremony-hyrox-max',
+      intensite: 'intense', format: 'petit-groupe', estExtra: true, extra: 'small-group-training',
       coachs: ['thomas'],
       description: 'Cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus.',
       benefices: ['Cum soluta nobis', 'Est eligendi optio', 'Cumque nihil impedit'] }
@@ -1077,5 +1076,27 @@ window.DATA = {
     /* section, ou traitement pas encore tranché : ancre sur la page de famille */
     c.destination = '/cours/' + f.slug + '#' + c.id;
     c.aSaPage = false;
+  });
+})();
+
+/* ------------------------------------------------------------------ */
+/* Cohérence de l'Extra Small Group Training                            */
+/*                                                                      */
+/* Les clubs d'un Extra se saisissent sur l'Extra. Mais un club où une   */
+/* séance de Small Group Training est programmée le propose forcément :  */
+/* on complète la liste saisie, pour qu'un planning et une page Tarifs   */
+/* ne puissent jamais se contredire. Jamais l'inverse : un club peut      */
+/* vendre l'Extra sans séance encore au planning.                        */
+/* ------------------------------------------------------------------ */
+(function () {
+  var D = window.DATA;
+  var sgt = D.extras.find(function (e) { return e.type === 'sgt'; });
+  if (!sgt) return;
+  var idsCours = D.cours
+    .filter(function (c) { return c.estExtra && c.extra === sgt.id; })
+    .map(function (c) { return c.id; });
+  D.seances.forEach(function (s) {
+    if (idsCours.indexOf(s.cours) === -1) return;
+    if (sgt.clubs.indexOf(s.club) === -1) sgt.clubs.push(s.club);
   });
 })();

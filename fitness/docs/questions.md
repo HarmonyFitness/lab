@@ -303,20 +303,21 @@ sans objectif principal n'a pas sa place dans un catalogue rangé par objectif.
 
 ### Q27 · Liste détaillée des Extras
 **Statut :** ouverte
-**Source :** B.3 > Catégories de clubs : « Chaque Small Group Training est un
-extra à part, et l'offre varie selon les clubs ».
-Hugo a posé une liste provisoire le 2026-09-14, en attendant celle d'Harmony :
-Small Group Training (tous sauf Hyrox), Service Pressing, Gel de l'abonnement,
-tous dans les clubs Essential et Premium, tous à « CHF XX.– ».
+**Source :** Hugo a posé une liste provisoire le 2026-09-14, en attendant celle
+d'Harmony : Small Group Training, Service Pressing, Gel de l'abonnement, tous
+dans les clubs Essential et Premium, tous à « CHF XX.– ».
 
-Deux points à reprendre quand Harmony fournit la vraie liste :
-- « Small Group Training » regroupe aujourd'hui tous les autres Small Group
-  Training en un seul Extra. B.3 en veut un par Small Group Training, chacun
-  avec sa fiche cours. L'Extra est donc marqué `regroupeAValider` et n'a pas
-  de lien vers une fiche.
+Ce qui reste ouvert : les Extras autres que le Small Group Training, et les
+clubs où chacun est proposé.
+
 - L'Extra « Service linge », que j'avais posé d'après la mention « les services
   (linge…) » de B.3, est remplacé par « Service Pressing », le nom donné par
   Hugo. Si les deux services sont distincts, il faut les rétablir tous les deux.
+- Le point « un Extra par Small Group Training » est tranché depuis : voir Q43.
+  Il n'y a plus qu'un Extra pour tous les Small Group Training, donc plus de
+  liste d'Extras à fournir de ce côté-là. Ce qui manque encore, c'est la liste
+  des Small Group Training eux-mêmes et des clubs où ils sont donnés : ce sont
+  des cours, ils s'ajoutent au planning.
 
 ### Q28 · Durée de validité et prix des carnets d'entrées
 **Statut :** ouverte
@@ -913,3 +914,45 @@ serait inclus dans un club et payant dans un autre. C'est tenable seulement si
 on l'affiche clairement, et ça mérite plutôt deux noms distincts. La question
 vaut pour tout futur Small Group Training : un nom de Small Group Training ne
 devrait jamais être aussi un nom de cours collectif.
+
+### Q43 · Un seul Extra pour tous les Small Group Training
+**Statut :** tranchée par Hugo le 2026-09-16
+**Source :** Hugo, sur la page `/sport/small-group-training/` : « Pourquoi
+mettre un prix sur les SGT ? On part du principe qu'ils sont tous inclus dans
+les SGT, en option des formules et inclus dans Platinum. "Small Group Training"
+ne peut pas être un SGT. Du coup quand on est sur la page tarif, je propose
+uniquement en extra à choisir "Small Group Training" et pas le détail. Par
+exemple pour Pâquis ou La Praille, on met uniquement en extra "Small Group
+Training", pas Cross Training. »
+
+**Ce que ça change.** B.3 disait « chaque Small Group Training est un extra à
+part ». C'est faux désormais, et la phrase est corrigée dans le cahier des
+charges.
+
+Le modèle est maintenant :
+- **un seul Extra**, nommé « Small Group Training ». C'est lui qui porte le
+  prix et les clubs. Il s'ajoute à une formule, et il est compris dans la
+  formule Premium Platinum, comme tous les Extras vendus en ligne.
+- **les Small Group Training sont des cours**, de format petit groupe, marqués
+  `estExtra` et rattachés à cet Extra. Ils n'ont pas de prix à eux : Cross
+  Training et Ceremony Hyrox Max ne se vendent pas séparément.
+- « Small Group Training » **n'apparaît jamais comme un training** dans le hub.
+  C'est le nom de l'Extra qui les regroupe, pas celui d'une pratique. Le hub
+  annonce l'Extra et son prix en haut, puis liste les trainings sans prix.
+- sur la page Tarifs et sur la fiche club, **seul l'Extra s'affiche**. Pâquis
+  et La Praille proposent « Small Group Training », jamais « Cross Training ».
+
+**Pourquoi c'est mieux.** Un prix par training obligerait le visiteur à
+additionner pour savoir ce qu'il paie, et à choisir sa pratique avant de
+connaître son budget. Un prix unique répond à la seule question qui compte :
+combien coûte l'accès au petit groupe dans mon club.
+
+**Effet de bord réglé au passage :** l'Extra fourre-tout marqué
+`regroupeAValider` (Q27) disparaît. Les clubs où un Small Group Training est
+programmé sont ajoutés d'office aux clubs de l'Extra, pour qu'un planning et
+une page Tarifs ne puissent jamais se contredire.
+
+**Ce qui reste à confirmer par Harmony :** la liste des Small Group Training
+par club. Aujourd'hui le hub en montre deux, Cross Training (La Praille,
+Pâquis) et Ceremony Hyrox Max (Meyrin), pendant que l'Extra est proposé dans
+les dix clubs.
