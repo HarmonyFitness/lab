@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Séance d'essai | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-17h">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-17i">
 </head>
 <body>
 
@@ -36,19 +36,24 @@
   <main class="conteneur">
 
     <!-- ====================================================== BLOC 1 -->
-    <!-- Pas de bouton dans le hero : l'action de cette page est le
-         formulaire, et il est juste en dessous. Un bouton qui fait défiler de
-         deux écrans est un bouton qui ne sert à rien.
-         Une photo, en revanche : on demande à quelqu'un de pousser la porte
-         d'un club qu'il ne connaît pas, et une page sans visage ne donne
-         envie à personne (Hugo, 2026-09-16). -->
+    <!-- B.3 ne donne pas la copy de cette page : elle est écrite ici et
+         marquée à valider. Le H1 pose la question que se pose vraiment
+         quelqu'un qui n'est jamais venu, et le sous-titre répond avec le
+         déroulé, pas avec une promesse en l'air.
+         Une photo : on demande à quelqu'un de pousser la porte d'un club
+         qu'il ne connaît pas, et une page sans visage ne donne envie à
+         personne (Hugo, 2026-09-16). -->
     <section style="padding-top:8px" data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
       <div class="hero-club">
         <div>
-          <h1>Venez essayer</h1>
-          <p>Dites-nous quand et où, votre club vous rappelle pour convenir du
-             rendez-vous.
-             <span class="wf-avalider">H1 et sous-titre à valider par Harmony</span></p>
+          <h1>Venez voir si c'est fait pour vous</h1>
+          <p>Un coach vous accueille, vous accompagne pendant la séance et fait
+             le point avec vous à la fin. Vous choisissez le club et la date,
+             il vous rappelle pour confirmer.</p>
+          <p class="hero-club__actions">
+            <a class="btn" href="#demande">Demander ma séance d'essai</a>
+          </p>
+          <p><span class="wf-avalider">H1, sous-titre et libellé du bouton à valider par Harmony</span></p>
         </div>
         <div x-html="HF.vues.blocImage('Photo accueil en club, un coach et un visiteur', 'large')"></div>
       </div>
@@ -197,8 +202,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-17h"></script>
-<script src="../assets/components.js?v=2026-09-17h"></script>
+<script src="../data/data.js?v=2026-09-17i"></script>
+<script src="../assets/components.js?v=2026-09-17i"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageEssai', function () {
@@ -236,7 +241,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-17h"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-17i"></script>
 
 </body>
 </html>
