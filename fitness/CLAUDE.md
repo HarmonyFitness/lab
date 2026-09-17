@@ -247,6 +247,18 @@ Contact
 - Donnée inconnue : placeholder visible entre crochets, par exemple "[adresse]", "[X] séances", "[nom de l'application]".
 - Texte rédigé mais pas encore validé par Harmony : affiché tel quel, avec le marqueur "à valider par Harmony". Ne pas le remplacer par un placeholder, le texte existe.
 
+## Documents pour le client
+
+Deux tableurs partent aux équipes Harmony. Ils sont **générés**, jamais saisis à la main : `docs/outils/liste-cours.py` produit `cours-harmony.xlsx`, `docs/outils/liste-equipements.py` produit `equipements-harmony.xlsx`. Les deux lisent `data/data.js` par node et se régénèrent à chaque fois que les données bougent.
+
+- Ne jamais corriger un .xlsx directement : la correction serait perdue à la régénération suivante. On corrige `data.js` ou le script.
+- `docs/` n'est pas publié : ces fichiers se transmettent par le repo ou en pièce jointe, jamais par une URL du lab.
+- Même grammaire dans les deux : un onglet « Mode d'emploi » en premier, une colonne « Identifiant » grise qui ne se touche pas, une colonne « Contrôle » calculée qui rougit, des lignes jaunes vides à compléter, un onglet « Listes » qui alimente les menus déroulants, un onglet « Textes » pour ce que le site affiche.
+- **Les questions ouvertes se posent dans le fichier**, en orange sur la ligne concernée, pas dans l'e-mail qui l'accompagne : une question dans un e-mail se perd, une question dans la cellule se lit au moment où on remplit la ligne.
+- « Ne supprimez pas une ligne, marquez-la À retirer » : une ligne supprimée ne dit pas ce qu'il faut faire de l'existant.
+- Une case vide veut dire non, pas « je ne sais pas ». Le mode d'emploi le dit, et renvoie au champ Remarques pour le doute.
+- LibreOffice ne sait pas ouvrir de .xlsx dans cet environnement. Les formules se vérifient avec un jumeau Python qui les rejoue cas par cas, y compris les cas d'erreur que le fichier ne contient pas. Ne jamais annoncer qu'un tableur a été « ouvert et vérifié ».
+
 ## Méthode de travail
 
 1. Avant de coder une page : lister ses blocs (depuis B.3), ses états, les composants utilisés et les questions. Attendre la validation.
