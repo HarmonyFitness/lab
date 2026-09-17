@@ -1495,14 +1495,25 @@ En attendant, le hub renvoie vers `/bien-etre/soins` avec le marqueur « page à
 construire » : le lien existe dans la site map, on ne le cache pas.
 
 ### Q57 · « Jacuzzi ou jet massant » : une ligne du client, deux équipements chez nous
-**Statut :** ouverte, donnée appliquée en partie
+**Statut :** ouverte sur un point, deux points répondus le 2026-09-17
 **Source :** document de disponibilité des prestations par club (Harmony,
-2026-09-17), lignes Sauna, Hammam et Jacuzzi.
+2026-09-17), lignes Sauna, Hammam et Jacuzzi. Hugo précise que **le document
+est ancien**.
 
-Le document a été appliqué pour les trois lignes demandées. Deux points
-restent à trancher.
+Le document a été appliqué pour les trois lignes demandées. Sauna dans 9 clubs
+sur 10, hammam dans 5, jacuzzi dans 2.
 
-**1. Le document fusionne ce que nous séparons.** Sa ligne s'intitule
+**Répondu · les étoiles sont les catégories.** Le document range les clubs en
+« 4 étoiles » et « 5 étoiles ». Ce sont les anciens noms d'Essential et
+Premium (Hugo, 2026-09-17). Vocabulaire abandonné, rien à reprendre : le site
+dit Gym, Essential et Premium, et ne dit que ça.
+
+**Répondu · Pâquis n'a pas de wellness.** Le club ne figurait pas dans le
+document, et c'était une déduction de notre part. Hugo la confirme : Genève ·
+Pâquis n'a aucun espace bien-être. Il reste donc hors du tableau de la page
+Espaces et son bloc bien-être ne s'affiche pas.
+
+**Ouverte · le document fusionne ce que nous séparons.** Sa ligne s'intitule
 « Jacuzzi ou jet massant » et coche La Praille, Veyrier et Denges. Le
 référentiel, lui, a deux équipements distincts, `jacuzzi` et `jets`, et la
 page Espaces leur fait deux colonnes. Appliquer la ligne telle quelle
@@ -1514,18 +1525,16 @@ Praille et Denges) et la ligne n'a rien changé.
 Deux sorties : soit Harmony précise club par club lequel des deux est
 installé, soit les deux équipements n'en font plus qu'un, « Jacuzzi ou jets
 massants », et la page Espaces perd une colonne. La deuxième est la plus
-simple si la distinction ne se vend pas.
+simple si la distinction ne se vend pas, et c'est d'ailleurs ce que le
+document faisait déjà.
 
-**2. Le document parle de clubs « 4 étoiles » et « 5 étoiles ».** Ce
-vocabulaire n'existe nulle part ailleurs : B.3 fixe trois catégories, Gym,
-Essential et Premium, et c'est ce mot qui est utilisé sur tout le site. Les
-étoiles ne recoupent d'ailleurs pas les catégories. Un seul mot par chose :
-il faut savoir si les étoiles sont un usage interne à abandonner, ou une
-grille qui doit apparaître quelque part.
-
-**3. Genève · Pâquis n'est pas dans le document.** Le club reste sans aucun
-espace bien-être, ce qui est cohérent avec sa catégorie Gym, mais c'est une
-déduction de notre part, pas une information reçue.
+**Ce que « vieux document » implique, et qui n'est pas neutre.** Sur une
+source ancienne, ajouter un équipement est peu risqué : un club qui avait un
+sauna l'a probablement encore. **Retirer en est un autre.** Le hammam de
+Veyrier a disparu parce que le document ne le coche pas, et c'est la seule
+suppression de l'opération. Si Veyrier a installé un hammam depuis, la page
+Espaces l'annonce absent, ce qui est pire qu'un silence. À confirmer avant la
+mise en ligne, ou à relever au prochain point avec les clubs.
 
 **Ce que le document change, et qui n'est pas anodin.** Le sauna est
 désormais dans neuf clubs sur dix, le hammam dans cinq dont trois Essential.
