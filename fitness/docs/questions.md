@@ -1493,3 +1493,43 @@ dire où, comme la page Espaces le fait.
 
 En attendant, le hub renvoie vers `/bien-etre/soins` avec le marqueur « page à
 construire » : le lien existe dans la site map, on ne le cache pas.
+
+### Q57 · « Jacuzzi ou jet massant » : une ligne du client, deux équipements chez nous
+**Statut :** ouverte, donnée appliquée en partie
+**Source :** document de disponibilité des prestations par club (Harmony,
+2026-09-17), lignes Sauna, Hammam et Jacuzzi.
+
+Le document a été appliqué pour les trois lignes demandées. Deux points
+restent à trancher.
+
+**1. Le document fusionne ce que nous séparons.** Sa ligne s'intitule
+« Jacuzzi ou jet massant » et coche La Praille, Veyrier et Denges. Le
+référentiel, lui, a deux équipements distincts, `jacuzzi` et `jets`, et la
+page Espaces leur fait deux colonnes. Appliquer la ligne telle quelle
+obligerait à inventer : soit un jacuzzi à Denges, soit des jets massants à
+Veyrier, alors que le document ne dit ni l'un ni l'autre. La répartition
+existante a donc été gardée (jacuzzi à La Praille et Veyrier, jets à La
+Praille et Denges) et la ligne n'a rien changé.
+
+Deux sorties : soit Harmony précise club par club lequel des deux est
+installé, soit les deux équipements n'en font plus qu'un, « Jacuzzi ou jets
+massants », et la page Espaces perd une colonne. La deuxième est la plus
+simple si la distinction ne se vend pas.
+
+**2. Le document parle de clubs « 4 étoiles » et « 5 étoiles ».** Ce
+vocabulaire n'existe nulle part ailleurs : B.3 fixe trois catégories, Gym,
+Essential et Premium, et c'est ce mot qui est utilisé sur tout le site. Les
+étoiles ne recoupent d'ailleurs pas les catégories. Un seul mot par chose :
+il faut savoir si les étoiles sont un usage interne à abandonner, ou une
+grille qui doit apparaître quelque part.
+
+**3. Genève · Pâquis n'est pas dans le document.** Le club reste sans aucun
+espace bien-être, ce qui est cohérent avec sa catégorie Gym, mais c'est une
+déduction de notre part, pas une information reçue.
+
+**Ce que le document change, et qui n'est pas anodin.** Le sauna est
+désormais dans neuf clubs sur dix, le hammam dans cinq dont trois Essential.
+Conséquence directe sur les cartes formule : la ligne « Espaces wellness »
+d'Essential affiche maintenant « Sauna, Hammam » là où elle n'affichait que
+« Sauna ». L'écart avec Premium se joue donc sur la piscine, le jacuzzi et
+les jets, pas sur le hammam. À savoir avant d'en faire un argument de vente.

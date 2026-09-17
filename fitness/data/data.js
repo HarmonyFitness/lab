@@ -231,7 +231,7 @@ window.DATA = {
       canton: 'Genève', categorie: 'essential', bassin: false,
       adresse: null, horaires: null, tel: null, email: null,
       gps: { lat: 46.2330, lng: 6.0800 },
-      equipements: ['musculation', 'cardio', 'fonctionnel', 'cross', 'salle-cours', 'sauna', 'parking'],
+      equipements: ['musculation', 'cardio', 'fonctionnel', 'cross', 'salle-cours', 'sauna', 'hammam', 'parking'],
       atouts: ['Excepteur sint occaecat cupidatat', 'Non proident sunt in culpa'],
       proximite: ['blandonnet', 'versoix'] },
 
@@ -239,7 +239,7 @@ window.DATA = {
       canton: 'Genève', categorie: 'essential', bassin: false,
       adresse: null, horaires: null, tel: null, email: null,
       gps: { lat: 46.2830, lng: 6.1620 },
-      equipements: ['musculation', 'cardio', 'salle-cours', 'parking'],
+      equipements: ['musculation', 'cardio', 'salle-cours', 'sauna', 'parking'],
       atouts: ['Qui officia deserunt mollit', 'Anim id est laborum'],
       proximite: ['meyrin', 'gland'] },
 
@@ -247,7 +247,7 @@ window.DATA = {
       canton: 'Genève', categorie: 'premium', bassin: true,
       adresse: null, horaires: null, tel: null, email: null,
       gps: { lat: 46.1650, lng: 6.1840 },
-      equipements: ['musculation', 'cardio', 'fonctionnel', 'salle-cours', 'piscine', 'sauna', 'hammam', 'jacuzzi', 'parking'],
+      equipements: ['musculation', 'cardio', 'fonctionnel', 'salle-cours', 'piscine', 'sauna', 'jacuzzi', 'parking'],
       atouts: ['Lorem ipsum dolor sit amet', 'Sed ut perspiciatis unde omnis'],
       proximite: ['geneve-la-praille', 'geneve-eaux-vives'] },
 
@@ -263,7 +263,7 @@ window.DATA = {
       canton: 'Vaud', categorie: 'essential', bassin: false,
       adresse: null, horaires: null, tel: null, email: null,
       gps: { lat: 46.4200, lng: 6.2680 },
-      equipements: ['musculation', 'cardio', 'salle-cours', 'sauna', 'parking'],
+      equipements: ['musculation', 'cardio', 'salle-cours', 'sauna', 'hammam', 'parking'],
       atouts: ['Totam rem aperiam eaque ipsa', 'Quae ab illo inventore veritatis'],
       proximite: ['signy', 'versoix'] },
 
@@ -271,7 +271,7 @@ window.DATA = {
       canton: 'Vaud', categorie: 'essential', bassin: false,
       adresse: null, horaires: null, tel: null, email: null,
       gps: { lat: 46.3900, lng: 6.2260 },
-      equipements: ['musculation', 'cardio', 'fonctionnel', 'salle-cours', 'parking'],
+      equipements: ['musculation', 'cardio', 'fonctionnel', 'salle-cours', 'sauna', 'hammam', 'parking'],
       atouts: ['Et quasi architecto beatae vitae', 'Dicta sunt explicabo nemo enim'],
       proximite: ['gland', 'versoix'] }
   ],

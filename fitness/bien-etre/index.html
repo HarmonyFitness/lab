@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Bien-être : sauna, hammam et soins | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-17k">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-17l">
 </head>
 <body>
 
@@ -122,8 +122,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-17k"></script>
-<script src="../assets/components.js?v=2026-09-17k"></script>
+<script src="../data/data.js?v=2026-09-17l"></script>
+<script src="../assets/components.js?v=2026-09-17l"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageBienEtre', function () {
@@ -147,20 +147,32 @@ document.addEventListener('alpine:init', function () {
         return n + ' clubs sur ' + HF.regles.nbClubs() + ' en proposent au moins un.';
       },
       /* B.3 dit « surtout Premium ». On le vérifie sur les données plutôt que
-         de le recopier : si l'offre change, la phrase suit. */
+         de le recopier : si l'offre change, la phrase suit. Chaque catégorie
+         est comptée, y compris Essential : depuis que les neuf clubs hors Gym
+         ont au moins un sauna, « une partie des clubs Essential » était faux
+         et personne ne l'aurait vu. */
       lignePremium: function () {
-        var clubs = HF.regles.clubsBienEtre();
-        var premium = clubs.filter(function (c) { return c.categorie === 'premium'; }).length;
-        var total = HF.data.clubs.filter(function (c) { return c.categorie === 'premium'; }).length;
-        return premium === total
-          ? 'Tous les clubs Premium en sont équipés, et une partie des clubs Essential.'
-          : premium + ' clubs Premium sur ' + total + ', et une partie des clubs Essential.';
+        var dit = function (cat) {
+          var tous = HF.data.clubs.filter(function (c) { return c.categorie === cat; });
+          var avec = tous.filter(function (c) { return HF.regles.bienEtreDuClub(c.id).length; });
+          var nom = HF.categorie(cat).nom;
+          if (!avec.length) return null;
+          return avec.length === tous.length
+            ? 'tous les clubs ' + nom
+            : avec.length + ' clubs ' + nom + ' sur ' + tous.length;
+        };
+        var bouts = ['premium', 'essential', 'gym'].map(dit).filter(Boolean);
+        var phrase = bouts.length > 1
+          ? bouts.slice(0, -1).join(', ') + ' et ' + bouts[bouts.length - 1]
+          : bouts[0];
+        return phrase.charAt(0).toUpperCase() + phrase.slice(1) +
+          ' en proposent au moins un, mais pas les mêmes.';
       }
     };
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-17k"></script>
+<script defer src="../assets/alpine.min.js?v=2026-09-17l"></script>
 
 </body>
 </html>
