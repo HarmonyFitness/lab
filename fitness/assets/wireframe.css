@@ -371,6 +371,13 @@ a { color: var(--accent); }
 .extra__inclus { font-size: 13px; font-weight: 700; color: var(--gris-95);
   border: 1px solid var(--gris-95); border-radius: var(--rayon); padding: 3px 9px;
   white-space: nowrap; }
+/* Les trainings d'un Extra, une ligne par portée. Le libellé est en gras
+   et en noir, la liste en gris : c'est la portée qu'on cherche des yeux
+   quand deux lignes se suivent, pas le premier nom de la liste. */
+.extra__ou { font-size: 13px; color: var(--gris-60); margin: 4px 0 0; }
+.extra__portee { font-weight: 600; color: var(--gris-95); }
+.extra__portee::after { content: ' :'; }
+
 .extra__marque { font-size: 11px; font-weight: 700;
   border: 1px solid var(--gris-80); border-radius: var(--rayon);
   padding: 0 6px; white-space: nowrap; }

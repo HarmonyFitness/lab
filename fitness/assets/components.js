@@ -161,6 +161,18 @@ window.HF = (function () {
       return liste.filter(function (c) { return donnes[c.id]; });
     },
 
+    /* Les Small Group Training qu'une formule ouvre : ceux donnés dans l'un
+       des clubs que sa catégorie couvre. C'est categorie.couvre qui décide,
+       jamais la seule catégorie du club référent : depuis un club Essential
+       on peut souscrire Premium, et l'Extra ouvre alors les dix clubs. */
+    sgtDeCategorie: function (idCategorie) {
+      var ouverts = {};
+      regles.clubsDeCategorie(idCategorie).forEach(function (c) { ouverts[c.id] = 1; });
+      var donnes = {};
+      D.seances.forEach(function (se) { if (ouverts[se.club]) donnes[se.cours] = 1; });
+      return regles.smallGroupTrainings().filter(function (c) { return donnes[c.id]; });
+    },
+
     /* Deux chiffres de réassurance, déduits des données et jamais saisis.
        Le nombre de clubs, et le nombre de séances d'un planning type sur une
        semaine, Extras exclus : ce qu'on annonce est ce qui est compris. */
@@ -1235,23 +1247,68 @@ Object.assign(window.HF.vues, (function () {
      générique n'apprend rien : ce que le visiteur veut savoir, c'est ce qu'il
      pourra faire dans SON club. On liste donc les trainings, lus sur le
      planning. Un club sans séance encore saisie garde la description. */
-  function descriptionExtra(e, etat) {
-    if (e.type !== 'sgt') return esc(e.description);
-    var idClub = etat && etat.club;
-    var liste = R.sgtDuClub(idClub);
-    if (!liste.length) return esc(e.description);
-    return (idClub ? 'Dans ce club : ' : 'Selon les clubs : ') +
-      liste.map(function (c) { return esc(c.nom); }).join(' · ');
+  /* Une liste de trainings nommés, précédée de sa portée. Le libellé porte
+     toute l'information : sans lui, deux listes côte à côte se lisent comme
+     une seule liste coupée en deux. */
+  function ligneSgt(libelle, liste) {
+    return '<p class="extra__ou"><span class="extra__portee">' + esc(libelle) +
+      '</span> ' + liste.map(function (c) { return esc(c.nom); }).join(' · ') + '</p>';
   }
 
-  function carteExtra(e, etat) {
+  /* Deux lignes plutôt qu'une (Hugo, 2026-09-22). Ce que le club référent
+     propose et ce que la formule ouvre ailleurs sont deux questions
+     différentes, et une seule liste répondait à la première en laissant
+     croire qu'elle répondait aux deux.
+     Sur une page club, la question « et ailleurs ? » ne se pose pas : la
+     page parle d'un club, on garde une ligne. */
+  function lignesSgt(etat, opts) {
+    var idClub = etat && etat.club;
+    var tous = R.smallGroupTrainings();
+
+    if (!idClub) return tous.length ? ligneSgt('Selon les clubs', tous) : '';
+
+    var ici = R.sgtDuClub(idClub);
+    if ((opts || {}).portee === 'club') {
+      return ici.length ? ligneSgt('Dans ce club', ici) : '';
+    }
+
+    /* La portée de la deuxième ligne se déduit de la formule choisie. Tant
+       qu'aucune n'est choisie, on ne peut pas la nommer, donc on ne la nomme
+       pas : on montre le catalogue entier en disant que la formule décide. */
+    var p = etat.produitChoisi ? H.produit(etat.produitChoisi) : null;
+    var formule = p && p.type === 'formule' ? p : null;
+    var ailleurs = formule ? R.sgtDeCategorie(formule.categorie) : tous;
+    var libelle = formule
+      ? 'Dans tous les clubs de la formule ' + formule.nom
+      : 'Dans les autres clubs, selon votre formule';
+
+    if (!ici.length) return ailleurs.length ? ligneSgt(libelle, ailleurs) : '';
+
+    /* Deux lignes identiques ne sont pas deux informations : quand le club
+       référent propose déjà tout ce que la formule ouvre, une seule ligne. */
+    var memes = ici.length === ailleurs.length && ici.every(function (c, i) {
+      return c.id === ailleurs[i].id;
+    });
+    return ligneSgt('Dans votre club référent', ici) +
+      (memes ? '' : ligneSgt(libelle, ailleurs));
+  }
+
+  function descriptionExtra(e, etat, opts) {
+    var repli = '<p class="mention" style="margin:4px 0 0">' +
+      esc(e.description) + '</p>';
+    if (e.type !== 'sgt') return repli;
+    /* Un club sans séance encore saisie garde la description générique. */
+    return lignesSgt(etat, opts) || repli;
+  }
+
+  function carteExtra(e, etat, opts) {
     var enLigne = e.modeVente === 'en-ligne';
     var ajoute = (etat.extrasChoisis || []).indexOf(e.id) !== -1;
     var inclus = R.extraInclus(e, etat);
     return '<div class="extra" data-spec="B.3 > Page Tarifs > Trame > 4 (Extras)">' +
       '<div class="extra__corps">' +
       '<strong>' + esc(e.nom) + '</strong> <span class="extra__marque">Extra</span>' +
-      '<p class="mention" style="margin:4px 0 0">' + descriptionExtra(e, etat) + '</p></div>' +
+      descriptionExtra(e, etat, opts) + '</div>' +
       '<div class="extra__droite">' +
       (inclus
         ? '<span class="extra__inclus">Inclus avec la formule ' +
@@ -2038,7 +2095,9 @@ Object.assign(window.HF.vues, (function () {
       }).join('') + '</div>' +
       (extras.length
         ? '<h3 style="margin-top:24px">Les Extras de ' + esc(c.nom) + '</h3>' +
-          extras.map(function (e) { return V.carteExtra(e, { club: c.id, extrasChoisis: [] }); }).join('')
+          extras.map(function (e) {
+            return V.carteExtra(e, { club: c.id, extrasChoisis: [] }, { portee: 'club' });
+          }).join('')
         : '') +
       '<p style="margin-top:14px"><a class="btn" href="../../tarifs/?club=' + c.id +
       '&amp;source=page-club">Voir les tarifs</a></p></section>';
