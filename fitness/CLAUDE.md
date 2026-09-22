@@ -172,7 +172,7 @@ Bien-être
 - B.3 dit que les espaces sont « surtout Premium ». On ne recopie pas la phrase, on la calcule : si l'offre change, le texte suit.
 - **Sauna, hammam et jacuzzi sont une donnée client** (document de disponibilité par club, 2026-09-17). Sauna dans 9 clubs sur 10, hammam dans 5, jacuzzi dans 2. Genève · Pâquis n'a aucun espace bien-être, confirmé par Hugo : il reste hors du tableau de la page Espaces.
 - **Le document est ancien** (Hugo, 2026-09-17), et ça change la confiance qu'on lui accorde selon le sens. Ajouter un équipement est peu risqué, **retirer** l'est davantage : le hammam de Veyrier est la seule suppression de l'opération, et une absence annoncée à tort est pire qu'un silence. À confirmer avant mise en ligne (Q57).
-- **« 4 étoiles » et « 5 étoiles » sont les anciens noms d'Essential et Premium** (Hugo, 2026-09-17). Vocabulaire abandonné : le site dit Gym, Essential et Premium, et rien d'autre. Un vieux document qui les emploie se traduit, il ne s'importe pas.
+- **« 4 étoiles » et « 5 étoiles » se lisent Essential et Premium** (Hugo, 2026-09-17). Ce ne sont pas d'anciens noms : ce sont les étoiles fitness-guide.ch, et B.3 s'en sert pour définir les deux catégories (Essential = 4, Premium = 5). Elles restent donc à l'écran, mais **dans le module des catégories et nulle part ailleurs** : ni sur les cartes club, ni sur les pages club. Un document client qui range les clubs par étoiles se traduit en catégories avant d'être appliqué.
 - **La ligne « Jacuzzi ou jet massant » du client n'a pas été appliquée** : elle fusionne deux équipements que le référentiel sépare, et l'appliquer aurait obligé à inventer lequel des deux est installé à Denges et à Veyrier. Une donnée qu'on ne sait pas ventiler ne se ventile pas au hasard (Q57).
 - **Le hammam n'est pas un argument Premium.** Trois clubs Essential en ont un, donc la carte Essential affiche « Sauna, Hammam ». Ce qui sépare vraiment les deux formules, c'est la piscine, le jacuzzi et les jets. Une phrase de vente écrite avant le 2026-09-17 est à relire.
 - **B.3 nomme quatre espaces, les données en marquent cinq** : la piscine porte aussi `bienEtre` (Q55). Elle apparaît donc sur la page Espaces et sur le bloc bien-être des pages club, avec un marqueur visible. À trancher, et attention : une piscine n'est pas un argument bien-être au même titre qu'un sauna, elle sert aussi aux cours aquatiques et à l'école de natation.
@@ -229,6 +229,12 @@ Header
 - **"S'abonner", jamais "S'inscrire"** : c'est déjà le mot de la carte club et de la barre récap. B.3 tient à un seul mot par chose, et "s'inscrire" se dirait aussi d'une newsletter ou d'un cours.
 - "Se connecter" ouvre l'espace membre, hébergé par l'outil métier. Son nom n'apparaît jamais, ni dans le libellé ni ailleurs.
 - Mobile : le menu passe derrière un burger, non maquetté à ce stade. Restent le compte en icône seule et l'action principale ; la séance d'essai reste accessible par le CTA de chaque page.
+
+Footer
+- **Aucun lien mort qui a l'air vivant.** Les liens pointent vers les pages qui existent ; celles qui sont hors du périmètre du lab (Actualités, Besoin d'aide ?, le téléphone) gardent « # » et s'affichent en grisé pointillé (`.pied__hors`). Tous étaient en « # » jusqu'au 2026-09-22, « Nous contacter » compris alors que la page existe : en bas de page, le seul élément vivant était le bandeau séance d'essai juste au-dessus, ce qui donnait au footer l'air d'y renvoyer (Hugo).
+- `pied(base)` prend le même chemin relatif que `entete(...)` sur la même page. Une page qui oublie la base envoie tout le footer sur des adresses fausses, en silence.
+- Les liens de canton visent une ancre du hub, `clubs/#canton-geneve`. L'ancre est **déduite** du nom du canton (`HF.ancreCanton`), le hub la porte avec la même règle : les deux ne peuvent pas diverger.
+- `[id] { scroll-margin-top: 76px }` : un titre visé par une ancre passerait sous la barre collante. Le CSS le décale, sans JavaScript et sans casser le réglage système de réduction des animations.
 
 Composants partagés
 - Choix du club + carte : un seul composant pour /clubs, /tarifs, /offre-du-moment, /seance-essai.

@@ -1503,10 +1503,14 @@ est ancien**.
 Le document a été appliqué pour les trois lignes demandées. Sauna dans 9 clubs
 sur 10, hammam dans 5, jacuzzi dans 2.
 
-**Répondu · les étoiles sont les catégories.** Le document range les clubs en
-« 4 étoiles » et « 5 étoiles ». Ce sont les anciens noms d'Essential et
-Premium (Hugo, 2026-09-17). Vocabulaire abandonné, rien à reprendre : le site
-dit Gym, Essential et Premium, et ne dit que ça.
+**Répondu · les étoiles se lisent Essential et Premium.** Le document range
+les clubs en « 4 étoiles » et « 5 étoiles » (Hugo, 2026-09-17). Ce ne sont pas
+d'anciens noms, comme je l'avais d'abord écrit ici : ce sont les étoiles
+fitness-guide.ch, et B.3 s'en sert pour définir les deux catégories, Essential
+= 4 étoiles, Premium = 5 étoiles. Elles sont donc bien à l'écran, dans le
+module des catégories de clubs, et nulle part ailleurs : ni sur les cartes
+club, ni sur les pages club. Pour lire le document client, la règle est la
+même dans les deux cas : on traduit en catégories avant d'appliquer.
 
 **Répondu · Pâquis n'a pas de wellness.** Le club ne figurait pas dans le
 document, et c'était une déduction de notre part. Hugo la confirme : Genève ·

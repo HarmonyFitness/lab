@@ -149,6 +149,10 @@ a { color: var(--accent); }
 .pied a { color: var(--gris-10); }
 .pied__bas { border-top: 1px solid var(--gris-80); margin-top: 20px; padding-top: 14px;
   font-size: 12px; color: var(--gris-40); }
+/* Une page hors du périmètre du lab : le lien reste, parce qu'il existera
+   sur le site, mais il est visiblement éteint. Un lien mort qui a l'air
+   vivant se prend pour un bug de maquette. */
+.pied a.pied__hors { color: var(--gris-40); text-decoration-style: dotted; cursor: default; }
 
 /* ------------------------------------------------------------------ */
 /* Badge catégorie et ligne d'accès                                     */
@@ -420,6 +424,12 @@ a { color: var(--accent); }
    conteneur fait la hauteur du composant et position:sticky n'a aucune marge
    pour coller. */
 .hote-collant { display: contents; }
+
+/* Un titre visé par une ancre ne doit pas passer sous une barre collante.
+   scroll-margin-top le décale sans JavaScript, et le navigateur garde son
+   propre respect de « réduire les animations ». La valeur couvre la plus
+   haute des barres collantes du lab. */
+[id] { scroll-margin-top: 76px; }
 
 .barre-collante {
   position: sticky; top: 0; z-index: 40; background: #fff;

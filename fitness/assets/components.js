@@ -590,6 +590,13 @@ window.HF = (function () {
     return canton ? 'Canton de ' + canton : '';
   }
 
+  /* L'ancre d'un canton se déduit de son nom, elle ne se saisit pas : le
+     footer y renvoie, le hub la porte, et les deux se suivent tout seuls. */
+  function ancreCanton(canton) {
+    return 'canton-' + String(canton || '').toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+
   function famille(id) {
     return D.referentiels.familles.find(function (f) { return f.id === id || f.slug === id; }) || null;
   }
@@ -604,7 +611,7 @@ window.HF = (function () {
     prixTexte: prixTexte, texte: texte, esc: esc, spec: spec,
     aValider: aValider, position: position, positions: positions,
     lienCours: lienCours, lienFamille: lienFamille,
-    famille: famille, libelleCanton: libelleCanton
+    famille: famille, libelleCanton: libelleCanton, ancreCanton: ancreCanton
   };
 })();
 
@@ -676,21 +683,46 @@ window.HF.vues = (function () {
     return vus;
   }
 
-  function pied() {
+  /* Tous les liens du footer pointaient vers « # », « Nous contacter »
+     compris, alors que la page existe (Hugo, 2026-09-22). Un lien mort au
+     bas de chaque page se lit comme une erreur de maquette, et c'en était
+     une : le seul élément vivant en bas de page était le bandeau séance
+     d'essai juste au-dessus, ce qui donnait au footer l'air de renvoyer là.
+     Les liens vont maintenant aux pages qui existent. Celles qui ne sont
+     pas au périmètre du lab (Actualités, Besoin d'aide ?, le téléphone)
+     gardent « # » et s'affichent en grisé, pour qu'on voie que c'est voulu
+     et pas oublié. */
+  function pied(base) {
+    var b = base || '';
     var cols = [
       /* Les cantons se lisent dans les données, et avec le même libellé que
          partout ailleurs : "Canton de Genève", jamais "Genève" seul. */
-      { titre: 'Nos clubs', liens: cantons().map(function (c) { return H.libelleCanton(c); }) },
-      { titre: 'Le sport', liens: ['Plateau fitness', 'Cours collectifs', 'Small Group Training', 'Coaching personnel'] },
-      { titre: 'Aide', liens: ["Besoin d'aide ?", 'Actualités'] },
+      { titre: 'Nos clubs', liens: cantons().map(function (c) {
+          return { nom: H.libelleCanton(c), href: b + 'clubs/#' + H.ancreCanton(c) };
+        }) },
+      { titre: 'Le sport', liens: [
+        { nom: 'Plateau fitness', href: b + 'sport/plateau-fitness/' },
+        { nom: 'Cours collectifs', href: b + 'sport/cours-collectifs/' },
+        { nom: 'Small Group Training', href: b + 'sport/small-group-training/' },
+        { nom: 'Coaching personnel', href: b + 'sport/coaching-personnel/' }
+      ] },
+      { titre: 'Aide', liens: [{ nom: "Besoin d'aide ?" }, { nom: 'Actualités' }] },
       /* Le footer ne donne plus d'adresse e-mail : un seul canal écrit, le
          formulaire, pour que toute demande soit comptée et dispatchée (Q37). */
-      { titre: 'Contact', liens: ['Nous contacter', '[téléphone]'] }
+      { titre: 'Contact', liens: [
+        { nom: 'Nous contacter', href: b + 'nous-contacter/' },
+        { nom: '[téléphone]' }
+      ] }
     ];
     return '<footer class="pied" data-spec="B.3 > Arborescence > Footer"><div class="pied__inner">' +
       '<div class="pied__cols">' + cols.map(function (c) {
         return '<div><h4>' + esc(c.titre) + '</h4><ul style="list-style:none;padding:0">' +
-          c.liens.map(function (l) { return '<li><a href="#">' + esc(l) + '</a></li>'; }).join('') +
+          c.liens.map(function (l) {
+            return l.href
+              ? '<li><a href="' + l.href + '">' + esc(l.nom) + '</a></li>'
+              : '<li><a class="pied__hors" href="#" title="Page hors du périmètre du lab">' +
+                esc(l.nom) + '</a></li>';
+          }).join('') +
           '</ul></div>';
       }).join('') + '</div>' +
       '<div class="pied__bas">Mentions légales · Confidentialité · Harmony Fitness</div>' +
