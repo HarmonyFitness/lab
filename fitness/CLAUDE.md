@@ -27,6 +27,8 @@ Consultant et décideur sur la structure : Hugo.
 - Après chaque déploiement, relire le journal du workflow. Un fichier interne qui y apparaît en "Upload" est en ligne, et l'ajouter à la liste `exclude` ne le retire pas : FTP-Deploy-Action ignore les fichiers exclus des deux côtés, et le déploiement suivant réécrit l'état du serveur sans eux. Le fichier devient orphelin, présent sur le serveur et invisible pour le sync. Il faut alors le supprimer en FTPS, hors du déploiement. C'est arrivé une fois, le 2026-09-11, avec ce fichier.
 - Ne jamais ajouter une page, un bloc ou une fonctionnalité absent de B.3.
 - En cas de doute ou de contradiction entre deux sources : ne pas trancher. Ajouter la question dans `docs/questions.md`, poser un placeholder visible et continuer.
+- `docs/questions.md` garde le détail et l'historique de chaque question. La page Notion « Questions ouvertes » du cahier des charges en est la synthèse pour le client et le développeur : ce qui manque, à qui le demander, ce que ça bloque. **Les deux se mettent à jour ensemble** : fermer une question ici sans la retirer là-bas laisserait Harmony chercher une réponse qu'elle a déjà donnée.
+- Une question ouverte n'est pas un retard, c'est un trou identifié. Elle se voit à l'écran, en placeholder entre crochets ou en marqueur « à valider par Harmony », jamais en valeur plausible.
 
 ## Périmètre
 

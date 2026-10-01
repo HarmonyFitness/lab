@@ -372,7 +372,7 @@ retenue, elle est à ajouter à B.3 > Page Tarifs > trame > 5 et au champ
 
 
 ### Q29 · La promotion n'existe pas dans le modèle de contenu
-**Statut :** ouverte
+**Statut :** fermée le 2026-10-01, collection ajoutée à la section 7
 **Source :** Hugo, 2026-09-14. « Il faut anticiper qu'on peut proposer des
 promos sur des abonnements ou sur des carnets. Ici par exemple, pour l'exemple,
 on va considérer que tous les carnets 10 entrées sont à -20%. »
@@ -617,7 +617,7 @@ Posé dans les maquettes :
   produit et dans le module Catégories de clubs, pas ailleurs.
 
 ### Q36 · Le modèle de contenu (section 7) ne connaît pas les nouveautés
-**Statut :** ouverte, bloquante pour le développement
+**Statut :** fermée le 2026-10-01, sections 6, 7, A et C mises à niveau
 **Source :** relecture de B.3 du 2026-09-15, à la demande de Hugo.
 
 B.3 est à jour. La **section 7, modèle de contenu**, ne l'est pas. C'est la page
@@ -646,7 +646,7 @@ Manquent, tous posés dans les maquettes et validés par Hugo :
 c'est une autre page que B.3 et son export local est en lecture seule.
 
 ### Q37 · Où envoyer une demande de conseil, alors qu'il n'y a pas de formulaire de contact
-**Statut :** ouverte, une décision à prendre avant de construire
+**Statut :** fermée, tranchée par Hugo le 2026-09-15, page construite et reportée en section 6.3.2
 **Source :** Hugo, 2026-09-15. « Certains clubs proposent un peu du sur mesure,
 mais on ne peut pas complexifier l'offre ici. La page tarif devrait contenir une
 information pour interpeller ceux qui ne trouvent pas la bonne formule et les
@@ -1546,3 +1546,18 @@ Conséquence directe sur les cartes formule : la ligne « Espaces wellness »
 d'Essential affiche maintenant « Sauna, Hammam » là où elle n'affichait que
 « Sauna ». L'écart avec Premium se joue donc sur la piscine, le jacuzzi et
 les jets, pas sur le hammam. À savoir avant d'en faire un argument de vente.
+
+
+---
+
+## Trois questions fermées le 2026-10-01
+
+La mise à niveau des sections 6, 7, A et C du cahier des charges a fermé
+**Q29** (la promotion n'existait pas comme collection), **Q36** (le modèle de
+contenu ignorait les décisions de septembre) et **Q37** (le formulaire de
+contact, tranché le 2026-09-15 mais dont le statut était resté ouvert).
+
+Il reste **28 questions ouvertes**, rassemblées pour le développeur et pour
+Harmony dans la page « Questions ouvertes » du cahier des charges. Cette
+page-ci garde le détail et l'historique de chacune ; celle de Notion dit
+seulement ce qui manque, à qui le demander et ce que ça bloque.
