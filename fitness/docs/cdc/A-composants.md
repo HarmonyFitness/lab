@@ -2,7 +2,9 @@
 
 > Source : Notion, "Annexe A – Spécifications des composants partagés"
 > (Livrables / Cahier des charges : Refonte digitale Harmony Groupe).
-> Export du 2026-09-10. Lecture seule : ne pas modifier ici, modifier dans Notion.
+> Miroir du 2026-10-01. **Notion fait foi.** Ce fichier en est une copie,
+> tenue à jour en même temps que la page Notion : toute décision se reporte
+> dans les deux, jamais dans un seul.
 
 > 🎯 **Objectif** : détailler les composants réutilisables de la bibliothèque partagée, mutualisés entre les 5 sites, pour estimer précisément la charge. · 👥 **Audience** : développeurs, UI designer.
 
@@ -44,7 +46,7 @@ Ce tableau recense les composants mutualisés entre plusieurs sites. La colonne 
 |---|---|---|---|---|
 | Header groupe (barre inter-sites) | Circulation entre les 5 univers de l'écosystème | TOUS | Interactif | M |
 | Header verticale | Navigation propre à chaque site (4 à 5 entrées) | TOUS | Interactif | M |
-| Footer commun | Liens Besoin d'aide, Actualités, mentions légales, confidentialité, contact secondaire | TOUS | Statique | S |
+| Footer commun | Liens Besoin d'aide, Actualités, mentions légales, confidentialité, lien vers le formulaire de contact. Aucune adresse e-mail affichée : un e-mail ne se compte pas, ne présélectionne pas le club et ne se dispatche pas | TOUS | Statique | S |
 | Sélecteur de langue | Bascule entre FR / DE / EN (voir section 9) | TOUS | Interactif | S |
 
 ### Conversion et formulaires
@@ -71,7 +73,7 @@ Ce tableau recense les composants mutualisés entre plusieurs sites. La colonne 
 | Composant | Rôle métier | Sites concernés | Interactivité | Complexité |
 |---|---|---|---|---|
 | Carte géographique | FIT : 10 clubs, un seul composant pour /clubs, /tarifs et l'offre du moment. Repères distingués par catégorie (forme et lettre, pas seulement la couleur), chargement à la demande, compatible avec le consentement cookies, plein écran sur mobile. AQ : 3 bassins. Marqueurs aux couleurs Harmony | FIT, AQ | Interactif | M |
-| Filtres multi-critères | FIT : cours par type / club / intensité. AQ : cours par bassin. Coaching : coachs par club / spécialité | FIT, AQ | Interactif | M |
+| Filtres multi-critères | FIT : cours par formule, club, objectif, intensité et format, plus une recherche par nom ; le filtre formule commande la liste des clubs, et l'accès aux cours est cumulatif. AQ : cours par bassin. Coaching : coachs par club / spécialité | FIT, AQ | Interactif | M |
 | Grille filtrable de professionnels | Coachs, instructeurs, moniteurs saisis une fois dans le CMS, filtrables par lieu et spécialité | FIT, MAA, AQ | Interactif | M |
 | Planning des cours collectifs | Planning type saisi dans le CMS pour la mise en ligne. Intégration API Echino en option ensuite, sans refonte du composant (voir principe de découplage en 8.2) | FIT | Interactif | M |
 | Grille des disciplines / cours | MAA : 7 disciplines. AQ : 10 cours + 5 familles de cours | MAA, AQ | Statique | S |
@@ -94,6 +96,21 @@ Ce tableau recense les composants mutualisés entre plusieurs sites. La colonne 
 |---|---|---|---|---|
 | Bandeau de consentement cookies | Intégration Axeptio, gestion du consentement LPD / RGPD (voir 8.3) | TOUS | Interactif | S |
 | Bandeau d'alerte / promotion | Bandeau ponctuel utilisable pour communication commerciale ou institutionnelle | TOUS | Interactif | S |
+
+### Composants mis au jour par les prototypes
+
+L'inventaire ci-dessus traite la page Tarifs comme une seule ligne de complexité L. Les prototypes en ont sorti les pièces, qui se réutilisent en dehors d'elle et se chiffrent séparément. Ils sont tous visibles et manipulables sur https://lab.harmony.ch/fitness/ (la page `/components/` les montre isolés).
+
+- **Carte produit** (formule, offre, carnet) — FIT, MAA — M. Photo, nom, ligne d'accès, lignes d'inclusion identiques d'une carte à l'autre, prix alignés en pied d'une carte à sa voisine, deux pastilles au maximum sur la photo. Quatre par ligne, la largeur se règle par une variable, jamais carte par carte.
+- **Ligne Extra** — FIT — S. Pleine largeur et empilée, pas une carte : on ne compare pas un Extra à ses voisins. Prix et « Ajouter » en vente en ligne, « Sur demande en club » sinon.
+- **Carte de cours** — FIT, AQ — S. Cliquable sur toute sa surface, sans bouton : une carte qui mène quelque part est cliquable en entier, une carte qui déclenche une action porte un bouton. Le lien du titre est étiré par-dessus la carte, sans JavaScript.
+- **Tag** — FIT, AQ — S. Valeur fermée d'un référentiel affichée en pastille (objectif, intensité, format, marqueur Extra). Un tag porte toujours son mot, jamais une couleur ou une forme seule. C'est lui qui fait le lien entre ce qu'on a filtré et ce qu'on lit.
+- **Point d'info** — TOUS — S. Panneau court au survol et au toucher, qui détaille une ligne sans l'allonger (ex. les clubs que couvre une formule). Marche sans JavaScript : vrai bouton, ouverture en `:hover` et `:focus-within`.
+- **Barre récap collante** — FIT, MAA — M. Fixée en bas d'écran dès qu'un produit est choisi, elle porte le bouton qui emmène au checkout. Un espaceur de même hauteur rend au document la place qu'elle prend, sinon le pied de page devient inatteignable.
+- **Catalogue de cours** — FIT — M. Rangé par objectif, avec les filtres de 6.1 et la recherche par nom. Pas de slider à la place d'une liste que le référencement doit voir.
+- **Fil d'Ariane** — TOUS — S. Absent de l'inventaire initial, présent sur toutes les pages profondes.
+- **Tableau de disponibilité par club** — FIT — S. Une colonne par espace bien-être, une ligne par club, déduit des équipements. Réutilisable pour toute matrice club × attribut.
+- **En-tête, hero et pied de landing** — FIT, MAA — M à eux trois. Variante de gabarit pour les pages de campagne, voir 6.1 et l'Annexe B.3. À valider par Harmony.
 
 ## A.3 Composants spécifiques par verticale
 

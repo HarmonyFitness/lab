@@ -21,7 +21,8 @@ Consultant et décideur sur la structure : Hugo.
 - `docs/cdc/07-modele-contenu.md` : collections Club, Produit, Extra, Cours, Coach.
 - `docs/cdc/A-composants.md` : composants partagés.
 - `docs/cdc/cours-collectifs.md` : nommage, objectifs, intensités et formats des cours. Fait foi sur ces listes dès qu'il est déposé.
-- Ces fichiers sont dans `fitness/docs/cdc/` et en lecture seule. Ne jamais les modifier.
+- Ces fichiers sont dans `fitness/docs/cdc/`. Ce sont des **miroirs** des pages Notion, qui font foi. On ne décide rien dans un miroir : une décision validée se reporte **dans les deux, dans le même mouvement**, jamais dans un seul. Un miroir qui diverge est pire qu'un miroir absent, parce qu'on le croit.
+- Le cahier des charges ne se limite pas à B.3. Une décision qui touche le modèle de données va aussi dans la section 7, une décision de formulaire ou de parcours dans la section 6, un composant nouveau dans l'annexe A, un paramètre de lien dans l'annexe C. Pendant trois semaines, tout n'est allé que dans B.3 : les autres pages décrivaient encore un Extra par Small Group Training et un cours rangé par « catégorie » (constaté le 2026-10-01).
 - `fitness/docs/` et ce fichier ne doivent jamais être publiés sur lab.harmony.ch (documents internes). Tous deux sont exclus dans `.github/workflows/deploy.yml`.
 - Après chaque déploiement, relire le journal du workflow. Un fichier interne qui y apparaît en "Upload" est en ligne, et l'ajouter à la liste `exclude` ne le retire pas : FTP-Deploy-Action ignore les fichiers exclus des deux côtés, et le déploiement suivant réécrit l'état du serveur sans eux. Le fichier devient orphelin, présent sur le serveur et invisible pour le sync. Il faut alors le supprimer en FTPS, hors du déploiement. C'est arrivé une fois, le 2026-09-11, avec ce fichier.
 - Ne jamais ajouter une page, un bloc ou une fonctionnalité absent de B.3.

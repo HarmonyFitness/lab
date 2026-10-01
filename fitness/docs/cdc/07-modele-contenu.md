@@ -2,7 +2,9 @@
 
 > Source : Notion, "7. Modèle de contenu et back-office"
 > (Livrables / Cahier des charges : Refonte digitale Harmony Groupe).
-> Export du 2026-09-10. Lecture seule : ne pas modifier ici, modifier dans Notion.
+> Miroir du 2026-10-01. **Notion fait foi.** Ce fichier en est une copie,
+> tenue à jour en même temps que la page Notion : toute décision se reporte
+> dans les deux, jamais dans un seul.
 
 > 🎯 **Objectif** : définir la structure des contenus gérés dans le back-office (types de pages, collections, relations, permissions), pour dimensionner le schéma de données. · 👥 **Audience** : développeurs, équipes contenu.
 
@@ -86,7 +88,7 @@ Les templates définis en 7.1 sont alimentés par les collections suivantes. Cha
 | Discipline | Fiche discipline MAA (7 disciplines prévues) — alimente le Template 2 | MAA |
 | Cours | Fiche cours (cours collectif Fitness, cours de natation Aqua) — alimente le Template 2 | FIT, AQ |
 | Produit | Formule d'abonnement, offre promotionnelle ou carnet d'entrées, avec son identifiant dans l'outil métier (Echino ou Mizu selon verticale). Alimente le Template 4 et la page Tarifs | Verticaux |
-| Extra | Service ou activité en supplément de la formule (service linge, chaque Small Group Training). Clubs où il est proposé (saisis ici uniquement : la fiche club, la page Tarifs et la fiche cours lisent cette donnée), mode de vente (en ligne : prix et identifiant Echino ; en club : mention « Sur demande en club », sans prix ni bouton, ex. séances de coaching en plus), lien éventuel vers une fiche cours | FIT (extensible) |
+| Extra | Service ou activité en supplément de la formule (service linge, Small Group Training). Un seul Extra couvre tous les Small Group Training : c'est lui qui porte le prix et les clubs, les trainings eux-mêmes sont des Cours sans prix propre. Un Extra est donc lié à zéro, une ou plusieurs fiches Cours. Clubs où il est proposé (saisis ici uniquement : la fiche club, la page Tarifs et la fiche cours lisent cette donnée ; un club où une séance de Small Group Training est programmée est ajouté d'office, jamais l'inverse), mode de vente (en ligne : prix et identifiant Echino ; en club : mention « Sur demande en club », sans prix ni bouton, ex. séances de coaching en plus) | FIT (extensible) |
 | Coach / Instructeur / Moniteur | Fiche professionnel, associable à une ou plusieurs verticales et un ou plusieurs clubs/bassins — alimente le Template 3 | FIT, MAA, AQ |
 | Témoignage | Témoignage client, avec verticale et contexte associés | TOUS |
 | Question FAQ | Question de FAQ, avec catégorie et verticale, réutilisable en FAQ complète et FAQ contextuelle | TOUS |
@@ -95,6 +97,11 @@ Les templates définis en 7.1 sont alimentés par les collections suivantes. Cha
 | Résultat / palmarès | Résultat de compétition ou distinction | MAA |
 
 **Note.** Cette liste est indicative et pourra être affinée en phase de conception. Certaines collections peuvent être fusionnées ou décomposées selon les recommandations du développeur.
+
+**Deux collections de plus, mises au jour par les prototypes.**
+
+- **Séance** (FIT) : un créneau du planning type, avec son cours, son club, son jour, son heure, sa durée et son coach. C'est une collection à part entière et pas un champ de Cours, parce que presque tout s'en déduit : les clubs où un cours est donné, les Small Group Training d'un club, le nombre de cours qu'une formule ouvre, le caractère Extra club par club. Saisie au CMS pour la mise en ligne, remplaçable par l'API Echino ensuite sans refonte du composant (principe de découplage, section 8.2).
+- **Promotion** (FIT, MAA) : une remise appliquée à des produits qui existent déjà, à ne pas confondre avec une offre, qui est un produit (voir 6.2). Champs : nom, dates de validité, remise en pourcentage **ou** en montant, produits visés, engagements concernés. Le prix remisé est calculé, jamais saisi. Sans cette collection, une remise de saison obligerait à dupliquer chaque produit.
 
 ## 7.3 Champs et structure de chaque collection
 
@@ -109,8 +116,8 @@ Pour chaque collection, les champs précis (types, contraintes, valeurs par déf
 
 **Exemples d'attentes spécifiques.**
 
-- **Club** : nom, quartier, catégorie (GYM / Essential / Premium), adresse, horaires, coordonnées, équipements (liste fermée), galerie, coachs associés, séances. Les étoiles découlent de la catégorie (Essential 4, Premium 5) : pas de champ par club. Détail en Annexe B.3
-- **Produit** : type (formule, offre, carnet), nom, catégorie (Fitness : GYM, Essential ou Premium), engagements ou durée, ce qui est inclus (plateau fitness, cours collectifs, aqua, séances de coaching), tarifs couverts (Adulte, Ado 16-18 ans, Jeune 19-25 ans, Senior 65 ans et + : un seul ou plusieurs) avec un prix par tarif et par engagement, conditions, verticale, identifiant dans l'outil métier, dates de validité pour les offres. Pas de champ club : les clubs accessibles découlent de la catégorie. Détail en Annexe B.3
+- **Club** : nom, quartier, catégorie (Gym / Essential / Premium), adresse, horaires, coordonnées, équipements (liste fermée), galerie, coachs associés, séances. Les étoiles découlent de la catégorie (Essential 4, Premium 5) : pas de champ par club. Dans la liste fermée des équipements, **chaque entrée porte un drapeau « espace bien-être »** : ce drapeau, et lui seul, décide de ce qui apparaît sur `/bien-etre/espaces` et dans le bloc bien-être des pages club. La répartition des saunas et hammams ne se saisit nulle part ailleurs. Graphie : **Gym**, jamais GYM en capitales, en club, dans l'appli, sur le site et dans Echino. Détail en Annexe B.3
+- **Produit** : type (formule, offre, carnet), nom, catégorie (Fitness : Gym, Essential ou Premium), engagements ou durée, ce qui est inclus (plateau fitness, cours collectifs en salle, cours aquatiques, espaces bien-être, séances de coaching, Extras inclus ou non), **restriction de souscription** éventuelle (la formule Premium Platinum ne se souscrit que depuis un club Premium ; depuis un club Essential ou Gym sa carte n'est pas masquée en silence, elle est regroupée dans la ligne « Pas disponible depuis [club] »), tarifs couverts (Adulte, Ado 16-18 ans, Jeune 19-25 ans, Senior 65 ans et + : un seul ou plusieurs) avec un prix par tarif et par engagement, conditions, verticale, identifiant dans l'outil métier, dates de validité pour les offres. Pas de champ club : les clubs accessibles découlent de la catégorie. Détail en Annexe B.3
 - **Coach** : prénom, photo (obligatoire pour apparaître), badges rangés par verticale (liste fermée, 3 maximum), verticales, lieux (clubs, bassins, centre MAA), coaching personnel oui/non, phrase de présentation. Référencé dans le back-office de `harmony.ch`. Détail en Annexe B.3
 
 **Le développeur détaillera dans sa réponse** sa proposition de structure pour les principales collections, en s'appuyant sur les fonctionnalités décrites en section 6 et les site maps de l'Annexe B.
@@ -122,9 +129,10 @@ Pour chaque collection, les champs précis (types, contraintes, valeurs par déf
 **Exemples de relations attendues.**
 
 - Un **Coach** est lié à une ou plusieurs **verticales** et un ou plusieurs **clubs/bassins**. Il apparaît automatiquement sur les pages correspondantes.
-- Un **Cours** est lié à une **catégorie** (Cardio, Yoga, etc.) et à un ou plusieurs **clubs** qui le proposent. La fiche cours affiche automatiquement les clubs concernés et leurs créneaux.
-- Un **Produit** (formule, offre, carnet) est lié à une **verticale** et, pour Fitness, à une **catégorie de club** (le prix dépend de la catégorie, pas du club). Les clubs où il est accessible en découlent : Premium couvre tous les clubs, Essential couvre Essential et GYM, GYM couvre GYM. Il porte son identifiant dans l'outil métier.
-- Un **Extra** est lié aux **clubs** qui le proposent. Pour un Small Group Training, il est aussi lié à sa fiche **Cours** et à ses séances. Le parcours d'abonnement se fait dans cet ordre : club référent, formule, extras.
+- Un **Cours** porte un **objectif principal** (qui le range, un cours n'apparaît qu'une fois), un objectif secondaire facultatif, une **intensité**, un **format** (salle, aqua, petit groupe) et, s'il se décline, une **famille** (Pilates, Yoga, Les Mills, Aqua). « Catégorie » est réservé aux clubs et ne s'emploie jamais pour un cours. Les clubs qui le proposent **ne se saisissent pas** : ils se déduisent de ses séances, et la fiche affiche automatiquement les clubs concernés et leurs créneaux.
+- Deux champs de plus sur le **Cours**, dictés par le métier. **Le caractère Extra se juge sur la séance, pas sur le cours** : la même pratique est incluse dans un club et payante dans un autre, et un club propose une forme ou l'autre, jamais les deux. Et **deux formes de vente d'une même pratique partagent une seule fiche** : un format n'est jamais une page, deux pages du même nom se cannibaliseraient au référencement. Prévoir le lien d'une entrée vers celle dont elle partage la fiche. Une **licence** (Les Mills, Hyrox) est un attribut, jamais un produit : le nom de la licence seul ne désigne rien, sauf dans un title SEO.
+- Un **Produit** (formule, offre, carnet) est lié à une **verticale** et, pour Fitness, à une **catégorie de club** (le prix dépend de la catégorie, pas du club). Les clubs où il est accessible en découlent : Premium couvre tous les clubs, Essential couvre Essential et Gym, Gym couvre Gym. Accès et souscription sont deux choses différentes : l'accès vient de la catégorie, la souscription peut être restreinte à part. Il porte son identifiant dans l'outil métier.
+- Un **Extra** est lié aux **clubs** qui le proposent et, pour les Small Group Training, aux **fiches Cours** qu'il couvre, au pluriel : un seul Extra, plusieurs trainings. Une formule peut inclure les Extras vendus en ligne (Premium Platinum) ; ceux vendus en club ne sont compris dans aucune formule, puisqu'ils ne se vendent pas en ligne. Choisir une telle formule vide les Extras déjà ajoutés et le dit : on ne facture pas deux fois, et on ne vide pas en silence. Le parcours d'abonnement se fait dans cet ordre : club référent, formule, extras.
 - Un **Article (actualité)** est lié à une ou plusieurs **verticales** via un tag. Il apparaît sur les sites correspondants et sur le hub Corpo.
 - Une **Question FAQ** est liée à une **catégorie** et à une ou plusieurs **verticales**. Elle est utilisable en FAQ contextuelle (sur une page produit/service) et en FAQ complète (page « Besoin d'aide ? »).
 
