@@ -864,7 +864,7 @@ window.HF.vues = (function () {
     var cat = H.categorie(idCat); if (!cat) return '';
     var o = opts || {};
     return '<span data-spec="B.3 > Catégories de clubs > Règles d\'affichage">' +
-      '<button type="button" class="badge-cat" data-act="panneau-cat" data-id="' + cat.id + '"' +
+      '<button type="button" class="badge-cat badge-cat--' + cat.id + '" data-act="panneau-cat" data-id="' + cat.id + '"' +
       ' aria-expanded="' + (o.ouvert ? 'true' : 'false') + '">' +
       forme(cat, 'badge-cat__forme') + 'Club ' + esc(cat.nom) + '</button>' +
       (o.sansLigne ? '' : ' <span class="ligne-acces">' + esc(cat.ligneAcces) + '</span>') +
@@ -1872,7 +1872,7 @@ Object.assign(window.HF.vues, (function () {
       '<div class="bloc bloc--offre">' +
       '<div><h2>Offre du moment</h2>' + corps + '</div>' +
       '<div class="bloc--offre__action">' + V.compteur(R.finOffre(etat)) +
-      '<a class="btn" href="' + b + 'offre-du-moment/">Voir l\'offre</a></div>' +
+      '<a class="btn btn--promo" href="' + b + 'offre-du-moment/">Voir l\'offre</a></div>' +
       '</div></section>';
   }
 

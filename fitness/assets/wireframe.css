@@ -178,7 +178,7 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: .4em;
   font: inherit; font-weight: 600; line-height: 24px; text-decoration: none; cursor: pointer;
-  min-height: 44px; padding: 9px 22px; border-radius: var(--rayon-pilule);
+  min-height: 44px; padding: 9px 22px; border-radius: 22px; text-align: center;
   border: 1px solid var(--accent); background: var(--accent); color: #fff;
   transition: background-color .15s ease, border-color .15s ease, color .15s ease;
 }
@@ -197,6 +197,9 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .btn[disabled], .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
 .lien-texte { color: var(--lien); text-decoration: underline; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+/* Rayon égal à la moitié de la hauteur, pas 999 px : sur une ligne le
+   bouton est une pilule, et sur deux lignes, dans une carte de 290 px, il
+   reste un rectangle aux coins doux au lieu d'un ballon. */
 
 /* Focus clavier : le même anneau partout, 2 px plein décalé de 2 px, dans
    le bleu ocean du système, qui passe 3:1 sur toutes les surfaces. Le
@@ -299,20 +302,25 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 /* Badge catégorie et ligne d'accès                                     */
 /* ------------------------------------------------------------------ */
 .badge-cat {
-  display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700;
-  border: 1px solid var(--gris-80); border-radius: var(--rayon-petit);
-  padding: 3px 9px; background: #fff; cursor: pointer; font-family: inherit; line-height: 1.3;
+  display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600;
+  letter-spacing: .02em; min-height: 26px; border: 1px solid transparent;
+  border-radius: var(--rayon-xs); padding: 2px 9px; cursor: pointer; font-family: inherit;
+  line-height: 1.3; background: var(--cat-gym-fond); color: var(--cat-gym);
 }
-.badge-cat:hover { background: var(--gris-05); }
-.badge-cat__forme { width: 12px; height: 12px; display: inline-block;
-  background: var(--gris-80); flex: none; }
+/* Trois poids, du plus discret au plus marqué : Gym, Essential, Premium.
+   La forme et le mot restent dans le badge, la couleur ne dit rien seule. */
+.badge-cat--essential { background: var(--cat-essential-fond); color: var(--cat-essential); }
+.badge-cat--premium { background: var(--cat-premium); color: #fff; }
+.badge-cat:hover { border-color: currentColor; }
+.badge-cat__forme { width: 11px; height: 11px; display: inline-block;
+  background: currentColor; flex: none; }
 .badge-cat__forme--cercle { border-radius: 50%; }
 .badge-cat__forme--carre { border-radius: 2px; }
 .badge-cat__forme--triangle { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
 .ligne-acces { font-size: 14px; color: var(--gris-60); }
 .panneau-cat {
-  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
-  padding: 14px 16px; margin-top: var(--e-2); max-width: 460px;
+  background: var(--surface-tint); border-radius: var(--rayon);
+  padding: var(--e-4) var(--e-5); margin-top: var(--e-2); max-width: 460px;
 }
 
 /* ------------------------------------------------------------------ */
@@ -326,8 +334,10 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
    visible pendant qu'on parcourt les clubs. */
 .choix-club .carte-bloc { position: sticky; top: 64px; }
 .choix-club .carte { height: 420px; }
-.choix-club__canton { font-size: 12px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .06em; color: var(--gris-60); margin: var(--e-4) 0 var(--e-2); }
+/* Pas de capitales espacées : un libellé de groupe se lit en casse de
+   phrase, plus petit et en gris, comme partout dans le système. */
+.choix-club__canton { font-size: 14px; font-weight: 600; color: var(--gris-60);
+  margin: var(--e-4) 0 var(--e-2); }
 .choix-club__canton:first-child { margin-top: 0; }
 .club-ligne {
   display: flex; align-items: flex-start; gap: 10px; width: 100%; text-align: left;
@@ -369,15 +379,16 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 /* ------------------------------------------------------------------ */
 /* Sélecteurs : tarif, engagement                                       */
 /* ------------------------------------------------------------------ */
-.segments { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--gris-40);
-  border-radius: var(--rayon); overflow: hidden; background: #fff; }
+/* Sélecteur à segments : une pilule, le segment choisi rempli. */
+.segments { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px;
+  border: 1px solid var(--line-strong); border-radius: var(--rayon-pilule); background: var(--surface); }
 .segments button {
-  font: inherit; font-size: 14px; padding: 8px 14px; border: 0; cursor: pointer;
-  background: #fff; color: var(--accent); border-right: 1px solid var(--gris-20);
+  font: inherit; font-size: 14px; font-weight: 500; min-height: 34px; padding: 5px 16px;
+  border: 0; border-radius: var(--rayon-pilule); cursor: pointer;
+  background: transparent; color: var(--accent);
 }
 .segments button:hover { background: var(--accent-fond); }
-.segments button:last-child { border-right: 0; }
-.segments button[aria-pressed="true"] { background: var(--gris-95); color: #fff; font-weight: 600; }
+.segments button[aria-pressed="true"] { background: var(--accent); color: #fff; font-weight: 600; }
 .mention { font-size: 13px; color: var(--gris-60); line-height: 1.5; }
 
 /* ------------------------------------------------------------------ */
@@ -444,18 +455,18 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .infobulle__point {
   font: inherit; font-size: 11px; font-weight: 700; line-height: 16px;
   width: 18px; height: 18px; padding: 0; margin-left: 5px;
-  border: 1px solid var(--gris-40); border-radius: 999px;
-  background: #fff; color: var(--gris-80); cursor: pointer; vertical-align: 1px;
+  border: 1px solid var(--line-strong); border-radius: var(--rayon-pilule);
+  background: var(--surface); color: var(--accent); cursor: pointer; vertical-align: 1px;
 }
 .infobulle__point:hover, .infobulle__point:focus-visible {
-  border-color: var(--gris-95); color: var(--gris-95);
+  border-color: var(--accent); background: var(--accent-fond);
 }
 .infobulle__contenu {
   display: none; position: absolute; z-index: 60; top: calc(100% + 6px); left: -8px;
   min-width: 180px; max-width: min(260px, 70vw);
   background: #fff; color: var(--gris-95); font-size: 13px; line-height: 1.5;
-  border: 1px solid var(--gris-20); border-radius: var(--rayon);
-  padding: 10px 12px; box-shadow: 0 4px 14px rgba(0, 0, 0, .08); text-align: left;
+  border: 1px solid var(--line); border-radius: var(--rayon-petit);
+  padding: 12px 14px; box-shadow: var(--ombre-survol); text-align: left;
 }
 .infobulle:hover .infobulle__contenu,
 .infobulle:focus-within .infobulle__contenu { display: block; }
@@ -483,7 +494,7 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .produit__pied { margin-top: auto; padding-top: var(--e-4); }
 .produit__barre { text-decoration: line-through; color: var(--gris-40); font-size: 16px; }
 .pastille-remise { display: inline-block; font-size: 12px; font-weight: 700; color: #fff;
-  background: var(--gris-95); border-radius: var(--rayon-petit); padding: 2px 8px; }
+  background: var(--promo); border-radius: var(--rayon-pilule); padding: 2px 10px; }
 
 /* Photo d'illustration en tête de carte produit : elle humanise l'offre.
    Elle va d'un bord à l'autre de la carte, d'où les marges négatives qui
@@ -497,12 +508,12 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
   padding: 4px 10px; }
 /* Campagne qui tourne mais ne porte pas sur l'engagement affiché : en
    contour, avec sa condition. Le prix n'est pas barré, il n'est pas remisé. */
-.pastille-remise--conditionnee { background: #fff; color: var(--gris-95);
-  border: 1px solid var(--gris-95); font-size: 12px; }
+.pastille-remise--conditionnee { background: var(--surface); color: var(--promo);
+  border: 1px solid var(--promo); font-size: 12px; }
 .pastille-jours { position: absolute; top: 10px; right: 10px;
   display: inline-block; font-size: 12px; font-weight: 700;
-  background: #fff; color: var(--gris-95); border: 1px solid var(--gris-20);
-  border-radius: var(--rayon-petit); padding: 4px 10px; }
+  background: var(--surface); color: var(--ink);
+  border-radius: var(--rayon-pilule); padding: 4px 10px; }
 .produit--choisi .produit__photo {
   margin: calc(1px - var(--carte-pad)) calc(1px - var(--carte-pad)) var(--e-4); }
 .produit__promo { margin: var(--e-1) 0 0; }
@@ -522,8 +533,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 /* Pas de text-transform : B.3 impose un seul mot, "Extra", identique en
    club, dans l'appli, sur le site et dans Echino. Le CSS ne doit pas le
    réécrire en EXTRA. */
-.extra__inclus { font-size: 14px; font-weight: 700; color: var(--gris-95);
-  border: 1px solid var(--gris-95); border-radius: var(--rayon-petit); padding: 4px 10px;
+.extra__inclus { font-size: 13px; font-weight: 600; color: var(--accent);
+  background: var(--accent-fond); border-radius: var(--rayon-xs); padding: 4px 10px;
   white-space: nowrap; }
 /* Les trainings d'un Extra, une ligne par portée. Le libellé est en gras
    et en noir, la liste en gris : c'est la portée qu'on cherche des yeux
@@ -532,8 +543,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .extra__portee { font-weight: 600; color: var(--gris-95); }
 .extra__portee::after { content: ' :'; }
 
-.extra__marque { font-size: 11px; font-weight: 700; line-height: 1.5;
-  border: 1px solid var(--gris-80); border-radius: var(--rayon-petit);
+.extra__marque { font-size: 12px; font-weight: 600; line-height: 1.5;
+  border: 1px solid var(--line-strong); border-radius: var(--rayon-xs); background: var(--surface);
   padding: 0 6px; white-space: nowrap; vertical-align: 2px; }
 
 
@@ -610,25 +621,31 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 /* ------------------------------------------------------------------ */
 .filtres { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center;
   margin-bottom: var(--e-4); font-size: 14px; }
-.filtres select { font: inherit; font-size: 14px; padding: 8px 10px;
-  border: 1px solid var(--gris-40); border-radius: var(--rayon-petit); background: #fff; }
-.filtres__label { font-weight: 700; }
+.filtres select { font: inherit; font-size: 15px; min-height: 44px; padding: 8px 12px;
+  border: 1px solid var(--line-strong); border-radius: var(--rayon-petit); background: var(--surface);
+  color: var(--ink); }
+.filtres select:hover { border-color: var(--accent); }
+.filtres__label { font-weight: 600; }
 
 /* Tags d'attributs d'un cours : objectif, intensité, format. Ils portent
    toujours leur mot, jamais une couleur ou une forme seule. */
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: var(--e-2) 0 var(--e-3); }
-.tag { display: inline-block; font-size: 12px; line-height: 1.5;
-  border: 1px solid var(--gris-20); border-radius: 999px; padding: 3px 10px;
-  background: var(--gris-05); color: var(--gris-80); }
-.tag--secondaire { border-style: dashed; background: #fff; color: var(--gris-60); }
+/* Petites étiquettes, pas des puces : une puce se clique, un tag se lit.
+   Fond blanc, posé sur une carte teintée ou sur la page. */
+.tag { display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; line-height: 1.4;
+  border: 1px solid var(--line); border-radius: var(--rayon-xs); padding: 2px 8px;
+  background: var(--surface); color: var(--gris-80); }
+.tag--secondaire { border-style: dashed; border-color: var(--line-strong); font-weight: 500;
+  color: var(--ink-muted); }
 /* Tags posés à l'intérieur d'une ligne d'inclusion : mêmes pastilles que
    sur les cartes de cours, une seule grammaire visuelle dans tout le lab. */
 .tags--inclus { margin: 6px 0 2px; }
-.produit__inclus .tags--inclus .tag { font-size: 11px; padding: 2px 8px; }
-.champ { font: inherit; font-size: 15px; padding: 10px 12px; line-height: 1.4;
-  border: 1px solid var(--gris-40); border-radius: var(--rayon-petit); background: #fff; }
-.champ:hover { border-color: var(--gris-60); }
-.champ:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px var(--accent-fond); }
+.produit__inclus .tags--inclus .tag { font-size: 12px; padding: 1px 7px; }
+.champ { font: inherit; font-size: 16px; min-height: 44px; padding: 9px 12px; line-height: 24px;
+  border: 1px solid var(--line-strong); border-radius: var(--rayon-petit); background: var(--surface);
+  color: var(--ink); }
+.champ:hover { border-color: var(--accent); }
+.champ:focus { border-color: var(--accent); }
 .champ--recherche { flex: 1 1 260px; min-width: 0; max-width: 420px; }
 
 .tableau, .planning { width: 100%; border-collapse: collapse; background: #fff; font-size: 15px;
@@ -636,8 +653,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .tableau th, .tableau td, .planning th, .planning td { text-align: left; padding: 12px 14px;
   border-bottom: 1px solid var(--gris-10); vertical-align: top; }
 .tableau tr:last-child td, .planning tr:last-child td { border-bottom: 0; }
-.tableau th, .planning th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
-  color: var(--gris-60); background: var(--gris-05); }
+.tableau th, .planning th { font-size: 14px; font-weight: 600;
+  color: var(--gris-60); background: var(--surface-tint); }
 .planning__jour td { background: var(--gris-05); font-weight: 700; }
 /* Une séance est un lien vers sa fiche : la zone tactile prend la hauteur
    de la ligne, pas celle du texte. 17 px au pouce, c'est un tap sur trois à
@@ -651,8 +668,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .coach:hover { border-color: var(--gris-60); }
 .coach__prenom { font-weight: 600; margin-top: var(--e-2); }
 .coach__badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-.coach__badge { font-size: 11px; border: 1px solid var(--gris-20); border-radius: 999px;
-  padding: 1px 8px; color: var(--gris-60); }
+.coach__badge { font-size: 12px; font-weight: 600; background: var(--surface);
+  border-radius: var(--rayon-xs); padding: 1px 8px; color: var(--gris-80); }
 
 .faq { border-top: 1px solid var(--gris-20); }
 .faq__q { width: 100%; text-align: left; font: inherit; font-weight: 600; cursor: pointer;
@@ -667,8 +684,9 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .temoignage__auteur { font-size: 13px; color: var(--gris-60); margin-top: var(--e-3); }
 
 .compteur { display: inline-flex; gap: 8px; font-size: 14px; }
-.compteur span { background: var(--gris-95); color: #fff; border-radius: var(--rayon-petit);
-  padding: 4px 9px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.compteur span { background: var(--promo); color: #fff; border-radius: var(--rayon-petit);
+  padding: 2px 10px; font-family: var(--police-chiffres); font-size: 20px; line-height: 28px;
+  font-weight: 600; font-variant-numeric: tabular-nums; }
 
 .cta-essai { border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon-grand);
   padding: var(--e-6) var(--e-5); text-align: center; }
@@ -683,7 +701,7 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
    curseur. Seule la logique est partagée. */
 .formulaire { max-width: 560px; }
 .champ-bloc { margin: 0 0 var(--e-5); }
-.champ-label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+.champ-label { display: block; font-weight: 600; font-size: 14px; line-height: 20px; margin-bottom: 6px; }
 .champ-bloc .mention { display: block; margin-top: 6px; }
 .formulaire .champ { width: 100%; }
 textarea.champ { resize: vertical; }
@@ -787,9 +805,10 @@ a.carte__repere { text-decoration: none; }
   padding: var(--e-4) 0; border-top: 1px solid var(--gris-20); }
 .etapes li:first-child { border-top: 0; }
 .etapes li::before { content: counter(etape); display: block; text-align: center;
-  font-weight: 700; background: var(--gris-95); color: #fff;
-  border-radius: 50%; width: 28px; height: 28px; line-height: 28px; font-size: 13px; }
-.etapes h3 { margin: 2px 0 2px; font-size: 16px; }
+  font-family: var(--police-chiffres); font-weight: 700; background: var(--accent-fond);
+  color: var(--accent); border-radius: 50%; width: 32px; height: 32px; line-height: 32px;
+  font-size: 18px; }
+.etapes h3 { margin: 4px 0 2px; font-size: 17px; line-height: 24px; }
 .etapes p { margin: 0; }
 
 /* Condition tarifaire d'un formulaire : encadrée et posée avant les champs,
@@ -828,8 +847,7 @@ a.carte__repere { text-decoration: none; }
   background: #fff; border: 1px solid var(--gris-20); border-radius: var(--rayon-grand);
   padding: 28px;
 }
-.hero-landing__sur { font-size: 12px; font-weight: 700; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--gris-60); margin: 0 0 var(--e-2); }
+.hero-landing__sur { font-size: 15px; font-weight: 600; color: var(--promo); margin: 0 0 var(--e-2); }
 .hero-landing__panneau h1 { margin: 0 0 var(--e-2); }
 .hero-landing__actions { margin: var(--e-4) 0 0; }
 
@@ -956,8 +974,7 @@ a.carte__repere { text-decoration: none; }
   border-bottom: 1px solid var(--gris-10); }
 .infos__item:nth-child(3n) { border-right: 0; }
 .infos__item:nth-last-child(-n+3) { border-bottom: 0; }
-.infos dt { font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
-  color: var(--gris-60); margin-bottom: 4px; }
+.infos dt { font-size: 14px; color: var(--gris-60); margin-bottom: 2px; }
 .infos dd { margin: 0; }
 
 /* Carte couchée du hub Sport : photo à gauche, texte à droite. */
@@ -973,8 +990,9 @@ a.carte__repere { text-decoration: none; }
    Elle défile avec la page. */
 .ancres { display: flex; flex-wrap: wrap; gap: var(--e-2) var(--e-4); margin: 0 0 var(--e-2);
   font-size: 15px; }
-.ancres a { text-decoration: none; padding: 6px 12px; border: 1px solid var(--gris-20);
-  border-radius: 999px; background: #fff; color: var(--gris-80); }
+.ancres a { display: inline-flex; align-items: center; min-height: 36px; text-decoration: none;
+  padding: 5px 16px; border: 1px solid var(--line-strong); border-radius: var(--rayon-pilule);
+  background: var(--surface); color: var(--ink); font-size: 14px; font-weight: 500; }
 .ancres a:hover { border-color: var(--accent); color: var(--accent); }
 
 /* Actualités. Un article se lit comme un texte : en-tête et corps bornés à
@@ -1027,6 +1045,6 @@ a.carte__repere { text-decoration: none; }
   align-items: start; }
 .apercu__mobile { border: 1px solid var(--gris-40); border-radius: var(--rayon);
   overflow: hidden; background: #fff; }
-.apercu__etiquette { font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
-  color: var(--gris-60); margin-bottom: 6px; }
+.apercu__etiquette { font-size: 12px; color: var(--ui);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; margin-bottom: 6px; }
 @media (max-width: 1100px) { .apercu { grid-template-columns: 1fr; } }
