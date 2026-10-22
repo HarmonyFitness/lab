@@ -207,39 +207,41 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 /* ------------------------------------------------------------------ */
-/* Outillage du wireframe : violet, jamais confondu avec la maquette    */
+/* Outillage du wireframe : vert, pointillés, jamais pris pour la maquette */
 /* ------------------------------------------------------------------ */
 /* Statique par défaut : sur une page du site, la seule barre collante en
    haut est celle de B.3. La galerie de composants la rend collante. */
 .wf-barre {
   position: static; z-index: 60;
-  background: var(--ui-fond); border-bottom: 2px solid var(--ui);
+  background: var(--ui-fond); border-bottom: 2px dashed var(--ui);
   font-size: 13px; color: var(--gris-95);
 }
 .wf-barre--collante { position: sticky; top: 0; }
 .wf-barre__inner { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center;
   max-width: var(--large); margin: 0 auto; padding: 9px var(--gouttiere); }
 .wf-barre__titre { font-weight: 700; color: var(--ui); text-transform: uppercase;
-  letter-spacing: .06em; font-size: 11px; }
+  letter-spacing: .06em; font-size: 11px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .wf-champ { display: flex; align-items: center; gap: 5px; }
 .wf-champ > label { color: var(--gris-60); }
 .wf-champ select, .wf-champ input[type="checkbox"] { font: inherit; font-size: 13px; }
 .wf-champ select { padding: 3px 5px; border: 1px solid var(--gris-40);
-  border-radius: var(--rayon-petit); background: #fff; }
+  border-radius: var(--rayon-xs); background: #fff; }
 
 .wf-spec {
   font-size: 10px; letter-spacing: .04em; color: var(--ui);
   background: var(--ui-fond); border: 1px dashed var(--ui);
-  border-radius: var(--rayon-petit); padding: 1px 6px; display: inline-block;
+  border-radius: var(--rayon-xs); padding: 1px 6px; display: inline-block;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
+/* Note d'outillage : cadre en pointillés, comme la barre. Un liseré plein
+   à gauche se lirait comme un encadré de la maquette. */
 .wf-note {
   font-size: 12px; line-height: 1.5; color: var(--ui); background: var(--ui-fond);
-  border-left: 3px solid var(--ui); padding: 7px 10px; margin: 0 0 12px;
+  border: 1px dashed var(--ui); border-radius: var(--rayon-xs); padding: 8px 12px; margin: 12px 0;
 }
 .wf-avalider {
   font-size: 11px; font-weight: 600; color: #8a5a00; background: #fdf2d8;
-  border: 1px solid #e6c98a; border-radius: var(--rayon-petit); padding: 1px 6px;
+  border: 1px solid #e6c98a; border-radius: var(--rayon-pilule); padding: 1px 8px;
   white-space: nowrap; margin-left: 6px;
 }
 
