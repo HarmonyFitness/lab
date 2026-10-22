@@ -6,7 +6,7 @@ poser un placeholder visible dans la maquette et continuer.
 Statut : `ouverte` · `tranchée` (avec la réponse) · `à valider` (texte proposé,
 en attente de Harmony) · `sans objet`
 
-Dernière mise à jour : 2026-10-22, design system appliqué (Q65 à Q67), Q66 fermée.
+Dernière mise à jour : 2026-10-22, design system appliqué (Q65 à Q67), Q66 fermée, Q68 ouverte.
 
 ---
 
@@ -1713,3 +1713,15 @@ remisée (B.3 > Page Tarifs > trame > 3). C'est voulu : un produit remisé doit
 le dire sur sa propre carte. Le comportement est gardé, en violet. À
 trancher : la règle du système vaut-elle pour un bandeau (un seul bandeau
 promo par écran), ou pour toute marque d'offre ?
+
+### Q68 · Un header collant, absent de B.3
+**Statut :** à valider par Harmony (posé par Hugo le 2026-10-22)
+**Source :** B.3 > Arborescence > Header ne dit pas si le header suit le défilement.
+
+Le header colle en haut de l'écran, se cache quand on descend et revient au
+premier geste vers le haut. « S'abonner » et « Séance d'essai » restent à
+portée sans prendre 75 px en permanence. Deux exceptions, déduites de la
+page : Tarifs, qui a déjà la barre collante du club référent (B.3 : « une
+seule barre collante en haut »), et la landing de campagne, qui a son header
+réduit (Q50). La barre groupe ne colle jamais. À confirmer par Harmony, puis
+à reporter dans B.3 et dans l'annexe A (header de verticale).

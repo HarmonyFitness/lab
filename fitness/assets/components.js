@@ -3189,3 +3189,52 @@ Object.assign(window.HF.vues, (function () {
     creneaux: creneaux, blocExtraDuCours: blocExtraDuCours
   };
 })());
+
+/* ------------------------------------------------------------------ */
+/* Header collant : il disparaît quand on descend, réapparaît dès qu'on */
+/* remonte (Hugo, 2026-10-22, Q68, à valider par Harmony).              */
+/* ------------------------------------------------------------------ */
+/* Collé en permanence, il mangerait 75 px sur les pages longues ; caché,
+   S'abonner et Séance d'essai seraient à une page de défilement. Il
+   revient donc au premier geste vers le haut.
+   Deux cas où il ne colle pas, déduits de la page et jamais d'une liste :
+   une page qui a déjà sa barre collante B.3 (Tarifs : « une seule barre
+   collante en haut »), et le header réduit d'une landing.
+   Le header est rendu par x-html : son hôte passe en display: contents,
+   sinon position: sticky n'a aucune marge pour coller (comme .hote-collant). */
+(function () {
+  'use strict';
+  var header = null, dernierY = 0, seuil = 8;
+
+  function trouver() {
+    if (header && document.contains(header)) return header;
+    header = document.querySelector('header.entete:not(.entete--landing)');
+    if (!header) return null;
+    if (document.querySelector('.barre-collante')) { header = null; return null; }
+    if (header.parentElement) header.parentElement.classList.add('hote-collant');
+    header.classList.add('entete--collant');
+    return header;
+  }
+
+  function surDefilement() {
+    var h = trouver();
+    if (!h) return;
+    var y = window.scrollY || 0;
+    if (Math.abs(y - dernierY) < seuil) return;
+    /* Tout en haut, ou en remontant : visible. En descendant, passé sa
+       propre hauteur : caché. Le focus clavier dedans le garde visible. */
+    /* « Collé » se lit sur la position à l'écran : offsetTop d'un élément
+       sticky suit le défilement et ne dit plus où il était au départ. */
+    var colle = h.getBoundingClientRect().top <= 0.5 && y > 0;
+    var cache = colle && y > dernierY && y > 3 * h.offsetHeight && !h.contains(document.activeElement);
+    h.classList.toggle('entete--cache', cache);
+    h.classList.toggle('entete--decolle', colle);
+    dernierY = y;
+  }
+
+  window.addEventListener('scroll', surDefilement, { passive: true });
+  document.addEventListener('focusin', function (ev) {
+    if (header && header.contains(ev.target)) header.classList.remove('entete--cache');
+  });
+  window.addEventListener('load', function () { trouver(); });
+})();

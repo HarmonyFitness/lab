@@ -288,6 +288,16 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 /* Pas de filet sous le header (Hugo, 2026-10-22) : il ne se sépare de la
    page que par l'espace. */
 .entete { background: var(--surface); }
+/* Header collant (Q68) : la classe est posée par components.js, sauf sur
+   une page qui a déjà sa barre collante (Tarifs) et sur une landing. Il
+   glisse hors de l'écran en descendant, revient en remontant. Collé, il
+   prend une ombre très légère pour se détacher du contenu qui passe
+   dessous, puisqu'il n'a plus de filet. */
+.entete--collant { position: sticky; top: 0; z-index: 45;
+  transition: transform .22s ease, box-shadow .22s ease; }
+.entete--collant.entete--cache { transform: translateY(-100%); }
+.entete--collant.entete--decolle { box-shadow: 0 6px 20px rgba(14, 26, 35, .06); }
+@media (prefers-reduced-motion: reduce) { .entete--collant { transition: none; } }
 .entete__inner { display: flex; align-items: center; gap: var(--e-6);
   max-width: var(--large); margin: 0 auto; padding: 18px var(--gouttiere) 16px; }
 /* Logo Fitness : 160 px de large au moins (design system), 30 px de haut
@@ -780,7 +790,9 @@ textarea.champ { resize: vertical; }
 /* Hub /clubs : cartes à gauche, carte géographique à droite (B.3). */
 .hub-clubs { display: grid; grid-template-columns: 2fr 1fr; gap: var(--gouttiere);
   align-items: start; }
-.hub-clubs__carte { position: sticky; top: 16px; }
+.hub-clubs__carte { position: sticky; top: 16px; transition: top .22s ease; }
+/* Quand le header collant est visible, la carte descend sous lui. */
+body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte { top: 94px; }
 .hub-clubs__carte .carte { height: 420px; }
 
 /* Barre rapide de la page club : fixe en bas d'écran sur mobile. */
