@@ -668,11 +668,29 @@ window.HF.vues = (function () {
 
   /* --- Structure ------------------------------------------------- */
 
+  /* Dossier assets/, lu sur l'adresse de ce script : les logos se trouvent
+     depuis n'importe quelle page, même celles qui n'ont pas de base (la
+     barre groupe n'en reçoit pas). */
+  var dossierAssets = (function () {
+    var s = document.currentScript;
+    return s && s.src ? new URL('.', s.src).href : 'assets/';
+  })();
+
+  /* Logos du design system, copiés tels quels (couleurs figées dans le
+     fichier). Fond clair uniquement : jamais dans le footer, qui est sur
+     le bleu de marque. */
+  function logo(fichier, alt, classe) {
+    return '<img class="' + classe + '" src="' + dossierAssets + 'logos/' + fichier + '" alt="' + esc(alt) + '">';
+  }
+
+  /* Libellés de B.3 (« Arts martiaux »). Le design system dit « Sports de
+     combat » : écart ouvert, B.3 fait foi tant qu'il n'est pas tranché (Q66). */
   function barreGroupe() {
     var liens = ['Harmony', 'Fitness', 'Arts martiaux', 'École de natation', 'Famille'];
     return '<div class="barre-groupe" data-spec="B.3 > Arborescence > Barre groupe">' +
       '<div class="barre-groupe__inner">' +
       liens.map(function (l) {
+        if (l === 'Harmony') return '<a class="barre-groupe__logo" href="#">' + logo('harmony-logo.svg', 'Harmony', 'barre-groupe__img') + '</a>';
         return '<a href="#"' + (l === 'Fitness' ? ' aria-current="true"' : '') + '>' + esc(l) + '</a>';
       }).join('') + '</div></div>';
   }
@@ -701,7 +719,7 @@ window.HF.vues = (function () {
 
     return '<header class="entete" data-spec="B.3 > Arborescence > Header">' +
       '<div class="entete__inner">' +
-      '<a class="entete__logo" href="' + base + '">Harmony Fitness</a>' +
+      '<a class="entete__logo" href="' + base + '">' + logo('harmony-fitness-logo.svg', 'Harmony Fitness, accueil', 'entete__img') + '</a>' +
       '<nav class="entete__nav">' + nav.map(function (e) {
         return '<a href="' + e.href + '"' + (e.nom === courante ? ' aria-current="page"' : '') +
           '>' + esc(e.nom) + '</a>';
@@ -804,7 +822,7 @@ window.HF.vues = (function () {
     var o = opts || {};
     return '<header class="entete entete--landing" data-spec="B.3 > Tarifs et offres > Offre du moment (variante à valider)">' +
       '<div class="entete__inner">' +
-      '<a class="entete__logo" href="' + (base || '') + '">Harmony Fitness</a>' +
+      '<a class="entete__logo" href="' + (base || '') + '">' + logo('harmony-fitness-logo.svg', 'Harmony Fitness, accueil', 'entete__img') + '</a>' +
       '<div class="entete__actions">' +
       (o.cta
         ? '<a class="btn" href="' + o.cta.href + '">' + esc(o.cta.libelle) + '</a>'

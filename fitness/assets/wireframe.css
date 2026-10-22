@@ -258,44 +258,60 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 /* ------------------------------------------------------------------ */
 /* Structure : barre groupe, header, footer                             */
 /* ------------------------------------------------------------------ */
-.barre-groupe { background: var(--gris-95); color: var(--gris-10); font-size: 13px; }
-.barre-groupe__inner { display: flex; flex-wrap: wrap; gap: 4px 20px;
-  max-width: var(--large); margin: 0 auto; padding: 8px var(--gouttiere); }
-.barre-groupe a { color: var(--gris-10); text-decoration: none; }
-.barre-groupe a:hover { color: #fff; text-decoration: underline; }
-.barre-groupe a[aria-current] { font-weight: 700; text-decoration: underline; }
+/* Barre groupe : statique, en haut de page (décision du 2026-10-22). Le
+   design system la veut flottante, en verre, mais la seule barre collante
+   en haut est celle de B.3, et le verre n'a de sens que sur une photo. On
+   garde sa grammaire : logo Harmony en tête, liens discrets, l'activité
+   courante en pilule. */
+.barre-groupe { background: var(--surface-tint); font-size: 14px; }
+.barre-groupe__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 4px var(--e-1);
+  max-width: var(--large); margin: 0 auto; padding: 6px var(--gouttiere); }
+.barre-groupe a { color: var(--ink-muted); text-decoration: none; padding: 4px 12px;
+  border-radius: var(--rayon-pilule); }
+.barre-groupe a:hover { color: var(--ink); background: var(--surface); }
+.barre-groupe a[aria-current] { color: var(--accent); background: var(--surface); font-weight: 600; }
+.barre-groupe__logo { display: inline-flex; padding: 4px 12px 4px 0 !important; margin-right: var(--e-3); }
+.barre-groupe__logo:hover { background: none !important; }
+.barre-groupe__img { display: block; height: 28px; width: auto; }
 
-.entete { background: #fff; border-bottom: 1px solid var(--gris-20); }
-.entete__inner { display: flex; align-items: center; gap: 28px;
-  max-width: var(--large); margin: 0 auto; padding: 16px var(--gouttiere); }
-.entete__logo { font-weight: 700; font-size: 18px; letter-spacing: -.01em;
-  text-decoration: none; color: var(--gris-95); }
+.entete { background: var(--surface); border-bottom: 1px solid var(--line); }
+.entete__inner { display: flex; align-items: center; gap: var(--e-6);
+  max-width: var(--large); margin: 0 auto; padding: 14px var(--gouttiere); }
+/* Logo Fitness : 160 px de large au moins (design system), 30 px de haut
+   donnent 228 px. Il reste cliquable, c'est la sortie de secours. */
+.entete__logo { display: inline-flex; flex: none; text-decoration: none; }
+.entete__img { display: block; height: 30px; width: auto; }
 /* Menu à gauche, collé au logo. Les actions sont poussées à droite. */
-.entete__nav { display: flex; gap: 24px; }
-.entete__nav a { text-decoration: none; color: var(--gris-80); font-weight: 500;
-  padding: 4px 0; }
-.entete__nav a:hover { color: var(--gris-95); }
-.entete__nav a[aria-current] { color: var(--gris-95); text-decoration: underline;
-  text-underline-offset: 6px; text-decoration-thickness: 2px; }
+.entete__nav { display: flex; gap: var(--e-1); }
+.entete__nav a { text-decoration: none; color: var(--ink); font-weight: 500;
+  padding: 8px 14px; border-radius: var(--rayon-pilule); }
+.entete__nav a:hover { color: var(--ink); background: var(--surface-tint); }
+.entete__nav a[aria-current] { color: var(--accent); background: var(--surface-tint); font-weight: 600; }
 .entete__actions { display: flex; align-items: center; gap: 12px; margin-left: auto; }
 .entete__compte { display: inline-flex; align-items: center; gap: 6px; font-size: 15px;
-  text-decoration: none; color: var(--gris-80); white-space: nowrap; margin-right: 4px; }
-.entete__compte:hover { color: var(--gris-95); text-decoration: underline; }
+  text-decoration: none; color: var(--ink); white-space: nowrap; margin-right: 4px; }
+.entete__compte:hover { color: var(--accent); text-decoration: underline; }
 .entete__icone { width: 20px; height: 20px; flex: none; }
 
-.pied { background: var(--gris-95); color: var(--gris-10); margin-top: var(--e-8); }
-.pied__inner { max-width: var(--large); margin: 0 auto; padding: var(--e-7) var(--gouttiere) var(--e-6); }
+/* Pied de page sur le bleu de marque, le bandeau de bas de page du
+   système. Pas de logo ici : il ne se pose que sur un fond clair. */
+.pied { background: var(--surface-brand); color: rgba(255, 255, 255, .86); margin-top: var(--e-8); }
+.pied__inner { max-width: var(--large); margin: 0 auto; padding: var(--e-8) var(--gouttiere) var(--e-6); }
 .pied__cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--e-6); }
 .pied h4 { margin-bottom: .8em; color: #fff; }
 .pied li + li { margin-top: var(--e-2); }
-.pied a { color: var(--gris-10); text-decoration: none; }
+.pied a { color: rgba(255, 255, 255, .86); text-decoration: none; }
 .pied a:hover { color: #fff; text-decoration: underline; }
-.pied__bas { border-top: 1px solid var(--gris-80); margin-top: var(--e-6); padding-top: var(--e-4);
-  font-size: 13px; color: var(--gris-40); }
+.pied :focus-visible { outline-color: #fff; }
+.pied .btn { background: #fff; border-color: #fff; color: var(--accent); }
+.pied .btn:hover { background: var(--accent-fond); border-color: var(--accent-fond); color: var(--accent-fonce); }
+.pied .champ { border-color: #fff; }
+.pied__bas { border-top: 1px solid rgba(255, 255, 255, .2); margin-top: var(--e-6); padding-top: var(--e-4);
+  font-size: 13px; color: rgba(255, 255, 255, .72); }
 /* Une page hors du périmètre du lab : le lien reste, parce qu'il existera
    sur le site, mais il est visiblement éteint. Un lien mort qui a l'air
    vivant se prend pour un bug de maquette. */
-.pied a.pied__hors { color: var(--gris-40); text-decoration: underline dotted; cursor: default; }
+.pied a.pied__hors { color: #a9bccb; text-decoration: underline dotted; cursor: default; }
 
 /* ------------------------------------------------------------------ */
 /* Badge catégorie et ligne d'accès                                     */
@@ -796,9 +812,9 @@ a.carte__repere { text-decoration: none; }
 
 /* Newsletter, dans le footer de toutes les pages (Annexe A). */
 .pied__news { display: grid; grid-template-columns: 1fr 1fr; gap: var(--e-6); align-items: center;
-  padding-bottom: var(--e-6); margin-bottom: var(--e-6); border-bottom: 1px solid var(--gris-80); }
-.pied__news h4 { margin-bottom: .3em; }
-.pied__news p { margin: 0; color: var(--gris-40); }
+  padding-bottom: var(--e-6); margin-bottom: var(--e-6); border-bottom: 1px solid rgba(255, 255, 255, .2); }
+.pied__news h4 { margin-bottom: .3em; font-size: 24px; line-height: 32px; font-weight: 400; }
+.pied__news p { margin: 0; color: rgba(255, 255, 255, .72); }
 .pied__news-champs { display: flex; gap: var(--e-2); }
 .pied__news-champs .champ { flex: 1; min-width: 0; width: auto; }
 .visuellement-cache { position: absolute; width: 1px; height: 1px; overflow: hidden;
@@ -953,6 +969,9 @@ a.carte__repere { text-decoration: none; }
   .entete__compte-texte { display: none; }
   .entete__essai { display: none; }
   .entete__inner { gap: 10px; padding: 12px var(--gouttiere); }
+  .entete__img { height: 24px; }
+  .barre-groupe__inner { flex-wrap: nowrap; overflow-x: auto; }
+  .barre-groupe a { white-space: nowrap; }
   .planning th:nth-child(4), .planning td:nth-child(4) { display: none; }
   .planning th, .planning td { padding: 12px 10px; }
   .tableau-large { display: block; overflow-x: auto; }
