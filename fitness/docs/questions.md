@@ -1632,6 +1632,11 @@ club », reprennent les mots du site. Les titres des blocs (« Nos formules »,
 « Nos cours collectifs », « Ils s'entraînent chez Harmony ») sont rédigés
 aussi. Tout est marqué à valider à l'écran.
 
+Le 2026-10-22, accueil rendu plus humain (Hugo) : les titres de blocs
+deviennent « Un club près de chez vous », « Une formule pour chaque envie »,
+« Des cours à votre rythme », « Du temps pour vous » et « Ce qu'en disent nos
+membres ». Ils restent à valider comme le reste de la copy de la page.
+
 ### Q63 · Où vit la newsletter
 **Statut :** tranchée par Hugo le 2026-10-22
 **Source :** B.3 > Accueil (« newsletter » parmi les composants) contre

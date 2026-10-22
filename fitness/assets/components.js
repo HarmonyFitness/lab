@@ -1665,10 +1665,25 @@ Object.assign(window.HF.vues, (function () {
       }).join('') + '</section>';
   }
 
-  function temoignages(n) {
+  /* opts.portrait (accueil) : le premier témoignage en grand, avec son
+     portrait à l'arc du logo, les autres en ligne avec un petit visage. On
+     lit d'abord une personne, pas une grille de citations. */
+  function temoignages(n, opts) {
     var txt = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor ' +
       'incididunt ut labore et dolore magna aliqua.';
     var out = [];
+    if ((opts || {}).portrait) {
+      var autres = [];
+      for (var j = 1; j < (n || 3); j++) {
+        autres.push('<li><span class="visage visage--petit" title="Photo : portrait du membre" aria-hidden="true"></span>' +
+          '<div><p>« ' + txt + ' »</p><div class="temoignage__auteur">[Prénom], membre à [club]</div></div></li>');
+      }
+      return '<div class="temoignage-portrait" data-spec="Annexe A > A.2 > Bloc témoignage">' +
+        V.blocImage('Photo : portrait d\'une membre, la soixantaine, dans son club, regard caméra', 'portrait') +
+        '<div><blockquote class="temoignage-portrait__citation">« ' + txt + ' »</blockquote>' +
+        '<div class="temoignage__auteur">[Prénom], membre à [club] depuis [année]</div>' +
+        '<ul class="voix voix--une">' + autres.join('') + '</ul></div></div>';
+    }
     for (var i = 0; i < (n || 3); i++) {
       out.push('<div class="temoignage"><p>« ' + txt + ' »</p>' +
         '<div class="temoignage__auteur">[Prénom], membre à [club]</div></div>');
@@ -1848,11 +1863,26 @@ Object.assign(window.HF.vues, (function () {
   /* « Pourquoi Harmony » : les quatre différenciants sont du contenu
      Harmony, en placeholder tant qu'ils ne sont pas donnés. Un seul bloc
      pour l'accueil et la landing de campagne (Q52). */
-  function pourquoiHarmony(spec) {
+  /* opts.visages (accueil, Hugo, 2026-10-22) : chaque argument est porté
+     par une personne, un visage rond et sa phrase, sur un aplat peau, au
+     lieu de quatre boîtes. Le chaud signale les personnes. La landing
+     garde ses quatre cartes tant que l'essai n'est pas validé. */
+  function pourquoiHarmony(spec, opts) {
+    var o = opts || {};
+    var visages = ['un coach du club, souriant, en tenue', 'une membre en conversation avec son coach',
+      'l\'accueil d\'un club, quelqu\'un qui salue', 'deux membres qui rient entre deux exercices'];
     var items = [1, 2, 3, 4].map(function (i) {
       return { titre: '[Différenciant ' + i + ']',
         texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' };
     });
+    if (o.visages) {
+      return '<section class="section-peau" data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' +
+        '<h2>Pourquoi Harmony</h2>' +
+        '<ul class="voix">' + items.map(function (d, i) {
+          return '<li><span class="visage" title="' + esc('Photo : ' + visages[i]) + '" aria-hidden="true"></span>' +
+            '<div><h3>' + esc(d.titre) + '</h3><p>' + esc(d.texte) + '</p></div></li>';
+        }).join('') + '</ul></section>';
+    }
     return '<section data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' +
       '<h2>Pourquoi Harmony</h2>' +
       '<div class="grille grille--4">' + items.map(function (d) {
@@ -1867,7 +1897,7 @@ Object.assign(window.HF.vues, (function () {
   function apercuClubs(etat, base) {
     var b = base || '';
     return '<section id="clubs" data-spec="B.3 > Accueil > aperçu carte clubs">' +
-      '<h2>Nos ' + R.nbClubs() + ' clubs</h2>' +
+      '<h2>Un club près de chez vous</h2>' +
       '<div class="apercu-clubs">' +
       '<div class="apercu-clubs__liste">' + R.clubsParCanton().map(function (g) {
         return '<div><h3 class="choix-club__canton">' + esc(H.libelleCanton(g.canton)) + '</h3>' +
@@ -1911,7 +1941,7 @@ Object.assign(window.HF.vues, (function () {
     var formules = D.produits.filter(function (p) { return p.type === 'formule'; })
       .sort(function (x, y) { return x.ordre - y.ordre; });
     return '<section data-spec="B.3 > Accueil > teaser tarifs">' +
-      '<h2>Nos formules</h2>' +
+      '<h2>Une formule pour chaque envie</h2>' +
       '<div class="formules">' + formules.map(function (p) {
         var pr = R.prixMini(p, 'adulte', etat);
         return '<a class="formules__ligne" href="' + b + 'tarifs/#abonnements">' +
@@ -1933,7 +1963,7 @@ Object.assign(window.HF.vues, (function () {
     var liste = R.coursEnAvant(n || 4);
     if (!liste.length) return '';
     return '<section data-spec="B.3 > Accueil > cours en avant">' +
-      '<h2>Nos cours collectifs</h2>' +
+      '<h2>Des cours à votre rythme</h2>' +
       '<div class="grille grille--cartes">' + liste.map(function (co) {
         return V.carteCours(co, b);
       }).join('') + '</div>' +
@@ -1948,8 +1978,8 @@ Object.assign(window.HF.vues, (function () {
     var espaces = R.espacesBienEtre(), clubs = R.clubsBienEtre();
     return '<section data-spec="B.3 > Accueil > bloc bien-être">' +
       '<div class="bloc bloc--couche bloc--clair">' +
-      V.blocImage('Photo espace wellness, ambiance calme', 'carre') +
-      '<div class="bloc--couche__texte"><h2>Bien-être</h2>' +
+      V.blocImage('Photo : deux membres au hammam après la séance, détendues, lumière douce', 'carre') +
+      '<div class="bloc--couche__texte"><h2>Du temps pour vous</h2>' +
       '<p>Récupérer compte autant que s\'entraîner. ' +
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.</p>' +
       V.tagsListe(espaces.map(function (e) { return e.nom; }), espaces.length) +
