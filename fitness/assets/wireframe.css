@@ -1,46 +1,104 @@
 /* Harmony Fitness : styles du lab de wireframes.
-   Niveaux de gris, une seule couleur d'accent réservée aux éléments
-   cliquables, typo système. Pas de design de marque, pas d'effets.
 
-   Passe de douceur du 2026-10-22 (Hugo) : gris adoucis et légèrement chauds,
-   trois rayons, une échelle d'espacement et un rythme vertical porté par le
-   CSS plutôt que par des marges écrites dans chaque page. Toujours en noir
-   et blanc, toujours avec des placeholders : on soigne, on n'habille pas. */
+   Design system Harmony Fitness appliqué le 2026-10-22 (Hugo, Q65). Les
+   wireframes prennent la marque : couleurs, polices, rayons et espacements
+   viennent du système. Ce qui fait un wireframe reste : blocs photo en
+   placeholder avec leur légende, données manquantes entre crochets,
+   marqueurs « à valider », data-spec et sélecteur d'état.
+
+   Les noms de jetons du lab sont gardés (--accent, --gris-*, --rayon,
+   --e-*) et branchés sur les valeurs du système : aucune page ne casse, et
+   une valeur qui change dans le système change ici à un seul endroit. */
+
+/* Polices locales, pas Google Fonts : aucune page ne dépend du réseau.
+   Figtree pour le texte, Barlow Condensed pour les prix et les chiffres.
+   Sous-ensemble latin de Fontsource 5.3.0, licence OFL dans assets/fonts/. */
+@font-face { font-family: "Figtree"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("fonts/figtree-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: italic; font-weight: 400; font-display: swap;
+  src: url("fonts/figtree-latin-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: normal; font-weight: 500; font-display: swap;
+  src: url("fonts/figtree-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: normal; font-weight: 600; font-display: swap;
+  src: url("fonts/figtree-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: italic; font-weight: 600; font-display: swap;
+  src: url("fonts/figtree-latin-600-italic.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: normal; font-weight: 700; font-display: swap;
+  src: url("fonts/figtree-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 600; font-display: swap;
+  src: url("fonts/barlow-condensed-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 700; font-display: swap;
+  src: url("fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
 
 :root {
-  /* Gris : un ton neutre à peine chaud. Un gris froid se lit clinique, un
-     gris chaud se lit papier. Les noms sont gardés, seules les valeurs
-     bougent, pour que rien ne casse. */
-  --gris-00: #ffffff;
-  --gris-03: #fafaf8;          /* fond de page : blanc cassé, pas gris */
-  --gris-05: #f4f4f1;          /* fond d'un encadré discret */
-  --gris-10: #ebebe7;          /* filets intérieurs, blocs image */
-  --gris-20: #dfdfda;          /* bordures des cartes */
-  --gris-40: #a9a9a3;          /* texte éteint, bordures des champs */
-  --gris-60: #6b6b66;          /* texte secondaire, 5,4:1 sur blanc */
-  --gris-80: #403f3b;
-  --gris-95: #1d1c1a;
+  /* Surfaces et encres du système. Le blanc domine : la page est blanche,
+     une carte se détache par son fond teinté, pas par une bordure. */
+  --surface: #ffffff;
+  --surface-tint: #f4f7f9;     /* cartes et blocs posés sur la page */
+  --surface-brand: #204d6e;    /* bandeau pleine largeur : le pied de page */
+  --line: #e3e9ee;             /* filets de liste, jamais autour d'une carte */
+  --line-strong: #7a8b97;      /* bordures de champs et de boutons, 3:1 */
+  --ink: #1b2731;
+  --ink-muted: #4c565c;        /* texte secondaire, lisible sur les trois surfaces */
+  --photo-vide: #e3e9ee;       /* bloc photo en attente de sa vraie photo */
 
-  --accent: #1f5fd0;          /* réservé aux éléments cliquables */
-  --accent-fonce: #184db0;    /* le même, au survol */
-  --accent-fond: #eaf0fb;
+  /* Les gris du lab, rebranchés sur le système. Les noms restent pour que
+     les règles existantes suivent sans être réécrites. */
+  --gris-00: var(--surface);
+  --gris-03: var(--surface);
+  --gris-05: var(--surface-tint);
+  --gris-10: #edf1f4;
+  --gris-20: var(--line);
+  --gris-40: var(--line-strong);
+  --gris-60: var(--ink-muted);
+  --gris-80: #33414c;
+  --gris-95: var(--ink);
 
-  --ui: #7a3fb8;              /* outillage du wireframe, jamais la maquette */
-  --ui-fond: #f3ecfa;
+  /* harmony-blue : la couleur d'action du système. Boutons, état choisi,
+     badge Premium. Un lien dans le texte prend ocean-text et reste
+     souligné : il se reconnaît à sa forme, pas à sa seule couleur. */
+  --accent: #204d6e;
+  --accent-fonce: #183c57;
+  --accent-fond: #e8eff5;
+  --lien: #1b6e90;
+  --focus: #2480a6;
+
+  /* Offres chiffrées : violet réservé à l'offre du moment et aux remises. */
+  --promo: #7e3aa8;
+  --promo-fond: #f4eefb;
+
+  /* Catégories de clubs : le poids du badge les distingue, discret, teinté,
+     plein. La forme et le mot restent, jamais la couleur seule. */
+  --cat-gym: #3a4247;
+  --cat-gym-fond: #e4e8eb;
+  --cat-essential: #155e7e;
+  --cat-essential-fond: #dceaf3;
+  --cat-premium: #204d6e;
+
+  /* Outillage du wireframe : vert, pointillés et police à chasse fixe. Plus
+     de violet, qui est devenu la couleur des offres : on ne doit jamais
+     prendre l'outillage pour la maquette, ni l'inverse. */
+  --ui: #0b6e4f;
+  --ui-fond: #e6f4ee;
 
   /* Niveau d'une formule : le mot qui suit la catégorie dans son nom
-     (« Premium Platinum »). Ni l'accent, réservé aux éléments cliquables, ni
-     la couleur d'outillage : une teinte à part, pour qu'on ne prenne pas un
-     niveau pour une catégorie de club. */
+     (« Premium Platinum »). Ni l'action, ni l'outillage, ni l'offre : une
+     teinte à part, pour qu'on ne prenne pas un niveau pour une catégorie. */
   --niveau: #8a6a1f;
 
-  --police: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --police: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --police-chiffres: "Barlow Condensed", "Arial Narrow", sans-serif;
 
-  /* Trois rayons, pas un par composant. Petit : champs, tags, badges.
-     Moyen : boutons, cartes, encadrés. Grand : images, panneaux, hero. */
-  --rayon-petit: 6px;
-  --rayon: 10px;
-  --rayon-grand: 14px;
+  /* Rayons du système : doux, comme la courbe du logo. Très petit pour les
+     badges et les tags, petit pour les champs, moyen pour les cartes, grand
+     pour les photos et les panneaux, pilule pour les boutons et les puces. */
+  --rayon-xs: 4px;
+  --rayon-petit: 10px;
+  --rayon: 16px;
+  --rayon-grand: 24px;
+  --rayon-pilule: 999px;
+
+  --ombre-survol: 0 12px 32px rgba(14, 26, 35, .08);
 
   /* Échelle d'espacement sur une base de 4. Toute marge du lab en vient. */
   --e-1: 4px;
@@ -51,9 +109,10 @@
   --e-6: 32px;
   --e-7: 48px;
   --e-8: 64px;
+  --e-9: 96px;
 
-  --espace-section: 56px;     /* entre deux sections d'une page */
-  --carte-pad: 20px;          /* intérieur d'une carte ou d'un bloc */
+  --espace-section: 64px;     /* entre deux sections d'une page */
+  --carte-pad: 24px;          /* intérieur d'une carte ou d'un bloc */
   --gouttiere: 24px;
   --large: 1280px;
   --cartes-par-ligne: 4;   /* cartes produit alignées sur la largeur d'une section */
@@ -65,31 +124,34 @@ body {
   margin: 0;
   font-family: var(--police);
   font-size: 16px;
-  line-height: 1.6;
-  color: var(--gris-95);
-  background: var(--gris-03);
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--surface);
   -webkit-font-smoothing: antialiased;
 }
 
-/* Titres : un peu plus grands, plus serrés, avec une marge basse qui laisse
-   respirer le texte qui suit. Le crénage négatif ne vaut que pour les deux
-   premiers niveaux, en dessous il resserre trop. */
-h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.2; font-weight: 700; }
-h1 { font-size: 36px; letter-spacing: -.015em; line-height: 1.12; margin-bottom: .4em; }
-h2 { font-size: 26px; letter-spacing: -.01em; margin-bottom: .6em; }
-h3 { font-size: 18px; }
-h4 { font-size: 16px; }
+/* Titres fins et grands : la hiérarchie vient de la taille, pas du gras.
+   H1 et H2 en graisse 400, lettres resserrées. En dessous, les titres de
+   carte reprennent du poids, sinon ils se perdent dans le texte. */
+h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.2; font-weight: 600; }
+h1 { font-size: 44px; line-height: 52px; font-weight: 400; letter-spacing: -.02em; margin-bottom: .35em; }
+h2 { font-size: 36px; line-height: 44px; font-weight: 400; letter-spacing: -.02em; margin-bottom: .5em; }
+h3 { font-size: 20px; line-height: 28px; }
+h4 { font-size: 17px; line-height: 24px; }
+/* Le titre du hero de l'accueil, un seul par site. */
+.h-display { font-size: 60px; line-height: 64px; letter-spacing: -.025em; }
 p  { margin: 0 0 1em; }
 ul { margin: 0 0 1em; padding-left: 1.2em; }
 li + li { margin-top: var(--e-1); }
 
-a { color: var(--accent); text-underline-offset: 2px; }
+a { color: var(--lien); text-underline-offset: 3px; }
 a:hover { color: var(--accent-fonce); }
 
 /* Un paragraphe d'introduction sous un titre ne court pas sur 1280 px :
    au-delà de 70 caractères par ligne, l'œil perd la ligne suivante. Les
    cartes sont plus étroites de toute façon. */
 main > section > p, .hero-club > div > p, section > h1 + p, section > h2 + p { max-width: 68ch; }
+section > h1 + p, .hero-club > div > h1 + p { font-size: 18px; line-height: 28px; }
 
 .conteneur { max-width: var(--large); margin: 0 auto; padding: 0 var(--gouttiere); }
 
@@ -108,30 +170,39 @@ main > .hote-collant + * { margin-top: 0; }
 h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 
 /* ------------------------------------------------------------------ */
-/* Boutons : l'accent ne sert qu'ici et sur les liens                   */
+/* Boutons : en pilule, harmony-blue pour l'action principale           */
 /* ------------------------------------------------------------------ */
+/* Un seul bouton principal par zone, le reste en secondaire ou discret.
+   Pas d'ombre sur un bouton, pas de capitales. 44 px de haut : une zone
+   de toucher confortable sur mobile. */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: .4em;
-  font: inherit; font-weight: 600; line-height: 1.3; text-decoration: none; cursor: pointer;
-  padding: 11px 20px; border-radius: var(--rayon);
+  font: inherit; font-weight: 600; line-height: 24px; text-decoration: none; cursor: pointer;
+  min-height: 44px; padding: 9px 22px; border-radius: var(--rayon-pilule);
   border: 1px solid var(--accent); background: var(--accent); color: #fff;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease;
 }
 .btn:hover { background: var(--accent-fonce); border-color: var(--accent-fonce); color: #fff; }
-.btn--secondaire { background: #fff; color: var(--accent); }
-.btn--secondaire:hover { background: var(--accent-fond); color: var(--accent-fonce); }
+.btn--secondaire { background: var(--surface); color: var(--accent); border-color: var(--line-strong); }
+.btn--secondaire:hover { background: var(--surface); border-color: var(--accent); color: var(--accent); }
 .btn--discret {
-  background: #fff; color: var(--gris-80); border-color: var(--gris-20);
+  background: transparent; color: var(--gris-80); border-color: var(--line);
 }
-.btn--discret:hover { background: var(--gris-05); border-color: var(--gris-40); color: var(--gris-95); }
-.btn--petit { padding: 7px 12px; font-size: 14px; }
+.btn--discret:hover { background: var(--surface-tint); border-color: var(--line-strong); color: var(--ink); }
+/* Seulement dans une zone d'offre chiffrée : l'offre du moment. */
+.btn--promo { background: var(--promo); border-color: var(--promo); color: #fff; }
+.btn--promo:hover { background: #6a2f8e; border-color: #6a2f8e; color: #fff; }
+.btn--petit { min-height: 36px; padding: 5px 16px; font-size: 14px; line-height: 24px; }
 .btn--bloc { width: 100%; }
-.lien-texte { color: var(--accent); text-decoration: underline; cursor: pointer; }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
+.lien-texte { color: var(--lien); text-decoration: underline; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
 
-/* Focus clavier : le même anneau partout, à distance du bord, pour qu'il
-   ne se confonde ni avec une bordure ni avec un état choisi. Le navigateur
-   ne le montre qu'au clavier, pas au clic. */
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: var(--rayon-petit); }
-.btn:focus-visible { outline-offset: 2px; }
+/* Focus clavier : le même anneau partout, 2 px plein décalé de 2 px, dans
+   le bleu ocean du système, qui passe 3:1 sur toutes les surfaces. Le
+   navigateur ne le montre qu'au clavier, pas au clic. L'anneau suit la
+   forme de l'élément : un bouton en pilule garde un anneau en pilule. */
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 /* ------------------------------------------------------------------ */
 /* Outillage du wireframe : violet, jamais confondu avec la maquette    */
@@ -793,11 +864,13 @@ a.carte__repere { text-decoration: none; }
 /* Mobile : 375 px                                                      */
 /* ------------------------------------------------------------------ */
 @media (max-width: 760px) {
-  :root { --gouttiere: 16px; --espace-section: 40px; --carte-pad: 16px; }
+  /* Un cran de moins sur mobile, comme le dit le système. */
+  :root { --gouttiere: 16px; --espace-section: 48px; --carte-pad: 20px; }
   body { font-size: 16px; }
-  h1 { font-size: 28px; }
-  h2 { font-size: 22px; }
-  h3 { font-size: 17px; }
+  h1 { font-size: 32px; line-height: 40px; }
+  .h-display { font-size: 40px; line-height: 46px; }
+  h2 { font-size: 26px; line-height: 32px; }
+  h3 { font-size: 18px; line-height: 26px; }
   .choix-club { grid-template-columns: 1fr; }
   .choix-club .carte-bloc { display: none; }
   .ordi-seulement { display: none; }
