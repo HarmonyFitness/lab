@@ -358,9 +358,10 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .produit--lien { position: relative; }
 .produit--lien:hover { border-color: var(--gris-60); }
 .produit--lien:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.produit--lien h2 a::after,
 .produit--lien h3 a::after,
 .produit--lien h4 a::after { content: ""; position: absolute; inset: 0; }
-.produit--lien a:not(h3 a):not(h4 a) { position: relative; z-index: 1; }
+.produit--lien a:not(h2 a):not(h3 a):not(h4 a) { position: relative; z-index: 1; }
 .niveau { font-style: italic; color: var(--niveau); }
 .produit__acces { font-size: 14px; color: var(--gris-60); margin-bottom: var(--e-3); }
 
@@ -851,6 +852,15 @@ textarea.champ { resize: vertical; }
   font-size: 13px; color: var(--gris-60); }
 .article__meta .tag { margin: 0; }
 .article-carte h3 { margin-bottom: .3em; }
+/* À la une : couchée, la photo à gauche sur trois cinquièmes, le texte à
+   droite. Le titre est un h2, c'est le premier de la page après le H1. */
+.article-une { display: grid; grid-template-columns: 3fr 2fr; gap: var(--e-6); align-items: center;
+  padding: var(--carte-pad); }
+.article-une .img { aspect-ratio: 16 / 10; min-height: 0; width: 100%; }
+.article-une h2 { font-size: 30px; line-height: 1.15; margin: 0 0 .4em; }
+.article-une h2 a { color: inherit; text-decoration: none; }
+.article-une:hover h2 a { text-decoration: underline; }
+.article-une__chapeau { font-size: 17px; line-height: 1.55; color: var(--gris-80); }
 .article__entete, .article__corps { max-width: 760px; }
 .article__entete h1 { margin-bottom: .3em; }
 .article__chapeau { font-size: 19px; line-height: 1.5; color: var(--gris-80); margin-bottom: var(--e-5); }
@@ -871,6 +881,8 @@ textarea.champ { resize: vertical; }
   .infos__item:nth-last-child(-n+3) { border-bottom: 1px solid var(--gris-10); }
   .infos__item:nth-last-child(-n+2) { border-bottom: 0; }
   .bloc--couche, .grille > .bloc--couche { grid-template-columns: 1fr; gap: var(--e-4); }
+  .article-une { grid-template-columns: 1fr; gap: var(--e-4); }
+  .article-une h2 { font-size: 24px; }
   .bloc--couche .img { aspect-ratio: 16 / 7; }
   /* Cinq menus déroulants empilés prenaient un écran avant la première
      carte : deux par ligne. */

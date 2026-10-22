@@ -1701,15 +1701,36 @@ Object.assign(window.HF.vues, (function () {
       '<p class="mention">' + esc(a.chapeau) + '</p></article>';
   }
 
-  /* La liste. État vide prévu : une page blanche se lit comme une panne. */
+  /* L'article à la une : une carte couchée, la photo plus grande, le titre
+     plus gros. Cliquable en entier comme les autres. */
+  function carteArticleUne(a, base) {
+    return '<article class="produit produit--lien article-une" data-spec="B.3 > Actualités > À la une">' +
+      V.blocImage(a.photo, 'large') +
+      '<div class="article-une__texte">' + metaArticle(a) +
+      '<h2><a href="' + (base || '') + 'actualites/article/?article=' + esc(a.id) + '">' +
+      esc(a.titre) + '</a></h2>' +
+      '<p class="article-une__chapeau">' + esc(a.chapeau) + '</p>' +
+      '<p class="mention">Lire l\'article</p></div></article>';
+  }
+
+  /* La liste : un article à la une, puis les autres (Hugo, 2026-10-22).
+     À la une = le plus récent, sauf si un article porte le drapeau
+     `alaUne` : l'éditeur peut tenir une actu en tête pendant que d'autres
+     sortent. Le drapeau est facultatif, le défaut se déduit.
+     État vide prévu : une page blanche se lit comme une panne. */
   function listeArticles(base) {
     var liste = R.articlesFitness();
     if (!liste.length) {
       return '<p class="indispo">Pas encore d\'actualité. Revenez bientôt, ou ' +
         '<a class="lien-texte" href="' + (base || '') + 'clubs/">passez voir votre club</a>.</p>';
     }
-    return '<div class="grille grille--cartes">' +
-      liste.map(function (a) { return carteArticle(a, base); }).join('') + '</div>';
+    var une = liste.find(function (a) { return a.alaUne; }) || liste[0];
+    var autres = liste.filter(function (a) { return a !== une; });
+    return carteArticleUne(une, base) +
+      (autres.length
+        ? '<h2 class="h-bloc">Les autres actualités</h2><div class="grille grille--cartes">' +
+          autres.map(function (a) { return carteArticle(a, base); }).join('') + '</div>'
+        : '');
   }
 
   /* En-tête d'article : thème, date, titre, chapeau, photo de couverture.

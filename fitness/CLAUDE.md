@@ -193,6 +193,7 @@ Actualités
 - **L'objet lié** : un club ou un cours, facultatif, affiché avec sa carte habituelle sous le corps. C'est le « CTA de retour vers la verticale » de B.2, traduit pour un site qui est déjà la verticale (Q61).
 - Le corps est une liste de blocs typés (paragraphe, intertitre, image avec légende), comme un éditeur de CMS les produit. En-tête et corps bornés à 760 px : un article se lit comme un texte.
 - La carte d'article est cliquable en entier, c'est une carte qui mène quelque part. La même ligne thème + date sert sur la carte, en tête d'article et dans le teaser.
+- **Un article à la une, puis les autres** (Hugo, 2026-10-22). À la une = le plus récent, sauf si un article porte le drapeau facultatif `alaUne` : l'éditeur peut tenir une actu en tête pendant que d'autres sortent. Le défaut se déduit, le drapeau ne se saisit que pour y déroger. La carte à la une est couchée, photo à gauche, titre en h2, cliquable en entier.
 - **Pas de pagination** tant que le volume est faible (Q59). **État vide prévu** : une liste vide dit « Pas encore d'actualité » et renvoie vers les clubs, elle ne rend pas une page blanche.
 - Le teaser de l'accueil (`teaserActualites(n, base)`) est construit et montré dans la galerie avant que la page d'accueil existe.
 - Copy rédigée, B.3 ne la donne pas : H1, sous-titre, titles, tous marqués à valider (Q58).
