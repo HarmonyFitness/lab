@@ -266,17 +266,21 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
    garde sa grammaire : liens discrets, l'activité courante en pilule.
    « Harmony » y est un mot, pas un logo : le logo Fitness est juste dessous,
    deux logos l'un sur l'autre se concurrencent (Hugo, 2026-10-22). */
-.barre-groupe { background: var(--surface-tint); font-size: 14px; }
-.barre-groupe__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 4px var(--e-1);
-  max-width: var(--large); margin: 0 auto; padding: 6px calc(var(--gouttiere) - 12px); }
-.barre-groupe a { color: var(--ink-muted); text-decoration: none; padding: 4px 12px;
+/* Basse (30 px) et séparée du header par un filet : c'est une barre de
+   service commune aux cinq sites, elle ne doit ni peser ni se fondre dans
+   le header de Fitness (Hugo, 2026-10-22). */
+.barre-groupe { background: var(--surface-tint); font-size: 13px; line-height: 20px;
+  border-bottom: 1px solid var(--line); }
+.barre-groupe__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 2px var(--e-1);
+  max-width: var(--large); margin: 0 auto; padding: 3px calc(var(--gouttiere) - 10px); }
+.barre-groupe a { color: var(--ink-muted); text-decoration: none; padding: 2px 10px;
   border-radius: var(--rayon-pilule); }
 .barre-groupe a:hover { color: var(--ink); background: var(--surface); }
 .barre-groupe a[aria-current] { color: var(--accent); background: var(--surface); font-weight: 600; }
 
 .entete { background: var(--surface); border-bottom: 1px solid var(--line); }
 .entete__inner { display: flex; align-items: center; gap: var(--e-6);
-  max-width: var(--large); margin: 0 auto; padding: 14px var(--gouttiere); }
+  max-width: var(--large); margin: 0 auto; padding: 18px var(--gouttiere) 16px; }
 /* Logo Fitness : 160 px de large au moins (design system), 30 px de haut
    donnent 201 px. Il reste cliquable, c'est la sortie de secours. */
 .entete__logo { display: inline-flex; flex: none; text-decoration: none; }
