@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Salle de sport | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-22b">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-22a">
 </head>
 <body class="a-barre-rapide">
 
@@ -73,61 +73,61 @@
         <div x-html="HF.vues.infosPratiques(club)"></div>
 
         <!-- ================================================== BLOC 4 -->
-        <div style="margin-top:36px" x-html="HF.vues.planning(club.id, etat)"></div>
+        <div x-html="HF.vues.planning(club.id, etat)"></div>
         <p class="mention" x-show="club.categorie === 'gym'" data-spec="B.3 &gt; Variante Gym">
           Pas de cours collectifs dans un club Gym : seuls les Small Group
           Training apparaissent au planning, marqués « Extra ».
         </p>
 
         <!-- ============================ BLOC 5, remplacé en variante Gym -->
-        <div style="margin-top:36px" x-html="HF.vues.coursDuClub(club)"></div>
-        <div style="margin-top:36px" x-html="HF.vues.passerelleCoursCollectifs(club)"></div>
+        <div x-html="HF.vues.coursDuClub(club)"></div>
+        <div x-html="HF.vues.passerelleCoursCollectifs(club)"></div>
 
         <!-- ================================================== BLOC 6 -->
-        <div style="margin-top:36px" x-html="HF.vues.formulesEtExtras(club, etat)"></div>
+        <div x-html="HF.vues.formulesEtExtras(club, etat)"></div>
 
         <!-- ================================================== BLOC 7 -->
-        <section style="margin-top:36px" data-spec="B.3 &gt; Trame de la page club &gt; 7">
+        <section data-spec="B.3 &gt; Trame de la page club &gt; 7">
           <h2 x-text="'L\'équipe de ' + club.nom"></h2>
           <div x-html="HF.vues.grilleCoachs(HF.regles.coachsDuClub(club.id), etat)"></div>
           <p class="mention">Pas de page coach dédiée au lancement.</p>
         </section>
 
         <!-- ================================================== BLOC 8 -->
-        <div style="margin-top:36px" x-html="HF.vues.equipementsBloc(club)"></div>
+        <div x-html="HF.vues.equipementsBloc(club)"></div>
 
         <!-- ================================================== BLOC 9 -->
-        <div style="margin-top:36px" x-html="HF.vues.bienEtreBloc(club, '../../')"></div>
+        <div x-html="HF.vues.bienEtreBloc(club, '../../')"></div>
 
         <!-- ================================================= BLOC 10 -->
-        <div style="margin-top:36px" x-html="HF.vues.passerelleNatation(club)"></div>
+        <div x-html="HF.vues.passerelleNatation(club)"></div>
 
         <!-- ================================================= BLOC 11 -->
-        <section style="margin-top:36px" data-spec="B.3 &gt; Trame de la page club &gt; 11">
+        <section data-spec="B.3 &gt; Trame de la page club &gt; 11">
           <h2>En images</h2>
           <div class="grille grille--3">
             <div x-html="HF.vues.blocImage('Photo plateau musculation', 'large')"></div>
             <div x-html="HF.vues.blocImage('Photo salle de cours', 'large')"></div>
             <div x-html="HF.vues.blocImage('Photo vestiaires', 'large')"></div>
           </div>
-          <h2 style="margin-top:28px">Ils viennent ici</h2>
+          <h2 class="h-bloc">Ils viennent ici</h2>
           <div x-html="HF.vues.temoignages(3)"></div>
         </section>
 
         <!-- ================================================= BLOC 12 -->
-        <div style="margin-top:36px" x-html="HF.vues.offreDuClub(club, etat)"></div>
+        <div x-html="HF.vues.offreDuClub(club, etat)"></div>
 
         <!-- ================================================= BLOC 13 -->
-        <section style="margin-top:36px" data-spec="B.3 &gt; Trame de la page club &gt; 13">
+        <section data-spec="B.3 &gt; Trame de la page club &gt; 13">
           <h2>Questions sur ce club</h2>
           <div x-html="HF.vues.faq(faqLocale(), etat)"></div>
         </section>
 
         <!-- ================================================= BLOC 14 -->
-        <div style="margin-top:36px" x-html="HF.vues.clubsProximite(club, etat)"></div>
+        <div x-html="HF.vues.clubsProximite(club, etat)"></div>
 
         <!-- ================================================= BLOC 15 -->
-        <div style="margin-top:36px" x-html="HF.vues.ctaEssai('../../', 'B.3 > Trame de la page club > 15')"></div>
+        <div x-html="HF.vues.ctaEssai('../../', 'B.3 > Trame de la page club > 15')"></div>
 
       </main>
 
@@ -137,8 +137,8 @@
 
 </div>
 
-<script src="../../data/data.js?v=2026-09-22b"></script>
-<script src="../../assets/components.js?v=2026-09-22b"></script>
+<script src="../../data/data.js?v=2026-10-22a"></script>
+<script src="../../assets/components.js?v=2026-10-22a"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageClub', function () {
@@ -182,7 +182,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-09-22b"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-22a"></script>
 
 </body>
 </html>

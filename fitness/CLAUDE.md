@@ -54,6 +54,9 @@ Cours collectifs : 2 templates seulement, le hub et le gabarit cours. On maquett
 - **Aucun cours orphelin** : un cours sans aucune séance est un cours que personne ne peut suivre. Il disparaît des filtres par formule et des comptages, mais reste au catalogue : c'est une incohérence visible. Chaque cours du catalogue a au moins une séance.
 - Un cours collectif n'est jamais programmé dans un club Gym : ces clubs n'ont que des Small Group Training (B.3 > Variante Gym).
 - Pas de design de marque, pas d'effets
+- **Soigné sans être habillé** (Hugo, 2026-10-22). Toujours en noir et blanc, toujours avec des placeholders, mais des gris adoucis et légèrement chauds, des rayons et un rythme vertical. Tout vient des jetons de `wireframe.css` : une échelle d'espacement sur base 4 (`--e-1` à `--e-8`), trois rayons (`--rayon-petit` champs et tags, `--rayon` boutons et cartes, `--rayon-grand` images et panneaux), `--espace-section` entre deux sections, `--carte-pad` à l'intérieur d'une carte. Une valeur en pixels écrite dans une règle ou dans une page est une valeur qui échappera à la prochaine passe.
+- **Le rythme vertical est porté par le CSS, pas par les pages.** `main > * + *` espace les sections ; aucune section ne porte de `margin-top` inline. Un titre de second rang posé à distance dans une section prend la classe `.h-bloc`. Les petites marges intérieures (8 à 20 px) restent inline, elles règlent un bloc, pas la page.
+- Focus clavier dessiné (`:focus-visible`, anneau accent à 3 px du bord) et zones tactiles du planning à la hauteur de la ligne : deux écarts de l'audit UX du 2026-10-21 réglés par cette passe.
 - Chaque page en desktop (1280 px) et mobile (375 px), les deux sont obligatoires
 
 ## Technique

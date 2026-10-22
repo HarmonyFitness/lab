@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Offre du moment | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-22b">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22a">
 </head>
 <body>
 
@@ -89,7 +89,7 @@
         <!-- L'offre avant le club : la page reçoit du trafic froid venu
              d'une annonce. On tient d'abord la promesse de la publicité,
              on demande ensuite (Hugo, 2026-09-16, Q51). -->
-        <section id="offre" style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
+        <section id="offre" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
           <h2 x-text="offres().length ? 'L\'offre' : 'Ce qui est en promotion'"></h2>
 
           <!-- Campagne sans produit dédié : la remise porte sur des produits
@@ -115,7 +115,7 @@
              ne connaissent pas la marque : le prix seul ne dit pas pourquoi
              ici plutôt qu'ailleurs. Bloc absent de B.3, ajouté à la demande
              de Hugo, à valider (Q52). -->
-        <section style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment (ajout à valider)">
+        <section data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment (ajout à valider)">
           <h2>Pourquoi Harmony</h2>
           <div class="grille grille--4" style="margin-top:12px">
             <template x-for="d in differenciants" :key="d.titre">
@@ -132,7 +132,7 @@
              restent en placeholder tant qu'Harmony ne les a pas donnés, ils
              ne s'inventent pas. Les témoignages sont le composant partagé,
              déjà utilisé sur Tarifs et sur le hub des cours. -->
-        <section style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment (ajout à valider)">
+        <section data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment (ajout à valider)">
           <h2>Ils s'entraînent chez Harmony</h2>
           <div style="margin-top:12px" x-html="HF.vues.noteAvis()"></div>
           <div style="margin-top:16px" x-html="HF.vues.temoignages(3)"></div>
@@ -145,7 +145,7 @@
              seulement en haut : personne ne remonte la page pour finir.
              Quand l'annonce porte déjà le club (?club=), le bloc s'ouvre
              directement sur l'action. -->
-        <section id="club" style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
+        <section id="club" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
           <template x-if="!etat.club">
             <div>
               <div class="ordi-seulement" x-html="HF.vues.choixClub(etat, {})"></div>
@@ -181,7 +181,7 @@
         </section>
 
         <!-- ====================================================== BLOC 6 -->
-        <section style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
+        <section data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
           <h2>Conditions</h2>
           <template x-for="c in conditions()" :key="c.nom">
             <p class="mention"><strong x-text="c.nom"></strong> : <span x-text="c.texte"></span></p>
@@ -189,7 +189,7 @@
         </section>
 
         <!-- ====================================================== BLOC 7 -->
-        <section style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
+        <section data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment">
           <h2>Questions sur l'offre</h2>
           <div x-html="HF.vues.faq(faqOffre, etat)"></div>
         </section>
@@ -217,8 +217,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-22b"></script>
-<script src="../assets/components.js?v=2026-09-22b"></script>
+<script src="../data/data.js?v=2026-10-22a"></script>
+<script src="../assets/components.js?v=2026-10-22a"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageOffre', function () {
@@ -346,7 +346,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-22b"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-22a"></script>
 
 </body>
 </html>

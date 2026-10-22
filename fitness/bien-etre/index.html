@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Bien-être : sauna, hammam et soins | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-22b">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22a">
 </head>
 <body>
 
@@ -52,7 +52,7 @@
     <!-- ====================================================== BLOC 2 -->
     <!-- Storytelling. B.3 demande d'incarner la signature « Espaces de sport
          et de bien-être » : trois idées, pas une tartine. -->
-    <section style="margin-top:40px" data-spec="B.3 &gt; Bien-être &gt; hub">
+    <section data-spec="B.3 &gt; Bien-être &gt; hub">
       <div class="grille grille--3">
         <template x-for="b in vision" :key="b.titre">
           <div class="bloc">
@@ -67,7 +67,7 @@
     <!-- Les deux portes de la branche. Cartes cliquables en entier, comme
          les cartes de cours : elles mènent quelque part, elles ne déclenchent
          pas d'action. -->
-    <section style="margin-top:44px" data-spec="B.3 &gt; Bien-être &gt; hub">
+    <section data-spec="B.3 &gt; Bien-être &gt; hub">
       <h2>Deux façons de souffler</h2>
       <div class="grille grille--2" style="margin-top:12px">
 
@@ -94,7 +94,7 @@
     <!-- ====================================================== BLOC 4 -->
     <!-- Clubs concernés. B.3 dit « surtout Premium » : on ne l'écrit pas,
          on le montre. La liste vient des équipements de chaque club. -->
-    <section style="margin-top:44px" data-spec="B.3 &gt; Bien-être &gt; hub">
+    <section data-spec="B.3 &gt; Bien-être &gt; hub">
       <h2>Où en profiter</h2>
       <p class="mention" x-text="lignePremium()"></p>
       <div class="grille grille--3" style="margin-top:12px">
@@ -114,7 +114,7 @@
     </section>
 
     <!-- ====================================================== BLOC 5 -->
-    <div style="margin-top:44px" x-html="HF.vues.ctaEssai('../', 'B.3 &gt; Bien-être &gt; hub')"></div>
+    <div x-html="HF.vues.ctaEssai('../', 'B.3 &gt; Bien-être &gt; hub')"></div>
 
   </main>
 
@@ -122,8 +122,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-22b"></script>
-<script src="../assets/components.js?v=2026-09-22b"></script>
+<script src="../data/data.js?v=2026-10-22a"></script>
+<script src="../assets/components.js?v=2026-10-22a"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageBienEtre', function () {
@@ -172,7 +172,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-22b"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-22a"></script>
 
 </body>
 </html>

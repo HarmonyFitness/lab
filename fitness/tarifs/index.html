@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Tarifs et abonnements fitness à Genève et Vaud | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-22b">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22a">
 </head>
 <body>
 
@@ -43,7 +43,7 @@
     </section>
 
     <!-- ====================================================== BLOC 2 -->
-    <section style="margin-top:28px">
+    <section>
       <div class="ordi-seulement" x-html="HF.vues.choixClub(etat, {})"></div>
       <div class="mobile-seulement"
            x-html="etat.club ? HF.vues.clubReplie(etat, {}) : HF.vues.pastillesMobile(etat)"></div>
@@ -57,7 +57,7 @@
     <!-- ====================================================== BLOC 3 -->
     <!-- La section existe dès qu'il y a l'un ou l'autre : un produit promo
          dédié, ou une remise sur des produits qui existent déjà. -->
-    <section id="offre-du-moment" style="margin-top:40px"
+    <section id="offre-du-moment"
              x-show="HF.regles.offreDuMoment(etat)"
              data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 3">
       <h2>Offre du moment</h2>
@@ -83,7 +83,7 @@
     </section>
 
     <!-- ====================================================== BLOC 4 -->
-    <section id="abonnements" style="margin-top:40px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 4">
+    <section id="abonnements" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 4">
       <h2>Abonnements</h2>
       <div style="margin-bottom:14px" x-html="HF.vues.selecteurEngagement(etat)"></div>
       <div x-html="HF.vues.ligneSansClub(etat)"></div>
@@ -96,7 +96,7 @@
 
       <!-- Extras juste en dessous des abonnements. L'ancre sert à la
            navigation automatique : choisir une formule emmène ici. -->
-      <h3 id="extras" style="margin-top:28px">Extras</h3>
+      <h3 id="extras" class="h-bloc">Extras</h3>
       <p class="mention" x-show="!etat.club">
         Choisissez votre club : les Extras proposés dépendent du club.
       </p>
@@ -109,7 +109,7 @@
     </section>
 
     <!-- ====================================================== BLOC 5 -->
-    <section id="carnets" style="margin-top:40px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 5">
+    <section id="carnets" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 5">
       <h2>Carnets d'entrées</h2>
       <div class="filtres" x-show="!etat.club">
         <span>Filtrer :</span>
@@ -135,9 +135,9 @@
          lu le catalogue et n'y ont pas trouvé leur compte. -->
     <div x-html="HF.vues.ligneConseil(etat, '../')"></div>
 
-    <div style="margin-top:44px" x-html="HF.vues.moduleCategories({ court: true })"></div>
+    <div x-html="HF.vues.moduleCategories({ court: true })"></div>
 
-    <section style="margin-top:40px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 6">
+    <section data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 6">
       <h2>Nos engagements</h2>
       <div class="grille grille--3">
         <template x-for="r in reassurance" :key="r.titre">
@@ -149,12 +149,12 @@
       </div>
     </section>
 
-    <section style="margin-top:40px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 6">
+    <section data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 6">
       <h2>Questions sur les tarifs</h2>
       <div x-html="HF.vues.faq(faqTarifs, etat)"></div>
     </section>
 
-    <div style="margin-top:40px" x-html="HF.vues.ctaEssai('../')"></div>
+    <div x-html="HF.vues.ctaEssai('../')"></div>
 
   </main>
 
@@ -170,8 +170,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-22b"></script>
-<script src="../assets/components.js?v=2026-09-22b"></script>
+<script src="../data/data.js?v=2026-10-22a"></script>
+<script src="../assets/components.js?v=2026-10-22a"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageTarifs', function () {
@@ -226,7 +226,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-22b"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-22a"></script>
 
 </body>
 </html>

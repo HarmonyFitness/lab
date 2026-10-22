@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Cours | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-09-22b">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-22a">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -63,7 +63,7 @@
           </div>
         </section>
 
-        <section style="margin-top:32px" x-show="cours && cours.benefices.length"
+        <section x-show="cours && cours.benefices.length"
                  data-spec="B.3 &gt; Sport &gt; Fiches cours">
           <h2>Ce que ça vous apporte</h2>
           <ul><template x-for="b in (cours ? cours.benefices : [])" :key="b"><li x-text="b"></li></template></ul>
@@ -80,31 +80,31 @@
         <div style="margin-top:32px" x-show="aUnExtra()"
              x-html="cours ? HF.vues.blocExtraDuCours(cours, '../../') : ''"></div>
 
-        <div style="margin-top:32px" x-html="creneaux()"></div>
+        <div x-html="creneaux()"></div>
 
-        <section style="margin-top:32px" x-show="coachs().length"
+        <section x-show="coachs().length"
                  data-spec="B.3 &gt; Sport &gt; Fiches cours">
           <h2>Les coachs</h2>
           <div x-html="HF.vues.grilleCoachs(coachs(), etat)"></div>
         </section>
 
-        <section style="margin-top:32px" data-spec="B.3 &gt; Sport &gt; Fiches cours">
+        <section data-spec="B.3 &gt; Sport &gt; Fiches cours">
           <h2 x-text="'Questions sur ' + (estFamille ? 'cette discipline' : 'ce cours')"></h2>
           <div x-html="HF.vues.faq(faq(), etat)"></div>
         </section>
 
-        <section style="margin-top:32px">
+        <section>
           <p><a class="btn" href="../../tarifs/">Voir les tarifs</a></p>
         </section>
 
-        <div style="margin-top:32px" x-html="HF.vues.ctaEssai('../../', 'B.3 &gt; Sport &gt; Fiches cours')"></div>
+        <div x-html="HF.vues.ctaEssai('../../', 'B.3 &gt; Sport &gt; Fiches cours')"></div>
       </main>
       <div x-html="HF.vues.pied('../../')"></div>
     </div>
   </template>
 </div>
-<script src="../../data/data.js?v=2026-09-22b"></script>
-<script src="../../assets/components.js?v=2026-09-22b"></script>
+<script src="../../data/data.js?v=2026-10-22a"></script>
+<script src="../../assets/components.js?v=2026-10-22a"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -209,6 +209,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-09-22b"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-22a"></script>
 </body>
 </html>

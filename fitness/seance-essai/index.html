@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Séance d'essai | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-22b">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22a">
 </head>
 <body>
 
@@ -63,7 +63,7 @@
     <!-- Le déroulé avant le formulaire : on dit ce qu'on propose avant de
          demander des coordonnées, et à plus forte raison quand c'est payant.
          Déroulé donné par le client le 2026-09-16. -->
-    <section style="margin-top:32px" data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
+    <section data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
       <h2>Comment ça se passe</h2>
       <ol class="etapes" style="margin-top:12px">
         <template x-for="e in deroule" :key="e.titre">
@@ -86,7 +86,7 @@
          pourtant lui l'action de la page. Composant de Tarifs quand même :
          ici la question est « lequel est près de chez moi », pas « lequel me
          concerne », donc la carte, pas un menu déroulant. -->
-    <section id="demande" style="margin-top:40px" data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
+    <section id="demande" data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
       <h2>Demander à être rappelé</h2>
 
       <!-- La condition tarifaire ouvre la demande, elle ne la termine pas :
@@ -109,7 +109,7 @@
       <div class="mobile-seulement" style="margin-top:8px"
            x-html="etat.club ? HF.vues.clubReplie(etat, {}) : HF.vues.pastillesMobile(etat)"></div>
 
-      <h3 style="margin-top:28px">Quand, et comment vous joindre</h3>
+      <h3 class="h-bloc">Quand, et comment vous joindre</h3>
       <div class="formulaire" style="margin-top:8px">
 
         <p class="champ-bloc">
@@ -169,13 +169,13 @@
     </section>
 
     <!-- ====================================================== BLOC 4 -->
-    <section style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
+    <section data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
       <h2>Ils ont commencé comme ça</h2>
       <div style="margin-top:12px" x-html="HF.vues.temoignages(3)"></div>
     </section>
 
     <!-- ====================================================== BLOC 5 -->
-    <section style="margin-top:44px" data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
+    <section data-spec="B.3 &gt; Tarifs et offres &gt; Séance d'essai">
       <h2>Bon à savoir</h2>
       <div class="grille grille--3" style="margin-top:12px">
         <template x-for="r in reassurance" :key="r.titre">
@@ -202,8 +202,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-09-22b"></script>
-<script src="../assets/components.js?v=2026-09-22b"></script>
+<script src="../data/data.js?v=2026-10-22a"></script>
+<script src="../assets/components.js?v=2026-10-22a"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageEssai', function () {
@@ -241,7 +241,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-09-22b"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-22a"></script>
 
 </body>
 </html>

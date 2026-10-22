@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Composants partagés · Lab Harmony Fitness</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-09-22b">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22a">
 </head>
 <body>
 
@@ -34,21 +34,21 @@
     </nav>
 
     <!-- ============================================================ -->
-    <h2 id="structure" style="margin-top:36px">1. Structure</h2>
+    <h2 id="structure" class="h-bloc">1. Structure</h2>
 
     <h3>1.1 Barre groupe et header</h3>
     <p class="mention">B.3 &gt; Arborescence. Quatre entrées et un bouton Séance d'essai.</p>
     <div x-html="HF.vues.barreGroupe()"></div>
     <div x-html="HF.vues.entete('Tarifs', '../')"></div>
 
-    <h3 style="margin-top:28px">1.2 Footer</h3>
+    <h3 class="h-bloc">1.2 Footer</h3>
     <div x-html="HF.vues.pied('../')"></div>
 
-    <h3 style="margin-top:28px">1.3 Fil d'Ariane</h3>
+    <h3 class="h-bloc">1.3 Fil d'Ariane</h3>
     <p class="mention">B.3 &gt; Cours collectifs : le fil garde Sport &gt; Cours collectifs &gt; [cours].</p>
     <div x-html="HF.vues.filAriane([{nom:'Accueil',href:'#'},{nom:'Sport',href:'#'},{nom:'Cours collectifs',href:'#'},{nom:'Yoga'}])"></div>
 
-    <h3 style="margin-top:28px">1.4 Bloc image</h3>
+    <h3 class="h-bloc">1.4 Bloc image</h3>
     <p class="mention">CLAUDE.md : bloc gris avec une légende, jamais une vraie photo.</p>
     <div class="grille grille--3">
       <div x-html="HF.vues.blocImage('Photo plateau musculation', 'large')"></div>
@@ -57,7 +57,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <h2 id="club" style="margin-top:44px">2. Club et catégories</h2>
+    <h2 id="club" class="h-bloc">2. Club et catégories</h2>
 
     <h3>2.1 Badge catégorie et ligne d'accès</h3>
     <p class="mention">
@@ -68,13 +68,13 @@
       <p x-html="HF.vues.badgeCategorie(cat.id, { ouvert: etat.catOuverte === cat.id })"></p>
     </template>
 
-    <h3 style="margin-top:28px">2.2 Module « Catégories de clubs »</h3>
+    <h3 class="h-bloc">2.2 Module « Catégories de clubs »</h3>
     <p class="mention">Version longue, affichée sur /clubs et /tarifs.</p>
     <div x-html="HF.vues.moduleCategories({})"></div>
     <p class="mention" style="margin-top:20px">Version courte, pour l'accueil.</p>
     <div x-html="HF.vues.moduleCategories({ court: true })"></div>
 
-    <h3 style="margin-top:28px">2.3 Choix du club référent</h3>
+    <h3 class="h-bloc">2.3 Choix du club référent</h3>
     <p class="mention">
       Un seul composant pour /clubs, /tarifs, /offre-du-moment et /seance-essai.
       Ordinateur : liste par canton à gauche, carte à droite, survol synchronisé.
@@ -93,7 +93,7 @@
       </div>
     </div>
 
-    <h3 style="margin-top:28px">2.4 Carte en plein écran (mobile)</h3>
+    <h3 class="h-bloc">2.4 Carte en plein écran (mobile)</h3>
     <p class="mention">
       Ouverte par « Voir sur la carte ». Mini-fiche au toucher d'un repère,
       avec « Choisir ce club ». Le bouton retour ferme la carte.
@@ -103,7 +103,7 @@
            style="position:absolute;inset:0"></div>
     </div>
 
-    <h3 style="margin-top:28px">2.5 Carte club (liste /clubs)</h3>
+    <h3 class="h-bloc">2.5 Carte club (liste /clubs)</h3>
     <p class="mention">
       Toute la carte est cliquable, un seul bouton « S'abonner », un lien texte
       « Planning ». Regardez Genève · Pâquis : la ligne des cours change.
@@ -115,19 +115,19 @@
     </div>
 
     <!-- ============================================================ -->
-    <h2 id="tarifs" style="margin-top:44px">3. Tarifs</h2>
+    <h2 id="tarifs" class="h-bloc">3. Tarifs</h2>
 
     <h3>3.1 Sélecteur de tarif</h3>
     <div x-html="HF.vues.selecteurTarif(etat)"></div>
 
-    <h3 style="margin-top:28px">3.2 Sélecteur d'engagement</h3>
+    <h3 class="h-bloc">3.2 Sélecteur d'engagement</h3>
     <p class="mention">
       Deux valeurs aujourd'hui. Le composant en accepte trois sans que la carte
       formule change de forme (questions.md &gt; Q5).
     </p>
     <div x-html="HF.vues.selecteurEngagement(etat)"></div>
 
-    <h3 style="margin-top:28px">3.3 Carte produit : les trois variantes</h3>
+    <h3 class="h-bloc">3.3 Carte produit : les trois variantes</h3>
     <p class="mention">
       Les 3 cartes formule gardent les mêmes lignes d'inclusion, avec « Non
       inclus » quand c'est le cas. Sans club : aucun bouton de souscription.
@@ -161,7 +161,7 @@
     </div>
     <div x-html="HF.vues.ligneIndisponible(produits('carnet'), etat)"></div>
 
-    <h3 style="margin-top:28px">3.4 Promotion sur un produit existant</h3>
+    <h3 class="h-bloc">3.4 Promotion sur un produit existant</h3>
     <p class="mention">
       B.3 &gt; Page Tarifs &gt; Trame &gt; 3 : une remise sur un produit qui existe
       déjà s'affiche en pastille et en prix barré sur sa carte. Ce n'est pas un
@@ -186,7 +186,7 @@
       </template>
     </div>
 
-    <h3 style="margin-top:28px">3.5 Carte extra</h3>
+    <h3 class="h-bloc">3.5 Carte extra</h3>
     <p class="mention">
       Ligne pleine largeur, empilée : un Extra ne se compare pas à ses voisins.
       Vendu en ligne : prix et « Ajouter ». Vendu en club : « Sur demande en
@@ -200,7 +200,7 @@
       pour voir le filtrage.
     </p>
 
-    <h3 style="margin-top:28px">3.6 Ligne « Pas disponible depuis [club] »</h3>
+    <h3 class="h-bloc">3.6 Ligne « Pas disponible depuis [club] »</h3>
     <p class="mention">
       Les produits non accessibles sont regroupés en une ligne en fin de section,
       à contraste normal. Jamais de cartes grisées.
@@ -208,7 +208,7 @@
     <div x-html="HF.vues.ligneIndisponible(HF.data.produits, etat)"></div>
     <p class="mention" x-show="!etat.club">Choisissez un club pour voir la ligne apparaître.</p>
 
-    <h3 style="margin-top:28px">3.7 Barre collante et barre récap</h3>
+    <h3 class="h-bloc">3.7 Barre collante et barre récap</h3>
     <p class="mention">
       Une seule barre collante en haut, pas de barre d'ancres. La barre récap
       apparaît en bas dès qu'un produit est choisi. Choisissez une formule
@@ -221,7 +221,7 @@
     </p>
 
     <!-- ============================================================ -->
-    <h2 id="contenu" style="margin-top:44px">4. Contenu</h2>
+    <h2 id="contenu" class="h-bloc">4. Contenu</h2>
 
     <h3>4.1 Planning filtrable</h3>
     <p class="mention">
@@ -230,27 +230,27 @@
     </p>
     <div x-html="HF.vues.planning(etat.club || 'meyrin', etat)"></div>
 
-    <h3 style="margin-top:28px">4.2 Grille de coachs</h3>
+    <h3 class="h-bloc">4.2 Grille de coachs</h3>
     <p class="mention">
       Composant Personne : carte puis panneau au clic. Pas de page coach au
       lancement. Les coachs affichés sont ceux du club choisi.
     </p>
     <div x-html="HF.vues.grilleCoachs(coachs(), etat)"></div>
 
-    <h3 style="margin-top:28px">4.3 FAQ contextuelle</h3>
+    <h3 class="h-bloc">4.3 FAQ contextuelle</h3>
     <div x-html="HF.vues.faq(faqExemple, etat)"></div>
 
-    <h3 style="margin-top:28px">4.4 Témoignages</h3>
+    <h3 class="h-bloc">4.4 Témoignages</h3>
     <div x-html="HF.vues.temoignages(3)"></div>
 
-    <h3 style="margin-top:28px">4.5 Compteur d'offre</h3>
+    <h3 class="h-bloc">4.5 Compteur d'offre</h3>
     <p class="mention">Lié à la date de fin de l'offre, gérée dans le CMS.</p>
     <div x-html="HF.vues.compteur(HF.produit('bf-premium').validite.fin)"></div>
 
-    <h3 style="margin-top:28px">4.6 CTA séance d'essai</h3>
+    <h3 class="h-bloc">4.6 CTA séance d'essai</h3>
     <div x-html="HF.vues.ctaEssai('../')"></div>
 
-    <h3 style="margin-top:28px">4.7 Catalogue rangé par objectif</h3>
+    <h3 class="h-bloc">4.7 Catalogue rangé par objectif</h3>
     <p class="mention">
       B.3 &gt; Cours collectifs (hub). Un cours apparaît une seule fois, sous son
       objectif principal. « Catégorie » est réservé aux clubs : ici on dit
@@ -259,7 +259,7 @@
     <div x-html="HF.vues.filtresCours(etat)"></div>
     <div x-html="HF.vues.catalogueCours(etat, '../')"></div>
 
-    <h3 style="margin-top:28px">4.8 Bloc variantes d'une page de famille</h3>
+    <h3 class="h-bloc">4.8 Bloc variantes d'une page de famille</h3>
     <p class="mention">
       Bloc conditionnel du gabarit cours : actif seulement sur une page de
       famille. Membre avec page dédiée, un lien. Membre sans page, une section
@@ -271,7 +271,7 @@
     <div class="apercu__etiquette" style="margin-top:20px">Les Mills</div>
     <div x-html="HF.vues.blocVariantes('les-mills', '../')"></div>
 
-    <h3 style="margin-top:28px">4.9 Liens vers les pages de famille</h3>
+    <h3 class="h-bloc">4.9 Liens vers les pages de famille</h3>
     <p class="wf-note">Il n'y a plus de bloc : une liste de quatre disciplines
       se lisait comme l'inventaire de l'offre (Q40, puis Q46). Les pages de
       famille se trouvent depuis les cours qui en font partie, par la mention
@@ -279,7 +279,7 @@
       d'Ariane des fiches.</p>
 
     <!-- ============================================================ -->
-    <h2 id="outillage" style="margin-top:44px">5. Outillage du wireframe</h2>
+    <h2 id="outillage" class="h-bloc">5. Outillage du wireframe</h2>
     <p class="mention">
       En violet : tout ce qui appartient à la maquette et pas au site. Le
       sélecteur d'état en haut de page, les références de spec, les notes.
@@ -288,15 +288,15 @@
     <p class="wf-note">Note de maquette, invisible sur le futur site.</p>
     <p>Promesse Premium <span class="wf-avalider">à valider par Harmony</span></p>
 
-    <h2 style="margin-top:44px">État courant</h2>
+    <h2 class="h-bloc">État courant</h2>
     <pre class="wf-note" style="overflow:auto" x-text="JSON.stringify(etat, null, 2)"></pre>
 
   </div>
 
 </div>
 
-<script src="../data/data.js?v=2026-09-22b"></script>
-<script src="../assets/components.js?v=2026-09-22b"></script>
+<script src="../data/data.js?v=2026-10-22a"></script>
+<script src="../assets/components.js?v=2026-10-22a"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('galerie', function () {
@@ -338,7 +338,7 @@ document.addEventListener('alpine:init', function () {
 });
 </script>
 <!-- Alpine 3.14.1, copie locale : les wireframes s'ouvrent sans serveur et sans réseau. -->
-<script defer src="../assets/alpine.min.js?v=2026-09-22b"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-22a"></script>
 
 </body>
 </html>
