@@ -695,6 +695,12 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
   position: sticky; top: 0; z-index: 40; background: var(--surface);
   border-bottom: 1px solid var(--line);
 }
+.barre-collante--attente { position: fixed; left: 0; right: 0; top: 0; z-index: 46;
+  transform: translateY(-100%); visibility: hidden; box-shadow: 0 6px 20px rgba(14, 26, 35, .06);
+  transition: transform .22s ease, visibility 0s linear .22s; }
+.barre-collante--attente.barre-collante--visible { transform: none; visibility: visible;
+  transition: transform .22s ease, visibility 0s; }
+@media (prefers-reduced-motion: reduce) { .barre-collante--attente { transition: none; } }
 .barre-collante__inner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   max-width: var(--large); margin: 0 auto; padding: 12px var(--gouttiere); font-size: 15px; }
 

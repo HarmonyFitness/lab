@@ -999,7 +999,7 @@ window.HF.vues = (function () {
     /* sansTitre : quand le composant est déjà sous un titre de la page, il
        n'en remet pas un. Deux titres qui se suivent pour un seul bloc
        cassent la hiérarchie et se lisent comme deux sections. */
-    return '<section class="choix-club" data-spec="B.3 > Page Tarifs > Trame > 2">' +
+    return '<section class="choix-club" id="choix-club" data-spec="B.3 > Page Tarifs > Trame > 2">' +
       '<div>' + (o.sansTitre ? '' : '<h2>' + esc(libelle) + '</h2>') +
       R.clubsParCanton().map(function (g) {
         return '<div class="choix-club__canton">' + esc(H.libelleCanton(g.canton)) + '</div>' +
@@ -1036,7 +1036,7 @@ window.HF.vues = (function () {
 
   /* Mobile : pastilles par canton, puis carte en plein écran. */
   function pastillesMobile(etat) {
-    return '<section data-spec="B.3 > Page Tarifs > Trame > 2 (mobile)">' +
+    return '<section id="choix-club-mobile" data-spec="B.3 > Page Tarifs > Trame > 2 (mobile)">' +
       R.clubsParCanton().map(function (g) {
         return '<div class="choix-club__canton">' + esc(H.libelleCanton(g.canton)) + '</div>' +
           '<div class="pastilles">' + g.clubs.map(function (c) {
@@ -1512,9 +1512,14 @@ Object.assign(window.HF.vues, (function () {
   }
 
   /* Une seule barre collante en haut. Pas de barre d'ancres. */
+  /* Sans club, la barre attend (Hugo, 2026-10-22) : tant que le choix du
+     club est à l'écran, « Choisir mon club » ferait doublon avec lui. Elle
+     glisse en haut de l'écran une fois le bloc de choix dépassé, et le
+     bouton y ramène. Avec un club, elle colle comme avant. */
   function barreCollante(etat) {
     var c = etat.club ? H.club(etat.club) : null;
-    return '<div class="barre-collante" data-spec="B.3 > Page Tarifs > Règles > Barre collante">' +
+    return '<div class="barre-collante' + (c ? '' : ' barre-collante--attente') + '"' +
+      ' data-spec="B.3 > Page Tarifs > Règles > Barre collante">' +
       '<div class="barre-collante__inner">' +
       (c
         ? '<span>Club référent : <strong>' + esc(c.nom) + '</strong></span>' +
@@ -2179,7 +2184,12 @@ Object.assign(window.HF, (function () {
       nettoyerProduit(etat); nettoyerExtras(etat); majUrl(etat);
     },
     'modifier-club': function (etat) { etat.club = null; nettoyerProduit(etat); nettoyerExtras(etat); majUrl(etat); },
-    'aller-choix-club': function (etat) { etat.club = null; majUrl(etat); },
+    /* Ramène au choix du club visible : la liste et la carte sur
+       ordinateur, les pastilles sur mobile. */
+    'aller-choix-club': function () {
+      var ordi = document.getElementById('choix-club');
+      allerA(ordi && ordi.offsetParent ? 'choix-club' : 'choix-club-mobile');
+    },
     'ouvrir-carte': function (etat) { etat.carteOuverte = true; },
     'fermer-carte': function (etat) { etat.carteOuverte = false; etat.apercuClub = null; },
     'apercu-club': function (etat, id) { etat.apercuClub = id; },
@@ -3304,4 +3314,28 @@ Object.assign(window.HF.vues, (function () {
     if (header && header.contains(ev.target)) header.classList.remove('entete--cache');
   });
   window.addEventListener('load', function () { trouver(); });
+})();
+
+/* ------------------------------------------------------------------ */
+/* Barre « Choisir mon club » de Tarifs : visible seulement une fois le */
+/* bloc de choix du club dépassé, tant qu'aucun club n'est choisi.      */
+/* ------------------------------------------------------------------ */
+/* La barre est re-rendue par Alpine à chaque changement d'état : la classe
+   se recalcule au défilement et après chaque rendu, jamais gardée. */
+(function () {
+  'use strict';
+  function verifier() {
+    var barre = document.querySelector('.barre-collante--attente');
+    if (!barre) return;
+    var ordi = document.getElementById('choix-club');
+    var bloc = ordi && ordi.offsetParent ? ordi : document.getElementById('choix-club-mobile');
+    var depasse = bloc ? bloc.getBoundingClientRect().bottom < 0 : true;
+    barre.classList.toggle('barre-collante--visible', depasse);
+  }
+  window.addEventListener('scroll', verifier, { passive: true });
+  window.addEventListener('resize', verifier);
+  window.addEventListener('load', function () {
+    verifier();
+    new MutationObserver(verifier).observe(document.body, { childList: true, subtree: true });
+  });
 })();
