@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Fitness, cours collectifs et bien-être à Genève et Vaud | Harmony</title>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/wireframe.css?v=2026-10-22l">
+<link rel="stylesheet" href="assets/wireframe.css?v=2026-10-22m">
 </head>
 <body>
 
@@ -39,20 +39,18 @@
     <!-- Hero : la photo, la signature et les deux actions que B.3 met en
          tête, s'abonner et trouver un club. La troisième, essayer, est dans
          le header et dans le bandeau de fin de page, comme partout. -->
-    <section style="padding-top:8px" data-spec="B.3 &gt; Accueil &gt; Hero + CTA primaire">
-      <div class="hero-club">
-        <div>
-          <h1 class="h-display">Votre bien-être en mouvement</h1>
-          <p><span x-text="HF.regles.nbClubs()"></span> clubs de sport et de
-             bien-être dans les cantons de Genève et de Vaud, une formule pour
-             chaque pratique.
-             <span class="wf-avalider">H1, sous-titre et title à valider par Harmony</span></p>
-          <p class="hero-club__actions">
-            <a class="btn" href="tarifs/">S'abonner</a>
-            <a class="btn btn--secondaire" href="#clubs">Trouver mon club</a>
-          </p>
-        </div>
-        <div x-html="HF.vues.blocImage('Photo accueil en club, lumière du matin', 'large')"></div>
+    <section class="hero-accueil" data-spec="B.3 &gt; Accueil &gt; Hero + CTA primaire">
+      <div class="hero-accueil__photo" x-html="HF.vues.blocImage('Photo accueil en club, lumière du matin, pleine largeur', 'hero')"></div>
+      <div class="hero-accueil__panneau">
+        <h1 class="h-display">Votre bien-être en mouvement</h1>
+        <p><span x-text="HF.regles.nbClubs()"></span> clubs de sport et de
+           bien-être dans les cantons de Genève et de Vaud, une formule pour
+           chaque pratique.
+           <span class="wf-avalider">H1, sous-titre et title à valider par Harmony</span></p>
+        <p class="hero-accueil__actions">
+          <a class="btn" href="tarifs/">S'abonner</a>
+          <a class="btn btn--secondaire" href="#clubs">Trouver mon club</a>
+        </p>
       </div>
     </section>
 
@@ -105,8 +103,8 @@
 
 </div>
 
-<script src="data/data.js?v=2026-10-22l"></script>
-<script src="assets/components.js?v=2026-10-22l"></script>
+<script src="data/data.js?v=2026-10-22m"></script>
+<script src="assets/components.js?v=2026-10-22m"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageAccueil', function () {
@@ -120,7 +118,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="assets/alpine.min.js?v=2026-10-22l"></script>
+<script defer src="assets/alpine.min.js?v=2026-10-22m"></script>
 
 </body>
 </html>

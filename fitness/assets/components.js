@@ -676,21 +676,22 @@ window.HF.vues = (function () {
     return s && s.src ? new URL('.', s.src).href : 'assets/';
   })();
 
-  /* Logos du design system, copiés tels quels (couleurs figées dans le
-     fichier). Fond clair uniquement : jamais dans le footer, qui est sur
-     le bleu de marque. */
+  /* Logo du design system (couleurs figées dans le fichier), « FITNESS »
+     réduit à 68 % de sa taille d'origine (Hugo, 2026-10-22). Fond clair
+     uniquement : jamais dans le footer, qui est sur le bleu de marque. */
   function logo(fichier, alt, classe) {
     return '<img class="' + classe + '" src="' + dossierAssets + 'logos/' + fichier + '" alt="' + esc(alt) + '">';
   }
 
-  /* Libellés de B.3 (« Arts martiaux »). Le design system dit « Sports de
+  /* « Harmony » en texte, pas en logo : avec le logo Fitness juste dessous,
+     le header en montrait deux (Hugo, 2026-10-22).
+     Libellés de B.3 (« Arts martiaux »). Le design system dit « Sports de
      combat » : écart ouvert, B.3 fait foi tant qu'il n'est pas tranché (Q66). */
   function barreGroupe() {
     var liens = ['Harmony', 'Fitness', 'Arts martiaux', 'École de natation', 'Famille'];
     return '<div class="barre-groupe" data-spec="B.3 > Arborescence > Barre groupe">' +
       '<div class="barre-groupe__inner">' +
       liens.map(function (l) {
-        if (l === 'Harmony') return '<a class="barre-groupe__logo" href="#">' + logo('harmony-logo.svg', 'Harmony', 'barre-groupe__img') + '</a>';
         return '<a href="#"' + (l === 'Fitness' ? ' aria-current="true"' : '') + '>' + esc(l) + '</a>';
       }).join('') + '</div></div>';
   }

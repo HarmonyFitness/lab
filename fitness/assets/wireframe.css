@@ -263,24 +263,22 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 /* Barre groupe : statique, en haut de page (décision du 2026-10-22). Le
    design system la veut flottante, en verre, mais la seule barre collante
    en haut est celle de B.3, et le verre n'a de sens que sur une photo. On
-   garde sa grammaire : logo Harmony en tête, liens discrets, l'activité
-   courante en pilule. */
+   garde sa grammaire : liens discrets, l'activité courante en pilule.
+   « Harmony » y est un mot, pas un logo : le logo Fitness est juste dessous,
+   deux logos l'un sur l'autre se concurrencent (Hugo, 2026-10-22). */
 .barre-groupe { background: var(--surface-tint); font-size: 14px; }
 .barre-groupe__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 4px var(--e-1);
-  max-width: var(--large); margin: 0 auto; padding: 6px var(--gouttiere); }
+  max-width: var(--large); margin: 0 auto; padding: 6px calc(var(--gouttiere) - 12px); }
 .barre-groupe a { color: var(--ink-muted); text-decoration: none; padding: 4px 12px;
   border-radius: var(--rayon-pilule); }
 .barre-groupe a:hover { color: var(--ink); background: var(--surface); }
 .barre-groupe a[aria-current] { color: var(--accent); background: var(--surface); font-weight: 600; }
-.barre-groupe__logo { display: inline-flex; padding: 4px 12px 4px 0 !important; margin-right: var(--e-3); }
-.barre-groupe__logo:hover { background: none !important; }
-.barre-groupe__img { display: block; height: 28px; width: auto; }
 
 .entete { background: var(--surface); border-bottom: 1px solid var(--line); }
 .entete__inner { display: flex; align-items: center; gap: var(--e-6);
   max-width: var(--large); margin: 0 auto; padding: 14px var(--gouttiere); }
 /* Logo Fitness : 160 px de large au moins (design system), 30 px de haut
-   donnent 228 px. Il reste cliquable, c'est la sortie de secours. */
+   donnent 201 px. Il reste cliquable, c'est la sortie de secours. */
 .entete__logo { display: inline-flex; flex: none; text-decoration: none; }
 .entete__img { display: block; height: 30px; width: auto; }
 /* Menu à gauche, collé au logo. Les actions sont poussées à droite. */
@@ -775,6 +773,27 @@ textarea.champ { resize: vertical; }
 
 /* --- Accueil ------------------------------------------------------- */
 
+/* Hero de l'accueil : la photo prend toute la largeur du hero, le titre et
+   les deux actions sont posés dessus dans un panneau blanc (Hugo,
+   2026-10-22). Même grammaire que le hero de landing : c'est la photo
+   qu'on voit d'abord. Le panneau est en bas à gauche, la légende de la
+   photo en haut à droite, là où il ne la recouvre pas. En mobile, le
+   panneau passe sous la photo : un texte sur une image n'est lisible ni
+   l'un ni l'autre sur 375 px. */
+.hero-accueil { position: relative; margin-top: var(--e-5); }
+.hero-accueil__photo .img { min-height: 600px; align-items: flex-start; justify-content: flex-end;
+  padding: var(--e-5) var(--e-6); }
+.hero-accueil__panneau {
+  position: absolute; left: var(--e-6); bottom: var(--e-6);
+  width: min(640px, calc(100% - 2 * var(--e-6)));
+  background: var(--surface); border-radius: var(--rayon-grand);
+  padding: var(--e-6); box-shadow: 0 8px 32px rgba(14, 26, 35, .14);
+}
+.hero-accueil__panneau h1 { margin-bottom: var(--e-3); }
+.hero-accueil__panneau p { margin-bottom: 0; }
+.hero-accueil__panneau h1 + p { font-size: 18px; line-height: 28px; }
+.hero-accueil__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--e-5) !important; }
+
 /* Aperçu des clubs : la liste par canton à gauche, la carte à droite, la
    même proportion que le choix du club revu le 2026-10-22 (carte à 360 px).
    Les noms sont des liens vers les pages club, pas un choix. */
@@ -931,6 +950,9 @@ a.carte__repere { text-decoration: none; }
   .hub-clubs { grid-template-columns: 1fr; }
   .hub-clubs__carte { display: none; }
   .hero-club { grid-template-columns: 1fr; gap: var(--e-4); }
+  .hero-accueil__photo .img { min-height: 0; aspect-ratio: 4 / 3; }
+  .hero-accueil__panneau { position: static; width: auto; margin: -24px var(--e-3) 0;
+    padding: var(--e-5); }
   /* B.3 > Trame de la page club > 2 : fixe en bas d'écran sur mobile. */
   .barre-rapide { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
     margin: 0; border-radius: 0; border: 0; border-top: 1px solid var(--line);
