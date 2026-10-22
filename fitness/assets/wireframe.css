@@ -845,15 +845,13 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
 /* Accueil plus humain (Hugo, 2026-10-22), à l'essai sur cette page avant
    le reste du site. Les cartes y prennent le lin, neutre et chaud, au lieu
    du gris bleuté ; les sections qui parlent de personnes prennent la peau.
-   L'arc du logo devient la forme des grandes photos : un coin très arrondi
-   en haut à gauche, les autres normaux. C'est la seule audace de la page. */
+   Pas de forme de photo propre à Fitness : l'arc du logo sur les photos a
+   été essayé puis retiré (Hugo, 2026-10-22), il ne se déclinerait pas sur
+   les autres verticales. */
 .accueil { --surface-tint: var(--lin); --photo-vide: #e9e3dd; }
 /* La photo du hero en attente prend un gris chaud, plus proche d'une vraie
    photo en lumière du matin que le gris bleuté des autres pages. */
 .accueil .hero-accueil__photo .img { background: #6c645e; }
-.accueil .hero-accueil { border-radius: 220px var(--rayon-grand) var(--rayon-grand) var(--rayon-grand); }
-.accueil .bloc--clair .img,
-.temoignage-portrait .img { border-radius: 140px var(--rayon-grand) var(--rayon-grand) var(--rayon-grand); }
 
 .section-peau { background: var(--peau); border-radius: var(--rayon-grand); padding: var(--e-7); }
 .voix { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr;
@@ -1066,9 +1064,6 @@ a.carte__repere { text-decoration: none; }
   .hub-clubs { grid-template-columns: 1fr; }
   .hub-clubs__carte { display: none; }
   .hero-club { grid-template-columns: 1fr; gap: var(--e-4); }
-  .accueil .hero-accueil { border-radius: 120px var(--rayon-grand) var(--rayon-grand) var(--rayon-grand); }
-  /* La légende s'écarte de l'arc, sinon il la coupe. */
-  .accueil .hero-accueil__photo .img { padding-left: 96px; text-align: right; }
   .section-peau { padding: var(--e-5); }
   .voix { grid-template-columns: 1fr; gap: var(--e-5); }
   .voix li { grid-template-columns: 56px 1fr; gap: var(--e-4); }
