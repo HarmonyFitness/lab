@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Nos clubs de fitness à Genève et Vaud | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22v">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22y">
 </head>
 <body>
 
@@ -57,6 +57,12 @@
                 x-show="filtres.formule || filtres.equipement || filtres.cours">Tout afficher</button>
       </div>
       <p class="mention" x-text="resultats().length + ' club' + (resultats().length > 1 ? 's' : '')"></p>
+      <!-- Mobile : le bouton de la carte vient avant la liste, pas après les
+           dix cartes (B.3 : « bouton Voir sur la carte sur mobile »). -->
+      <div class="mobile-seulement" style="margin-top:8px">
+        <button type="button" class="btn btn--secondaire btn--bloc" data-act="ouvrir-carte">
+          Voir sur la carte</button>
+      </div>
     </section>
 
     <div class="hub-clubs" style="margin-top:16px">
@@ -80,11 +86,6 @@
       <div class="hub-clubs__carte" x-html="HF.vues.carte(etat)"></div>
     </div>
 
-    <div class="mobile-seulement" style="margin-top:16px">
-      <button type="button" class="btn btn--secondaire btn--bloc" data-act="ouvrir-carte">
-        Voir sur la carte</button>
-    </div>
-
     <div x-html="HF.vues.moduleCategories({})"></div>
 
     <section data-spec="B.3 &gt; Clubs &gt; Clubs (hub) &gt; FAQ courte">
@@ -104,8 +105,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-10-22v"></script>
-<script src="../assets/components.js?v=2026-10-22v"></script>
+<script src="../data/data.js?v=2026-10-22y"></script>
+<script src="../assets/components.js?v=2026-10-22y"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageClubs', function () {
@@ -130,7 +131,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-10-22v"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-22y"></script>
 
 </body>
 </html>

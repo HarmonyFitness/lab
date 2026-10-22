@@ -936,7 +936,8 @@ window.HF.vues = (function () {
       D.clubs.map(function (c) {
         var cat = H.categorie(c.categorie), p = H.position(c);
         var actif = etat.club === c.id || etat.survol === c.id;
-        var classes = 'carte__repere carte__repere--' + cat.forme + (actif ? ' carte__repere--actif' : '');
+        var classes = 'carte__repere carte__repere--' + cat.forme + ' carte__repere--' + cat.id +
+          (actif ? ' carte__repere--actif' : '');
         var pos = ' style="left:' + p.x.toFixed(1) + '%;top:' + p.y.toFixed(1) + '%"';
         var titre = ' title="' + esc(c.nom) + ' · ' + esc(cat.nom) + '"' +
           ' aria-label="' + esc(c.nom) + ', club ' + esc(cat.nom) + '"';
@@ -1544,7 +1545,9 @@ Object.assign(window.HF.vues, (function () {
       (o.base || '') + 'clubs/club/?club=' + c.id + '">' + esc(c.nom) + '</a></h3>' +
       '<p>' + V.badgeCategorie(c.categorie, { ouvert: etat.catOuverte === c.categorie }) + '</p>' +
       '<p class="mention">' + esc(texte(c.adresse, '[adresse]')) + '</p>' +
-      '<p class="mention">' + c.atouts.map(esc).join(' · ') + '</p>' +
+      /* Atouts en liste cochée, comme les équipements du ClubCard du
+         design system : deux ou trois points forts, lus d'un coup d'oeil. */
+      '<ul class="atouts">' + c.atouts.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>' +
       '<p class="carte-club__cours">' + esc(R.ligneCoursCarteClub(c.id)) + '</p>' +
       '<div class="carte-club__pied">' +
       '<a class="btn btn--petit" href="' + (o.base || '') + 'tarifs/?club=' + c.id +
@@ -1620,17 +1623,22 @@ Object.assign(window.HF.vues, (function () {
       '<p class="mention">Mis à jour le [date de mise à jour].</p></section>';
   }
 
-  /* Composant Personne : carte + panneau au clic. Pas de page coach. */
+  /* Composant Personne : carte + panneau au clic. Pas de page coach.
+     Forme du CoachCard du design system (2026-10-22) : photo ronde à
+     gauche, prénom et badges à droite. En attendant la photo, les
+     initiales ; la légende du placeholder reste dans le title. */
   function grilleCoachs(liste, etat) {
     return '<div class="coachs" data-spec="B.3 > Fiche coach dans le CMS">' +
       liste.map(function (k) {
         return '<button type="button" class="coach" data-act="panneau-coach" data-id="' + k.id + '"' +
           ' aria-expanded="' + (etat.coachOuvert === k.id) + '">' +
-          V.blocImage(k.prenom + ', coach à [club]', 'portrait') +
-          '<div class="coach__prenom">' + esc(k.prenom) + '</div>' +
-          '<div class="coach__badges">' + k.badges.map(function (b) {
+          '<span class="coach__photo" title="' + esc('Photo : ' + k.prenom + ', coach à [club]') + '" aria-hidden="true">' +
+          esc(k.prenom.charAt(0).toUpperCase()) + '</span>' +
+          '<span class="coach__corps">' +
+          '<span class="coach__prenom">' + esc(k.prenom) + '</span>' +
+          '<span class="coach__badges">' + k.badges.map(function (b) {
             return '<span class="coach__badge">' + esc(b) + '</span>';
-          }).join('') + '</div></button>';
+          }).join('') + '</span></span></button>';
       }).join('') + '</div>' +
       (etat.coachOuvert ? panneauCoach(etat.coachOuvert) : '');
   }

@@ -11,8 +11,9 @@
    une valeur qui change dans le système change ici à un seul endroit. */
 
 /* Polices locales, pas Google Fonts : aucune page ne dépend du réseau.
-   Figtree pour le texte, Barlow Condensed pour les prix et les chiffres.
-   Sous-ensemble latin de Fontsource 5.3.0, licence OFL dans assets/fonts/. */
+   Figtree pour tout, chiffres compris : la police condensée des prix a
+   été retirée (Hugo, 2026-10-22). Sous-ensemble latin de Fontsource 5.3.0,
+   licence OFL dans assets/fonts/. */
 @font-face { font-family: "Figtree"; font-style: normal; font-weight: 400; font-display: swap;
   src: url("fonts/figtree-latin-400-normal.woff2") format("woff2"); }
 @font-face { font-family: "Figtree"; font-style: italic; font-weight: 400; font-display: swap;
@@ -25,10 +26,6 @@
   src: url("fonts/figtree-latin-600-italic.woff2") format("woff2"); }
 @font-face { font-family: "Figtree"; font-style: normal; font-weight: 700; font-display: swap;
   src: url("fonts/figtree-latin-700-normal.woff2") format("woff2"); }
-@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 600; font-display: swap;
-  src: url("fonts/barlow-condensed-latin-600-normal.woff2") format("woff2"); }
-@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 700; font-display: swap;
-  src: url("fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
 
 :root {
   /* Surfaces et encres du système. Le blanc domine : la page est blanche,
@@ -102,7 +99,6 @@
   --niveau: #8a6a1f;
 
   --police: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --police-chiffres: "Barlow Condensed", "Arial Narrow", sans-serif;
 
   /* Rayons du système : doux, comme la courbe du logo. Très petit pour les
      badges et les tags, petit pour les champs, moyen pour les cartes, grand
@@ -411,7 +407,13 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .carte__repere--carre { border-radius: 4px; }
 .carte__repere--triangle { clip-path: polygon(50% 0, 100% 100%, 0 100%); border: none;
   outline: 2px solid #fff; }
-.carte__repere--actif { background: var(--accent); }
+/* Repères aux couleurs des badges de catégorie : Gym gris, Essential bleu
+   teinté, Premium bleu de marque. La forme et la lettre restent : la
+   couleur ne dit jamais rien seule. L'actif prend l'océan vif. */
+.carte__repere--gym { background: var(--cat-gym); }
+.carte__repere--essential { background: var(--cat-essential); }
+.carte__repere--premium { background: var(--cat-premium); }
+.carte__repere--actif { background: var(--action); }
 .carte-bloc { display: flex; flex-direction: column; }
 .carte-bloc .carte { flex: 1; }
 .carte__legende { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px;
@@ -538,11 +540,12 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .produit__inclus .non { color: var(--gris-40); }
 .produit__marque { flex: none; width: 14px; font-weight: 700; color: var(--accent); }
 .produit__inclus .non .produit__marque { color: inherit; }
-/* Le prix est le chiffre de la carte : Barlow Condensed, grand. L'unité
-   reste en Figtree, petite, pour que le chiffre se lise d'abord. */
-.produit__prix { font-family: var(--police-chiffres); font-size: 40px; font-weight: 700;
-  line-height: 1; letter-spacing: 0; }
-.produit__prix-unite { font-family: var(--police); font-size: 14px; font-weight: 400;
+/* Le prix est le chiffre de la carte : grand, serré, chiffres à chasse
+   fixe pour qu'ils s'alignent d'une carte à l'autre. L'unité reste petite,
+   pour que le chiffre se lise d'abord. */
+.produit__prix { font-size: 34px; font-weight: 600; line-height: 1.1; letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums; }
+.produit__prix-unite { font-size: 14px; font-weight: 400;
   color: var(--gris-60); letter-spacing: 0; }
 .produit__total { font-size: 14px; color: var(--gris-60); margin-bottom: var(--e-1); }
 .produit__duree { font-size: 16px; font-weight: 700; }
@@ -554,7 +557,7 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
    le pied garde son propre margin-top:auto, sans effet quand il est dans un
    bloc bas, où il n'y a pas d'espace libre à absorber. */
 .produit__pied { margin-top: auto; padding-top: var(--e-4); }
-.produit__barre { font-family: var(--police); text-decoration: line-through; color: var(--ink-muted);
+.produit__barre { text-decoration: line-through; color: var(--ink-muted);
   font-size: 16px; font-weight: 400; }
 .pastille-remise { display: inline-block; font-size: 12px; font-weight: 700; color: #fff;
   background: var(--promo); border-radius: var(--rayon-pilule); padding: 2px 10px; }
@@ -639,6 +642,14 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .carte-club__titre { margin: 0 0 var(--e-2); }
 .carte-club__titre a { text-decoration: none; color: var(--gris-95); }
 .carte-club__cours { font-size: 14px; color: var(--gris-60); }
+/* La ligne d'accès passe sous le badge : à côté, elle se coupait en deux
+   au milieu de la carte. */
+.carte-club .ligne-acces { display: block; margin-top: 6px; }
+.atouts { list-style: none; padding: 0; margin: 0 0 .8em; font-size: 14px; line-height: 20px; }
+.atouts li { position: relative; padding-left: 22px; }
+.atouts li + li { margin-top: 4px; }
+.atouts li::before { content: ""; position: absolute; left: 2px; top: 4px; width: 9px; height: 5px;
+  border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); }
 .carte-club__pied { position: relative; z-index: 1; display: flex; align-items: center;
   gap: 14px; flex-wrap: wrap; margin-top: auto; padding-top: var(--e-4); }
 
@@ -674,8 +685,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .barre-recap__inner { display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
   max-width: var(--large); margin: 0 auto; padding: 14px var(--gouttiere); }
 .barre-recap__detail { font-size: 14px; color: rgba(255, 255, 255, .82); }
-.barre-recap__total { font-family: var(--police-chiffres); font-size: 28px; line-height: 1;
-  font-weight: 700; margin-left: auto; }
+.barre-recap__total { font-size: 22px; line-height: 1.2; letter-spacing: -.01em;
+  font-weight: 600; font-variant-numeric: tabular-nums; margin-left: auto; }
 .barre-recap .btn { background: #fff; color: var(--action-fonce); border-color: #fff; }
 .barre-recap .btn:hover { background: var(--action-fond); border-color: var(--action-fond); color: var(--action-fonce); }
 .barre-recap :focus-visible { outline-color: #fff; }
@@ -729,12 +740,19 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .planning__vide { padding: var(--e-4); background: var(--surface-tint); border-radius: var(--rayon);
   color: var(--gris-60); font-size: 15px; }
 
-.coachs { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--e-4); }
-.coach { border: 0; background: var(--surface-tint); border-radius: var(--rayon);
-  padding: var(--e-3); text-align: left; font: inherit; color: inherit; cursor: pointer; }
+/* Carte coach (CoachCard du design system) : photo ronde à gauche, prénom
+   et badges à droite. Sans photo, l'initiale dans un rond blanc. */
+.coachs { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--e-4); }
+.coach { display: flex; align-items: center; gap: var(--e-4); border: 0;
+  background: var(--surface-tint); border-radius: var(--rayon);
+  padding: var(--e-4) var(--e-5); text-align: left; font: inherit; color: inherit; cursor: pointer; }
 .coach:hover { box-shadow: var(--ombre-survol); }
-.coach__prenom { font-weight: 600; margin-top: var(--e-2); }
-.coach__badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.coach__photo { flex: none; width: 64px; height: 64px; border-radius: 50%; background: var(--surface);
+  color: var(--accent); display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 600; }
+.coach__corps { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.coach__prenom { font-size: 18px; font-weight: 600; line-height: 24px; }
+.coach__badges { display: flex; flex-wrap: wrap; gap: 4px; }
 .coach__badge { font-size: 12px; font-weight: 600; background: var(--surface);
   border-radius: var(--rayon-xs); padding: 1px 8px; color: var(--gris-80); }
 
@@ -752,7 +770,7 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 
 .compteur { display: inline-flex; gap: 8px; font-size: 14px; }
 .compteur span { background: var(--promo); color: #fff; border-radius: var(--rayon-petit);
-  padding: 2px 10px; font-family: var(--police-chiffres); font-size: 20px; line-height: 28px;
+  padding: 2px 10px; font-size: 17px; line-height: 26px;
   font-weight: 600; font-variant-numeric: tabular-nums; }
 
 /* Bandeau essai de bas de page : le premier aplat de bleu clair. Les arcs
@@ -885,7 +903,8 @@ a.carte__repere { text-decoration: none; }
 .formules__ligne:hover { box-shadow: var(--ombre-survol); color: var(--ink); }
 .formules__nom { font-weight: 600; font-size: 20px; }
 .formules__acces { font-size: 14px; color: var(--gris-60); }
-.formules__prix { font-family: var(--police-chiffres); font-size: 24px; font-weight: 700; text-align: right; }
+.formules__prix { font-size: 20px; font-weight: 600; letter-spacing: -.01em; text-align: right;
+  font-variant-numeric: tabular-nums; }
 
 /* Newsletter, dans le footer de toutes les pages (Annexe A). */
 .pied__news { display: grid; grid-template-columns: 1fr 1fr; gap: var(--e-6); align-items: center;
@@ -904,7 +923,8 @@ a.carte__repere { text-decoration: none; }
 .finalise__ligne { display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
   background: var(--surface-tint); border-radius: var(--rayon);
   padding: var(--e-4) var(--e-5); margin-top: var(--e-3); }
-.finalise__prix { font-family: var(--police-chiffres); font-size: 28px; font-weight: 700; margin-left: auto; }
+.finalise__prix { font-size: 22px; font-weight: 600; letter-spacing: -.01em; margin-left: auto;
+  font-variant-numeric: tabular-nums; }
 
 /* Déroulé d'une séance d'essai : une étape par ligne, numérotée. Une grille
    de cinq cartes laisserait deux trous et casserait la lecture, alors que le
@@ -915,9 +935,9 @@ a.carte__repere { text-decoration: none; }
   padding: var(--e-4) 0; border-top: 1px solid var(--line); }
 .etapes li:first-child { border-top: 0; }
 .etapes li::before { content: counter(etape); display: block; text-align: center;
-  font-family: var(--police-chiffres); font-weight: 700; background: var(--accent-fond);
+  font-weight: 600; background: var(--accent-fond);
   color: var(--accent); border-radius: 50%; width: 32px; height: 32px; line-height: 32px;
-  font-size: 18px; }
+  font-size: 15px; }
 .etapes h3 { margin: 4px 0 2px; font-size: 17px; line-height: 24px; }
 .etapes p { margin: 0; }
 
@@ -933,7 +953,7 @@ a.carte__repere { text-decoration: none; }
 .note { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
   background: var(--surface-tint); border-radius: var(--rayon);
   padding: var(--e-4) var(--e-5); }
-.note__valeur { font-family: var(--police-chiffres); font-size: 40px; font-weight: 700; line-height: 1; }
+.note__valeur { font-size: 36px; font-weight: 400; letter-spacing: -.02em; line-height: 1; }
 .note__detail { font-size: 14px; color: var(--gris-60); }
 
 /* Header de landing : logo et une seule action. Rien qui emmène ailleurs.
@@ -969,8 +989,8 @@ a.carte__repere { text-decoration: none; }
 .preuves li { flex: 1 1 0; min-width: 96px; padding: 0 16px; margin: 0;
   border-left: 1px solid var(--line); }
 .preuves li:first-child { padding-left: 0; border-left: 0; }
-.preuves__valeur { display: block; font-family: var(--police-chiffres); font-size: 28px;
-  font-weight: 600; line-height: 1.1; }
+.preuves__valeur { display: block; font-size: 26px; letter-spacing: -.02em;
+  font-weight: 400; line-height: 1.15; }
 .preuves__libelle { display: block; font-size: 13px; color: var(--gris-60);
   margin-top: 2px; }
 .hero-landing .compteur { margin-top: var(--e-3); }
@@ -1029,7 +1049,7 @@ a.carte__repere { text-decoration: none; }
     white-space: nowrap; }
   .barre-recap__espace { height: 72px; }
   .grille--3, .grille--2 { grid-template-columns: 1fr; }
-  .coachs { grid-template-columns: repeat(2, 1fr); }
+  .coachs { grid-template-columns: 1fr; }
   .pied__cols { grid-template-columns: repeat(2, 1fr); gap: var(--e-5); }
   .pied__news { grid-template-columns: 1fr; gap: var(--e-3); }
   .pied__news-champs { flex-direction: column; }
@@ -1155,6 +1175,12 @@ a.carte__repere { text-decoration: none; }
   /* Cinq menus déroulants empilés prenaient un écran avant la première
      carte : deux par ligne. */
   .filtres select { flex: 1 1 calc(50% - 8px); min-width: 0; }
+  /* Un filtre avec son libellé (hub Clubs) : le libellé au-dessus du menu,
+     deux filtres par ligne, comme les menus seuls. */
+  .filtres label { flex: 1 1 calc(50% - 8px); min-width: 0; display: flex; flex-direction: column;
+    gap: 4px; font-size: 13px; color: var(--ink-muted); }
+  .filtres label select { width: 100%; }
+  .filtres > span { flex-basis: 100%; }
   .champ-rangee { grid-template-columns: 1fr; }
 }
 
