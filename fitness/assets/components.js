@@ -1939,7 +1939,7 @@ Object.assign(window.HF.vues, (function () {
     var b = base || '';
     var espaces = R.espacesBienEtre(), clubs = R.clubsBienEtre();
     return '<section data-spec="B.3 > Accueil > bloc bien-être">' +
-      '<div class="bloc bloc--couche">' +
+      '<div class="bloc bloc--couche bloc--clair">' +
       V.blocImage('Photo espace wellness, ambiance calme', 'carre') +
       '<div class="bloc--couche__texte"><h2>Bien-être</h2>' +
       '<p>Récupérer compte autant que s\'entraîner. ' +
