@@ -285,7 +285,9 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .barre-groupe a:hover { color: var(--ink); background: var(--surface); }
 .barre-groupe a[aria-current] { color: var(--accent); background: var(--surface); font-weight: 600; }
 
-.entete { background: var(--surface); border-bottom: 1px solid var(--line); }
+/* Pas de filet sous le header (Hugo, 2026-10-22) : il ne se sépare de la
+   page que par l'espace. */
+.entete { background: var(--surface); }
 .entete__inner { display: flex; align-items: center; gap: var(--e-6);
   max-width: var(--large); margin: 0 auto; padding: 18px var(--gouttiere) 16px; }
 /* Logo Fitness : 160 px de large au moins (design system), 30 px de haut
