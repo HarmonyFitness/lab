@@ -13,7 +13,7 @@ Site de marque, d'acquisition et d'orientation. Aucune transaction sur le site :
 ```text
 fitness.harmony.ch
 │
-├── [Barre groupe]  Harmony · Fitness · Arts martiaux · École de natation · Famille
+├── [Barre groupe]  Harmony · Fitness · Sports de combat · École de natation · Famille
 │
 ├── Accueil  /
 │
@@ -51,7 +51,7 @@ fitness.harmony.ch
 
 **Dispatch.** Le visiteur donne son sujet et son club, pas son destinataire : lui demander de choisir entre « Équipe Harmony » et dix clubs, c'est lui demander de connaître l'organisation d'Harmony. Chaque motif porte sa destination au CMS, club ou central, et le destinataire calculé est affiché sous le formulaire (« Votre message part à Harmony Meyrin »), donc sans surprise et corrigeable. Un motif qui part au club rend le champ club obligatoire. Délai annoncé non chiffré : « Nous vous répondons au plus vite. »
 
-**Barre groupe :** libellés publics (Arts martiaux, École de natation) ; sous-domaines techniques inchangés (maa.harmony.ch, aqua.harmony.ch).
+**Barre groupe :** libellés publics (Sports de combat, École de natation) ; sous-domaines techniques inchangés (maa.harmony.ch, aqua.harmony.ch).
 
 **Actualités :** flux propre à fitness.harmony.ch, alimenté par la collection unique du CMS partagé (voir B.1).
 
@@ -188,7 +188,7 @@ La liste d'équipements est fermée : sinon un manager écrit « Sauna », un au
 
 ### Fiche coach dans le CMS
 
-Les coachs sont référencés une seule fois dans le back-office de `harmony.ch`, avec une ou plusieurs verticales attribuées et un ou plusieurs lieux (clubs, bassins, centre MAA). Un même coach peut donc apparaître sur Fitness, l'école de natation et Arts martiaux. Il n'apparaît pas sur le site corporate, qui sert uniquement à orienter. Sur Fitness, la même donnée alimente le bloc équipe des pages club, la grille de /sport/coaching-personnel et les « coachs associés » des fiches cours.
+Les coachs sont référencés une seule fois dans le back-office de `harmony.ch`, avec une ou plusieurs verticales attribuées et un ou plusieurs lieux (clubs, bassins, centre MAA). Un même coach peut donc apparaître sur Fitness, l'école de natation et Sports de combat. Il n'apparaît pas sur le site corporate, qui sert uniquement à orienter. Sur Fitness, la même donnée alimente le bloc équipe des pages club, la grille de /sport/coaching-personnel et les « coachs associés » des fiches cours.
 
 | Champ | Règle |
 |---|---|

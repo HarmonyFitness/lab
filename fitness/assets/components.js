@@ -685,10 +685,9 @@ window.HF.vues = (function () {
 
   /* « Harmony » en texte, pas en logo : avec le logo Fitness juste dessous,
      le header en montrait deux (Hugo, 2026-10-22).
-     Libellés de B.3 (« Arts martiaux »). Le design system dit « Sports de
-     combat » : écart ouvert, B.3 fait foi tant qu'il n'est pas tranché (Q66). */
+     Libellés de B.3. « Sports de combat », jamais « Arts martiaux » (Q66). */
   function barreGroupe() {
-    var liens = ['Harmony', 'Fitness', 'Arts martiaux', 'École de natation', 'Famille'];
+    var liens = ['Harmony', 'Fitness', 'Sports de combat', 'École de natation', 'Famille'];
     return '<div class="barre-groupe" data-spec="B.3 > Arborescence > Barre groupe">' +
       '<div class="barre-groupe__inner">' +
       liens.map(function (l) {

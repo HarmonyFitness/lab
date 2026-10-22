@@ -6,7 +6,7 @@ poser un placeholder visible dans la maquette et continuer.
 Statut : `ouverte` · `tranchée` (avec la réponse) · `à valider` (texte proposé,
 en attente de Harmony) · `sans objet`
 
-Dernière mise à jour : 2026-10-22, design system appliqué (Q65 à Q67).
+Dernière mise à jour : 2026-10-22, design system appliqué (Q65 à Q67), Q66 fermée.
 
 ---
 
@@ -1686,9 +1686,16 @@ Huit écarts entre le système et les règles du lab, tranchés le même jour :
 - **Teinte du niveau d'une formule** gardée, ocre et italique, hors du système.
 
 ### Q66 · « Arts martiaux » ou « Sports de combat » dans la barre groupe
-**Statut :** ouverte
-**Source :** B.3 > Arborescence (« Arts martiaux ») contre le design system,
-qui impose « Sports de combat » et interdit « Arts martiaux ».
+**Statut :** tranchée le 2026-10-22 : « Sports de combat »
+**Source :** B.3 > Arborescence (« Arts martiaux » dans le miroir) contre le
+design system, qui impose « Sports de combat » et interdit « Arts martiaux ».
+
+Fausse question : la page Notion de B.3 disait déjà « Sports de combat »,
+décision du kick-off du site MAA (« vaut pour tout le site et tout le cahier
+des charges, barre groupe comprise »). Le miroir `docs/cdc/B3-fitness.md`
+n'avait pas suivi : trois occurrences corrigées le même jour. Hugo l'a
+confirmé : on ne dit pas « Arts martiaux ». Ce qui suit est l'énoncé
+d'origine, gardé pour l'historique.
 
 La barre groupe est la même sur les cinq sites : le libellé doit être le même
 partout, et il nomme une activité du groupe. B.3 fait foi, la barre garde

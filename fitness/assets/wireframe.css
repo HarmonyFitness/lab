@@ -776,26 +776,34 @@ textarea.champ { resize: vertical; }
 
 /* --- Accueil ------------------------------------------------------- */
 
-/* Hero de l'accueil : la photo prend toute la largeur du hero, le titre et
-   les deux actions sont posés dessus dans un panneau blanc (Hugo,
-   2026-10-22). Même grammaire que le hero de landing : c'est la photo
-   qu'on voit d'abord. Le panneau est en bas à gauche, la légende de la
-   photo en haut à droite, là où il ne la recouvre pas. En mobile, le
-   panneau passe sous la photo : un texte sur une image n'est lisible ni
-   l'un ni l'autre sur 375 px. */
-.hero-accueil { position: relative; margin-top: var(--e-5); }
+/* Hero de l'accueil : la photo prend toute la largeur du hero, le titre, le
+   sous-titre et les deux actions sont posés directement dessus, en blanc,
+   sans panneau (Hugo, 2026-10-22). Un voile sombre monte du coin bas gauche,
+   là où est le texte : il le garde lisible quelle que soit la photo, sans
+   éteindre le reste de l'image. Le bloc photo du lab est plus sombre que
+   les autres pour simuler une vraie photo : du blanc sur le gris clair des
+   placeholders ne montrerait rien de ce que le hero doit faire. La légende
+   est en haut à droite, loin du texte. */
+.hero-accueil { position: relative; margin-top: var(--e-5); border-radius: var(--rayon-grand);
+  overflow: hidden; }
 .hero-accueil__photo .img { min-height: 600px; align-items: flex-start; justify-content: flex-end;
-  padding: var(--e-5) var(--e-6); }
+  padding: var(--e-5) var(--e-6); background: #5d6f7c; color: rgba(255, 255, 255, .78); }
+.hero-accueil::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top right, rgba(14, 26, 35, .72) 0%, rgba(14, 26, 35, .35) 45%, rgba(14, 26, 35, 0) 75%); }
 .hero-accueil__panneau {
-  position: absolute; left: var(--e-6); bottom: var(--e-6);
-  width: min(640px, calc(100% - 2 * var(--e-6)));
-  background: var(--surface); border-radius: var(--rayon-grand);
-  padding: var(--e-6); box-shadow: 0 8px 32px rgba(14, 26, 35, .14);
+  position: absolute; z-index: 1; left: var(--e-7); bottom: var(--e-7);
+  width: min(680px, calc(100% - 2 * var(--e-7)));
+  color: #fff;
 }
-.hero-accueil__panneau h1 { margin-bottom: var(--e-3); }
+.hero-accueil__panneau h1 { margin-bottom: var(--e-3); color: #fff; }
 .hero-accueil__panneau p { margin-bottom: 0; }
-.hero-accueil__panneau h1 + p { font-size: 18px; line-height: 28px; }
+.hero-accueil__panneau h1 + p { font-size: 18px; line-height: 28px; max-width: 52ch; }
 .hero-accueil__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--e-5) !important; }
+/* Sur la photo, le bouton secondaire passe en contour blanc : le contour
+   gris du système disparaîtrait sur une image. */
+.hero-accueil .btn--secondaire { background: transparent; color: #fff; border-color: #fff; }
+.hero-accueil .btn--secondaire:hover { background: rgba(255, 255, 255, .14); color: #fff; }
+.hero-accueil :focus-visible { outline-color: #fff; }
 
 /* Aperçu des clubs : la liste par canton à gauche, la carte à droite, la
    même proportion que le choix du club revu le 2026-10-22 (carte à 360 px).
@@ -953,9 +961,10 @@ a.carte__repere { text-decoration: none; }
   .hub-clubs { grid-template-columns: 1fr; }
   .hub-clubs__carte { display: none; }
   .hero-club { grid-template-columns: 1fr; gap: var(--e-4); }
-  .hero-accueil__photo .img { min-height: 0; aspect-ratio: 4 / 3; }
-  .hero-accueil__panneau { position: static; width: auto; margin: -24px var(--e-3) 0;
-    padding: var(--e-5); }
+  /* Mobile : le texte reste sur la photo, plus haute, le voile monte du bas. */
+  .hero-accueil__photo .img { min-height: 560px; padding: var(--e-4); }
+  .hero-accueil::after { background: linear-gradient(to top, rgba(14, 26, 35, .78) 0%, rgba(14, 26, 35, .4) 55%, rgba(14, 26, 35, 0) 85%); }
+  .hero-accueil__panneau { left: var(--e-5); right: var(--e-5); bottom: var(--e-5); width: auto; }
   /* B.3 > Trame de la page club > 2 : fixe en bas d'écran sur mobile. */
   .barre-rapide { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
     margin: 0; border-radius: 0; border: 0; border-top: 1px solid var(--line);
