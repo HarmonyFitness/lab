@@ -1012,9 +1012,12 @@ Object.assign(window.HF.vues, (function () {
   /* Une seule grammaire pour tout ce qu'une ligne d'inclusion nomme : des
      tags, quatre au plus, puis on compte le reste. Allonger la carte sans
      fin la rend incomparable avec sa voisine. */
-  function tagsListe(noms) {
+  /* max : quatre par défaut, la limite d'une carte. Un bloc pleine largeur
+     qui parle d'un seul club les montre tous : il n'a pas à être comparable
+     à un voisin. */
+  function tagsListe(noms, max) {
     if (!noms.length) return '';
-    var montres = noms.slice(0, MAX_EXTRAS);
+    var montres = noms.slice(0, max || MAX_EXTRAS);
     var reste = noms.length - montres.length;
     return '<span class="tags tags--inclus">' +
       montres.map(function (n) { return '<span class="tag">' + esc(n) + '</span>'; }).join('') +
@@ -1672,6 +1675,7 @@ Object.assign(window.HF.vues, (function () {
 
   return {
     lignesInclusion: lignesInclusion, carteProduit: carteProduit, carteExtra: carteExtra,
+    tagsListe: tagsListe,
     blocPrix: blocPrix, ligneRemise: ligneRemise, annoncePromo: annoncePromo,
     infoClubs: infoClubs,
     ligneRemiseAilleurs: ligneRemiseAilleurs,
@@ -2077,14 +2081,17 @@ Object.assign(window.HF.vues, (function () {
     /* Plus d'adresse e-mail affichée : elle ne se compte pas, ne se dispatche
        pas et laisse le manager surveiller deux boîtes. On envoie au
        formulaire, club présélectionné (Q37). */
+    /* Six lignes en tableau faisaient un écran à elles seules. Une grille de
+       définitions, trois par ligne sur ordinateur, dit la même chose en
+       deux lignes : ce sont des couples libellé-valeur, pas un tableau. */
     return '<section id="infos" data-spec="B.3 > Trame de la page club > 3">' +
       '<h2>Infos pratiques</h2>' +
-      '<table class="tableau"><tbody>' + lignes.map(function (l) {
-        return '<tr><th style="width:160px">' + esc(l[0]) + '</th><td>' + esc(l[1]) + '</td></tr>';
+      '<dl class="infos">' + lignes.map(function (l) {
+        return '<div class="infos__item"><dt>' + esc(l[0]) + '</dt><dd>' + esc(l[1]) + '</dd></div>';
       }).join('') +
-      '<tr><th>Écrire au club</th><td><a class="lien-texte" href="../../nous-contacter/?motif=club&amp;club=' +
-      c.id + '&amp;source=page-club">Nous contacter</a></td></tr>' +
-      '</tbody></table>' +
+      '<div class="infos__item"><dt>Écrire au club</dt><dd><a class="lien-texte" href="../../nous-contacter/?motif=club&amp;club=' +
+      c.id + '&amp;source=page-club">Nous contacter</a></dd></div>' +
+      '</dl>' +
       '<p class="mention">Coordonnées strictement identiques à la fiche Google Business du club.</p>' +
       '</section>';
   }
@@ -2157,9 +2164,12 @@ Object.assign(window.HF.vues, (function () {
   function bienEtreBloc(c, base) {
     var espaces = R.bienEtreDuClub(c.id);
     if (!espaces.length) return '';
+    /* Les espaces en tags, la même grammaire que la ligne « Espaces
+       wellness » des cartes formule : une liste à puces de cinq mots
+       prenait cinq lignes pour dire ce qu'une ligne dit. */
     return '<section data-spec="B.3 > Trame de la page club > 9">' +
       '<h2>Bien-être</h2>' +
-      '<ul>' + espaces.map(function (e) { return '<li>' + esc(e.nom) + '</li>'; }).join('') + '</ul>' +
+      V.tagsListe(espaces.map(function (e) { return e.nom; }), espaces.length) +
       '<p><a class="lien-texte" href="' + (base || '') +
       'bien-etre/espaces/">Voir nos espaces bien-être</a></p></section>';
   }
@@ -2632,12 +2642,25 @@ Object.assign(window.HF.vues, (function () {
   function catalogueCours(etat, base) {
     var f = etat.filtres || {};
     var groupes = R.catalogueParObjectif(f);
+    /* Six objectifs et cinquante cartes : sans moyen d'y aller, celui qui
+       cherche « Danser » défile cinq objectifs. Une ligne d'ancres sous le
+       titre, déduite des objectifs présents, et un id par section. Ce n'est
+       pas une barre collante, c'est une table des matières (audit du
+       2026-10-21, écart 3). */
+    var ancre = function (g) { return g.objectif.id ? 'objectif-' + g.objectif.id : null; };
+    var sommaire = groupes.filter(ancre).length > 1
+      ? '<nav class="ancres" aria-label="Aller à un objectif">' + groupes.filter(ancre).map(function (g) {
+          return '<a href="#' + ancre(g) + '">' + esc(g.objectif.nom) + '</a>';
+        }).join('') + '</nav>'
+      : '';
     return '<section id="catalogue" data-spec="B.3 > Sport > Cours collectifs (hub)">' +
       '<h2>Nos cours par objectif</h2>' +
       (raisonCategorie(etat, base) && groupes.length
         ? '<p class="mention">' + raisonCategorie(etat, base) + '</p>' : '') +
+      sommaire +
       (groupes.length ? groupes.map(function (g) {
-        return '<h3 style="margin-top:24px">' + esc(g.objectif.nom) + aValider(g.aValider) + '</h3>' +
+        return '<h3 class="h-bloc"' + (ancre(g) ? ' id="' + ancre(g) + '"' : '') + '>' +
+          esc(g.objectif.nom) + aValider(g.aValider) + '</h3>' +
           '<div class="grille grille--cartes">' + g.cours.map(function (co) {
             /* Sur la carte du cours qui EST la page de famille, la mention
                renverrait sur la carte elle-même : on l'enlève. */

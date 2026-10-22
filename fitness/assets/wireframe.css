@@ -802,6 +802,66 @@ textarea.champ { resize: vertical; }
 .carte-plein .carte__legende { padding: var(--e-2) var(--gouttiere); }
 .carte-plein__fiche { border-top: 1px solid var(--gris-20); padding: 16px var(--gouttiere); }
 
+/* ------------------------------------------------------------------ */
+/* Dispositions revues le 2026-10-22 : mêmes blocs, moins de hauteur      */
+/* ------------------------------------------------------------------ */
+/* Choix du club : dix clubs sur deux colonnes au lieu d'une pile de dix,
+   et la carte un peu moins haute. Le club reste la première étape de
+   Tarifs (Hugo), mais il ne remplit plus l'écran à lui seul. */
+.choix-club > div:first-child { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--e-3);
+  align-content: start; }
+.choix-club > div:first-child > h2,
+.choix-club > div:first-child > .choix-club__canton,
+.choix-club > div:first-child > .btn--bloc { grid-column: 1 / -1; }
+.choix-club .carte { height: 360px; }
+
+/* Infos pratiques : des couples libellé-valeur, trois par ligne. */
+.infos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0;
+  margin: 0; border: 1px solid var(--gris-20); border-radius: var(--rayon); background: #fff;
+  overflow: hidden; }
+.infos__item { padding: 14px 16px; border-right: 1px solid var(--gris-10);
+  border-bottom: 1px solid var(--gris-10); }
+.infos__item:nth-child(3n) { border-right: 0; }
+.infos__item:nth-last-child(-n+3) { border-bottom: 0; }
+.infos dt { font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--gris-60); margin-bottom: 4px; }
+.infos dd { margin: 0; }
+
+/* Carte couchée du hub Sport : photo à gauche, texte à droite. */
+/* .grille > * impose un flex en colonne à ses enfants : la carte couchée
+   doit le battre en spécificité, sinon elle s'empile comme les autres. */
+.bloc--couche, .grille > .bloc--couche { display: grid; grid-template-columns: 2fr 3fr;
+  gap: var(--e-5); align-items: start; }
+.bloc--couche .img { min-height: 0; width: 100%; aspect-ratio: 1 / 1; }
+.bloc--couche__texte { display: flex; flex-direction: column; height: 100%; }
+.bloc--couche h2 { font-size: 22px; margin-top: 0; }
+
+/* Table des matières d'un catalogue : une ligne de liens, pas une barre.
+   Elle défile avec la page. */
+.ancres { display: flex; flex-wrap: wrap; gap: var(--e-2) var(--e-4); margin: 0 0 var(--e-2);
+  font-size: 15px; }
+.ancres a { text-decoration: none; padding: 6px 12px; border: 1px solid var(--gris-20);
+  border-radius: 999px; background: #fff; color: var(--gris-80); }
+.ancres a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Deux champs courts côte à côte sur ordinateur. */
+.champ-rangee { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--e-4); }
+
+@media (max-width: 760px) {
+  .choix-club > div:first-child { grid-template-columns: 1fr; }
+  .infos { grid-template-columns: 1fr 1fr; }
+  .infos__item:nth-child(3n) { border-right: 1px solid var(--gris-10); }
+  .infos__item:nth-child(2n) { border-right: 0; }
+  .infos__item:nth-last-child(-n+3) { border-bottom: 1px solid var(--gris-10); }
+  .infos__item:nth-last-child(-n+2) { border-bottom: 0; }
+  .bloc--couche, .grille > .bloc--couche { grid-template-columns: 1fr; gap: var(--e-4); }
+  .bloc--couche .img { aspect-ratio: 16 / 7; }
+  /* Cinq menus déroulants empilés prenaient un écran avant la première
+     carte : deux par ligne. */
+  .filtres select { flex: 1 1 calc(50% - 8px); min-width: 0; }
+  .champ-rangee { grid-template-columns: 1fr; }
+}
+
 /* Cadres de prévisualisation de components/index.html */
 .apercu { display: grid; grid-template-columns: 1fr 375px; gap: var(--gouttiere);
   align-items: start; }

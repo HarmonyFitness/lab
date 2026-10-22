@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Séance d'essai | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22a">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22b">
 </head>
 <body>
 
@@ -135,15 +135,17 @@
           <span class="mention">Le coach prépare la séance avec cette réponse.</span>
         </p>
 
-        <p class="champ-bloc">
-          <label class="champ-label" for="nom">Nom et prénom</label>
-          <input id="nom" type="text" class="champ" autocomplete="name">
-        </p>
-        <p class="champ-bloc">
-          <label class="champ-label" for="tel">Téléphone</label>
-          <input id="tel" type="tel" class="champ" autocomplete="tel">
-          <span class="mention">C'est par là qu'on vous rappelle.</span>
-        </p>
+        <div class="champ-rangee">
+          <p class="champ-bloc">
+            <label class="champ-label" for="nom">Nom et prénom</label>
+            <input id="nom" type="text" class="champ" autocomplete="name">
+          </p>
+          <p class="champ-bloc">
+            <label class="champ-label" for="tel">Téléphone</label>
+            <input id="tel" type="tel" class="champ" autocomplete="tel">
+            <span class="mention">C'est par là qu'on vous rappelle.</span>
+          </p>
+        </div>
         <p class="champ-bloc">
           <label class="champ-label" for="courriel">E-mail</label>
           <input id="courriel" type="email" class="champ" autocomplete="email">
@@ -202,8 +204,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-10-22a"></script>
-<script src="../assets/components.js?v=2026-10-22a"></script>
+<script src="../data/data.js?v=2026-10-22b"></script>
+<script src="../assets/components.js?v=2026-10-22b"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageEssai', function () {
@@ -241,7 +243,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-10-22a"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-22b"></script>
 
 </body>
 </html>

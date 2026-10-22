@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Musculation, cours collectifs et coaching | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22a">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22b">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -32,13 +32,19 @@
     <section data-spec="B.3 &gt; Sport &gt; Sport (hub)">
       <div class="grille grille--2">
         <template x-for="p in piliers" :key="p.href">
-          <div class="bloc">
-            <div x-html="HF.vues.blocImage(p.photo, 'large')"></div>
-            <h2 style="margin-top:14px" x-text="p.titre"></h2>
-            <p x-text="p.texte"></p>
-            <p class="mention"><strong x-html="p.inclus"></strong></p>
-            <div class="produit__pied">
-              <a class="btn btn--secondaire" :href="p.href" x-text="p.lien"></a>
+          <!-- Carte couchée : la photo à gauche, le texte à droite. Quatre
+               cartes empilées image-titre-texte-bouton faisaient quatre
+               écrans et demi sur mobile et deux sur ordinateur, pour une
+               page dont le seul rôle est de router. -->
+          <div class="bloc bloc--couche">
+            <div x-html="HF.vues.blocImage(p.photo, 'carre')"></div>
+            <div class="bloc--couche__texte">
+              <h2 x-text="p.titre"></h2>
+              <p x-text="p.texte"></p>
+              <p class="mention"><strong x-html="p.inclus"></strong></p>
+              <div class="produit__pied">
+                <a class="btn btn--secondaire" :href="p.href" x-text="p.lien"></a>
+              </div>
             </div>
           </div>
         </template>
@@ -57,8 +63,8 @@
 
   <div x-html="HF.vues.pied('../')"></div>
 </div>
-<script src="../data/data.js?v=2026-10-22a"></script>
-<script src="../assets/components.js?v=2026-10-22a"></script>
+<script src="../data/data.js?v=2026-10-22b"></script>
+<script src="../assets/components.js?v=2026-10-22b"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -87,6 +93,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-10-22a"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-22b"></script>
 </body>
 </html>
