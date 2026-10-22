@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Sommaire · Lab Harmony Fitness</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22m">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22o">
 </head>
 <body>
 
@@ -23,7 +23,11 @@
     développeur. Source de vérité : <code>docs/cdc/B3-fitness.md</code>.
     Depuis le 2026-10-22, les pages portent le design system Harmony Fitness
     (couleurs, polices, rayons) ; les photos restent des placeholders et les
-    données manquantes restent entre crochets.
+    données manquantes restent entre crochets. Les notes d'outillage ont
+    quitté les pages de maquette : il ne reste que la barre du haut, pour
+    simuler les états. Par défaut, aucune campagne ne tourne ; « Offre
+    active » et « Promo » se règlent dans la barre, ou dans l'adresse
+    (<code>?offre=1</code>, <code>?promo=carnets-10</code>).
   </p>
 
   <h2>Composants</h2>
@@ -52,9 +56,10 @@
       <tr><td>/clubs/meyrin</td><td><a href="../clubs/club/?club=meyrin">clubs/club/?club=meyrin</a> (Essential)</td><td>Fait</td></tr>
       <tr><td>/clubs/geneve-la-praille</td><td><a href="../clubs/club/?club=geneve-la-praille">clubs/club/?club=geneve-la-praille</a> (Premium, passerelle natation)</td><td>Fait</td></tr>
       <tr><td>/clubs/geneve-paquis</td><td><a href="../clubs/club/?club=geneve-paquis">clubs/club/?club=geneve-paquis</a> (variante Gym)</td><td>Fait</td></tr>
-      <tr><td>/offre-du-moment</td><td><a href="../offre-du-moment/">offre-du-moment/</a></td><td>Fait</td></tr>
-      <tr><td>/offre-du-moment, club choisi</td><td><a href="../offre-du-moment/?club=geneve-la-praille">offre-du-moment/?club=geneve-la-praille</a></td><td>Fait</td></tr>
-      <tr><td>/offre-du-moment, sans campagne</td><td>décocher « Offre active » puis choisir « Aucune promo »</td><td>Fait</td></tr>
+      <tr><td>/offre-du-moment, offres dédiées</td><td><a href="../offre-du-moment/?offre=1">offre-du-moment/?offre=1</a></td><td>Fait</td></tr>
+      <tr><td>/offre-du-moment, club choisi</td><td><a href="../offre-du-moment/?offre=1&amp;club=geneve-la-praille">offre-du-moment/?offre=1&amp;club=geneve-la-praille</a></td><td>Fait</td></tr>
+      <tr><td>/offre-du-moment, promotion seule</td><td><a href="../offre-du-moment/?promo=carnets-10">offre-du-moment/?promo=carnets-10</a></td><td>Fait</td></tr>
+      <tr><td>/offre-du-moment, sans campagne (état par défaut)</td><td><a href="../offre-du-moment/">offre-du-moment/</a></td><td>Fait</td></tr>
       <tr><td>/seance-essai</td><td><a href="../seance-essai/">seance-essai/</a></td><td>Fait</td></tr>
       <tr><td>/seance-essai, club et origine</td><td><a href="../seance-essai/?club=meyrin&amp;source=page-club">seance-essai/?club=meyrin&amp;source=page-club</a></td><td>Fait</td></tr>
       <tr><td>/bien-etre</td><td><a href="../bien-etre/">bien-etre/</a></td><td>Fait</td></tr>

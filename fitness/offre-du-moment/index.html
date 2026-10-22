@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Offre du moment | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22m">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22o">
 </head>
 <body>
 
@@ -17,27 +17,6 @@
 
   <!-- Outillage du wireframe, hors maquette -->
   <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../' })"></div>
-  <div class="conteneur">
-    <p class="wf-note">
-      Landing de campagne (B.3 &gt; Tarifs et offres). Adresse stable, contenu
-      qui change : le H1 et le title portent le nom de la campagne. Trois états
-      à tester avec le sélecteur ci-dessus : offres dédiées en cours, promotion
-      seule sur des produits existants (décochez « Offre active »), et aucune
-      campagne (décochez, puis choisissez « Aucune promo »).<br>
-      <strong>Gabarit de landing, à valider (Q50 à Q52).</strong>
-      Header et pied réduits, pas de barre groupe, pas de CTA séance d'essai :
-      la page est la destination d'annonces payées, tout ce qui emmène ailleurs
-      est un clic acheté qui ne convertit pas. Les blocs « Pourquoi Harmony »
-      et la preuve sociale sont un ajout à B.3.<br>
-      <strong>Deux écarts sur le hero.</strong> B.3 y met « nom, durée, prix » :
-      ça marche pour une campagne à un seul produit. Ici elle en porte deux, de
-      durées et de prix différents, donc durée et prix restent sur les cartes.
-      Et le nom de la campagne n'existe nulle part dans les données : chaque
-      offre a le sien, l'ensemble qui les réunit n'en a pas (Q49).<br>
-      Les chiffres du hero sont déduits des données, sauf la note, qui est un
-      fait à fournir : elle ne s'invente pas.
-    </p>
-  </div>
 
   <!-- Header de landing : logo et une seule action. Ni menu, ni espace
        membre, ni séance d'essai, et pas de barre groupe : sur une page de
@@ -207,8 +186,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-10-22m"></script>
-<script src="../assets/components.js?v=2026-10-22m"></script>
+<script src="../data/data.js?v=2026-10-22o"></script>
+<script src="../assets/components.js?v=2026-10-22o"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageOffre', function () {
@@ -330,7 +309,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-10-22m"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-22o"></script>
 
 </body>
 </html>

@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Tarifs et abonnements fitness à Genève et Vaud | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22m">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22o">
 </head>
 <body>
 
@@ -14,16 +14,6 @@
 
   <!-- Outillage du wireframe, hors maquette -->
   <div x-html="HF.selecteurEtat(etat, { gabarit: 'tarifs', base: '../' })"></div>
-  <div class="conteneur">
-    <p class="wf-note">
-      SEO (B.3 &gt; Page Tarifs &gt; SEO) : <code>/tarifs</code> est la seule page
-      indexable, avec tout le catalogue en HTML. Les états
-      <code>/tarifs/[club]</code> portent un canonical vers <code>/tarifs</code>
-      et sortent du sitemap XML, sans noindex en plus. Ici l'état du club est
-      simulé par <code>?club=[slug]</code>, l'URL simulée s'affiche ci-dessus.
-      Le paramètre <code>?tarif=jeune</code> présélectionne le tarif.
-    </p>
-  </div>
 
   <div x-html="HF.vues.barreGroupe()"></div>
   <div x-html="HF.vues.entete('Tarifs', '../')"></div>
@@ -170,8 +160,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-10-22m"></script>
-<script src="../assets/components.js?v=2026-10-22m"></script>
+<script src="../data/data.js?v=2026-10-22o"></script>
+<script src="../assets/components.js?v=2026-10-22o"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageTarifs', function () {
@@ -226,7 +216,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-10-22m"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-22o"></script>
 
 </body>
 </html>

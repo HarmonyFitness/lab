@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Article | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-22m">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-22o">
 </head>
 <body>
 
@@ -15,16 +15,6 @@
   <!-- Outillage du wireframe, hors maquette -->
   <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../../' })"></div>
   <div class="conteneur">
-    <p class="wf-note">
-      B.3 &gt; Actualités, et B.2 : « fiche article, gabarit partagé avec les
-      quatre autres sites ». Un seul fichier, le paramètre dans l'adresse :
-      <code>?article=un-sauna-a-versoix</code> représente
-      <code>/actualites/un-sauna-a-versoix</code>.<br>
-      <strong>Les liens sont dans le texte</strong>, comme un éditeur de CMS
-      les pose (Hugo, 2026-10-22) : pas de bloc « le club dont on parle ».
-      Un club ou un cours cité renvoie à sa page depuis le paragraphe. Pas de
-      signature. Title rédigé ici, à valider (Q58).
-    </p>
     <p class="wf-note">
       Article affiché :
       <template x-for="a in HF.regles.articlesFitness()" :key="a.id">
@@ -80,8 +70,8 @@
 
 </div>
 
-<script src="../../data/data.js?v=2026-10-22m"></script>
-<script src="../../assets/components.js?v=2026-10-22m"></script>
+<script src="../../data/data.js?v=2026-10-22o"></script>
+<script src="../../assets/components.js?v=2026-10-22o"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageArticle', function () {
@@ -103,7 +93,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-10-22m"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-22o"></script>
 
 </body>
 </html>

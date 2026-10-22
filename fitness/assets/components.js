@@ -2011,9 +2011,12 @@ Object.assign(window.HF, (function () {
     var params = new URLSearchParams(window.location.search);
     var club = params.get('club');
     var tarif = params.get('tarif');
-    /* Promo simulée. En production c'est la date de validité qui décide,
-       ici c'est le sélecteur d'état, pour montrer les deux cas.
-       ?promo= (vide) simule "aucune promo en cours". */
+    /* Offre et promo simulées. En production ce sont les dates de validité
+       qui décident, ici c'est le sélecteur d'état, pour montrer les deux cas.
+       Par défaut, aucune campagne ne tourne (Hugo, 2026-10-22) : la page se
+       lit d'abord telle qu'elle est la plupart du temps. ?offre=1 active
+       l'offre du moment, ?promo=[id] lance une promotion. */
+    var offre = params.get('offre');
     var promo = params.get('promo');
     /* Le motif arrive dans l'URL quand on vient d'une autre page (la ligne
        de conseil de /tarifs, par exemple). */
@@ -2022,8 +2025,8 @@ Object.assign(window.HF, (function () {
       club: (club && H.club(club)) ? club : null,
       tarif: (tarif && H.tarif(tarif)) ? tarif : 'adulte',
       engagement: H.engagementDefaut(),
-      offreActive: true,
-      promo: (promo === null) ? 'carnets-10' : (H.promotion(promo) ? promo : null),
+      offreActive: offre === '1',
+      promo: (promo && H.promotion(promo)) ? promo : null,
       contactMotif: (motif && D.contact.motifs.some(function (m) { return m.id === motif; }))
         ? motif : '',
       /* Demande d'essai : la date indicative et ce que la personne vient
@@ -2053,6 +2056,8 @@ Object.assign(window.HF, (function () {
     var p = new URLSearchParams(window.location.search);
     if (etat.club) p.set('club', etat.club); else p.delete('club');
     if (etat.tarif && etat.tarif !== 'adulte') p.set('tarif', etat.tarif); else p.delete('tarif');
+    if (etat.offreActive) p.set('offre', '1'); else p.delete('offre');
+    if (etat.promo) p.set('promo', etat.promo); else p.delete('promo');
     var q = p.toString();
     window.history.replaceState(null, '', window.location.pathname + (q ? '?' + q : ''));
   }
@@ -2251,7 +2256,7 @@ Object.assign(window.HF, (function () {
       var el = ev.target.closest('[data-etat]');
       if (!el) return;
       var cle = el.getAttribute('data-etat');
-      if (el.type === 'checkbox') { etat[cle] = el.checked; return; }
+      if (el.type === 'checkbox') { etat[cle] = el.checked; majUrl(etat); return; }
       etat[cle] = el.value || null;
       if (cle === 'club') { nettoyerProduit(etat); nettoyerExtras(etat); }
       majUrl(etat);

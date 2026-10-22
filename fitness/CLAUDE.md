@@ -83,6 +83,8 @@ Cours collectifs : 2 templates seulement, le hub et le gabarit cours. On maquett
 - `fitness/index.html` est la page d'accueil du site, à la racine du lab comme sur le futur site (Hugo, 2026-10-22). Le sommaire du lab, liste des pages et des états à tester, est dans `fitness/sommaire/`, joignable par le lien « Sommaire du lab » de la barre d'outillage de chaque page.
 - Traçabilité : chaque bloc porte `data-spec="B.3 > Trame page club > 4"` (section et numéro du bloc dans B.3).
 - Un sélecteur d'état visible en haut de chaque page (réservé au wireframe) pour tester : sans club / club Gym / club Essential / club Premium, tarif Adulte / Jeune, offre active ou non.
+- **Pas de note d'outillage sur une page de maquette** (Hugo, 2026-10-22). Seule la barre du haut reste, pour simuler les choix ; le sélecteur d'article de la page article en fait partie. Le contexte d'une page vit dans `docs/` et dans le sommaire, pas à l'écran. Le sommaire et la galerie de composants, qui sont des pages d'outillage, gardent leurs notes.
+- **Par défaut, aucune campagne ne tourne** : « Offre active » décochée, « Promo » sur Aucune (Hugo, 2026-10-22). Une page se lit d'abord telle qu'elle est la plupart du temps. L'adresse garde l'état : `?offre=1` active l'offre du moment, `?promo=[id]` lance une promotion.
 
 Mise en page des cartes produit
 - 4 cartes par ligne sur la largeur d'une section, soit 290 px en 1280. La largeur se règle par la variable CSS `--cartes-par-ligne`, jamais carte par carte.

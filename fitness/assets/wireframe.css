@@ -312,6 +312,9 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
    sur le site, mais il est visiblement éteint. Un lien mort qui a l'air
    vivant se prend pour un bug de maquette. */
 .pied a.pied__hors { color: #a9bccb; text-decoration: underline dotted; cursor: default; }
+/* Pied de landing : une seule ligne, pas de filet au-dessus d'un vide. */
+.pied--landing .pied__inner { padding-top: var(--e-6); padding-bottom: var(--e-6); }
+.pied--landing .pied__bas { border-top: 0; margin-top: 0; padding-top: 0; }
 
 /* ------------------------------------------------------------------ */
 /* Badge catégorie et ligne d'accès                                     */

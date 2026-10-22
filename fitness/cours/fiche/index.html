@@ -6,26 +6,11 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Cours | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-22m">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-22o">
 </head>
 <body>
 <div x-data="page" x-init="init()">
   <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../../' })"></div>
-  <div class="conteneur"><p class="wf-note">
-    Gabarit unique des pages cours, B.3 &gt; Cours collectifs : périmètre et
-    pages retenues. Deux cas, un seul gabarit : une fiche, ou une page de
-    famille qui active en plus le bloc « variantes ».<br>
-    <strong>Familles :</strong>
-    <a href="?cours=pilates">Pilates</a> (2 liens, 2 sections, 2 filtres) ·
-    <a href="?cours=yoga">Yoga</a> ·
-    <a href="?cours=les-mills">Les Mills</a> (quasiment que des liens) ·
-    <a href="?cours=aqua">Aqua</a>.
-    <strong>Fiches :</strong>
-    <a href="?cours=hiit">HIIT</a> ·
-    <a href="?cours=les-mills-body-pump">Les Mills Body Pump</a> ·
-    <a href="?cours=pilates-gym-dos">Pilates Gym Dos</a> (membre de famille avec sa page) ·
-    <a href="?cours=ceremony-hyrox-max">Ceremony Hyrox Max</a> (Small Group Training, en Extra).
-  </p></div>
   <div x-html="HF.vues.barreGroupe()"></div>
   <div x-html="HF.vues.entete('Sport', '../../')"></div>
 
@@ -103,8 +88,8 @@
     </div>
   </template>
 </div>
-<script src="../../data/data.js?v=2026-10-22m"></script>
-<script src="../../assets/components.js?v=2026-10-22m"></script>
+<script src="../../data/data.js?v=2026-10-22o"></script>
+<script src="../../assets/components.js?v=2026-10-22o"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -209,6 +194,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-10-22m"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-22o"></script>
 </body>
 </html>
