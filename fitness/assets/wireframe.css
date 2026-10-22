@@ -61,12 +61,20 @@
   --gris-80: #33414c;
   --gris-95: var(--ink);
 
-  /* harmony-blue : la couleur d'action du système. Boutons, état choisi,
-     badge Premium. Un lien dans le texte prend ocean-text et reste
-     souligné : il se reconnaît à sa forme, pas à sa seule couleur. */
+  /* harmony-blue : la couleur de la marque. État choisi (sélecteurs, carte
+     choisie), badge Premium, pied de page, barre récap. Un lien dans le
+     texte prend ocean-text et reste souligné : il se reconnaît à sa forme,
+     pas à sa seule couleur. */
   --accent: #204d6e;
   --accent-fonce: #183c57;
   --accent-fond: #e8eff5;
+  /* Océan vif : la couleur des boutons (Hugo, 2026-10-22). Le bleu vif du
+     logo poussé en saturation : du peps, sans quitter la famille de la
+     marque. Le plus vif qui porte encore un texte blanc lisible (4.7:1) ;
+     un vrai bleu fluo tomberait à 2.7:1. */
+  --action: #0079bd;
+  --action-fonce: #00639c;
+  --action-fond: #e5f1f9;
   --lien: #1b6e90;
   --focus: #2480a6;
 
@@ -177,7 +185,7 @@ main > .hote-collant + * { margin-top: 0; }
 h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 
 /* ------------------------------------------------------------------ */
-/* Boutons : en pilule, harmony-blue pour l'action principale           */
+/* Boutons : en pilule, océan vif pour l'action principale             */
 /* ------------------------------------------------------------------ */
 /* Un seul bouton principal par zone, le reste en secondaire ou discret.
    Pas d'ombre sur un bouton, pas de capitales. 44 px de haut : une zone
@@ -188,12 +196,12 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
   display: inline-flex; align-items: center; justify-content: center; gap: .4em;
   font: inherit; font-weight: 600; line-height: 24px; text-decoration: none; cursor: pointer;
   min-height: 44px; padding: 9px 22px; border-radius: 22px; text-align: center;
-  border: 1px solid var(--accent); background: var(--accent); color: #fff;
+  border: 1px solid var(--action); background: var(--action); color: #fff;
   transition: background-color .15s ease, border-color .15s ease, color .15s ease;
 }
-.btn:hover { background: var(--accent-fonce); border-color: var(--accent-fonce); color: #fff; }
-.btn--secondaire { background: var(--surface); color: var(--accent); border-color: var(--line-strong); }
-.btn--secondaire:hover { background: var(--surface); border-color: var(--accent); color: var(--accent); }
+.btn:hover { background: var(--action-fonce); border-color: var(--action-fonce); color: #fff; }
+.btn--secondaire { background: var(--surface); color: var(--action-fonce); border-color: var(--line-strong); }
+.btn--secondaire:hover { background: var(--action-fond); border-color: var(--action); color: var(--action-fonce); }
 .btn--discret {
   background: transparent; color: var(--gris-80); border-color: var(--line);
 }
@@ -326,8 +334,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .pied a { color: rgba(255, 255, 255, .86); text-decoration: none; }
 .pied a:hover { color: #fff; text-decoration: underline; }
 .pied :focus-visible { outline-color: #fff; }
-.pied .btn { background: #fff; border-color: #fff; color: var(--accent); }
-.pied .btn:hover { background: var(--accent-fond); border-color: var(--accent-fond); color: var(--accent-fonce); }
+.pied .btn { background: #fff; border-color: #fff; color: var(--action-fonce); }
+.pied .btn:hover { background: var(--action-fond); border-color: var(--action-fond); color: var(--action-fonce); }
 .pied .champ { border-color: #fff; }
 .pied__bas { border-top: 1px solid rgba(255, 255, 255, .2); margin-top: var(--e-6); padding-top: var(--e-4);
   font-size: 13px; color: rgba(255, 255, 255, .72); }
@@ -668,8 +676,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .barre-recap__detail { font-size: 14px; color: rgba(255, 255, 255, .82); }
 .barre-recap__total { font-family: var(--police-chiffres); font-size: 28px; line-height: 1;
   font-weight: 700; margin-left: auto; }
-.barre-recap .btn { background: #fff; color: var(--accent); border-color: #fff; }
-.barre-recap .btn:hover { background: var(--accent-fond); border-color: var(--accent-fond); color: var(--accent-fonce); }
+.barre-recap .btn { background: #fff; color: var(--action-fonce); border-color: #fff; }
+.barre-recap .btn:hover { background: var(--action-fond); border-color: var(--action-fond); color: var(--action-fonce); }
 .barre-recap :focus-visible { outline-color: #fff; }
 .barre-recap__message { font-size: 13px; background: var(--accent-fonce); color: #fff;
   padding: 7px var(--gouttiere); }
@@ -836,8 +844,8 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
    gris du système disparaîtrait sur une image. */
 /* Sur la photo, le bouton principal passe en blanc, texte bleu : le bleu
    plein se perdait dans une image sombre (Hugo, 2026-10-22). */
-.hero-accueil .btn:not(.btn--secondaire) { background: #fff; border-color: #fff; color: var(--accent); }
-.hero-accueil .btn:not(.btn--secondaire):hover { background: var(--accent-fond); border-color: var(--accent-fond); color: var(--accent-fonce); }
+.hero-accueil .btn:not(.btn--secondaire) { background: #fff; border-color: #fff; color: var(--action-fonce); }
+.hero-accueil .btn:not(.btn--secondaire):hover { background: var(--action-fond); border-color: var(--action-fond); color: var(--action-fonce); }
 .hero-accueil .btn--secondaire { background: transparent; color: #fff; border-color: #fff; }
 .hero-accueil .btn--secondaire:hover { background: rgba(255, 255, 255, .14); color: #fff; }
 .hero-accueil :focus-visible { outline-color: #fff; }
@@ -1103,7 +1111,7 @@ a.carte__repere { text-decoration: none; }
 .ancres a { display: inline-flex; align-items: center; min-height: 36px; text-decoration: none;
   padding: 5px 16px; border: 1px solid var(--line-strong); border-radius: var(--rayon-pilule);
   background: var(--surface); color: var(--ink); font-size: 14px; font-weight: 500; }
-.ancres a:hover { border-color: var(--accent); color: var(--accent); }
+.ancres a:hover { border-color: var(--action); color: var(--action-fonce); }
 
 /* Actualités. Un article se lit comme un texte : en-tête et corps bornés à
    la même largeur, la photo de couverture va jusqu'à cette largeur et pas
