@@ -939,7 +939,7 @@ window.HF.vues = (function () {
 
   /* --- Choix du club et carte ------------------------------------ */
 
-  /* Le fond en SVG : la Suisse en terre claire, l'étranger en gris chaud,
+  /* Le fond en SVG : la Suisse en blanc, l'étranger en gris bleuté,
      les cantons en pointillés, le lac en bleu clair. Quelques noms, pas
      plus : la carte situe les clubs, ce n'est pas un plan de ville. */
   function fondCarte() {
@@ -1894,9 +1894,8 @@ Object.assign(window.HF.vues, (function () {
      Harmony, en placeholder tant qu'ils ne sont pas donnés. Un seul bloc
      pour l'accueil et la landing de campagne (Q52). */
   /* opts.visages (accueil, Hugo, 2026-10-22) : chaque argument est porté
-     par une personne, un visage rond et sa phrase, sur un aplat peau, au
-     lieu de quatre boîtes. Le chaud signale les personnes. La landing
-     garde ses quatre cartes tant que l'essai n'est pas validé. */
+     par une personne, un visage rond et sa phrase, sur un aplat teinté, au
+     lieu de quatre boîtes. La landing garde ses quatre cartes. */
   function pourquoiHarmony(spec, opts) {
     var o = opts || {};
     var visages = ['un coach du club, souriant, en tenue', 'une membre en conversation avec son coach',
@@ -1906,7 +1905,7 @@ Object.assign(window.HF.vues, (function () {
         texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' };
     });
     if (o.visages) {
-      return '<section class="section-peau" data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' +
+      return '<section class="section-voix" data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' +
         '<h2>Pourquoi Harmony</h2>' +
         '<ul class="voix">' + items.map(function (d, i) {
           return '<li><span class="visage" title="' + esc('Photo : ' + visages[i]) + '" aria-hidden="true"></span>' +

@@ -43,18 +43,13 @@
      médicaux : il est plus dense, jamais posé en filet ou en fond de page
      entier, toujours en grand aplat avec un texte fin et l'arc du logo
      (Hugo, 2026-10-22). Avec parcimonie : bas de page essai, bien-être. */
-  /* Peau : le chaud de la peau et du bois clair des clubs. Il signale les
-     personnes (visages, voix, témoignages), le bleu signale l'action et la
-     marque (Hugo, 2026-10-22). Aplat de section seulement, jamais le fond
-     de page : un fond crème partout effacerait le bleu Harmony. */
-  /* Fond de la carte des clubs : terre suisse claire, étranger en gris
-     chaud, frontières de canton en pointillés. Le lac prend le bleu clair. */
-  --carte-terre: #fbfaf8;
-  --carte-ailleurs: #edeae5;
-  --carte-frontiere: #b5ada4;
-  --peau: #f5ebe3;
-  --peau-visage: #e6d3c5;     /* rond de visage en attendant la photo */
-  --lin: #f5f4f1;             /* fond de carte neutre et chaud (accueil) */
+  /* Fond de la carte des clubs, dans les bleus gris du système : terre
+     suisse blanche, étranger en gris bleuté, frontières de canton en
+     pointillés. Le lac prend le bleu clair. Pas de tons chauds : la couleur
+     vient des photos (Hugo, 2026-10-22). */
+  --carte-terre: #ffffff;
+  --carte-ailleurs: #edf1f4;
+  --carte-frontiere: #a9b7c2;
   --bleu-clair: #dce8f2;
   --bleu-clair-trait: #c6dae9;
 
@@ -424,8 +419,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .carte__lac { fill: var(--bleu-clair); stroke: var(--bleu-clair-trait); stroke-width: 2; }
 .carte__nom { font-family: var(--police); font-size: 30px; fill: var(--ink-muted); letter-spacing: .01em; }
 .carte__nom--lac { font-size: 36px; font-style: italic; fill: #5c7d95; }
-.carte__nom--ailleurs { fill: #8c857d; }
-.carte__source { position: absolute; right: 10px; bottom: 6px; font-size: 10px; color: #8c857d; }
+.carte__nom--ailleurs { fill: #7f8d98; }
+.carte__source { position: absolute; right: 10px; bottom: 6px; font-size: 10px; color: #7f8d98; }
 .carte__repere { position: absolute; transform: translate(-50%, -50%);
   width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 700; color: #fff; background: var(--ink);
@@ -864,24 +859,20 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
 
 /* --- Accueil ------------------------------------------------------- */
 
-/* Accueil plus humain (Hugo, 2026-10-22), à l'essai sur cette page avant
-   le reste du site. Les cartes y prennent le lin, neutre et chaud, au lieu
-   du gris bleuté ; les sections qui parlent de personnes prennent la peau.
-   Pas de forme de photo propre à Fitness : l'arc du logo sur les photos a
-   été essayé puis retiré (Hugo, 2026-10-22), il ne se déclinerait pas sur
-   les autres verticales. */
-.accueil { --surface-tint: var(--lin); --photo-vide: #e9e3dd; }
-/* La photo du hero en attente prend un gris chaud, plus proche d'une vraie
-   photo en lumière du matin que le gris bleuté des autres pages. */
-.hero-plein .hero-accueil__photo .img { background: #6c645e; }
-
-.section-peau { background: var(--peau); border-radius: var(--rayon-grand); padding: var(--e-7); }
+/* Accueil plus humain (Hugo, 2026-10-22) : des personnes plutôt que des
+   boîtes. Pourquoi Harmony porte chaque argument par un visage, les
+   témoignages s'ouvrent sur un grand portrait. Les couleurs restent les
+   bleus du système : le lin et la peau essayés le même jour ont été
+   retirés, la couleur vient des photos. L'arc du logo sur les photos a été
+   essayé puis retiré lui aussi, il ne se déclinerait pas sur les autres
+   verticales. */
+.section-voix { background: var(--surface-tint); border-radius: var(--rayon-grand); padding: var(--e-7); }
 .voix { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr;
   gap: var(--e-6) var(--e-7); }
 .voix li { display: grid; grid-template-columns: 80px 1fr; gap: var(--e-5); align-items: start; margin: 0; }
 .voix h3 { margin: 6px 0 4px; }
 .voix p { margin: 0; }
-.visage { display: block; width: 80px; height: 80px; border-radius: 50%; background: var(--peau-visage); }
+.visage { display: block; width: 80px; height: 80px; border-radius: 50%; background: var(--bleu-clair); }
 .visage--petit { width: 48px; height: 48px; }
 
 /* Témoignage en portrait : la personne d'abord, en grand, sa phrase à côté,
@@ -1098,7 +1089,7 @@ a.carte__repere { text-decoration: none; }
   .hub-clubs { grid-template-columns: 1fr; }
   .hub-clubs__carte { display: none; }
   .hero-club { grid-template-columns: 1fr; gap: var(--e-4); }
-  .section-peau { padding: var(--e-5); }
+  .section-voix { padding: var(--e-5); }
   .voix { grid-template-columns: 1fr; gap: var(--e-5); }
   .voix li { grid-template-columns: 56px 1fr; gap: var(--e-4); }
   .voix .visage:not(.visage--petit) { width: 56px; height: 56px; }
