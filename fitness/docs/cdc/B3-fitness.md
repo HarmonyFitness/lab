@@ -78,7 +78,7 @@ Nom de page = ville seule, ou « Ville · Quartier » quand plusieurs clubs part
 
 | Page | Slug | Intention | Composants clés |
 |---|---|---|---|
-| Accueil | `/` | Capter tous les profils et orienter vers s'abonner / trouver un club / essayer, tout en portant les arguments « pourquoi Harmony » | Hero + CTA primaire, module Catégories de clubs (version courte), aperçu carte clubs, teaser tarifs (lien /tarifs), bloc offre du moment (compteur), preuve sociale (témoignages), cours en avant, bloc bien-être, teaser actualités, newsletter |
+| Accueil | `/` | Capter tous les profils et orienter vers s'abonner / trouver un club / essayer, tout en portant les arguments « pourquoi Harmony » | Hero + CTA primaire, module Catégories de clubs (version courte), aperçu carte clubs, teaser tarifs (lien /tarifs), bloc offre du moment (compteur), preuve sociale (témoignages), cours en avant, bloc bien-être, teaser actualités, newsletter. Maquettes du 2026-10-22 : les blocs dans cet ordre, hero avec « S'abonner » et « Trouver mon club », puis Pourquoi Harmony (le bloc de la landing), les clubs (liste par canton et carte, chaque nom et chaque repère mène à la page du club) et le module Catégories court, l'offre du moment avec son compteur (absente sans campagne), les formules en une ligne chacune avec le prix « dès » (pas de carte produit : rien ne se souscrit sans club référent), quatre cours en avant (drapeau « en avant » facultatif, sinon les plus programmés), le bien-être (espaces déduits des équipements), la preuve sociale, les trois dernières actualités, le CTA essai. La newsletter est celle du footer, commune à toutes les pages (Annexe A). H1 « Votre bien-être en mouvement », sous-titre et title rédigés, à valider (questions.md > Q62) |
 
 ## Tarifs et offres
 

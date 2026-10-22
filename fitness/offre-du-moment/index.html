@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Offre du moment | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22e">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22f">
 </head>
 <body>
 
@@ -115,17 +115,7 @@
              ne connaissent pas la marque : le prix seul ne dit pas pourquoi
              ici plutôt qu'ailleurs. Bloc absent de B.3, ajouté à la demande
              de Hugo, à valider (Q52). -->
-        <section data-spec="B.3 &gt; Tarifs et offres &gt; Offre du moment (ajout à valider)">
-          <h2>Pourquoi Harmony</h2>
-          <div class="grille grille--4" style="margin-top:12px">
-            <template x-for="d in differenciants" :key="d.titre">
-              <div class="bloc">
-                <h3 x-text="d.titre"></h3>
-                <p x-text="d.texte"></p>
-              </div>
-            </template>
-          </div>
-        </section>
+        <div x-html="HF.vues.pourquoiHarmony('B.3 &gt; Tarifs et offres &gt; Offre du moment (ajout à valider)')"></div>
 
         <!-- ====================================================== BLOC 4 -->
         <!-- Preuve sociale. La note et le nombre d'avis sont des faits : ils
@@ -217,8 +207,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-10-22e"></script>
-<script src="../assets/components.js?v=2026-10-22e"></script>
+<script src="../data/data.js?v=2026-10-22f"></script>
+<script src="../assets/components.js?v=2026-10-22f"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageOffre', function () {
@@ -226,12 +216,6 @@ document.addEventListener('alpine:init', function () {
       etat: HF.etatInitial(),
       /* Contenu à fournir par Harmony : ce sont des arguments de marque, ils
          ne s'inventent pas. Quatre, parce qu'au-delà personne ne les lit. */
-      differenciants: [
-        { titre: '[Différenciant 1]', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.' },
-        { titre: '[Différenciant 2]', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.' },
-        { titre: '[Différenciant 3]', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.' },
-        { titre: '[Différenciant 4]', texte: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.' }
-      ],
       faqOffre: [
         { q: "Jusqu'à quand puis-je en profiter ?",
           r: "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore." },
@@ -346,7 +330,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-10-22e"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-22f"></script>
 
 </body>
 </html>

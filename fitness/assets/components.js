@@ -199,6 +199,22 @@ window.HF = (function () {
        semaine, Extras exclus : ce qu'on annonce est ce qui est compris. */
     nbClubs: function () { return D.clubs.length; },
 
+    /* B.3 > Accueil > « cours en avant ». Lesquels : ceux que l'éditeur a
+       marqués `enAvant` d'abord, puis les plus programmés dans la semaine,
+       Extras et entrées de fiche partagée exclus (Hugo, 2026-10-22). Le
+       défaut se déduit, le drapeau ne se saisit que pour y déroger, comme
+       `alaUne` pour les articles. */
+    coursEnAvant: function (n) {
+      var nb = {};
+      D.seances.forEach(function (s) { nb[s.cours] = (nb[s.cours] || 0) + 1; });
+      return D.cours.filter(function (c) { return !c.estExtra && !c.memeFicheQue; })
+        .sort(function (a, b) {
+          return (b.enAvant ? 1 : 0) - (a.enAvant ? 1 : 0) ||
+            (nb[b.id] || 0) - (nb[a.id] || 0) ||
+            a.nom.localeCompare(b.nom, 'fr');
+        }).slice(0, n || 4);
+    },
+
     nbSeancesSemaine: function () {
       return D.seances.filter(function (se) {
         var co = cours(se.cours);
@@ -736,6 +752,18 @@ window.HF.vues = (function () {
       ] }
     ];
     return '<footer class="pied" data-spec="B.3 > Arborescence > Footer"><div class="pied__inner">' +
+      /* Une seule inscription à la newsletter, ici, sur toutes les pages
+         (Annexe A : « formulaire simple présent en footer »). B.3 la cite
+         sur l'accueil : c'est ce footer qui la porte, pas un bloc en plus
+         (Hugo, 2026-10-22, Q63). Le formulaire ne part nulle part dans le
+         lab. */
+      '<form class="pied__news" data-spec="Annexe A > Formulaire d\'inscription newsletter" onsubmit="return false">' +
+      '<div><h4>Newsletter</h4><p>Nouveaux cours, événements et offres, par e-mail.</p></div>' +
+      '<div class="pied__news-champs">' +
+      '<label class="visuellement-cache" for="news-email">Votre adresse e-mail</label>' +
+      '<input class="champ" id="news-email" type="email" placeholder="Votre adresse e-mail" autocomplete="email">' +
+      '<button type="submit" class="btn">S\'inscrire</button></div>' +
+      '</form>' +
       '<div class="pied__cols">' + cols.map(function (c) {
         return '<div><h4>' + esc(c.titre) + '</h4><ul style="list-style:none;padding:0">' +
           c.liens.map(function (l) {
@@ -890,12 +918,19 @@ window.HF.vues = (function () {
       D.clubs.map(function (c) {
         var cat = H.categorie(c.categorie), p = H.position(c);
         var actif = etat.club === c.id || etat.survol === c.id;
-        return '<button type="button" class="carte__repere carte__repere--' + cat.forme +
-          (actif ? ' carte__repere--actif' : '') + '"' +
-          ' style="left:' + p.x.toFixed(1) + '%;top:' + p.y.toFixed(1) + '%"' +
+        var classes = 'carte__repere carte__repere--' + cat.forme + (actif ? ' carte__repere--actif' : '');
+        var pos = ' style="left:' + p.x.toFixed(1) + '%;top:' + p.y.toFixed(1) + '%"';
+        var titre = ' title="' + esc(c.nom) + ' · ' + esc(cat.nom) + '"' +
+          ' aria-label="' + esc(c.nom) + ', club ' + esc(cat.nom) + '"';
+        /* Sur l'accueil, la carte n'est pas un choix : un repère est un lien
+           vers la page du club (opts.lien = base). Ailleurs, un bouton. */
+        if (o.lien !== undefined) {
+          return '<a class="' + classes + '"' + pos + titre + ' href="' + o.lien +
+            'clubs/club/?club=' + c.id + '">' + cat.lettre + '</a>';
+        }
+        return '<button type="button" class="' + classes + '"' + pos +
           ' data-act="' + (o.mobile ? 'apercu-club' : 'choisir-club') + '" data-id="' + c.id + '"' +
-          ' title="' + esc(c.nom) + ' · ' + esc(cat.nom) + '"' +
-          ' aria-label="' + esc(c.nom) + ', club ' + esc(cat.nom) + '">' + cat.lettre + '</button>';
+          titre + '>' + cat.lettre + '</button>';
       }).join('') +
       '</div>' +
       /* Légende sous la carte, pour ne masquer aucun repère. Forme et
@@ -1780,6 +1815,124 @@ Object.assign(window.HF.vues, (function () {
 
   /* Annexe A > Bloc actualités (teaser) : les n derniers articles et un lien
      vers la liste. Pour la page d'accueil (B.3), construit avant elle. */
+  /* --- Accueil (B.3 > Accueil) ------------------------------------
+     Des teasers : chacun lit les données et renvoie vers la page qui fait
+     foi. Rien n'est saisi ici qui existe ailleurs. */
+
+  /* « Pourquoi Harmony » : les quatre différenciants sont du contenu
+     Harmony, en placeholder tant qu'ils ne sont pas donnés. Un seul bloc
+     pour l'accueil et la landing de campagne (Q52). */
+  function pourquoiHarmony(spec) {
+    var items = [1, 2, 3, 4].map(function (i) {
+      return { titre: '[Différenciant ' + i + ']',
+        texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' };
+    });
+    return '<section data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' +
+      '<h2>Pourquoi Harmony</h2>' +
+      '<div class="grille grille--4">' + items.map(function (d) {
+        return '<div class="bloc"><h3>' + esc(d.titre) + '</h3><p>' + esc(d.texte) + '</p></div>';
+      }).join('') + '</div></section>';
+  }
+
+  /* Aperçu des clubs : la liste par canton et la carte, les mêmes règles
+     que partout (canton, ordre alphabétique, catégorie à côté du nom). Ce
+     n'est pas un choix de club référent : chaque nom et chaque repère est
+     un lien vers la page du club. */
+  function apercuClubs(etat, base) {
+    var b = base || '';
+    return '<section id="clubs" data-spec="B.3 > Accueil > aperçu carte clubs">' +
+      '<h2>Nos ' + R.nbClubs() + ' clubs</h2>' +
+      '<div class="apercu-clubs">' +
+      '<div class="apercu-clubs__liste">' + R.clubsParCanton().map(function (g) {
+        return '<div><h3 class="choix-club__canton">' + esc(H.libelleCanton(g.canton)) + '</h3>' +
+          '<ul>' + g.clubs.map(function (c) {
+            var cat = H.categorie(c.categorie);
+            return '<li><a href="' + b + 'clubs/club/?club=' + c.id + '">' + esc(c.nom) + '</a>' +
+              ' <span class="mention">' + V.forme(cat, 'badge-cat__forme') + esc(cat.nom) + '</span></li>';
+          }).join('') + '</ul></div>';
+      }).join('') +
+      '<p><a class="lien-texte" href="' + b + 'clubs/">Tous nos clubs</a></p></div>' +
+      '<div class="apercu-clubs__carte">' + V.carte(etat, { lien: b }) + '</div>' +
+      '</div></section>';
+  }
+
+  /* Offre du moment : une ligne, le compteur et le renvoi vers la landing.
+     Même règle que la landing : une seule campagne annoncée. Des offres
+     dédiées d'abord ; sinon, la promotion sur des produits existants. Sans
+     campagne, le bloc disparaît, comme l'entrée du menu. */
+  function teaserOffre(etat, base) {
+    var b = base || '';
+    if (!R.offreDuMoment(etat)) return '';
+    var offres = R.offresVisibles(etat);
+    var corps = offres.length
+      ? '<p>' + offres.map(function (p) { return '<strong>' + H.nomProduitHtml(p) + '</strong>'; }).join(' · ') +
+        '<br><span class="mention">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span></p>'
+      : V.annoncePromo(etat, { lienBase: b + 'tarifs/', spec: 'B.3 > Accueil > bloc offre du moment' });
+    return '<section data-spec="B.3 > Accueil > bloc offre du moment (compteur)">' +
+      '<div class="bloc bloc--offre">' +
+      '<div><h2>Offre du moment</h2>' + corps + '</div>' +
+      '<div class="bloc--offre__action">' + V.compteur(R.finOffre(etat)) +
+      '<a class="btn" href="' + b + 'offre-du-moment/">Voir l\'offre</a></div>' +
+      '</div></section>';
+  }
+
+  /* Teaser tarifs : une ligne par formule, dans l'ordre des formules, avec
+     ce qui les sépare le plus vite, le nombre de clubs et le prix « dès ».
+     Pas de carte produit : sans club référent, rien ne se souscrit ici.
+     Chaque ligne mène à la page Tarifs, qui fait foi. */
+  function teaserTarifs(etat, base) {
+    var b = base || '';
+    var formules = D.produits.filter(function (p) { return p.type === 'formule'; })
+      .sort(function (x, y) { return x.ordre - y.ordre; });
+    return '<section data-spec="B.3 > Accueil > teaser tarifs">' +
+      '<h2>Nos formules</h2>' +
+      '<div class="formules">' + formules.map(function (p) {
+        var pr = R.prixMini(p, 'adulte', etat);
+        return '<a class="formules__ligne" href="' + b + 'tarifs/#abonnements">' +
+          '<span class="formules__nom">' + H.nomProduitHtml(p) + '</span>' +
+          '<span class="formules__acces">' + esc(R.ligneAcces(p.categorie)) + '</span>' +
+          '<span class="formules__prix">dès ' + prixTexte(pr.valeur) + ' / mois' +
+          (pr.promo ? ' <span class="pastille-remise">- ' + pr.promo.remise.valeur +
+            (pr.promo.remise.type === 'montant' ? ' CHF' : '%') + '</span>' : '') + '</span>' +
+          '</a>';
+      }).join('') + '</div>' +
+      '<p class="mention">Tarif adulte, engagement le plus avantageux. ' +
+      '<a class="lien-texte" href="' + b + 'tarifs/">Voir tous les tarifs</a></p>' +
+      '</section>';
+  }
+
+  /* Cours en avant : quatre cartes, la même carte que le catalogue. */
+  function coursEnAvant(n, base) {
+    var b = base || '';
+    var liste = R.coursEnAvant(n || 4);
+    if (!liste.length) return '';
+    return '<section data-spec="B.3 > Accueil > cours en avant">' +
+      '<h2>Nos cours collectifs</h2>' +
+      '<div class="grille grille--cartes">' + liste.map(function (co) {
+        return V.carteCours(co, b);
+      }).join('') + '</div>' +
+      '<p style="margin-top:14px"><a class="lien-texte" href="' + b +
+      'sport/cours-collectifs/">Tous les cours</a></p></section>';
+  }
+
+  /* Bien-être : les espaces en tags et le nombre de clubs qui en ont,
+     déduits des équipements, et le renvoi vers le hub. */
+  function teaserBienEtre(base) {
+    var b = base || '';
+    var espaces = R.espacesBienEtre(), clubs = R.clubsBienEtre();
+    return '<section data-spec="B.3 > Accueil > bloc bien-être">' +
+      '<div class="bloc bloc--couche">' +
+      V.blocImage('Photo espace wellness, ambiance calme', 'carre') +
+      '<div class="bloc--couche__texte"><h2>Bien-être</h2>' +
+      '<p>Récupérer compte autant que s\'entraîner. ' +
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.</p>' +
+      V.tagsListe(espaces.map(function (e) { return e.nom; }), espaces.length) +
+      '<p class="mention">Dans ' + clubs.length + ' de nos ' + R.nbClubs() + ' clubs</p>' +
+      '<div class="produit__pied"><a class="btn btn--secondaire" href="' + b +
+      'bien-etre/">Découvrir le bien-être</a></div>' +
+      '</div></div></section>';
+  }
+
   function teaserActualites(n, base) {
     var liste = R.articlesFitness().slice(0, n || 3);
     if (!liste.length) return '';
@@ -1812,6 +1965,8 @@ Object.assign(window.HF.vues, (function () {
     carteArticle: carteArticle, listeArticles: listeArticles, enteteArticle: enteteArticle,
     corpsArticle: corpsArticle, autresArticles: autresArticles,
     teaserActualites: teaserActualites,
+    pourquoiHarmony: pourquoiHarmony, apercuClubs: apercuClubs, teaserOffre: teaserOffre,
+    teaserTarifs: teaserTarifs, coursEnAvant: coursEnAvant, teaserBienEtre: teaserBienEtre,
     blocPrix: blocPrix, ligneRemise: ligneRemise, annoncePromo: annoncePromo,
     infoClubs: infoClubs,
     ligneRemiseAilleurs: ligneRemiseAilleurs,
@@ -2798,41 +2953,49 @@ Object.assign(window.HF.vues, (function () {
         return '<h3 class="h-bloc"' + (ancre(g) ? ' id="' + ancre(g) + '"' : '') + '>' +
           esc(g.objectif.nom) + aValider(g.aValider) + '</h3>' +
           '<div class="grille grille--cartes">' + g.cours.map(function (co) {
-            /* Sur la carte du cours qui EST la page de famille, la mention
-               renverrait sur la carte elle-même : on l'enlève. */
-            var fam = co.famille ? H.famille(co.famille) : null;
-            if (fam && R.familleDuCoursGenerique(co.id)) fam = null;
-            /* Un Small Group Training se lit dans le catalogue comme les
-               autres, mais jamais comme les autres : la carte porte le mot
-               Extra et dit en clair ce que ça coûte en plus. */
-            /* Trois cas, trois traitements. Inclus partout : rien de plus.
-               Extra partout : le liseré, le mot et la phrase, parce que c'est
-               un autre produit. Extra dans certains clubs seulement : une
-               phrase, sans liseré ni marqueur, sinon on ferait fuir d'un
-               cours qui est inclus presque partout. */
-            var forme = R.formeExtra(co.id, { club: f.club, categorie: f.categorie });
-            return '<div class="produit produit--lien' +
-              (forme === 'toujours' ? ' produit--extra' : '') + '">' +
-              '<h4><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a>' +
-              (forme === 'toujours' ? ' <span class="extra__marque">Extra</span>' : '') + '</h4>' +
-              attributsCours(co, { sansObjectif: true }) +
-              (forme
-                ? '<p class="mention">' + (forme === 'toujours'
-                    ? 'En option de votre formule, pas inclus'
-                    : 'Inclus, sauf dans les clubs où il est donné en Extra') + '</p>'
-                : '') +
-              /* La famille est un lien, pas une étiquette : c'est par là que
-                 les pages de famille se trouvent, depuis chaque cours qui en
-                 fait partie, et non par une liste qui se ferait passer pour
-                 l'inventaire des disciplines (Hugo, 2026-09-16, Q46). */
-              (fam ? '<p class="mention">Famille <a class="lien-texte" href="' +
-                H.lienFamille(fam, base) + '">' + esc(fam.nom) + '</a></p>' : '') +
-              (co.traitement === null
-                ? '<p><span class="wf-avalider">page ou section à trancher</span></p>' : '') +
-              '</div>';
+            return carteCours(co, base, { club: f.club, categorie: f.categorie, sansObjectif: true });
           }).join('') + '</div>';
       }).join('') : videCatalogue(etat, base)) +
       '</section>';
+  }
+
+  /* La carte d'un cours, cliquable en entier (Q47). Une seule carte pour le
+     catalogue du hub et les cours en avant de l'accueil : la même règle
+     Extra, la même mention de famille. opts.club et opts.categorie bornent
+     la lecture du caractère Extra au périmètre filtré. */
+  function carteCours(co, base, opts) {
+    var o = opts || {};
+    /* Sur la carte du cours qui EST la page de famille, la mention
+       renverrait sur la carte elle-même : on l'enlève. */
+    var fam = co.famille ? H.famille(co.famille) : null;
+    if (fam && R.familleDuCoursGenerique(co.id)) fam = null;
+    /* Un Small Group Training se lit dans le catalogue comme les autres,
+       mais jamais comme les autres : la carte porte le mot Extra et dit en
+       clair ce que ça coûte en plus. Trois cas, trois traitements. Inclus
+       partout : rien de plus. Extra partout : le liseré, le mot et la
+       phrase, parce que c'est un autre produit. Extra dans certains clubs
+       seulement : une phrase, sans liseré ni marqueur, sinon on ferait fuir
+       d'un cours qui est inclus presque partout. */
+    var forme = R.formeExtra(co.id, { club: o.club, categorie: o.categorie });
+    return '<div class="produit produit--lien' +
+      (forme === 'toujours' ? ' produit--extra' : '') + '">' +
+      '<h4><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a>' +
+      (forme === 'toujours' ? ' <span class="extra__marque">Extra</span>' : '') + '</h4>' +
+      attributsCours(co, { sansObjectif: !!o.sansObjectif }) +
+      (forme
+        ? '<p class="mention">' + (forme === 'toujours'
+            ? 'En option de votre formule, pas inclus'
+            : 'Inclus, sauf dans les clubs où il est donné en Extra') + '</p>'
+        : '') +
+      /* La famille est un lien, pas une étiquette : c'est par là que les
+         pages de famille se trouvent, depuis chaque cours qui en fait
+         partie, et non par une liste qui se ferait passer pour l'inventaire
+         des disciplines (Hugo, 2026-09-16, Q46). */
+      (fam ? '<p class="mention">Famille <a class="lien-texte" href="' +
+        H.lienFamille(fam, base) + '">' + esc(fam.nom) + '</a></p>' : '') +
+      (co.traitement === null
+        ? '<p><span class="wf-avalider">page ou section à trancher</span></p>' : '') +
+      '</div>';
   }
 
   /* B.3 > Catégories de clubs : "Pas de cours collectifs" en Gym, des Small
@@ -2997,6 +3160,7 @@ Object.assign(window.HF.vues, (function () {
     attributsCours: attributsCours, nomObjectif: nomObjectif,
     nomIntensite: nomIntensite, nomFormat: nomFormat,
     filtresCours: filtresCours, planningType: planningType, catalogueCours: catalogueCours,
+    carteCours: carteCours,
     blocVariantes: blocVariantes,
     ligneInclusion: ligneInclusion, ligneExtra: ligneExtra,
     creneaux: creneaux, blocExtraDuCours: blocExtraDuCours

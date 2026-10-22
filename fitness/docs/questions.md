@@ -162,10 +162,13 @@ carnets sont maquettés, un par catégorie, prix et nombre d'entrées en
 placeholder.
 
 ### Q14 · Page d'accueil
-**Statut :** tranchée pour les wireframes
+**Statut :** fermée le 2026-10-22, l'accueil est maquetté
 **Source :** B.3 > Accueil contre CLAUDE.md > Périmètre.
-**Réponse :** l'accueil du site n'est pas maquetté. `fitness/index.html` sert de
+**Réponse (étape 1) :** l'accueil du site n'est pas maquetté. `fitness/index.html` sert de
 sommaire du lab, pas de maquette de la page d'accueil.
+**Le 2026-10-22 :** Hugo demande la page. Elle vit dans `fitness/accueil/`,
+la racine du lab reste le sommaire, déjà partagé aux développeurs. Voir Q62
+à Q64 pour ce qu'elle a soulevé.
 
 ---
 
@@ -1612,3 +1615,40 @@ dont on parle » : les liens vivent dans le corps de l'article, comme un
 éditeur de CMS les pose. Le champ `lie` est retiré du modèle. Le « CTA de
 retour vers la verticale » reste une affaire du corporate, qui a son propre
 gabarit d'affichage de la même collection.
+
+### Q62 · Copy de la page d'accueil
+**Statut :** à valider par Harmony
+**Source :** B.3 > Accueil ne donne ni H1, ni sous-titre, ni title.
+
+H1 choisi par Hugo le 2026-10-22 : « Votre bien-être en mouvement ». L'autre
+piste était « Au cœur de votre énergie ». Le H1 est une signature, il ne dit
+pas ce qu'Harmony est : c'est le sous-titre qui le porte, « 10 clubs de sport
+et de bien-être dans les cantons de Genève et de Vaud, une formule pour
+chaque pratique » (le nombre est déduit), et le title qui porte les mots
+cherchés, « Fitness, cours collectifs et bien-être à Genève et Vaud |
+Harmony ». Les libellés des deux boutons, « S'abonner » et « Trouver mon
+club », reprennent les mots du site. Les titres des blocs (« Nos formules »,
+« Nos cours collectifs », « Ils s'entraînent chez Harmony ») sont rédigés
+aussi. Tout est marqué à valider à l'écran.
+
+### Q63 · Où vit la newsletter
+**Statut :** tranchée par Hugo le 2026-10-22
+**Source :** B.3 > Accueil (« newsletter » parmi les composants) contre
+Annexe A (« formulaire simple présent en footer », tous les sites).
+
+Les deux pages du cahier des charges la placent à deux endroits. Une seule
+inscription, dans le footer de toutes les pages : c'est ce que l'annexe A
+chiffre, et l'accueil l'a donc sans bloc en plus. Le bouton dit
+« S'inscrire » : le mot est banni du header parce qu'il se dirait d'une
+newsletter, et ici c'en est une. Le formulaire ne part nulle part dans le
+lab ; en production, stockage CMS et transmission à l'outil métier (6.3.4).
+
+### Q64 · Quels cours « en avant » sur l'accueil
+**Statut :** tranchée par Hugo le 2026-10-22, reportée en section 7
+**Source :** B.3 > Accueil : « cours en avant », sans dire lesquels.
+
+Un drapeau facultatif `enAvant` sur le cours, pour que l'éditeur tienne un
+cours en tête (un cours qui vient de sortir, par exemple), et par défaut les
+cours les plus programmés dans la semaine, Extras exclus. Le défaut se
+déduit, le drapeau ne se saisit que pour y déroger, comme « à la une » pour
+les articles. Quatre cartes, la même carte que le catalogue.

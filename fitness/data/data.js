@@ -676,7 +676,11 @@ window.DATA = {
        « Se renforcer et sculpter », et « Bouger mieux » en second. Pas
        « Danser » : il n'y a pas de chorégraphie à apprendre, et quelqu'un qui
        cherche à danser attend Zumba ou Salsa (Hugo, 2026-09-16, Q26). */
-    { id: 'les-mills-shapes', nom: 'Les Mills Shapes', famille: 'les-mills', traitement: 'page',
+    /* `enAvant` : l'éditeur tient ce cours en tête des « cours en avant »
+       de l'accueil. Facultatif : sans drapeau, l'accueil prend les cours
+       les plus programmés (Hugo, 2026-10-22). Posé ici sur le cours qui
+       vient de sortir, c'est l'usage attendu. */
+    { id: 'les-mills-shapes', nom: 'Les Mills Shapes', famille: 'les-mills', traitement: 'page', enAvant: true,
       objectifPrincipal: 'se-renforcer', objectifSecondaire: 'bouger-mieux',
       intensite: 'modere', format: 'salle', estExtra: false, extra: null,
       coachs: ['lea'],

@@ -32,6 +32,7 @@ Consultant et décideur sur la structure : Hugo.
 
 ## Périmètre
 
+- `/` : la page d'accueil, maquettée le 2026-10-22 dans `fitness/accueil/`. La racine du lab reste le sommaire, déjà partagé aux développeurs.
 - `/clubs` (hub) et `/clubs/[slug]` (gabarit club + variante Gym)
 - `/tarifs` : état sans club et état `/tarifs/[slug]` avec club référent choisi
 - `/offre-du-moment`
@@ -186,6 +187,16 @@ Bien-être
 - **B.3 nomme quatre espaces, les données en marquent cinq** : la piscine porte aussi `bienEtre` (Q55). Elle apparaît donc sur la page Espaces et sur le bloc bien-être des pages club, avec un marqueur visible. À trancher, et attention : une piscine n'est pas un argument bien-être au même titre qu'un sauna, elle sert aussi aux cours aquatiques et à l'école de natation.
 - Les horaires d'accès et les règles d'usage restent sur les pages club : ils varient d'un club à l'autre, et les centraliser créerait une deuxième vérité.
 
+Accueil
+- **Dix blocs de B.3, dans cet ordre** (Hugo, 2026-10-22) : hero, Pourquoi Harmony, aperçu des clubs puis module Catégories court, offre du moment, formules, cours en avant, bien-être, preuve sociale, actualités, CTA essai. La newsletter est le onzième, portée par le footer.
+- **Aucun club référent sur l'accueil.** Chaque bloc est un teaser : il lit les données et renvoie vers la page qui fait foi. Rien ne se souscrit ici, donc pas de carte produit : le teaser tarifs est une ligne par formule, nom, ligne d'accès et prix « dès » (tarif adulte, engagement le plus avantageux, `prixMini`), cliquable vers Tarifs.
+- **Hero** : H1 « Votre bien-être en mouvement », choisi par Hugo (l'autre piste était « Au cœur de votre énergie »). Sous-titre et title rédigés, le nombre de clubs déduit. Deux actions, « S'abonner » et « Trouver mon club » : la troisième de B.3, essayer, est déjà dans le header et dans le bandeau de fin de page. Tout est marqué à valider (Q62).
+- **Pourquoi Harmony est un seul bloc pour deux pages** (`pourquoiHarmony(spec)`) : l'accueil et la landing de campagne (Q52). B.3 veut que l'accueil « porte les arguments » sans nommer de bloc ; on ne l'invente pas deux fois.
+- **L'aperçu des clubs n'est pas un choix de club** : chaque nom et chaque repère de la carte est un lien vers la page du club (`carte(etat, { lien: base })` rend des `<a>`, pas des boutons). Liste par canton, ordre alphabétique, catégorie à côté du nom, comme partout. Sur mobile la carte est masquée, la liste suffit.
+- **Offre du moment** : une seule campagne annoncée, même règle que la landing. Des offres dédiées d'abord, sinon la promotion sur des produits existants, et sans campagne le bloc disparaît, comme l'entrée du menu. Le compteur est ici parce que c'est le seul endroit de la page où l'échéance apparaît.
+- **Cours en avant** : quatre cartes, la même carte que le catalogue (`carteCours`, factorisée pour ça). Lesquels : les cours marqués `enAvant` d'abord, puis les plus programmés dans la semaine, Extras et entrées de fiche partagée exclus. Le défaut se déduit, le drapeau ne se saisit que pour y déroger, comme `alaUne` (Q64).
+- **Bien-être** : les espaces en tags et « dans N de nos 10 clubs », déduits des équipements. Carte couchée, photo à gauche, comme les piliers du hub Sport.
+
 Actualités
 - **Une collection, cinq sites** (B.1). Un article porte un ou plusieurs tags verticale ; le site n'affiche que les articles publiés tagués « fitness », du plus récent au plus ancien (`HF.regles.articlesFitness`). Une actu du groupe seul et un brouillon sont dans les données exprès : ils prouvent le filtre.
 - **Les six articles sont un jeu de démonstration**, inventé et assumé (Hugo, 2026-10-22), comme le planning : six « [Titre de l'article] » ne montreraient rien du gabarit. Les sujets suivent les trois thèmes de B.3, les corps sont du lorem ipsum. La règle « jamais une valeur inventée » tient pour tout ce qui se lit comme un fait.
@@ -251,7 +262,8 @@ Header
 - Mobile : le menu passe derrière un burger, non maquetté à ce stade. Restent le compte en icône seule et l'action principale ; la séance d'essai reste accessible par le CTA de chaque page.
 
 Footer
-- **Aucun lien mort qui a l'air vivant.** Les liens pointent vers les pages qui existent ; celles qui sont hors du périmètre du lab (Actualités, Besoin d'aide ?, le téléphone) gardent « # » et s'affichent en grisé pointillé (`.pied__hors`). Tous étaient en « # » jusqu'au 2026-09-22, « Nous contacter » compris alors que la page existe : en bas de page, le seul élément vivant était le bandeau séance d'essai juste au-dessus, ce qui donnait au footer l'air d'y renvoyer (Hugo).
+- **Aucun lien mort qui a l'air vivant.** Les liens pointent vers les pages qui existent ; celles qui sont hors du périmètre du lab (Besoin d'aide ?, le téléphone) gardent « # » et s'affichent en grisé pointillé (`.pied__hors`). Tous étaient en « # » jusqu'au 2026-09-22, « Nous contacter » compris alors que la page existe : en bas de page, le seul élément vivant était le bandeau séance d'essai juste au-dessus, ce qui donnait au footer l'air d'y renvoyer (Hugo).
+- **La newsletter vit dans le footer, sur toutes les pages** (Hugo, 2026-10-22, Q63). L'annexe A la met là, B.3 la cite parmi les blocs de l'accueil : c'est le même formulaire, pas un bloc en plus. Un champ e-mail et « S'inscrire » : ici le mot est juste, on s'inscrit à une newsletter, on s'abonne à un club. Le formulaire ne part nulle part dans le lab.
 - `pied(base)` prend le même chemin relatif que `entete(...)` sur la même page. Une page qui oublie la base envoie tout le footer sur des adresses fausses, en silence.
 - Les liens de canton visent une ancre du hub, `clubs/#canton-geneve`. L'ancre est **déduite** du nom du canton (`HF.ancreCanton`), le hub la porte avec la même règle : les deux ne peuvent pas diverger.
 - `[id] { scroll-margin-top: 76px }` : un titre visé par une ancre passerait sous la barre collante. Le CSS le décale, sans JavaScript et sans casser le réglage système de réduction des animations.

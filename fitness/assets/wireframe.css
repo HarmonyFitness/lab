@@ -649,6 +649,55 @@ textarea.champ { resize: vertical; }
 .hero-club__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
   margin-top: var(--e-5); }
 
+/* --- Accueil ------------------------------------------------------- */
+
+/* Aperçu des clubs : la liste par canton à gauche, la carte à droite, la
+   même proportion que le choix du club revu le 2026-10-22 (carte à 360 px).
+   Les noms sont des liens vers les pages club, pas un choix. */
+.apercu-clubs { display: grid; grid-template-columns: 1fr 360px; gap: var(--gouttiere);
+  align-items: start; margin-top: var(--e-4); }
+.apercu-clubs__liste { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--e-5); }
+.apercu-clubs__liste > p { grid-column: 1 / -1; margin-top: var(--e-2); }
+.apercu-clubs__liste ul { list-style: none; padding: 0; margin: 0; }
+.apercu-clubs__liste li { padding: 6px 0; border-bottom: 1px solid var(--gris-10); }
+.apercu-clubs__liste li:last-child { border-bottom: 0; }
+.apercu-clubs__liste li a { font-weight: 600; text-decoration: none; color: var(--gris-95); }
+.apercu-clubs__liste li a:hover { text-decoration: underline; }
+.apercu-clubs__liste .mention { margin-left: 6px; }
+.apercu-clubs__liste .badge-cat__forme { margin-right: 4px; }
+.apercu-clubs__carte .carte { height: 360px; }
+a.carte__repere { text-decoration: none; }
+
+/* Offre du moment en teaser : un encadré, le texte à gauche, le compteur et
+   l'action à droite. */
+.bloc--offre { display: flex; justify-content: space-between; align-items: center;
+  gap: var(--e-6); flex-wrap: wrap; }
+.bloc--offre h2 { margin-bottom: .3em; }
+.bloc--offre p { margin: 0; max-width: 60ch; }
+.bloc--offre__action { display: flex; flex-direction: column; align-items: flex-end;
+  gap: var(--e-3); flex: none; }
+
+/* Teaser tarifs : une ligne par formule, cliquable en entier. */
+.formules { display: flex; flex-direction: column; gap: var(--e-2); margin: var(--e-4) 0 var(--e-3); }
+.formules__ligne { display: grid; grid-template-columns: 1fr 1fr auto; gap: var(--e-4);
+  align-items: baseline; border: 1px solid var(--gris-20); background: #fff;
+  border-radius: var(--rayon); padding: 14px var(--carte-pad); color: var(--gris-95);
+  text-decoration: none; }
+.formules__ligne:hover { border-color: var(--gris-60); }
+.formules__nom { font-weight: 700; font-size: 17px; }
+.formules__acces { font-size: 14px; color: var(--gris-60); }
+.formules__prix { font-weight: 700; text-align: right; }
+
+/* Newsletter, dans le footer de toutes les pages (Annexe A). */
+.pied__news { display: grid; grid-template-columns: 1fr 1fr; gap: var(--e-6); align-items: center;
+  padding-bottom: var(--e-6); margin-bottom: var(--e-6); border-bottom: 1px solid var(--gris-80); }
+.pied__news h4 { margin-bottom: .3em; }
+.pied__news p { margin: 0; color: var(--gris-40); }
+.pied__news-champs { display: flex; gap: var(--e-2); }
+.pied__news-champs .champ { flex: 1; min-width: 0; width: auto; }
+.visuellement-cache { position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; }
+
 /* Bloc de finalisation d'une landing : une ligne par offre disponible, le
    prix et l'action. Ce n'est pas une carte produit, on ne compare plus, on
    valide. L'action est ici parce que personne ne remonte la page pour
@@ -776,6 +825,16 @@ textarea.champ { resize: vertical; }
   .grille--3, .grille--2 { grid-template-columns: 1fr; }
   .coachs { grid-template-columns: repeat(2, 1fr); }
   .pied__cols { grid-template-columns: repeat(2, 1fr); gap: var(--e-5); }
+  .pied__news { grid-template-columns: 1fr; gap: var(--e-3); }
+  .pied__news-champs { flex-direction: column; }
+  .apercu-clubs { grid-template-columns: 1fr; }
+  .apercu-clubs__liste { grid-template-columns: 1fr; }
+  /* Sur mobile, la carte n'apporte rien à l'accueil : la liste suffit, le
+     hub des clubs a sa carte plein écran. */
+  .apercu-clubs__carte { display: none; }
+  .bloc--offre__action { align-items: flex-start; width: 100%; }
+  .formules__ligne { grid-template-columns: 1fr auto; }
+  .formules__acces { grid-column: 1 / -1; }
   .pied__inner { padding: var(--e-6) var(--gouttiere) var(--e-5); }
   .cta-essai { padding: var(--e-5) var(--e-4); }
   /* Mobile : le menu passe derrière un burger, non maquetté ici (Q41).
