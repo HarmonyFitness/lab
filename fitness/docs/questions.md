@@ -6,7 +6,7 @@ poser un placeholder visible dans la maquette et continuer.
 Statut : `ouverte` · `tranchée` (avec la réponse) · `à valider` (texte proposé,
 en attente de Harmony) · `sans objet`
 
-Dernière mise à jour : réponses de Hugo au cadrage (étape 1).
+Dernière mise à jour : 2026-10-22, design system appliqué (Q65 à Q67).
 
 ---
 
@@ -1653,3 +1653,56 @@ cours en tête (un cours qui vient de sortir, par exemple), et par défaut les
 cours les plus programmés dans la semaine, Extras exclus. Le défaut se
 déduit, le drapeau ne se saisit que pour y déroger, comme « à la une » pour
 les articles. Quatre cartes, la même carte que le catalogue.
+
+## Relevées en appliquant le design system (2026-10-22)
+
+### Q65 · Les wireframes prennent le design system Harmony Fitness
+**Statut :** tranchée par Hugo le 2026-10-22, reportée en section 11.2
+**Source :** design system « Harmony Fitness » (artefact), règle de fidélité de CLAUDE.md.
+
+Les wireframes étaient en niveaux de gris, typo système, une seule couleur
+d'accent pour ce qui se clique. Ils prennent maintenant les couleurs, les
+polices (Figtree, Barlow Condensed), les rayons et les espacements du
+système. Restent ce qui fait un wireframe : photos en placeholder, crochets,
+marqueurs « à valider », `data-spec`, sélecteur d'état.
+
+Huit écarts entre le système et les règles du lab, tranchés le même jour :
+
+- **Gym**, jamais GYM (Q34) : le système est corrigé, ses formules aussi
+  (Gym, Essential, Premium, Premium Platinum, pas « Accès GYM »).
+- **Outillage en vert**, en pointillés : le violet du système est celui des
+  offres, l'outillage ne doit jamais s'y confondre.
+- **Compteur de jours restants gardé** sur l'offre du moment, alors que le
+  système l'interdisait dans son bandeau promo : le système est mis à jour.
+- **Quatre cartes produit de 290 px sur 1280 px**, pas trois sur 1200 px :
+  une carte fait la même taille d'une section à l'autre, la règle tient.
+- **Barre groupe statique**, pas flottante en verre : une seule barre
+  collante en haut (B.3), et le verre n'a de sens que sur une photo.
+- **Intensité en tag avec le mot du référentiel** (doux, modéré, intense),
+  sans les barres du système et sans ses mots (douce, modérée, soutenue).
+- **Couleur d'action** : harmony-blue sert aux boutons, à l'état choisi et au
+  badge Premium. Les liens prennent ocean-text et restent soulignés. La règle
+  « un seul accent pour ce qui se clique » est remplacée.
+- **Teinte du niveau d'une formule** gardée, ocre et italique, hors du système.
+
+### Q66 · « Arts martiaux » ou « Sports de combat » dans la barre groupe
+**Statut :** ouverte
+**Source :** B.3 > Arborescence (« Arts martiaux ») contre le design system,
+qui impose « Sports de combat » et interdit « Arts martiaux ».
+
+La barre groupe est la même sur les cinq sites : le libellé doit être le même
+partout, et il nomme une activité du groupe. B.3 fait foi, la barre garde
+« Arts martiaux » en attendant. À trancher par Harmony, puis à reporter dans
+B.3, dans le design system et dans les autres annexes B qui citent la
+verticale.
+
+### Q67 · Une seule zone promo par écran ?
+**Statut :** ouverte
+**Source :** design system, section Couleurs : « Une seule zone promo par écran ».
+
+Sur Tarifs, une promotion en cours se voit à plusieurs endroits : l'annonce
+dans la section Offre du moment, et une pastille de remise sur chaque carte
+remisée (B.3 > Page Tarifs > trame > 3). C'est voulu : un produit remisé doit
+le dire sur sa propre carte. Le comportement est gardé, en violet. À
+trancher : la règle du système vaut-elle pour un bandeau (un seul bandeau
+promo par écran), ou pour toute marque d'offre ?
