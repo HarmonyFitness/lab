@@ -99,7 +99,7 @@ Ce tableau recense les composants mutualisés entre plusieurs sites. La colonne 
 
 ### Composants mis au jour par les prototypes
 
-L'inventaire ci-dessus traite la page Tarifs comme une seule ligne de complexité L. Les prototypes en ont sorti les pièces, qui se réutilisent en dehors d'elle et se chiffrent séparément. Ils sont tous visibles et manipulables sur https://lab.harmony.ch/fitness/ (la page `/components/` les montre isolés).
+L'inventaire ci-dessus traite la page Tarifs comme une seule ligne de complexité L. Les prototypes en ont sorti les pièces, qui se réutilisent en dehors d'elle et se chiffrent séparément. Ils sont tous visibles et manipulables sur https://lab.harmony.ch/fitness/ (la page `/components/` les montre isolés, la page `/sommaire/` liste toutes les pages et les états à tester).
 
 - **Carte produit** (formule, offre, carnet) — FIT, MAA — M. Photo, nom, ligne d'accès, lignes d'inclusion identiques d'une carte à l'autre, prix alignés en pied d'une carte à sa voisine, deux pastilles au maximum sur la photo. Quatre par ligne, la largeur se règle par une variable, jamais carte par carte.
 - **Ligne Extra** — FIT — S. Pleine largeur et empilée, pas une carte : on ne compare pas un Extra à ses voisins. Prix et « Ajouter » en vente en ligne, « Sur demande en club » sinon.

@@ -32,7 +32,7 @@ Consultant et décideur sur la structure : Hugo.
 
 ## Périmètre
 
-- `/` : la page d'accueil, maquettée le 2026-10-22 dans `fitness/accueil/`. La racine du lab reste le sommaire, déjà partagé aux développeurs.
+- `/` : la page d'accueil, maquettée le 2026-10-22, à la racine du lab. L'adresse lab.harmony.ch/fitness/ partagée aux développeurs ouvre donc l'accueil ; le sommaire est à `sommaire/`.
 - `/clubs` (hub) et `/clubs/[slug]` (gabarit club + variante Gym)
 - `/tarifs` : état sans club et état `/tarifs/[slug]` avec club référent choisi
 - `/offre-du-moment`
@@ -73,7 +73,7 @@ Cours collectifs : 2 templates seulement, le hub et le gabarit cours. On maquett
   clubs, produits (formules, offres, carnets), extras, cours, coachs.
 - Aucune donnée en dur dans les pages : tout est lu depuis `data.js`. Si une info change, elle change partout.
 - Composants partagés dans `fitness/components/`, styles dans `fitness/assets/`.
-- `fitness/index.html` sert de sommaire du lab : liste des pages et des états à tester.
+- `fitness/index.html` est la page d'accueil du site, à la racine du lab comme sur le futur site (Hugo, 2026-10-22). Le sommaire du lab, liste des pages et des états à tester, est dans `fitness/sommaire/`, joignable par le lien « Sommaire du lab » de la barre d'outillage de chaque page.
 - Traçabilité : chaque bloc porte `data-spec="B.3 > Trame page club > 4"` (section et numéro du bloc dans B.3).
 - Un sélecteur d'état visible en haut de chaque page (réservé au wireframe) pour tester : sans club / club Gym / club Essential / club Premium, tarif Adulte / Jeune, offre active ou non.
 

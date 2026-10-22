@@ -166,8 +166,9 @@ placeholder.
 **Source :** B.3 > Accueil contre CLAUDE.md > Périmètre.
 **Réponse (étape 1) :** l'accueil du site n'est pas maquetté. `fitness/index.html` sert de
 sommaire du lab, pas de maquette de la page d'accueil.
-**Le 2026-10-22 :** Hugo demande la page. Elle vit dans `fitness/accueil/`,
-la racine du lab reste le sommaire, déjà partagé aux développeurs. Voir Q62
+**Le 2026-10-22 :** Hugo demande la page, puis qu'elle prenne la racine du
+lab, comme sur le futur site. `fitness/index.html` est l'accueil, le sommaire
+est dans `fitness/sommaire/`, joignable depuis la barre d'outillage. Voir Q62
 à Q64 pour ce qu'elle a soulevé.
 
 ---

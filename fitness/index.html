@@ -4,105 +4,123 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Sommaire · Lab Harmony Fitness</title>
+<title>Fitness, cours collectifs et bien-être à Genève et Vaud | Harmony</title>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/wireframe.css?v=2026-10-22f">
+<link rel="stylesheet" href="assets/wireframe.css?v=2026-10-22g">
 </head>
 <body>
 
-<div class="wf-barre"><div class="wf-barre__inner">
-  <span class="wf-barre__titre">Wireframe</span>
-  <span>Sommaire du lab</span>
-</div></div>
+<div x-data="pageAccueil" x-init="init()">
 
-<div class="conteneur" style="padding-top:24px;padding-bottom:40px">
+  <!-- Outillage du wireframe, hors maquette -->
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '' })"></div>
+  <div class="conteneur">
+    <p class="wf-note">
+      B.3 &gt; Accueil, à la racine du lab (Hugo, 2026-10-22). Le sommaire
+      des pages et des états est dans <code>sommaire/</code>, lien dans la
+      barre d'outillage. Dix blocs de B.3, dans
+      l'ordre : hero, arguments, clubs, offre du moment, formules, cours,
+      bien-être, preuve sociale, actualités, puis la newsletter, qui vit dans
+      le footer de toutes les pages (Annexe A, Q63). Aucun club référent
+      ici : chaque bloc renvoie vers la page qui fait foi.<br>
+      H1 choisi par Hugo (2026-10-22), sous-titre et title rédigés ici, le
+      tout à valider par Harmony (questions.md &gt; Q62). Le bloc Offre du
+      moment suit le sélecteur d'état : décochez « Offre active » pour le
+      voir disparaître.
+    </p>
+  </div>
 
-  <h1>Lab Harmony Fitness</h1>
-  <p class="wf-note">
-    Wireframes mi-fidélité de fitness.harmony.ch. Référence pour le designer UI
-    et le développeur. Source de vérité : <code>docs/cdc/B3-fitness.md</code>.
-    Rien ici n'est du design de marque : niveaux de gris, typo système, une
-    seule couleur d'accent pour ce qui est cliquable.
-  </p>
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('', '')"></div>
 
-  <h2>Composants</h2>
-  <table class="tableau tableau-large">
-    <thead><tr><th>Page</th><th>Ce qu'elle montre</th><th>État</th></tr></thead>
-    <tbody>
-      <tr>
-        <td><a href="components/">Composants partagés</a></td>
-        <td>Les composants partagés et leurs états, pilotés par le sélecteur d'état</td>
-        <td>Fait</td>
-      </tr>
-    </tbody>
-  </table>
+  <main class="conteneur">
 
-  <h2 style="margin-top:32px">Pages du périmètre</h2>
-  <p class="mention">Périmètre défini dans CLAUDE.md, trames dans B.3.</p>
-  <table class="tableau tableau-large">
-    <thead><tr><th>URL du futur site</th><th>Fichier du lab</th><th>État</th></tr></thead>
-    <tbody>
-      <tr><td>/</td><td><a href="accueil/">accueil/</a></td><td>Fait. Le sommaire garde la racine du lab</td></tr>
-      <tr><td>/tarifs</td><td><a href="tarifs/">tarifs/</a></td><td>Fait</td></tr>
-      <tr><td>/nous-contacter</td><td><a href="nous-contacter/">nous-contacter/</a></td><td>Fait</td></tr>
-      <tr><td>/tarifs/[club]</td><td><a href="tarifs/?club=geneve-la-praille">tarifs/?club=geneve-la-praille</a></td><td>Fait</td></tr>
-      <tr><td>/tarifs, tarif Jeune</td><td><a href="tarifs/?club=geneve-paquis&amp;tarif=jeune">tarifs/?club=geneve-paquis&amp;tarif=jeune</a></td><td>Fait</td></tr>
-      <tr><td>/clubs</td><td><a href="clubs/">clubs/</a></td><td>Fait</td></tr>
-      <tr><td>/clubs/meyrin</td><td><a href="clubs/club/?club=meyrin">clubs/club/?club=meyrin</a> (Essential)</td><td>Fait</td></tr>
-      <tr><td>/clubs/geneve-la-praille</td><td><a href="clubs/club/?club=geneve-la-praille">clubs/club/?club=geneve-la-praille</a> (Premium, passerelle natation)</td><td>Fait</td></tr>
-      <tr><td>/clubs/geneve-paquis</td><td><a href="clubs/club/?club=geneve-paquis">clubs/club/?club=geneve-paquis</a> (variante Gym)</td><td>Fait</td></tr>
-      <tr><td>/offre-du-moment</td><td><a href="offre-du-moment/">offre-du-moment/</a></td><td>Fait</td></tr>
-      <tr><td>/offre-du-moment, club choisi</td><td><a href="offre-du-moment/?club=geneve-la-praille">offre-du-moment/?club=geneve-la-praille</a></td><td>Fait</td></tr>
-      <tr><td>/offre-du-moment, sans campagne</td><td>décocher « Offre active » puis choisir « Aucune promo »</td><td>Fait</td></tr>
-      <tr><td>/seance-essai</td><td><a href="seance-essai/">seance-essai/</a></td><td>Fait</td></tr>
-      <tr><td>/seance-essai, club et origine</td><td><a href="seance-essai/?club=meyrin&amp;source=page-club">seance-essai/?club=meyrin&amp;source=page-club</a></td><td>Fait</td></tr>
-      <tr><td>/bien-etre</td><td><a href="bien-etre/">bien-etre/</a></td><td>Fait</td></tr>
-      <tr><td>/bien-etre/espaces</td><td><a href="bien-etre/espaces/">bien-etre/espaces/</a></td><td>Fait</td></tr>
-      <tr><td>/bien-etre/soins</td><td>bien-etre/soins/</td><td>En attente : soins, praticiens, tarifs et outil de réservation (Q56)</td></tr>
-      <tr><td>/actualites</td><td><a href="actualites/">actualites/</a></td><td>Fait. Six articles de démonstration</td></tr>
-      <tr><td>/actualites/[slug]</td><td><a href="actualites/article/?article=un-sauna-a-versoix">actualites/article/?article=un-sauna-a-versoix</a></td><td>Fait. Gabarit partagé avec les autres sites (B.2) ; le sélecteur d'article est dans la note violette</td></tr>
-      <tr><td>/sport</td><td><a href="sport/">sport/</a></td><td>Fait</td></tr>
-      <tr><td>/sport/plateau-fitness</td><td><a href="sport/plateau-fitness/">sport/plateau-fitness/</a></td><td>Fait</td></tr>
-      <tr><td>/sport/cours-collectifs</td><td><a href="sport/cours-collectifs/">sport/cours-collectifs/</a></td><td>Fait</td></tr>
-      <tr><td>/cours/[discipline] (famille)</td><td><a href="cours/fiche/?cours=pilates">?cours=pilates</a> · <a href="cours/fiche/?cours=yoga">yoga</a> · <a href="cours/fiche/?cours=les-mills">les-mills</a> · <a href="cours/fiche/?cours=aqua">aqua</a></td><td>Fait</td></tr>
-      <tr><td>/cours/[cours] (fiche)</td><td><a href="cours/fiche/?cours=hiit">?cours=hiit</a> · <a href="cours/fiche/?cours=les-mills-body-pump">les-mills-body-pump</a> · <a href="cours/fiche/?cours=ceremony-hyrox-max">ceremony-hyrox-max</a> (Extra)</td><td>Fait</td></tr>
-      <tr><td>/sport/small-group-training</td><td><a href="sport/small-group-training/">sport/small-group-training/</a></td><td>Fait</td></tr>
-      <tr><td>/sport/coaching-personnel</td><td><a href="sport/coaching-personnel/">sport/coaching-personnel/</a></td><td>Fait</td></tr>
-    </tbody>
-  </table>
+    <!-- ====================================================== BLOC 1 -->
+    <!-- Hero : la photo, la signature et les deux actions que B.3 met en
+         tête, s'abonner et trouver un club. La troisième, essayer, est dans
+         le header et dans le bandeau de fin de page, comme partout. -->
+    <section style="padding-top:8px" data-spec="B.3 &gt; Accueil &gt; Hero + CTA primaire">
+      <div class="hero-club">
+        <div>
+          <h1>Votre bien-être en mouvement</h1>
+          <p><span x-text="HF.regles.nbClubs()"></span> clubs de sport et de
+             bien-être dans les cantons de Genève et de Vaud, une formule pour
+             chaque pratique.
+             <span class="wf-avalider">H1, sous-titre et title à valider par Harmony</span></p>
+          <p class="hero-club__actions">
+            <a class="btn" href="tarifs/">S'abonner</a>
+            <a class="btn btn--secondaire" href="#clubs">Trouver mon club</a>
+          </p>
+        </div>
+        <div x-html="HF.vues.blocImage('Photo accueil en club, lumière du matin', 'large')"></div>
+      </div>
+    </section>
 
-  <h2 style="margin-top:32px">États à tester sur chaque page</h2>
-  <table class="tableau tableau-large">
-    <thead><tr><th>Axe</th><th>Valeurs</th><th>Ce que ça change</th></tr></thead>
-    <tbody>
-      <tr><td>Club référent</td><td>sans club · Pâquis (Gym) · Meyrin (Essential) · La Praille (Premium)</td>
-          <td>Boutons de souscription, ligne « Pas disponible », extras, URL</td></tr>
-      <tr><td>Tarif</td><td>Adulte · Ado · Jeune · Senior</td>
-          <td>Prix affichés, mention « Pas de tarif [x], prix adulte ». Ne grise jamais</td></tr>
-      <tr><td>Objectif</td><td>les 6 objectifs</td>
-          <td>Rangement du catalogue, du bloc « cours du club » et des filtres du planning</td></tr>
-      <tr><td>Engagement</td><td>Sans engagement · 12 mois</td><td>Prix par mois et total</td></tr>
-      <tr><td>Offre</td><td>active · inactive</td><td>Section Offre, page Offre du moment, entrée de menu</td></tr>
-      <tr><td>Largeur</td><td>1280 · 375</td><td>Carte à droite ou plein écran, barre rapide en bas sur mobile</td></tr>
-    </tbody>
-  </table>
+    <!-- ====================================================== BLOC 2 -->
+    <!-- B.3 veut que l'accueil « porte les arguments pourquoi Harmony » sans
+         nommer de bloc. Celui de la landing existe déjà (Q52) : un seul
+         bloc, deux pages. -->
+    <div x-html="HF.vues.pourquoiHarmony()"></div>
 
-  <h2 style="margin-top:32px">La combinaison qui compte</h2>
-  <p>
-    Club Premium et tarif Jeune. Elle montre les deux mécaniques ensemble, et
-    surtout qu'elles ne se mélangent pas : Gym et Essential passent dans la ligne
-    « Pas disponible depuis Genève · La Praille », pendant que les carnets restent
-    visibles au prix adulte avec leur mention.
-  </p>
+    <!-- ====================================================== BLOC 3 -->
+    <!-- Aperçu carte clubs puis module Catégories en version courte : les
+         deux parlent des clubs, ils se suivent. -->
+    <div x-html="HF.vues.apercuClubs(etat, '')"></div>
+    <div x-html="HF.vues.moduleCategories({ court: true })"></div>
 
-  <h2 style="margin-top:32px">Documents internes</h2>
-  <p class="mention">
-    <code>docs/cdc/</code> porte le cahier des charges, <code>docs/questions.md</code>
-    les questions ouvertes. Ce dossier est exclu du déploiement : il n'existe pas
-    en ligne.
-  </p>
+    <!-- ====================================================== BLOC 4 -->
+    <!-- Offre du moment avec compteur. Absent sans campagne. -->
+    <div x-html="HF.vues.teaserOffre(etat, '')"></div>
+
+    <!-- ====================================================== BLOC 5 -->
+    <!-- Teaser tarifs : les formules et leur prix « dès », pas de cartes
+         produit, rien ne se souscrit sans club référent. -->
+    <div x-html="HF.vues.teaserTarifs(etat, '')"></div>
+
+    <!-- ====================================================== BLOC 6 -->
+    <div x-html="HF.vues.coursEnAvant(4, '')"></div>
+
+    <!-- ====================================================== BLOC 7 -->
+    <div x-html="HF.vues.teaserBienEtre('')"></div>
+
+    <!-- ====================================================== BLOC 8 -->
+    <!-- Preuve sociale : note et avis en placeholder, ce sont des faits.
+         Les témoignages sont le composant partagé. -->
+    <section data-spec="B.3 &gt; Accueil &gt; preuve sociale (témoignages)">
+      <h2>Ils s'entraînent chez Harmony</h2>
+      <div style="margin-top:12px" x-html="HF.vues.noteAvis()"></div>
+      <div style="margin-top:16px" x-html="HF.vues.temoignages(3)"></div>
+    </section>
+
+    <!-- ====================================================== BLOC 9 -->
+    <div x-html="HF.vues.teaserActualites(3, '')"></div>
+
+    <!-- ====================================================== BLOC 10 -->
+    <div x-html="HF.vues.ctaEssai('', 'B.3 &gt; Accueil')"></div>
+
+  </main>
+
+  <!-- Le footer porte la newsletter (bloc 11 de B.3), sur toutes les pages. -->
+  <div x-html="HF.vues.pied('')"></div>
 
 </div>
+
+<script src="data/data.js?v=2026-10-22g"></script>
+<script src="assets/components.js?v=2026-10-22g"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('pageAccueil', function () {
+    return {
+      etat: HF.etatInitial(),
+      init: function () {
+        HF.brancher(this.$el, this.etat);
+        HF.brancherSelecteur(this.$el, this.etat);
+      }
+    };
+  });
+});
+</script>
+<script defer src="assets/alpine.min.js?v=2026-10-22g"></script>
 
 </body>
 </html>

@@ -2223,7 +2223,7 @@ Object.assign(window.HF, (function () {
       '<span class="wf-champ"><label>Promo</label><select data-etat="promo">' +
       select('promo', 'Aucune', D.promotions || [], etat.promo) + '</select></span>' +
       (url ? '<span class="wf-champ"><label>URL simulée</label><code>' + esc(url) + '</code></span>' : '') +
-      '<span class="wf-champ" style="margin-left:auto"><a href="' + (o.base || '') + '">Sommaire du lab</a></span>' +
+      '<span class="wf-champ" style="margin-left:auto"><a href="' + (o.base || '') + 'sommaire/">Sommaire du lab</a></span>' +
       '</div></div>';
   }
 
