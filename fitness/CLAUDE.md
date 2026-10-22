@@ -40,6 +40,7 @@ Consultant et décideur sur la structure : Hugo.
 - `/sport`, `/sport/plateau-fitness`, `/sport/cours-collectifs`, `/sport/small-group-training`, `/sport/coaching-personnel`
 - `/bien-etre` et `/bien-etre/espaces`, ajoutés au périmètre le 2026-09-17. `/bien-etre/soins` attend la liste des prestations, les praticiens, les tarifs indicatifs et le nom de l'outil de réservation : sans eux, la page serait une coquille à refaire (Q56).
 - `/cours/[...]` : gabarit unique, deux cas. Une fiche de cours, ou une page de famille qui active en plus le bloc "variantes".
+- `/actualites` et `/actualites/[slug]` (`actualites/article/?article=…`), ajoutés le 2026-10-22. Accès par le footer et par le teaser de l'accueil, jamais par le header (B.3). Le gabarit article est partagé avec les quatre autres sites (B.2).
 
 Cours collectifs : 2 templates seulement, le hub et le gabarit cours. On maquette les gabarits, pas les ~34 pages.
 
@@ -184,6 +185,17 @@ Bien-être
 - **Le hammam n'est pas un argument Premium.** Trois clubs Essential en ont un, donc la carte Essential affiche « Sauna, Hammam ». Ce qui sépare vraiment les deux formules, c'est la piscine, le jacuzzi et les jets. Une phrase de vente écrite avant le 2026-09-17 est à relire.
 - **B.3 nomme quatre espaces, les données en marquent cinq** : la piscine porte aussi `bienEtre` (Q55). Elle apparaît donc sur la page Espaces et sur le bloc bien-être des pages club, avec un marqueur visible. À trancher, et attention : une piscine n'est pas un argument bien-être au même titre qu'un sauna, elle sert aussi aux cours aquatiques et à l'école de natation.
 - Les horaires d'accès et les règles d'usage restent sur les pages club : ils varient d'un club à l'autre, et les centraliser créerait une deuxième vérité.
+
+Actualités
+- **Une collection, cinq sites** (B.1). Un article porte un ou plusieurs tags verticale ; le site n'affiche que les articles publiés tagués « fitness », du plus récent au plus ancien (`HF.regles.articlesFitness`). Une actu du groupe seul et un brouillon sont dans les données exprès : ils prouvent le filtre.
+- **Les six articles sont un jeu de démonstration**, inventé et assumé (Hugo, 2026-10-22), comme le planning : six « [Titre de l'article] » ne montreraient rien du gabarit. Les sujets suivent les trois thèmes de B.3, les corps sont du lorem ipsum. La règle « jamais une valeur inventée » tient pour tout ce qui se lit comme un fait.
+- **Un thème par article**, référentiel fermé `themesActu` (Vie des clubs, Nouveau cours, Événement), affiché en tag (Q60). **Pas de signature** (Hugo).
+- **L'objet lié** : un club ou un cours, facultatif, affiché avec sa carte habituelle sous le corps. C'est le « CTA de retour vers la verticale » de B.2, traduit pour un site qui est déjà la verticale (Q61).
+- Le corps est une liste de blocs typés (paragraphe, intertitre, image avec légende), comme un éditeur de CMS les produit. En-tête et corps bornés à 760 px : un article se lit comme un texte.
+- La carte d'article est cliquable en entier, c'est une carte qui mène quelque part. La même ligne thème + date sert sur la carte, en tête d'article et dans le teaser.
+- **Pas de pagination** tant que le volume est faible (Q59). **État vide prévu** : une liste vide dit « Pas encore d'actualité » et renvoie vers les clubs, elle ne rend pas une page blanche.
+- Le teaser de l'accueil (`teaserActualites(n, base)`) est construit et montré dans la galerie avant que la page d'accueil existe.
+- Copy rédigée, B.3 ne la donne pas : H1, sous-titre, titles, tous marqués à valider (Q58).
 
 Cours
 - Vocabulaire strict : "catégorie" est réservé aux clubs (Gym, Essential, Premium). Pour les cours on dit **objectif** (rangement), **famille** (discipline à variantes), **fiche** (un cours). Ne jamais écrire "catégorie de cours".

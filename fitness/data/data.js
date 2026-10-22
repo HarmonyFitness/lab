@@ -31,6 +31,16 @@ window.DATA = {
       { id: 'senior', nom: 'Senior',  mention: '65 ans et +' }
     ],
 
+    /* Thème d'un article d'actualité. B.3 donne les trois sujets du flux
+       Fitness, « vie des clubs, nouveaux cours, événements » : ce sont eux.
+       Champ ajouté au modèle le 2026-10-22 (Hugo), il range la liste et
+       se lit sur la carte. */
+    themesActu: [
+      { id: 'vie-des-clubs', nom: 'Vie des clubs' },
+      { id: 'nouveau-cours', nom: 'Nouveau cours' },
+      { id: 'evenement',     nom: 'Événement' }
+    ],
+
     /* questions.md > Q5 */
     /* Ordre d'affichage inchangé (B.3), mais c'est "12 mois" qui est
        présélectionné : c'est l'offre que Harmony met en avant, et celle que
@@ -1116,6 +1126,101 @@ window.DATA = {
     { club: 'geneve-la-praille', jour: 'lundi', heure: '09:30', duree: 55, cours: 'sophrologie-stretching' },
     { club: 'meyrin', jour: 'mercredi', heure: '10:30', duree: 55, cours: 'sophrologie-stretching' },
     { club: 'gland', jour: 'vendredi', heure: '09:30', duree: 55, cours: 'sophrologie-stretching' }
+  ],
+
+  /* ------------------------------------------------------------------ */
+  /* Articles : section 7.2 > Article (actualité)                         */
+  /*                                                                      */
+  /* Une seule collection pour les cinq sites (B.1). Le tag verticale dit */
+  /* où l'article s'affiche : « fitness » sur fitness.harmony.ch, et le    */
+  /* corporate agrège tout. Un article peut porter plusieurs tags : une    */
+  /* ouverture de club est une actu Fitness et une actu groupe, saisie    */
+  /* une fois.                                                            */
+  /*                                                                      */
+  /* Jeu de démonstration, inventé et assumé (Hugo, 2026-10-22), comme le */
+  /* planning : une liste de six « [Titre de l'article] » ne montrerait   */
+  /* rien de ce que le gabarit doit faire. Les sujets suivent les trois   */
+  /* thèmes de B.3. Les corps sont du lorem ipsum, à longueur réaliste.   */
+  /*                                                                      */
+  /* `lie` : l'objet dont parle l'article, un club ou un cours, facultatif.*/
+  /* C'est la traduction, pour un site qui est déjà la verticale, du      */
+  /* « CTA de retour vers la verticale » que B.2 met sur chaque article   */
+  /* du corporate. Pas de signature (Hugo, 2026-10-22).                   */
+  /* ------------------------------------------------------------------ */
+  articles: [
+    { id: 'un-sauna-a-versoix', titre: 'Un sauna à Versoix dès novembre',
+      date: '2026-10-14', verticales: ['fitness'], theme: 'vie-des-clubs', statut: 'publie',
+      photo: 'Photo sauna de Versoix',
+      chapeau: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.',
+      lie: { type: 'club', id: 'versoix' },
+      corps: [
+        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.' },
+        { type: 'h2', texte: 'Lorem ipsum dolor sit amet' },
+        { type: 'p', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' },
+        { type: 'image', legende: 'Photo du chantier' },
+        { type: 'p', texte: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.' }
+      ] },
+    { id: 'hiit-boxing-a-la-praille', titre: 'HIIT Boxing arrive à Genève · La Praille',
+      date: '2026-10-07', verticales: ['fitness'], theme: 'nouveau-cours', statut: 'publie',
+      photo: 'Photo cours de HIIT Boxing',
+      chapeau: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.',
+      lie: { type: 'cours', id: 'hiit-boxing' },
+      corps: [
+        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.' },
+        { type: 'h2', texte: 'Consectetur adipiscing elit' },
+        { type: 'p', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.' },
+        { type: 'p', texte: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.' }
+      ] },
+    { id: 'portes-ouvertes-a-denges', titre: 'Portes ouvertes à Denges le 15 novembre',
+      date: '2026-09-30', verticales: ['fitness', 'corpo'], theme: 'evenement', statut: 'publie',
+      photo: 'Photo accueil du club de Denges',
+      chapeau: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+      lie: { type: 'club', id: 'denges' },
+      corps: [
+        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+        { type: 'image', legende: 'Photo de la précédente journée portes ouvertes' },
+        { type: 'h2', texte: 'Sed do eiusmod tempor' },
+        { type: 'p', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.' }
+      ] },
+    { id: 'les-mills-shapes-nouveau-cours', titre: 'Les Mills Shapes, le nouveau cours à la barre',
+      date: '2026-09-22', verticales: ['fitness'], theme: 'nouveau-cours', statut: 'publie',
+      photo: 'Photo cours Les Mills Shapes',
+      chapeau: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      lie: { type: 'cours', id: 'les-mills-shapes' },
+      corps: [
+        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+        { type: 'p', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.' },
+        { type: 'h2', texte: 'Ut labore et dolore magna' },
+        { type: 'p', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
+      ] },
+    { id: 'paquis-ouvre-plus-tot', titre: 'Genève · Pâquis ouvre plus tôt le matin',
+      date: '2026-09-15', verticales: ['fitness'], theme: 'vie-des-clubs', statut: 'publie',
+      photo: 'Photo plateau de Genève · Pâquis au petit matin',
+      chapeau: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
+      lie: { type: 'club', id: 'geneve-paquis' },
+      corps: [
+        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.' },
+        { type: 'p', texte: 'Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.' }
+      ] },
+    { id: 'ceremony-hyrox-max-deux-dates', titre: 'Ceremony Hyrox Max : deux dates en octobre',
+      date: '2026-09-08', verticales: ['fitness'], theme: 'evenement', statut: 'publie',
+      photo: 'Photo séance de Ceremony Hyrox Max',
+      chapeau: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.',
+      lie: { type: 'cours', id: 'ceremony-hyrox-max' },
+      corps: [
+        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+        { type: 'h2', texte: 'Quis nostrud exercitation' },
+        { type: 'p', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.' },
+        { type: 'image', legende: 'Photo de la dernière session' }
+      ] },
+    /* Deux entrées qui ne s'affichent pas sur Fitness, exprès : elles
+       prouvent le filtre. Une actu du groupe seul, et un brouillon. */
+    { id: 'harmony-groupe-partenariat', titre: 'Harmony Groupe signe un partenariat avec [partenaire]',
+      date: '2026-10-01', verticales: ['corpo'], theme: 'vie-des-clubs', statut: 'publie',
+      photo: 'Photo signature', chapeau: 'Lorem ipsum dolor sit amet.', lie: null, corps: [] },
+    { id: 'brouillon-aquabike', titre: 'Aquabike : de nouveaux créneaux à Veyrier',
+      date: '2026-10-20', verticales: ['fitness'], theme: 'nouveau-cours', statut: 'brouillon',
+      photo: 'Photo aquabike', chapeau: 'Lorem ipsum dolor sit amet.', lie: { type: 'cours', id: 'aqua-bike' }, corps: [] }
   ]
 };
 

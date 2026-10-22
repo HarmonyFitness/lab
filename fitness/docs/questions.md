@@ -1561,3 +1561,48 @@ Il reste **28 questions ouvertes**, rassemblées pour le développeur et pour
 Harmony dans la page « Questions ouvertes » du cahier des charges. Cette
 page-ci garde le détail et l'historique de chacune ; celle de Notion dit
 seulement ce qui manque, à qui le demander et ce que ça bloque.
+
+### Q58 · Copy des pages Actualités
+**Statut :** à valider par Harmony
+**Source :** B.3 > Actualités, section 7 > Template 5, B.2 > Actualités.
+
+B.3 ne donne ni H1, ni sous-titre, ni title pour `/actualites`, et rien pour
+le gabarit article. Rédigé dans les maquettes et marqué : H1 « Actualités »,
+sous-titre « Ce qui se passe dans vos clubs : nouveaux cours, événements,
+ouvertures », title « Actualités Harmony Fitness | Harmony ». Le title d'un
+article est « [titre] | Harmony ». À valider, et à aligner avec le corporate,
+qui partage le gabarit.
+
+### Q59 · Au-delà de six articles
+**Statut :** ouverte, sans conséquence au lancement
+**Source :** Hugo, 2026-10-22 : six articles au lancement.
+
+Rien n'est dit sur ce qui se passe quand la liste s'allonge : pagination,
+« voir plus », ou archivage. Tant que le volume est faible, la liste montre
+tout, et c'est ce que fait la maquette. Le seuil à partir duquel il faut
+choisir se décide avec la cadence de publication, qui n'est pas fixée non
+plus. B.3 donne à la page un rôle SEO, « nourrir avec du contenu frais » :
+la valeur vient de la cadence, pas du stock.
+
+### Q60 · Le thème d'un article, un champ de plus
+**Statut :** tranchée par Hugo le 2026-10-22, reportée en section 7
+**Source :** B.3 > Actualités : « vie des clubs, nouveaux cours, événements ».
+
+B.3 nomme trois sujets sans en faire un champ. Dans la maquette, c'est un
+référentiel fermé (`themesActu`), un tag sur chaque carte et en tête
+d'article : il range la liste à l'œil, et il sera le premier filtre le jour
+où la liste en demande un. Hugo l'a retenu. Pas de signature d'auteur, pas de
+« par le club » : tranché aussi.
+
+### Q61 · L'objet lié, traduction du « CTA de retour vers la verticale »
+**Statut :** proposé dans les maquettes, à valider
+**Source :** B.2 > Actualités : « CTA de retour vers la verticale concernée
+sur chaque article ».
+
+Sur le corporate, chaque article renvoie vers le site de sa verticale. Sur
+fitness.harmony.ch, qui est déjà la verticale, ce renvoi n'a pas de sens. La
+maquette le traduit par **l'objet dont l'article parle**, un club ou un
+cours, affiché avec sa carte habituelle sous le corps : une actu de club
+emmène sur la page du club, une actu de nouveau cours sur sa fiche. Champ
+facultatif sur l'article. C'est le même champ qui, sur le corporate, peut
+porter le lien de retour : une seule saisie, deux usages. À confirmer.

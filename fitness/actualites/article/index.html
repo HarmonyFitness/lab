@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Article | Harmony</title>
+<link rel="icon" href="../../favicon.png">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-22c">
+</head>
+<body>
+
+<div x-data="pageArticle" x-init="init()" x-effect="document.title = titreOnglet()">
+
+  <!-- Outillage du wireframe, hors maquette -->
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../../' })"></div>
+  <div class="conteneur">
+    <p class="wf-note">
+      B.3 &gt; Actualités, et B.2 : « fiche article, gabarit partagé avec les
+      quatre autres sites ». Un seul fichier, le paramètre dans l'adresse :
+      <code>?article=un-sauna-a-versoix</code> représente
+      <code>/actualites/un-sauna-a-versoix</code>.<br>
+      <strong>L'objet lié</strong> : B.2 met sur chaque article du corporate
+      « un CTA de retour vers la verticale concernée ». Sur un site qui est
+      déjà la verticale, l'équivalent est l'objet dont l'article parle, un
+      club ou un cours, affiché avec sa carte habituelle. Champ facultatif.
+      Pas de signature (Hugo, 2026-10-22). Title rédigé ici, à valider (Q58).
+    </p>
+    <p class="wf-note">
+      Article affiché :
+      <template x-for="a in HF.regles.articlesFitness()" :key="a.id">
+        <a :href="'?article=' + a.id" x-text="a.titre"
+           style="margin-right:12px" :style="a.id === id ? 'font-weight:700' : ''"></a>
+      </template>
+    </p>
+  </div>
+
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('', '../../')"></div>
+
+  <main class="conteneur">
+
+    <template x-if="!article">
+      <section>
+        <div x-html="HF.vues.filAriane([{nom:'Accueil',href:'../../'},{nom:'Actualités',href:'../'},{nom:'[article introuvable]'}])"></div>
+        <h1>[Article introuvable]</h1>
+        <p>Cette adresse ne correspond à aucun article publié.
+           <a class="lien-texte" href="../">Voir toutes les actualités</a></p>
+      </section>
+    </template>
+
+    <template x-if="article">
+      <div>
+        <div x-html="HF.vues.filAriane([{nom:'Accueil',href:'../../'},{nom:'Actualités',href:'../'},{nom:article.titre}])"></div>
+
+        <!-- ================================================== BLOC 1 -->
+        <!-- En-tête : thème, date, titre, chapeau, photo. Le corps est borné
+             en largeur, comme tout texte long. -->
+        <section data-spec="B.3 &gt; Actualités &gt; Article (gabarit partagé, B.2)">
+          <div x-html="HF.vues.enteteArticle(article)"></div>
+        </section>
+
+        <!-- ================================================== BLOC 2 -->
+        <section data-spec="Section 7 &gt; Template 5 &gt; Corps éditorial">
+          <div x-html="HF.vues.corpsArticle(article)"></div>
+        </section>
+
+        <!-- ================================================== BLOC 3 -->
+        <template x-if="article.lie">
+          <section data-spec="B.2 &gt; Actualités &gt; CTA de retour vers la verticale">
+            <div x-html="HF.vues.objetLie(article, etat, '../../')"></div>
+          </section>
+        </template>
+
+        <!-- ================================================== BLOC 4 -->
+        <section data-spec="B.3 &gt; Actualités">
+          <div x-html="HF.vues.autresArticles(article.id, 3, '../../')"></div>
+        </section>
+
+        <!-- ================================================== BLOC 5 -->
+        <div x-html="HF.vues.ctaEssai('../../', 'B.3 &gt; Actualités')"></div>
+      </div>
+    </template>
+
+  </main>
+
+  <div x-html="HF.vues.pied('../../')"></div>
+
+</div>
+
+<script src="../../data/data.js?v=2026-10-22c"></script>
+<script src="../../assets/components.js?v=2026-10-22c"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('pageArticle', function () {
+    var id = new URLSearchParams(location.search).get('article') ||
+      (HF.regles.articlesFitness()[0] || {}).id;
+    return {
+      etat: HF.etatInitial(),
+      id: id,
+      article: HF.regles.article(id),
+      init: function () {
+        HF.brancher(this.$el, this.etat);
+        HF.brancherSelecteur(this.$el, this.etat);
+      },
+      /* Le title suit l'article. Rédigé, B.3 ne le donne pas (Q58). */
+      titreOnglet: function () {
+        return (this.article ? this.article.titre : 'Article introuvable') + ' | Harmony';
+      }
+    };
+  });
+});
+</script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-22c"></script>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Actualités Harmony Fitness | Harmony</title>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-22c">
+</head>
+<body>
+
+<div x-data="pageActualites" x-init="init()">
+
+  <!-- Outillage du wireframe, hors maquette -->
+  <div x-html="HF.selecteurEtat(etat, { gabarit: null, base: '../' })"></div>
+  <div class="conteneur">
+    <p class="wf-note">
+      B.3 &gt; Actualités. Liste des articles tagués Fitness, lus dans la
+      collection unique du CMS partagé (B.1) : un article publié et tagué
+      « fitness », du plus récent au plus ancien. La collection en compte huit,
+      la page en montre six : une actu du groupe seul et un brouillon n'en
+      font pas partie, c'est le filtre qui marche.<br>
+      <strong>Jeu de démonstration</strong> : les six articles sont inventés
+      (Hugo, 2026-10-22), comme le planning. Les titres suivent les trois
+      thèmes de B.3, les textes sont du lorem ipsum.<br>
+      Accès par le footer et par le teaser de l'accueil, jamais par le header
+      (B.3). H1, sous-titre et title rédigés ici, B.3 ne les donne pas
+      (questions.md &gt; Q58). Pas de pagination tant que le volume est
+      faible (Q59).
+    </p>
+  </div>
+
+  <div x-html="HF.vues.barreGroupe()"></div>
+  <div x-html="HF.vues.entete('', '../')"></div>
+
+  <main class="conteneur">
+
+    <div x-html="HF.vues.filAriane([{nom:'Accueil',href:'../'},{nom:'Actualités'}])"></div>
+
+    <!-- ====================================================== BLOC 1 -->
+    <section data-spec="B.3 &gt; Actualités">
+      <h1>Actualités</h1>
+      <p>Ce qui se passe dans vos clubs : nouveaux cours, événements, ouvertures.
+         <span class="wf-avalider">H1, sous-titre et title à valider par Harmony</span></p>
+    </section>
+
+    <!-- ====================================================== BLOC 2 -->
+    <!-- Une carte par article, cliquable en entier : elle mène quelque part.
+         Six au lancement. État vide prévu : le gabarit ne doit pas rendre
+         une page blanche le jour où la liste l'est. -->
+    <section data-spec="B.3 &gt; Actualités &gt; Liste des articles">
+      <div x-html="HF.vues.listeArticles('../')"></div>
+    </section>
+
+    <!-- ====================================================== BLOC 3 -->
+    <div x-html="HF.vues.ctaEssai('../', 'B.3 &gt; Actualités')"></div>
+
+  </main>
+
+  <div x-html="HF.vues.pied('../')"></div>
+
+</div>
+
+<script src="../data/data.js?v=2026-10-22c"></script>
+<script src="../assets/components.js?v=2026-10-22c"></script>
+<script>
+document.addEventListener('alpine:init', function () {
+  Alpine.data('pageActualites', function () {
+    return {
+      etat: HF.etatInitial(),
+      init: function () {
+        HF.brancher(this.$el, this.etat);
+        HF.brancherSelecteur(this.$el, this.etat);
+      }
+    };
+  });
+});
+</script>
+<script defer src="../assets/alpine.min.js?v=2026-10-22c"></script>
+
+</body>
+</html>

@@ -844,6 +844,22 @@ textarea.champ { resize: vertical; }
   border-radius: 999px; background: #fff; color: var(--gris-80); }
 .ancres a:hover { border-color: var(--accent); color: var(--accent); }
 
+/* Actualités. Un article se lit comme un texte : en-tête et corps bornés à
+   la même largeur, la photo de couverture va jusqu'à cette largeur et pas
+   au-delà. La ligne thème + date sert partout, carte, en-tête, teaser. */
+.article__meta { display: flex; align-items: center; gap: 10px; margin: 0 0 var(--e-2);
+  font-size: 13px; color: var(--gris-60); }
+.article__meta .tag { margin: 0; }
+.article-carte h3 { margin-bottom: .3em; }
+.article__entete, .article__corps { max-width: 760px; }
+.article__entete h1 { margin-bottom: .3em; }
+.article__chapeau { font-size: 19px; line-height: 1.5; color: var(--gris-80); margin-bottom: var(--e-5); }
+.article__entete .img { aspect-ratio: 16 / 9; }
+.article__corps p { font-size: 17px; line-height: 1.7; }
+.article__corps h2 { font-size: 22px; margin-top: var(--e-6); }
+.article__corps figure { margin: var(--e-5) 0; }
+.article__corps figcaption { margin-top: var(--e-2); }
+
 /* Deux champs courts côte à côte sur ordinateur. */
 .champ-rangee { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--e-4); }
 

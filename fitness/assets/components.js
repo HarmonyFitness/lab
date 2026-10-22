@@ -150,6 +150,27 @@ window.HF = (function () {
       return D.extras.filter(function (e) { return e.clubs.indexOf(idClub) !== -1; });
     },
 
+    /* Actualités. La collection est unique et partagée par les cinq sites
+       (B.1) : chaque site n'affiche que son flux. Ici, publié, tagué
+       « fitness », du plus récent au plus ancien. Un article tagué fitness
+       et corpo s'affiche sur les deux sites, saisi une fois. */
+    articlesFitness: function () {
+      return (D.articles || []).filter(function (a) {
+        return a.statut === 'publie' && a.verticales.indexOf('fitness') !== -1;
+      }).sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+    },
+    /* Un article se cherche parmi ceux qui s'affichent : un brouillon ou une
+       actu d'une autre verticale n'a pas d'adresse sur ce site. */
+    article: function (id) {
+      return regles.articlesFitness().find(function (a) { return a.id === id; }) || null;
+    },
+    autresArticles: function (id, n) {
+      return regles.articlesFitness().filter(function (a) { return a.id !== id; }).slice(0, n || 3);
+    },
+    themeActu: function (id) {
+      return (D.referentiels.themesActu || []).find(function (t) { return t.id === id; }) || null;
+    },
+
     /* Les Small Group Training donnés dans un club, lus sur le planning et
        nulle part ailleurs. Sans club, toute la liste : la page Tarifs sans
        club référent montre l'offre entière. */
@@ -706,7 +727,7 @@ window.HF.vues = (function () {
         { nom: 'Small Group Training', href: b + 'sport/small-group-training/' },
         { nom: 'Coaching personnel', href: b + 'sport/coaching-personnel/' }
       ] },
-      { titre: 'Aide', liens: [{ nom: "Besoin d'aide ?" }, { nom: 'Actualités' }] },
+      { titre: 'Aide', liens: [{ nom: "Besoin d'aide ?" }, { nom: 'Actualités', href: b + 'actualites/' }] },
       /* Le footer ne donne plus d'adresse e-mail : un seul canal écrit, le
          formulaire, pour que toute demande soit comptée et dispatchée (Q37). */
       { titre: 'Contact', liens: [
@@ -1657,6 +1678,103 @@ Object.assign(window.HF.vues, (function () {
 
   /* Le CTA essai sert sur presque toutes les pages : sa référence de spec
      dépend donc de la page qui l'affiche, elle ne peut pas être figée. */
+  /* --- Actualités ------------------------------------------------- */
+
+  /* Thème et date d'un article : la même ligne sur la carte, en tête
+     d'article et dans le teaser. Le thème est un tag, comme un attribut de
+     cours : une valeur fermée du référentiel, qui porte son mot. */
+  function metaArticle(a) {
+    var t = R.themeActu(a.theme);
+    return '<p class="article__meta">' +
+      (t ? '<span class="tag">' + esc(t.nom) + '</span>' : '') +
+      '<time datetime="' + esc(a.date) + '">' + esc(dateTexte(a.date)) + '</time></p>';
+  }
+
+  /* Carte d'article : elle mène quelque part, donc cliquable en entier,
+     comme une carte de cours. Photo, thème et date, titre, chapeau. */
+  function carteArticle(a, base) {
+    return '<article class="produit produit--lien article-carte" data-spec="B.3 > Actualités > Liste des articles">' +
+      '<div class="produit__photo">' + V.blocImage(a.photo, 'large') + '</div>' +
+      metaArticle(a) +
+      '<h3><a href="' + (base || '') + 'actualites/article/?article=' + esc(a.id) + '">' +
+      esc(a.titre) + '</a></h3>' +
+      '<p class="mention">' + esc(a.chapeau) + '</p></article>';
+  }
+
+  /* La liste. État vide prévu : une page blanche se lit comme une panne. */
+  function listeArticles(base) {
+    var liste = R.articlesFitness();
+    if (!liste.length) {
+      return '<p class="indispo">Pas encore d\'actualité. Revenez bientôt, ou ' +
+        '<a class="lien-texte" href="' + (base || '') + 'clubs/">passez voir votre club</a>.</p>';
+    }
+    return '<div class="grille grille--cartes">' +
+      liste.map(function (a) { return carteArticle(a, base); }).join('') + '</div>';
+  }
+
+  /* En-tête d'article : thème, date, titre, chapeau, photo de couverture.
+     Pas de signature (Hugo, 2026-10-22). */
+  function enteteArticle(a) {
+    return '<div class="article__entete">' + metaArticle(a) +
+      '<h1>' + esc(a.titre) + '</h1>' +
+      '<p class="article__chapeau">' + esc(a.chapeau) + '</p>' +
+      V.blocImage(a.photo, 'large') + '</div>';
+  }
+
+  /* Le corps : des blocs typés, comme un éditeur de CMS les produit.
+     Paragraphe, intertitre, image avec sa légende. */
+  function corpsArticle(a) {
+    return '<div class="article__corps">' + (a.corps || []).map(function (b) {
+      if (b.type === 'h2') return '<h2>' + esc(b.texte) + '</h2>';
+      if (b.type === 'image') return '<figure>' + V.blocImage(b.legende, 'large') +
+        '<figcaption class="mention">' + esc(b.legende) + '</figcaption></figure>';
+      return '<p>' + esc(b.texte) + '</p>';
+    }).join('') + '</div>';
+  }
+
+  /* L'objet dont l'article parle, un club ou un cours, avec sa carte
+     habituelle. C'est le « CTA de retour vers la verticale » de B.2,
+     traduit pour un site qui est déjà la verticale. */
+  function objetLie(a, etat, base) {
+    var l = a.lie; if (!l) return '';
+    var titre, carte;
+    if (l.type === 'club') {
+      var c = H.club(l.id); if (!c) return '';
+      titre = 'Le club dont on parle';
+      carte = carteClub(c, etat, { base: base, source: 'actualite' });
+    } else {
+      var co = H.cours(l.id); if (!co) return '';
+      titre = 'Le cours dont on parle';
+      carte = '<article class="produit produit--lien">' +
+        '<h3><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a>' +
+        (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') + '</h3>' +
+        (V.attributsCours ? V.attributsCours(co, {}) : '') +
+        '<p class="mention">Voir la fiche du cours</p></article>';
+    }
+    return '<h2>' + titre + '</h2><div class="grille grille--3">' + carte + '</div>';
+  }
+
+  function autresArticles(id, n, base) {
+    var liste = R.autresArticles(id, n);
+    if (!liste.length) return '';
+    return '<h2>Autres actualités</h2><div class="grille grille--3">' +
+      liste.map(function (a) { return carteArticle(a, base); }).join('') + '</div>' +
+      '<p style="margin-top:14px"><a class="lien-texte" href="' + (base || '') +
+      'actualites/">Toutes les actualités</a></p>';
+  }
+
+  /* Annexe A > Bloc actualités (teaser) : les n derniers articles et un lien
+     vers la liste. Pour la page d'accueil (B.3), construit avant elle. */
+  function teaserActualites(n, base) {
+    var liste = R.articlesFitness().slice(0, n || 3);
+    if (!liste.length) return '';
+    return '<section data-spec="B.3 > Accueil > teaser actualités">' +
+      '<h2>Actualités</h2><div class="grille grille--3">' +
+      liste.map(function (a) { return carteArticle(a, base); }).join('') + '</div>' +
+      '<p style="margin-top:14px"><a class="lien-texte" href="' + (base || '') +
+      'actualites/">Toutes les actualités</a></p></section>';
+  }
+
   function ctaEssai(base, spec) {
     return '<section class="cta-essai" data-spec="' +
       esc(spec || 'B.3 > Page Tarifs > Trame > 6') + '">' +
@@ -1676,6 +1794,9 @@ Object.assign(window.HF.vues, (function () {
   return {
     lignesInclusion: lignesInclusion, carteProduit: carteProduit, carteExtra: carteExtra,
     tagsListe: tagsListe,
+    carteArticle: carteArticle, listeArticles: listeArticles, enteteArticle: enteteArticle,
+    corpsArticle: corpsArticle, objetLie: objetLie, autresArticles: autresArticles,
+    teaserActualites: teaserActualites,
     blocPrix: blocPrix, ligneRemise: ligneRemise, annoncePromo: annoncePromo,
     infoClubs: infoClubs,
     ligneRemiseAilleurs: ligneRemiseAilleurs,
