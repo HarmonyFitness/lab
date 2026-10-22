@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Article | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-22d">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-22e">
 </head>
 <body>
 
@@ -20,11 +20,10 @@
       quatre autres sites ». Un seul fichier, le paramètre dans l'adresse :
       <code>?article=un-sauna-a-versoix</code> représente
       <code>/actualites/un-sauna-a-versoix</code>.<br>
-      <strong>L'objet lié</strong> : B.2 met sur chaque article du corporate
-      « un CTA de retour vers la verticale concernée ». Sur un site qui est
-      déjà la verticale, l'équivalent est l'objet dont l'article parle, un
-      club ou un cours, affiché avec sa carte habituelle. Champ facultatif.
-      Pas de signature (Hugo, 2026-10-22). Title rédigé ici, à valider (Q58).
+      <strong>Les liens sont dans le texte</strong>, comme un éditeur de CMS
+      les pose (Hugo, 2026-10-22) : pas de bloc « le club dont on parle ».
+      Un club ou un cours cité renvoie à sa page depuis le paragraphe. Pas de
+      signature. Title rédigé ici, à valider (Q58).
     </p>
     <p class="wf-note">
       Article affiché :
@@ -62,22 +61,15 @@
 
         <!-- ================================================== BLOC 2 -->
         <section data-spec="Section 7 &gt; Template 5 &gt; Corps éditorial">
-          <div x-html="HF.vues.corpsArticle(article)"></div>
+          <div x-html="HF.vues.corpsArticle(article, '../../')"></div>
         </section>
 
         <!-- ================================================== BLOC 3 -->
-        <template x-if="article.lie">
-          <section data-spec="B.2 &gt; Actualités &gt; CTA de retour vers la verticale">
-            <div x-html="HF.vues.objetLie(article, etat, '../../')"></div>
-          </section>
-        </template>
-
-        <!-- ================================================== BLOC 4 -->
         <section data-spec="B.3 &gt; Actualités">
           <div x-html="HF.vues.autresArticles(article.id, 3, '../../')"></div>
         </section>
 
-        <!-- ================================================== BLOC 5 -->
+        <!-- ================================================== BLOC 4 -->
         <div x-html="HF.vues.ctaEssai('../../', 'B.3 &gt; Actualités')"></div>
       </div>
     </template>
@@ -88,8 +80,8 @@
 
 </div>
 
-<script src="../../data/data.js?v=2026-10-22d"></script>
-<script src="../../assets/components.js?v=2026-10-22d"></script>
+<script src="../../data/data.js?v=2026-10-22e"></script>
+<script src="../../assets/components.js?v=2026-10-22e"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageArticle', function () {
@@ -111,7 +103,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-10-22d"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-22e"></script>
 
 </body>
 </html>

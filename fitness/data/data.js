@@ -1142,19 +1142,19 @@ window.DATA = {
   /* rien de ce que le gabarit doit faire. Les sujets suivent les trois   */
   /* thèmes de B.3. Les corps sont du lorem ipsum, à longueur réaliste.   */
   /*                                                                      */
-  /* `lie` : l'objet dont parle l'article, un club ou un cours, facultatif.*/
-  /* C'est la traduction, pour un site qui est déjà la verticale, du      */
-  /* « CTA de retour vers la verticale » que B.2 met sur chaque article   */
-  /* du corporate. Pas de signature (Hugo, 2026-10-22).                   */
+  /* Les liens sont dans le texte, comme un éditeur de CMS les pose     */
+  /* (Hugo, 2026-10-22) : pas de bloc « le club dont on parle ». Notation */
+  /* du lab : [texte](club:id), [texte](cours:id), [texte](page:chemin/), */
+  /* [texte](https://…). Le CMS aura son propre sélecteur de lien.        */
+  /* Pas de signature (Hugo, 2026-10-22).                                 */
   /* ------------------------------------------------------------------ */
   articles: [
     { id: 'un-sauna-a-versoix', titre: 'Un sauna à Versoix dès novembre',
       date: '2026-10-14', verticales: ['fitness'], theme: 'vie-des-clubs', statut: 'publie',
       photo: 'Photo sauna de Versoix',
       chapeau: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.',
-      lie: { type: 'club', id: 'versoix' },
       corps: [
-        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.' },
+        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor [au club de Versoix](club:versoix) incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat, comme dans [nos autres espaces bien-être](page:bien-etre/espaces/).' },
         { type: 'h2', texte: 'Lorem ipsum dolor sit amet' },
         { type: 'p', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' },
         { type: 'image', legende: 'Photo du chantier' },
@@ -1164,9 +1164,8 @@ window.DATA = {
       date: '2026-10-07', verticales: ['fitness'], theme: 'nouveau-cours', statut: 'publie',
       photo: 'Photo cours de HIIT Boxing',
       chapeau: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.',
-      lie: { type: 'cours', id: 'hiit-boxing' },
       corps: [
-        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.' },
+        { type: 'p', texte: 'Lorem ipsum dolor sit amet, [HIIT Boxing](cours:hiit-boxing) consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris à [Genève · La Praille](club:geneve-la-praille).' },
         { type: 'h2', texte: 'Consectetur adipiscing elit' },
         { type: 'p', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.' },
         { type: 'p', texte: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.' }
@@ -1175,9 +1174,8 @@ window.DATA = {
       date: '2026-09-30', verticales: ['fitness', 'corpo'], theme: 'evenement', statut: 'publie',
       photo: 'Photo accueil du club de Denges',
       chapeau: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-      lie: { type: 'club', id: 'denges' },
       corps: [
-        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor [à Denges](club:denges) incididunt ut labore et dolore magna aliqua, ou [demandez une séance d\'essai](page:seance-essai/).' },
         { type: 'image', legende: 'Photo de la précédente journée portes ouvertes' },
         { type: 'h2', texte: 'Sed do eiusmod tempor' },
         { type: 'p', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.' }
@@ -1186,9 +1184,8 @@ window.DATA = {
       date: '2026-09-22', verticales: ['fitness'], theme: 'nouveau-cours', statut: 'publie',
       photo: 'Photo cours Les Mills Shapes',
       chapeau: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      lie: { type: 'cours', id: 'les-mills-shapes' },
       corps: [
-        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+        { type: 'p', texte: 'Lorem ipsum dolor sit amet, [Les Mills Shapes](cours:les-mills-shapes) consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, parmi [tous nos cours collectifs](page:sport/cours-collectifs/).' },
         { type: 'p', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.' },
         { type: 'h2', texte: 'Ut labore et dolore magna' },
         { type: 'p', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
@@ -1197,18 +1194,16 @@ window.DATA = {
       date: '2026-09-15', verticales: ['fitness'], theme: 'vie-des-clubs', statut: 'publie',
       photo: 'Photo plateau de Genève · Pâquis au petit matin',
       chapeau: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
-      lie: { type: 'club', id: 'geneve-paquis' },
       corps: [
-        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.' },
+        { type: 'p', texte: 'Lorem ipsum dolor sit amet, [à Genève · Pâquis](club:geneve-paquis) consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, avec [la formule Gym](page:tarifs/?club=geneve-paquis).' },
         { type: 'p', texte: 'Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.' }
       ] },
     { id: 'ceremony-hyrox-max-deux-dates', titre: 'Ceremony Hyrox Max : deux dates en octobre',
       date: '2026-09-08', verticales: ['fitness'], theme: 'evenement', statut: 'publie',
       photo: 'Photo séance de Ceremony Hyrox Max',
       chapeau: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.',
-      lie: { type: 'cours', id: 'ceremony-hyrox-max' },
       corps: [
-        { type: 'p', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
+        { type: 'p', texte: 'Lorem ipsum dolor sit amet, [Ceremony Hyrox Max](cours:ceremony-hyrox-max) consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, en [Small Group Training](page:sport/small-group-training/).' },
         { type: 'h2', texte: 'Quis nostrud exercitation' },
         { type: 'p', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.' },
         { type: 'image', legende: 'Photo de la dernière session' }
@@ -1217,10 +1212,10 @@ window.DATA = {
        prouvent le filtre. Une actu du groupe seul, et un brouillon. */
     { id: 'harmony-groupe-partenariat', titre: 'Harmony Groupe signe un partenariat avec [partenaire]',
       date: '2026-10-01', verticales: ['corpo'], theme: 'vie-des-clubs', statut: 'publie',
-      photo: 'Photo signature', chapeau: 'Lorem ipsum dolor sit amet.', lie: null, corps: [] },
+      photo: 'Photo signature', chapeau: 'Lorem ipsum dolor sit amet.', corps: [] },
     { id: 'brouillon-aquabike', titre: 'Aquabike : de nouveaux créneaux à Veyrier',
       date: '2026-10-20', verticales: ['fitness'], theme: 'nouveau-cours', statut: 'brouillon',
-      photo: 'Photo aquabike', chapeau: 'Lorem ipsum dolor sit amet.', lie: { type: 'cours', id: 'aqua-bike' }, corps: [] }
+      photo: 'Photo aquabike', chapeau: 'Lorem ipsum dolor sit amet.', corps: [] }
   ]
 };
 

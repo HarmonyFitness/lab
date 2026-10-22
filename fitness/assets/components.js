@@ -1742,37 +1742,31 @@ Object.assign(window.HF.vues, (function () {
       V.blocImage(a.photo, 'large') + '</div>';
   }
 
+  /* Les liens vivent dans le texte, comme un éditeur de CMS les pose
+     (Hugo, 2026-10-22) : pas de bloc à part. Notation du lab dans les
+     données : [texte](club:id), [texte](cours:id), [texte](page:chemin/),
+     [texte](https://…). Un club ou un cours inconnu reste du texte, jamais
+     un lien cassé. Le CMS aura son propre sélecteur de lien. */
+  function texteAvecLiens(t, base) {
+    return esc(t).replace(/\[([^\]]+)\]\(([a-z]+):([^)\s]+)\)/g, function (m, txt, type, cible) {
+      var href = null;
+      if (type === 'club' && H.club(cible)) href = (base || '') + 'clubs/club/?club=' + cible;
+      else if (type === 'cours' && H.cours(cible)) href = H.lienCours(H.cours(cible), base);
+      else if (type === 'page') href = (base || '') + cible;
+      else if (type === 'https' || type === 'http') href = type + ':' + cible;
+      return href ? '<a href="' + href + '">' + txt + '</a>' : txt;
+    });
+  }
+
   /* Le corps : des blocs typés, comme un éditeur de CMS les produit.
-     Paragraphe, intertitre, image avec sa légende. */
-  function corpsArticle(a) {
+     Paragraphe (avec ses liens), intertitre, image avec sa légende. */
+  function corpsArticle(a, base) {
     return '<div class="article__corps">' + (a.corps || []).map(function (b) {
       if (b.type === 'h2') return '<h2>' + esc(b.texte) + '</h2>';
       if (b.type === 'image') return '<figure>' + V.blocImage(b.legende, 'large') +
         '<figcaption class="mention">' + esc(b.legende) + '</figcaption></figure>';
-      return '<p>' + esc(b.texte) + '</p>';
+      return '<p>' + texteAvecLiens(b.texte, base) + '</p>';
     }).join('') + '</div>';
-  }
-
-  /* L'objet dont l'article parle, un club ou un cours, avec sa carte
-     habituelle. C'est le « CTA de retour vers la verticale » de B.2,
-     traduit pour un site qui est déjà la verticale. */
-  function objetLie(a, etat, base) {
-    var l = a.lie; if (!l) return '';
-    var titre, carte;
-    if (l.type === 'club') {
-      var c = H.club(l.id); if (!c) return '';
-      titre = 'Le club dont on parle';
-      carte = carteClub(c, etat, { base: base, source: 'actualite' });
-    } else {
-      var co = H.cours(l.id); if (!co) return '';
-      titre = 'Le cours dont on parle';
-      carte = '<article class="produit produit--lien">' +
-        '<h3><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a>' +
-        (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') + '</h3>' +
-        (V.attributsCours ? V.attributsCours(co, {}) : '') +
-        '<p class="mention">Voir la fiche du cours</p></article>';
-    }
-    return '<h2>' + titre + '</h2><div class="grille grille--3">' + carte + '</div>';
   }
 
   function autresArticles(id, n, base) {
@@ -1816,7 +1810,7 @@ Object.assign(window.HF.vues, (function () {
     lignesInclusion: lignesInclusion, carteProduit: carteProduit, carteExtra: carteExtra,
     tagsListe: tagsListe,
     carteArticle: carteArticle, listeArticles: listeArticles, enteteArticle: enteteArticle,
-    corpsArticle: corpsArticle, objetLie: objetLie, autresArticles: autresArticles,
+    corpsArticle: corpsArticle, autresArticles: autresArticles,
     teaserActualites: teaserActualites,
     blocPrix: blocPrix, ligneRemise: ligneRemise, annoncePromo: annoncePromo,
     infoClubs: infoClubs,

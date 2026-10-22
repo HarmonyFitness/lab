@@ -1595,7 +1595,7 @@ où la liste en demande un. Hugo l'a retenu. Pas de signature d'auteur, pas de
 « par le club » : tranché aussi.
 
 ### Q61 · L'objet lié, traduction du « CTA de retour vers la verticale »
-**Statut :** proposé dans les maquettes, à valider
+**Statut :** fermée le 2026-10-22, tranchée par Hugo : pas de bloc, des liens dans le texte
 **Source :** B.2 > Actualités : « CTA de retour vers la verticale concernée
 sur chaque article ».
 
@@ -1606,3 +1606,9 @@ cours, affiché avec sa carte habituelle sous le corps : une actu de club
 emmène sur la page du club, une actu de nouveau cours sur sa fiche. Champ
 facultatif sur l'article. C'est le même champ qui, sur le corporate, peut
 porter le lien de retour : une seule saisie, deux usages. À confirmer.
+
+**Tranché le jour même.** Pas de bloc « le club dont on parle » ni « le cours
+dont on parle » : les liens vivent dans le corps de l'article, comme un
+éditeur de CMS les pose. Le champ `lie` est retiré du modèle. Le « CTA de
+retour vers la verticale » reste une affaire du corporate, qui a son propre
+gabarit d'affichage de la même collection.
