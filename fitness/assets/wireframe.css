@@ -174,7 +174,9 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 /* ------------------------------------------------------------------ */
 /* Un seul bouton principal par zone, le reste en secondaire ou discret.
    Pas d'ombre sur un bouton, pas de capitales. 44 px de haut : une zone
-   de toucher confortable sur mobile. */
+   de toucher confortable sur mobile. Rayon égal à la moitié de la hauteur,
+   pas 999 px : sur une ligne le bouton est une pilule, et sur deux lignes,
+   dans une carte de 290 px, il reste un rectangle aux coins doux. */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: .4em;
   font: inherit; font-weight: 600; line-height: 24px; text-decoration: none; cursor: pointer;
@@ -197,9 +199,6 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .btn[disabled], .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
 .lien-texte { color: var(--lien); text-decoration: underline; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
-/* Rayon égal à la moitié de la hauteur, pas 999 px : sur une ligne le
-   bouton est une pilule, et sur deux lignes, dans une carte de 290 px, il
-   reste un rectangle aux coins doux au lieu d'un ballon. */
 
 /* Focus clavier : le même anneau partout, 2 px plein décalé de 2 px, dans
    le bleu ocean du système, qui passe 3:1 sur toutes les surfaces. Le
@@ -249,8 +248,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 /* ------------------------------------------------------------------ */
 .img {
   display: flex; align-items: center; justify-content: center; text-align: center;
-  background: var(--gris-10); color: var(--gris-60);
-  font-size: 13px; padding: 10px; border-radius: var(--rayon-grand); min-height: 90px;
+  background: var(--photo-vide); color: var(--ink-muted);
+  font-size: 14px; padding: 12px; border-radius: var(--rayon-grand); min-height: 90px;
 }
 .img--large { aspect-ratio: 16 / 7; }
 .img--carre { aspect-ratio: 1 / 1; }
@@ -328,7 +327,7 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 /* ------------------------------------------------------------------ */
 .choix-club { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gouttiere);
   align-items: start;
-  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon-grand);
+  background: var(--surface-tint); border-radius: var(--rayon-grand);
   padding: var(--carte-pad); }
 /* La carte ne s'étire pas sur toute la hauteur de la liste : elle reste
    visible pendant qu'on parcourt les clubs. */
@@ -341,22 +340,22 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .choix-club__canton:first-child { margin-top: 0; }
 .club-ligne {
   display: flex; align-items: flex-start; gap: 10px; width: 100%; text-align: left;
-  border: 1px solid var(--gris-20); border-radius: var(--rayon); background: #fff;
+  border: 1px solid transparent; border-radius: var(--rayon-petit); background: var(--surface);
   padding: 12px 14px; margin-bottom: var(--e-2); cursor: pointer; font: inherit;
   color: inherit; text-decoration: none; line-height: 1.45;
 }
 .club-ligne:hover, .club-ligne--survol { border-color: var(--accent); background: var(--accent-fond); }
-.club-ligne[aria-pressed="true"] { border-color: var(--gris-95); border-width: 2px; padding: 11px 13px; }
+.club-ligne[aria-pressed="true"] { border-color: var(--accent); border-width: 2px; padding: 11px 13px; }
 .club-ligne__nom { font-weight: 600; }
 .club-ligne__meta { font-size: 13px; color: var(--gris-60); }
 
-.carte { position: relative; background: var(--gris-10); border-radius: var(--rayon-grand);
+.carte { position: relative; background: var(--photo-vide); border-radius: var(--rayon-grand);
   min-height: 300px; overflow: hidden; }
 .carte__fond { position: absolute; left: 10px; top: 10px;
   color: var(--gris-60); font-size: 12px; }
 .carte__repere { position: absolute; transform: translate(-50%, -50%);
   width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; color: #fff; background: var(--gris-80);
+  font-size: 11px; font-weight: 700; color: #fff; background: var(--ink);
   border: 2px solid #fff; cursor: pointer; }
 .carte__repere--cercle { border-radius: 50%; }
 .carte__repere--carre { border-radius: 4px; }
@@ -371,8 +370,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 
 .club-replie {
   display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
-  padding: 12px 16px;
+  background: var(--surface-tint); border-radius: var(--rayon);
+  padding: 14px var(--e-5);
 }
 .pastilles { display: flex; flex-wrap: wrap; gap: var(--e-2); }
 
@@ -418,13 +417,16 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
    Même cadre, mais il ne se range pas dans la grille des cartes : il suit la
    grille de sa section (grille--3, grille--2), donc il occupe toute la
    largeur disponible. Catégories de clubs, engagements, étapes, zones. */
+/* Pas de bordure ni d'ombre au repos : la carte se détache par son fond
+   teinté. La bordure reste là, transparente, pour que l'état choisi (2 px)
+   ne décale rien et que les marges négatives de la photo tombent juste. */
 .bloc, .produit {
   display: flex; flex-direction: column;
-  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
+  border: 1px solid transparent; background: var(--surface-tint); border-radius: var(--rayon);
   padding: var(--carte-pad);
 }
 .bloc h3, .produit h3 { margin-bottom: .4em; }
-.produit--choisi { border-color: var(--gris-95); border-width: 2px;
+.produit--choisi { background: var(--surface); border-color: var(--accent); border-width: 2px;
   padding: calc(var(--carte-pad) - 1px); }
 
 /* Carte qui mène quelque part : toute la surface est cliquable, pas
@@ -438,12 +440,17 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
    Les liens à l'intérieur (la famille) repassent au-dessus de la nappe.
    Contrepartie assumée : on ne peut plus sélectionner le texte de la carte. */
 .produit--lien { position: relative; }
-.produit--lien:hover { border-color: var(--gris-60); }
-.produit--lien:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.produit--lien:hover { box-shadow: var(--ombre-survol); }
+.produit--lien:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
 .produit--lien h2 a::after,
 .produit--lien h3 a::after,
 .produit--lien h4 a::after { content: ""; position: absolute; inset: 0; }
 .produit--lien a:not(h2 a):not(h3 a):not(h4 a) { position: relative; z-index: 1; }
+/* Le titre d'une carte cliquable se lit comme un titre : c'est la carte
+   entière qui est le lien, signalée par l'ombre au survol. */
+.produit--lien h2 a, .produit--lien h3 a, .produit--lien h4 a { color: var(--ink); text-decoration: none; }
+.produit--lien:hover h2 a, .produit--lien:hover h3 a, .produit--lien:hover h4 a {
+  text-decoration: underline; text-underline-offset: 3px; }
 .niveau { font-style: italic; color: var(--niveau); }
 .produit__acces { font-size: 14px; color: var(--gris-60); margin-bottom: var(--e-3); }
 
@@ -475,13 +482,18 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
    cale à droite du point quand il n'y a pas la place à gauche. */
 .grille > *:last-child .infobulle__contenu { left: auto; right: -8px; }
 .produit__inclus { list-style: none; padding: 0; margin: 0 0 var(--e-4); font-size: 14px; }
-.produit__inclus li { display: flex; gap: 8px; padding: 6px 0; margin: 0;
-  border-bottom: 1px solid var(--gris-10); }
+.produit__inclus li { display: flex; gap: 8px; padding: 7px 0; margin: 0;
+  border-bottom: 1px solid var(--line); }
 .produit__inclus li:last-child { border-bottom: 0; }
 .produit__inclus .non { color: var(--gris-40); }
-.produit__marque { flex: none; width: 14px; font-weight: 700; }
-.produit__prix { font-size: 28px; font-weight: 700; line-height: 1.1; letter-spacing: -.01em; }
-.produit__prix-unite { font-size: 14px; font-weight: 400; color: var(--gris-60); letter-spacing: 0; }
+.produit__marque { flex: none; width: 14px; font-weight: 700; color: var(--accent); }
+.produit__inclus .non .produit__marque { color: inherit; }
+/* Le prix est le chiffre de la carte : Barlow Condensed, grand. L'unité
+   reste en Figtree, petite, pour que le chiffre se lise d'abord. */
+.produit__prix { font-family: var(--police-chiffres); font-size: 40px; font-weight: 700;
+  line-height: 1; letter-spacing: 0; }
+.produit__prix-unite { font-family: var(--police); font-size: 14px; font-weight: 400;
+  color: var(--gris-60); letter-spacing: 0; }
 .produit__total { font-size: 14px; color: var(--gris-60); margin-bottom: var(--e-1); }
 .produit__duree { font-size: 16px; font-weight: 700; }
 /* Tout ce qui suit la liste d'inclusion est collé en pied de carte : les
@@ -492,7 +504,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
    le pied garde son propre margin-top:auto, sans effet quand il est dans un
    bloc bas, où il n'y a pas d'espace libre à absorber. */
 .produit__pied { margin-top: auto; padding-top: var(--e-4); }
-.produit__barre { text-decoration: line-through; color: var(--gris-40); font-size: 16px; }
+.produit__barre { font-family: var(--police); text-decoration: line-through; color: var(--ink-muted);
+  font-size: 16px; font-weight: 400; }
 .pastille-remise { display: inline-block; font-size: 12px; font-weight: 700; color: #fff;
   background: var(--promo); border-radius: var(--rayon-pilule); padding: 2px 10px; }
 
@@ -525,8 +538,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
    produit : on ne le compare pas à ses voisins. */
 .extra {
   display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap;
-  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
-  padding: 16px 20px; margin-bottom: var(--e-3);
+  border: 1px solid transparent; background: var(--surface-tint); border-radius: var(--rayon);
+  padding: var(--e-4) var(--e-5); margin-bottom: var(--e-3);
 }
 .extra__corps { flex: 1 1 220px; }
 .extra__droite { display: flex; align-items: center; gap: 14px; margin-left: auto; }
@@ -550,27 +563,28 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 
 /* Une carte de cours en Extra dans le catalogue. Le liseré suffit à la
    distinguer du coin de l'oeil ; le mot « Extra » fait le reste. */
-.produit--extra { border-left: 3px solid var(--gris-80); }
+.produit--extra { border-left: 3px solid var(--line-strong); }
 
 .indispo {
-  border: 1px solid var(--gris-20); background: var(--gris-05);
+  background: var(--surface-tint);
   border-radius: var(--rayon); padding: 14px 16px; font-size: 14px; margin-top: var(--e-4);
 }
 
 /* Annonce d'une remise sur des produits existants, dans la section Offre
    du moment. Une ligne, pas une carte : le produit n'est jamais dupliqué. */
+/* Zone d'offre chiffrée : fond promo doux, texte en encre. */
 .annonce {
-  border: 1px solid var(--gris-20); background: #fff;
-  border-radius: var(--rayon); padding: 14px 16px; font-size: 15px; margin-top: var(--e-3);
+  background: var(--promo-fond);
+  border-radius: var(--rayon); padding: 14px var(--e-5); font-size: 15px; margin-top: var(--e-3);
   line-height: 1.5;
 }
 .annonce a { margin-left: 10px; }
 
 .carte-club { position: relative; display: flex; flex-direction: column;
-  border: 1px solid var(--gris-20); background: #fff;
+  background: var(--surface-tint);
   border-radius: var(--rayon); padding: var(--carte-pad); }
 .carte-club > p { margin-bottom: .6em; }
-.carte-club:hover { border-color: var(--accent); }
+.carte-club:hover { box-shadow: var(--ombre-survol); }
 .carte-club__lien::after { content: ""; position: absolute; inset: 0; }
 .carte-club__titre { margin: 0 0 var(--e-2); }
 .carte-club__titre a { text-decoration: none; color: var(--gris-95); }
@@ -593,8 +607,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 [id] { scroll-margin-top: 80px; }
 
 .barre-collante {
-  position: sticky; top: 0; z-index: 40; background: #fff;
-  border-bottom: 1px solid var(--gris-20);
+  position: sticky; top: 0; z-index: 40; background: var(--surface);
+  border-bottom: 1px solid var(--line);
 }
 .barre-collante__inner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   max-width: var(--large); margin: 0 auto; padding: 12px var(--gouttiere); font-size: 15px; }
@@ -604,16 +618,18 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
    au document la hauteur qu'elle lui prend. */
 .barre-recap {
   position: fixed; left: 0; right: 0; bottom: 0;
-  z-index: 50; background: var(--gris-95); color: #fff;
+  z-index: 50; background: var(--surface-brand); color: #fff;
 }
 .barre-recap__espace { height: 80px; }
 .barre-recap__inner { display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
   max-width: var(--large); margin: 0 auto; padding: 14px var(--gouttiere); }
-.barre-recap__detail { font-size: 14px; color: var(--gris-20); }
-.barre-recap__total { font-size: 20px; font-weight: 700; margin-left: auto; }
-.barre-recap .btn { background: #fff; color: var(--gris-95); border-color: #fff; }
-.barre-recap .btn:hover { background: var(--gris-10); border-color: var(--gris-10); color: var(--gris-95); }
-.barre-recap__message { font-size: 13px; background: var(--gris-80); color: #fff;
+.barre-recap__detail { font-size: 14px; color: rgba(255, 255, 255, .82); }
+.barre-recap__total { font-family: var(--police-chiffres); font-size: 28px; line-height: 1;
+  font-weight: 700; margin-left: auto; }
+.barre-recap .btn { background: #fff; color: var(--accent); border-color: #fff; }
+.barre-recap .btn:hover { background: var(--accent-fond); border-color: var(--accent-fond); color: var(--accent-fonce); }
+.barre-recap :focus-visible { outline-color: #fff; }
+.barre-recap__message { font-size: 13px; background: var(--accent-fonce); color: #fff;
   padding: 7px var(--gouttiere); }
 
 /* ------------------------------------------------------------------ */
@@ -648,38 +664,39 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .champ:focus { border-color: var(--accent); }
 .champ--recherche { flex: 1 1 260px; min-width: 0; max-width: 420px; }
 
-.tableau, .planning { width: 100%; border-collapse: collapse; background: #fff; font-size: 15px;
-  border: 1px solid var(--gris-20); border-radius: var(--rayon); overflow: hidden; }
+.tableau, .planning { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface);
+  font-size: 15px; border: 1px solid var(--line); border-radius: var(--rayon); overflow: hidden; }
 .tableau th, .tableau td, .planning th, .planning td { text-align: left; padding: 12px 14px;
-  border-bottom: 1px solid var(--gris-10); vertical-align: top; }
+  border-bottom: 1px solid var(--line); vertical-align: top; }
 .tableau tr:last-child td, .planning tr:last-child td { border-bottom: 0; }
 .tableau th, .planning th { font-size: 14px; font-weight: 600;
   color: var(--gris-60); background: var(--surface-tint); }
-.planning__jour td { background: var(--gris-05); font-weight: 700; }
+.planning__jour td { background: var(--surface-tint); font-weight: 600; }
 /* Une séance est un lien vers sa fiche : la zone tactile prend la hauteur
    de la ligne, pas celle du texte. 17 px au pouce, c'est un tap sur trois à
    côté ; avec la ligne entière on passe au-dessus de 44 px. */
 .planning td a { display: inline-block; padding: 8px 0; margin: -8px 0; }
-.planning__vide { padding: var(--e-4); background: #fff; color: var(--gris-60); font-size: 15px; }
+.planning__vide { padding: var(--e-4); background: var(--surface-tint); border-radius: var(--rayon);
+  color: var(--gris-60); font-size: 15px; }
 
 .coachs { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--e-4); }
-.coach { border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
-  padding: 12px; text-align: left; font: inherit; cursor: pointer; }
-.coach:hover { border-color: var(--gris-60); }
+.coach { border: 0; background: var(--surface-tint); border-radius: var(--rayon);
+  padding: var(--e-3); text-align: left; font: inherit; color: inherit; cursor: pointer; }
+.coach:hover { box-shadow: var(--ombre-survol); }
 .coach__prenom { font-weight: 600; margin-top: var(--e-2); }
 .coach__badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
 .coach__badge { font-size: 12px; font-weight: 600; background: var(--surface);
   border-radius: var(--rayon-xs); padding: 1px 8px; color: var(--gris-80); }
 
-.faq { border-top: 1px solid var(--gris-20); }
+.faq { border-top: 1px solid var(--line); }
 .faq__q { width: 100%; text-align: left; font: inherit; font-weight: 600; cursor: pointer;
-  background: none; border: 0; border-bottom: 1px solid var(--gris-20); padding: 16px 0;
+  background: none; border: 0; border-bottom: 1px solid var(--line); padding: 18px 0;
   display: flex; justify-content: space-between; gap: 12px; color: var(--gris-95); }
 .faq__q:hover { color: var(--accent); }
-.faq__r { padding: 4px 0 18px; border-bottom: 1px solid var(--gris-20);
+.faq__r { padding: 4px 0 18px; border-bottom: 1px solid var(--line);
   font-size: 15px; color: var(--gris-80); }
 
-.temoignage { border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
+.temoignage { background: var(--surface-tint); border-radius: var(--rayon);
   padding: var(--carte-pad); font-size: 15px; }
 .temoignage__auteur { font-size: 13px; color: var(--gris-60); margin-top: var(--e-3); }
 
@@ -688,8 +705,8 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
   padding: 2px 10px; font-family: var(--police-chiffres); font-size: 20px; line-height: 28px;
   font-weight: 600; font-variant-numeric: tabular-nums; }
 
-.cta-essai { border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon-grand);
-  padding: var(--e-6) var(--e-5); text-align: center; }
+.cta-essai { background: var(--surface-tint); border-radius: var(--rayon-grand);
+  padding: var(--e-8) var(--e-5); text-align: center; }
 .cta-essai h2 { margin-bottom: .3em; }
 .cta-essai p { max-width: none; }
 
@@ -705,12 +722,12 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .champ-bloc .mention { display: block; margin-top: 6px; }
 .formulaire .champ { width: 100%; }
 textarea.champ { resize: vertical; }
-.destinataire { font-size: 15px; background: var(--gris-05); border: 1px solid var(--gris-20);
+.destinataire { font-size: 15px; background: var(--surface-tint);
   border-radius: var(--rayon); padding: 14px 16px; margin: var(--e-1) 0 0; }
 .destinataire--vide { color: var(--gris-60); }
 
 .conseil { font-size: 14px; color: var(--gris-60); line-height: 1.6;
-  border-top: 1px solid var(--gris-20); padding-top: var(--e-4); margin: var(--e-7) 0 0; }
+  border-top: 1px solid var(--line); padding-top: var(--e-4); margin: var(--e-7) 0 0; }
 .conseil strong { color: var(--gris-95); }
 
 .fil { font-size: 13px; color: var(--gris-60); padding: var(--e-3) 0 0; }
@@ -728,8 +745,8 @@ textarea.champ { resize: vertical; }
 
 /* Barre rapide de la page club : fixe en bas d'écran sur mobile. */
 .barre-rapide { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px;
-  background: #fff; border: 1px solid var(--gris-20); border-radius: var(--rayon);
-  padding: 12px 18px; margin: var(--e-5) 0 0; }
+  background: var(--surface-tint); border: 1px solid transparent; border-radius: var(--rayon-pilule);
+  padding: 10px var(--e-5); margin: var(--e-5) 0 0; }
 .barre-rapide a { font-weight: 600; text-decoration: none; }
 .barre-rapide a:hover { text-decoration: underline; }
 
@@ -748,7 +765,7 @@ textarea.champ { resize: vertical; }
 .apercu-clubs__liste { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--e-5); }
 .apercu-clubs__liste > p { grid-column: 1 / -1; margin-top: var(--e-2); }
 .apercu-clubs__liste ul { list-style: none; padding: 0; margin: 0; }
-.apercu-clubs__liste li { padding: 6px 0; border-bottom: 1px solid var(--gris-10); }
+.apercu-clubs__liste li { padding: 8px 0; border-bottom: 1px solid var(--line); }
 .apercu-clubs__liste li:last-child { border-bottom: 0; }
 .apercu-clubs__liste li a { font-weight: 600; text-decoration: none; color: var(--gris-95); }
 .apercu-clubs__liste li a:hover { text-decoration: underline; }
@@ -759,8 +776,8 @@ a.carte__repere { text-decoration: none; }
 
 /* Offre du moment en teaser : un encadré, le texte à gauche, le compteur et
    l'action à droite. */
-.bloc--offre { display: flex; justify-content: space-between; align-items: center;
-  gap: var(--e-6); flex-wrap: wrap; }
+.bloc--offre { display: flex; flex-direction: row; justify-content: space-between; align-items: center;
+  gap: var(--e-6); flex-wrap: wrap; background: var(--promo-fond); padding: var(--e-6); }
 .bloc--offre h2 { margin-bottom: .3em; }
 .bloc--offre p { margin: 0; max-width: 60ch; }
 .bloc--offre__action { display: flex; flex-direction: column; align-items: flex-end;
@@ -769,13 +786,13 @@ a.carte__repere { text-decoration: none; }
 /* Teaser tarifs : une ligne par formule, cliquable en entier. */
 .formules { display: flex; flex-direction: column; gap: var(--e-2); margin: var(--e-4) 0 var(--e-3); }
 .formules__ligne { display: grid; grid-template-columns: 1fr 1fr auto; gap: var(--e-4);
-  align-items: baseline; border: 1px solid var(--gris-20); background: #fff;
-  border-radius: var(--rayon); padding: 14px var(--carte-pad); color: var(--gris-95);
+  align-items: baseline; background: var(--surface-tint);
+  border-radius: var(--rayon); padding: var(--e-4) var(--carte-pad); color: var(--ink);
   text-decoration: none; }
-.formules__ligne:hover { border-color: var(--gris-60); }
-.formules__nom { font-weight: 700; font-size: 17px; }
+.formules__ligne:hover { box-shadow: var(--ombre-survol); color: var(--ink); }
+.formules__nom { font-weight: 600; font-size: 20px; }
 .formules__acces { font-size: 14px; color: var(--gris-60); }
-.formules__prix { font-weight: 700; text-align: right; }
+.formules__prix { font-family: var(--police-chiffres); font-size: 24px; font-weight: 700; text-align: right; }
 
 /* Newsletter, dans le footer de toutes les pages (Annexe A). */
 .pied__news { display: grid; grid-template-columns: 1fr 1fr; gap: var(--e-6); align-items: center;
@@ -792,9 +809,9 @@ a.carte__repere { text-decoration: none; }
    valide. L'action est ici parce que personne ne remonte la page pour
    finir ce qu'il a commencé en bas. */
 .finalise__ligne { display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
-  padding: 16px 20px; margin-top: var(--e-3); }
-.finalise__prix { font-size: 20px; font-weight: 700; margin-left: auto; }
+  background: var(--surface-tint); border-radius: var(--rayon);
+  padding: var(--e-4) var(--e-5); margin-top: var(--e-3); }
+.finalise__prix { font-family: var(--police-chiffres); font-size: 28px; font-weight: 700; margin-left: auto; }
 
 /* Déroulé d'une séance d'essai : une étape par ligne, numérotée. Une grille
    de cinq cartes laisserait deux trous et casserait la lecture, alors que le
@@ -802,7 +819,7 @@ a.carte__repere { text-decoration: none; }
 .etapes { list-style: none; counter-reset: etape; margin: 0; padding: 0; }
 .etapes li { counter-increment: etape; display: grid;
   grid-template-columns: 36px 1fr; gap: 16px; align-items: start; margin: 0;
-  padding: var(--e-4) 0; border-top: 1px solid var(--gris-20); }
+  padding: var(--e-4) 0; border-top: 1px solid var(--line); }
 .etapes li:first-child { border-top: 0; }
 .etapes li::before { content: counter(etape); display: block; text-align: center;
   font-family: var(--police-chiffres); font-weight: 700; background: var(--accent-fond);
@@ -814,16 +831,16 @@ a.carte__repere { text-decoration: none; }
 /* Condition tarifaire d'un formulaire : encadrée et posée avant les champs,
    jamais sous le bouton. Une condition qu'on découvre après avoir rempli est
    une condition cachée. */
-.condition { border: 1px solid var(--gris-40); border-radius: var(--rayon);
-  background: var(--gris-05); padding: 16px 18px; margin: 0 0 var(--e-5); font-size: 15px; }
+.condition { border-radius: var(--rayon);
+  background: var(--accent-fond); padding: var(--e-4) var(--e-5); margin: 0 0 var(--e-5); font-size: 15px; }
 
 /* Note et nombre d'avis : une preuve sociale se lit d'un coup d'oeil, donc
    le chiffre est gros et le reste petit. Les valeurs sont des placeholders :
    une note est un fait, elle ne s'invente pas. */
 .note { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
-  border: 1px solid var(--gris-20); background: #fff; border-radius: var(--rayon);
-  padding: 16px 20px; }
-.note__valeur { font-size: 28px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+  background: var(--surface-tint); border-radius: var(--rayon);
+  padding: var(--e-4) var(--e-5); }
+.note__valeur { font-family: var(--police-chiffres); font-size: 40px; font-weight: 700; line-height: 1; }
 .note__detail { font-size: 14px; color: var(--gris-60); }
 
 /* Header de landing : logo et une seule action. Rien qui emmène ailleurs.
@@ -844,8 +861,8 @@ a.carte__repere { text-decoration: none; }
 .hero-landing__panneau {
   position: absolute; left: 32px; top: 50%; transform: translateY(-50%);
   width: min(560px, calc(100% - 64px));
-  background: #fff; border: 1px solid var(--gris-20); border-radius: var(--rayon-grand);
-  padding: 28px;
+  background: var(--surface); border-radius: var(--rayon-grand);
+  padding: var(--e-6); box-shadow: 0 8px 32px rgba(14, 26, 35, .14);
 }
 .hero-landing__sur { font-size: 15px; font-weight: 600; color: var(--promo); margin: 0 0 var(--e-2); }
 .hero-landing__panneau h1 { margin: 0 0 var(--e-2); }
@@ -855,12 +872,12 @@ a.carte__repere { text-decoration: none; }
    d'abord, gros, le mot ensuite, petit. C'est ce qu'on lit en diagonale
    avant de décider de lire le reste. */
 .preuves { display: flex; flex-wrap: wrap; gap: 0; list-style: none;
-  margin: var(--e-5) 0 0; padding: var(--e-4) 0 0; border-top: 1px solid var(--gris-20); }
+  margin: var(--e-5) 0 0; padding: var(--e-4) 0 0; border-top: 1px solid var(--line); }
 .preuves li { flex: 1 1 0; min-width: 96px; padding: 0 16px; margin: 0;
-  border-left: 1px solid var(--gris-20); }
+  border-left: 1px solid var(--line); }
 .preuves li:first-child { padding-left: 0; border-left: 0; }
-.preuves__valeur { display: block; font-size: 24px; font-weight: 700; line-height: 1.1;
-  letter-spacing: -.01em; }
+.preuves__valeur { display: block; font-family: var(--police-chiffres); font-size: 28px;
+  font-weight: 600; line-height: 1.1; }
 .preuves__libelle { display: block; font-size: 13px; color: var(--gris-60);
   margin-top: 2px; }
 .hero-landing .compteur { margin-top: var(--e-3); }
@@ -898,7 +915,8 @@ a.carte__repere { text-decoration: none; }
   .hero-club { grid-template-columns: 1fr; gap: var(--e-4); }
   /* B.3 > Trame de la page club > 2 : fixe en bas d'écran sur mobile. */
   .barre-rapide { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
-    margin: 0; border-radius: 0; border-left: 0; border-right: 0; padding: 12px 16px;
+    margin: 0; border-radius: 0; border: 0; border-top: 1px solid var(--line);
+    background: var(--surface); padding: 12px 16px;
     overflow-x: auto; white-space: nowrap; flex-wrap: nowrap; }
   body.a-barre-rapide { padding-bottom: 64px; }
   /* La barre récap tient sur une ligne en mobile : le détail est déjà sur la
@@ -908,7 +926,7 @@ a.carte__repere { text-decoration: none; }
   .barre-recap__inner { display: grid; grid-template-columns: 1fr auto; align-items: center;
     gap: 0 12px; padding: 10px var(--gouttiere); }
   .barre-recap__inner > div:first-child { grid-column: 1; grid-row: 1; font-size: 14px; line-height: 1.3; }
-  .barre-recap__total { grid-column: 1; grid-row: 2; margin-left: 0; font-size: 17px; line-height: 1.3;
+  .barre-recap__total { grid-column: 1; grid-row: 2; margin-left: 0; font-size: 22px; line-height: 1.2;
     white-space: nowrap; }
   .barre-recap .btn { grid-column: 2; grid-row: 1 / span 2; padding: 10px 12px; font-size: 13px;
     white-space: nowrap; }
@@ -947,11 +965,11 @@ a.carte__repere { text-decoration: none; }
   display: flex; flex-direction: column; }
 .carte-plein--fixe { position: fixed; }
 .carte-plein__barre { display: flex; align-items: center; gap: 12px;
-  padding: 12px var(--gouttiere); border-bottom: 1px solid var(--gris-20); }
+  padding: 12px var(--gouttiere); border-bottom: 1px solid var(--line); }
 .carte-plein .carte-bloc { flex: 1; }
 .carte-plein .carte { border-radius: 0; }
 .carte-plein .carte__legende { padding: var(--e-2) var(--gouttiere); }
-.carte-plein__fiche { border-top: 1px solid var(--gris-20); padding: 16px var(--gouttiere); }
+.carte-plein__fiche { border-top: 1px solid var(--line); padding: 16px var(--gouttiere); }
 
 /* ------------------------------------------------------------------ */
 /* Dispositions revues le 2026-10-22 : mêmes blocs, moins de hauteur      */
@@ -968,10 +986,10 @@ a.carte__repere { text-decoration: none; }
 
 /* Infos pratiques : des couples libellé-valeur, trois par ligne. */
 .infos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0;
-  margin: 0; border: 1px solid var(--gris-20); border-radius: var(--rayon); background: #fff;
+  margin: 0; border-radius: var(--rayon); background: var(--surface-tint);
   overflow: hidden; }
-.infos__item { padding: 14px 16px; border-right: 1px solid var(--gris-10);
-  border-bottom: 1px solid var(--gris-10); }
+.infos__item { padding: var(--e-4) var(--e-5); border-right: 1px solid var(--surface);
+  border-bottom: 1px solid var(--surface); }
 .infos__item:nth-child(3n) { border-right: 0; }
 .infos__item:nth-last-child(-n+3) { border-bottom: 0; }
 .infos dt { font-size: 14px; color: var(--gris-60); margin-bottom: 2px; }
@@ -1026,9 +1044,9 @@ a.carte__repere { text-decoration: none; }
 @media (max-width: 760px) {
   .choix-club > div:first-child { grid-template-columns: 1fr; }
   .infos { grid-template-columns: 1fr 1fr; }
-  .infos__item:nth-child(3n) { border-right: 1px solid var(--gris-10); }
+  .infos__item:nth-child(3n) { border-right: 1px solid var(--surface); }
   .infos__item:nth-child(2n) { border-right: 0; }
-  .infos__item:nth-last-child(-n+3) { border-bottom: 1px solid var(--gris-10); }
+  .infos__item:nth-last-child(-n+3) { border-bottom: 1px solid var(--surface); }
   .infos__item:nth-last-child(-n+2) { border-bottom: 0; }
   .bloc--couche, .grille > .bloc--couche { grid-template-columns: 1fr; gap: var(--e-4); }
   .article-une { grid-template-columns: 1fr; gap: var(--e-4); }
