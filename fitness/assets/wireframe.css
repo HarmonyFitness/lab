@@ -47,6 +47,11 @@
      personnes (visages, voix, témoignages), le bleu signale l'action et la
      marque (Hugo, 2026-10-22). Aplat de section seulement, jamais le fond
      de page : un fond crème partout effacerait le bleu Harmony. */
+  /* Fond de la carte des clubs : terre suisse claire, étranger en gris
+     chaud, frontières de canton en pointillés. Le lac prend le bleu clair. */
+  --carte-terre: #fbfaf8;
+  --carte-ailleurs: #edeae5;
+  --carte-frontiere: #b5ada4;
   --peau: #f5ebe3;
   --peau-visage: #e6d3c5;     /* rond de visage en attendant la photo */
   --lin: #f5f4f1;             /* fond de carte neutre et chaud (accueil) */
@@ -402,14 +407,29 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .club-ligne__nom { font-weight: 600; }
 .club-ligne__meta { font-size: 13px; color: var(--gris-60); }
 
-.carte { position: relative; background: var(--photo-vide); border-radius: var(--rayon-grand);
-  min-height: 300px; overflow: hidden; }
-.carte__fond { position: absolute; left: 10px; top: 10px;
-  color: var(--gris-60); font-size: 12px; }
+/* Carte des clubs : un vrai fond (Léman, cantons, frontière), dessiné en
+   SVG et embarqué (docs/outils/fond-carte.py). Le plan garde ses
+   proportions et se centre dans le cadre, quelle que soit la taille du
+   cadre ; le reste du cadre prend la couleur de l'étranger, qui borde le
+   plan de toute façon. Les repères sont placés en % du plan. */
+.carte { position: relative; background: var(--carte-ailleurs); border-radius: var(--rayon-grand);
+  min-height: 300px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.carte__plan { position: relative; flex: none; height: 100%; aspect-ratio: 1000 / 952; max-width: 100%; }
+.carte__svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.carte__ailleurs { fill: var(--carte-ailleurs); }
+/* Le dessin déborde du plan pour remplir le cadre ; seul le fond uni de
+   l'étranger reste au format du plan, il est de la couleur du cadre. */
+.carte__suisse { fill: var(--carte-terre); }
+.carte__canton { fill: none; stroke: var(--carte-frontiere); stroke-width: 1.5; stroke-dasharray: 6 5; }
+.carte__lac { fill: var(--bleu-clair); stroke: var(--bleu-clair-trait); stroke-width: 2; }
+.carte__nom { font-family: var(--police); font-size: 30px; fill: var(--ink-muted); letter-spacing: .01em; }
+.carte__nom--lac { font-size: 36px; font-style: italic; fill: #5c7d95; }
+.carte__nom--ailleurs { fill: #8c857d; }
+.carte__source { position: absolute; right: 10px; bottom: 6px; font-size: 10px; color: #8c857d; }
 .carte__repere { position: absolute; transform: translate(-50%, -50%);
   width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 700; color: #fff; background: var(--ink);
-  border: 2px solid #fff; cursor: pointer; }
+  border: 2px solid #fff; cursor: pointer; box-shadow: 0 1px 4px rgba(14, 26, 35, .25); }
 .carte__repere--cercle { border-radius: 50%; }
 .carte__repere--carre { border-radius: 4px; }
 .carte__repere--triangle { clip-path: polygon(50% 0, 100% 100%, 0 100%); border: none;
@@ -422,7 +442,9 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 .carte__repere--premium { background: var(--cat-premium); }
 .carte__repere--actif { background: var(--action); }
 .carte-bloc { display: flex; flex-direction: column; }
-.carte-bloc .carte { flex: 1; }
+/* flex: 1 0 auto et pas flex: 1 : une hauteur posée sur la carte (420 px
+   sur le hub) doit tenir, sinon la base 0 la ramène à sa hauteur minimale. */
+.carte-bloc .carte { flex: 1 0 auto; }
 .carte__legende { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px;
   padding: var(--e-2) 2px 0; color: var(--gris-60); }
 .carte__legende span { display: flex; align-items: center; gap: 6px; }
@@ -1132,6 +1154,9 @@ a.carte__repere { text-decoration: none; }
   padding: 12px var(--gouttiere); border-bottom: 1px solid var(--line); }
 .carte-plein .carte-bloc { flex: 1; }
 .carte-plein .carte { border-radius: 0; }
+/* Plein écran sur mobile : le cadre est en portrait, le plan prend toute
+   la largeur et se centre en hauteur. */
+.carte-plein .carte__plan { height: auto; width: 100%; }
 .carte-plein .carte__legende { padding: var(--e-2) var(--gouttiere); }
 .carte-plein__fiche { border-top: 1px solid var(--line); padding: 16px var(--gouttiere); }
 

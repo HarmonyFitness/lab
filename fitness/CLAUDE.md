@@ -287,6 +287,7 @@ Footer
 
 Composants partagés
 - Choix du club + carte : un seul composant pour /clubs, /tarifs, /offre-du-moment, /seance-essai.
+- **La carte a un vrai fond** (Hugo, 2026-10-22) : lac Léman, cantons de Genève et de Vaud en pointillés, Suisse en terre claire, France en gris chaud, quelques noms. Fond en SVG embarqué dans `components.js` (`H.FOND_CARTE`), généré par `docs/outils/fond-carte.py` depuis le paquet npm swiss-maps (géodonnées OFS GEOSTAT, usage non commercial, attribution « Fond : OFS, GEOSTAT » sur la carte) : aucune carte en ligne, aucune tuile. Les clubs sont placés avec leurs coordonnées GPS et la même projection ; une passe d'écartement sépare les repères genevois trop proches. C'est une carte de maquette : le fournisseur de carte du futur site reste au choix du développeur.
 - Repères de carte distingués par forme et lettre (G, E, P), avec légende. Jamais la couleur seule.
 
 Contact
