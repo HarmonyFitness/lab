@@ -873,7 +873,7 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
 .accueil { --surface-tint: var(--lin); --photo-vide: #e9e3dd; }
 /* La photo du hero en attente prend un gris chaud, plus proche d'une vraie
    photo en lumière du matin que le gris bleuté des autres pages. */
-.accueil .hero-accueil__photo .img { background: #6c645e; }
+.hero-plein .hero-accueil__photo .img { background: #6c645e; }
 
 .section-peau { background: var(--peau); border-radius: var(--rayon-grand); padding: var(--e-7); }
 .voix { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr;
@@ -903,15 +903,27 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
    les autres pour simuler une vraie photo : du blanc sur le gris clair des
    placeholders ne montrerait rien de ce que le hero doit faire. La légende
    est en haut à droite, loin du texte. */
-.hero-accueil { position: relative; margin-top: var(--e-5); border-radius: var(--rayon-grand);
-  overflow: hidden; }
-.hero-accueil__photo .img { min-height: 600px; align-items: flex-start; justify-content: flex-end;
+/* Pleine largeur, header + hero = la hauteur de l'écran (Hugo, 2026-10-22,
+   sur le modèle de superpower.com). Le hero sort du conteneur : la photo va
+   d'un bord à l'autre, avec une marge de 12 px qui laisse voir ses coins
+   arrondis. Sa hauteur est l'écran moins la barre groupe et le header
+   (--haut-entetes) et la marge du bas. Le texte reste aligné sur le
+   contenu de la page, pas collé au bord de la photo. */
+.hero-plein { --marge-hero: 12px; --haut-entetes: 108px; padding: 0 var(--marge-hero); }
+.hero-accueil { position: relative; border-radius: var(--rayon-grand); overflow: hidden;
+  height: calc(100svh - var(--haut-entetes) - var(--marge-hero)); min-height: 560px; max-height: 1000px; }
+.hero-accueil__photo, .hero-accueil__photo > .img { position: absolute; inset: 0; }
+.hero-accueil__photo .img { min-height: 0; border-radius: 0; align-items: flex-start; justify-content: flex-end;
   padding: var(--e-5) var(--e-6); background: #5d6f7c; color: rgba(255, 255, 255, .78); }
+.hero-accueil__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  object-position: 50% 60%; }
+.hero-plein + main { margin-top: var(--espace-section); }
 .hero-accueil::after { content: ""; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(to top right, rgba(14, 26, 35, .72) 0%, rgba(14, 26, 35, .35) 45%, rgba(14, 26, 35, 0) 75%); }
 .hero-accueil__panneau {
-  position: absolute; z-index: 1; left: var(--e-7); bottom: var(--e-7);
-  width: min(680px, calc(100% - 2 * var(--e-7)));
+  position: absolute; z-index: 1; bottom: var(--e-8);
+  left: max(var(--e-7), calc((100% - var(--large)) / 2 + var(--gouttiere) - var(--marge-hero)));
+  width: min(720px, calc(100% - 2 * var(--e-7)));
   color: #fff;
 }
 .hero-accueil__panneau h1 { margin-bottom: var(--e-3); color: #fff; }
@@ -1093,7 +1105,9 @@ a.carte__repere { text-decoration: none; }
   .temoignage-portrait { grid-template-columns: 1fr; gap: var(--e-5); }
   .temoignage-portrait__citation { font-size: 22px; line-height: 30px; }
   /* Mobile : le texte reste sur la photo, plus haute, le voile monte du bas. */
-  .hero-accueil__photo .img { min-height: 560px; padding: var(--e-4); }
+  .hero-plein { --marge-hero: 8px; --haut-entetes: 98px; }
+  .hero-accueil { min-height: 520px; }
+  .hero-accueil__photo .img { padding: var(--e-4); }
   .hero-accueil::after { background: linear-gradient(to top, rgba(14, 26, 35, .78) 0%, rgba(14, 26, 35, .4) 55%, rgba(14, 26, 35, 0) 85%); }
   .hero-accueil__panneau { left: var(--e-5); right: var(--e-5); bottom: var(--e-5); width: auto; }
   /* B.3 > Trame de la page club > 2 : fixe en bas d'écran sur mobile. */
