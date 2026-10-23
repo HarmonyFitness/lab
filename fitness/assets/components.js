@@ -720,15 +720,60 @@ window.HF.vues = (function () {
       '</div></div>';
   }
 
-  /* B.3 > intro : 4 entrées et un bouton Séance d'essai. */
-  function entete(courante, racine) {
-    var base = racine || '';
-    var nav = [
-      { nom: 'Clubs',      href: base + 'clubs/' },
-      { nom: 'Sport',      href: base + 'sport/' },
-      { nom: 'Bien-être',  href: base + 'bien-etre/' },
-      { nom: 'Tarifs',     href: base + 'tarifs/' }
+  /* Les sous-menus du header, lus dans l'arborescence de B.3 : trois
+     niveaux de navigation. Une seule source pour le menu déroulant de
+     l'ordinateur et pour l'accordéon du burger mobile (Hugo, 2026-10-23).
+     Clubs n'est pas un déroulant dans B.3 : on l'ajoute parce que trouver
+     son club est la tâche la plus fréquente, à valider (Q69). Les pages
+     hors du lab (Massage, Offre entreprise) gardent « # » et se lisent en
+     grisé. L'Offre du moment n'apparaît que si une campagne tourne : c'est
+     l'entrée du menu qui disparaît, pas la page. */
+  function sousMenus(base, etat) {
+    var campagne = !!(etat && R.offreDuMoment(etat));
+    return [
+      { nom: 'Clubs', href: base + 'clubs/', tous: 'Tous nos clubs',
+        groupes: R.clubsParCanton().map(function (g) {
+          return { titre: H.libelleCanton(g.canton), liens: g.clubs.map(function (c) {
+            return { nom: c.nom, href: base + 'clubs/club/?club=' + c.id };
+          }) };
+        }) },
+      { nom: 'Sport', href: base + 'sport/', tous: 'Tout le sport',
+        groupes: [{ liens: [
+          { nom: 'Plateau fitness', href: base + 'sport/plateau-fitness/' },
+          { nom: 'Cours collectifs', href: base + 'sport/cours-collectifs/' },
+          { nom: 'Small Group Training', href: base + 'sport/small-group-training/' },
+          { nom: 'Coaching personnel', href: base + 'sport/coaching-personnel/' }
+        ] }] },
+      { nom: 'Bien-être', href: base + 'bien-etre/', tous: 'Tout le bien-être',
+        groupes: [{ liens: [
+          { nom: 'Espaces wellness', href: base + 'bien-etre/espaces/' },
+          { nom: 'Massage & physiothérapie' }
+        ] }] },
+      { nom: 'Tarifs', href: base + 'tarifs/', signal: campagne,
+        groupes: [{ liens: [
+          { nom: 'Tous les tarifs', href: base + 'tarifs/' },
+          campagne ? { nom: 'Offre du moment', href: base + 'offre-du-moment/', promo: true } : null,
+          { nom: 'Offre entreprise' }
+        ].filter(Boolean) }] }
     ];
+  }
+
+  function lienSousMenu(l) {
+    if (!l.href) return '<a class="lien-hors" href="#">' + esc(l.nom) + '</a>';
+    return '<a href="' + l.href + '"' + (l.promo ? ' class="nav-promo"' : '') + '>' +
+      esc(l.nom) + (l.promo ? '<span class="nav-signal" aria-hidden="true"></span>' : '') + '</a>';
+  }
+
+  var CHEVRON = '<svg viewBox="0 0 12 12" aria-hidden="true" focusable="false">' +
+    '<path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+    'stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  /* B.3 > intro : 4 entrées et un bouton Séance d'essai. L'état est
+     facultatif : il ne sert qu'à savoir si une campagne tourne, pour
+     l'entrée Offre du moment et le point sur Tarifs. */
+  function entete(courante, racine, etat) {
+    var base = racine || '';
+    var menus = sousMenus(base, etat);
     /* Menu centré : la largeur du logo change d'une verticale à l'autre,
        un menu collé au logo bougerait avec lui (Hugo, 2026-10-23). À
        droite, deux actions qui ne pèsent pas pareil : l'abonnement est
@@ -736,18 +781,58 @@ window.HF.vues = (function () {
        texte, pour ne pas la mettre au même niveau (Hugo, 2026-10-23).
        « S'abonner » et non « S'inscrire » : c'est déjà le mot des cartes
        club et de la barre récap, et B.3 tient à un seul mot par chose.
-       L'espace membre est dans la barre groupe, commun aux cinq sites. */
+       L'espace membre est dans la barre groupe, commun aux cinq sites.
+       Chaque entrée reste un lien vers sa rubrique ; la flèche à côté
+       ouvre le déroulant. Il s'ouvre au survol et au focus, sans
+       JavaScript, comme le point d'info de Tarifs : au toucher, la flèche
+       prend le focus et ouvre. */
+    var nav = menus.map(function (m) {
+      return '<div class="nav-rub' + (m.nom === 'Clubs' ? ' nav-rub--large' : '') + '">' +
+        '<a class="nav-rub__lien" href="' + m.href + '"' + (m.nom === courante ? ' aria-current="page"' : '') + '>' +
+        esc(m.nom) + (m.signal ? '<span class="nav-signal" title="Une offre est en cours"></span>' +
+          '<span class="sr-only"> (offre en cours)</span>' : '') + '</a>' +
+        '<button type="button" class="nav-rub__fleche" aria-label="Sous-menu ' + esc(m.nom) + '">' + CHEVRON + '</button>' +
+        '<div class="nav-rub__panneau"><div class="nav-rub__boite">' +
+        m.groupes.map(function (g) {
+          return '<div class="nav-rub__groupe">' + (g.titre ? '<div class="nav-rub__titre">' + esc(g.titre) + '</div>' : '') +
+            g.liens.map(lienSousMenu).join('') + '</div>';
+        }).join('') +
+        (m.tous ? '<a class="nav-rub__tous" href="' + m.href + '">' + esc(m.tous) + '</a>' : '') +
+        '</div></div></div>';
+    }).join('');
+
+    /* Mobile : un burger, panneau sous le header, une rubrique par
+       accordéon (<details>, sans JavaScript). En bas, la séance d'essai et
+       l'espace membre, que le header mobile n'a pas la place de montrer. */
+    var burger = '<details class="burger">' +
+      '<summary aria-label="Menu"><svg class="burger__ouvrir" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+      '<path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>' +
+      '<svg class="burger__fermer" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+      '<path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary>' +
+      '<div class="burger__panneau">' +
+      menus.map(function (m) {
+        return '<details class="burger__rub"' + (m.nom === courante ? ' open' : '') + '>' +
+          '<summary' + (m.nom === courante ? ' aria-current="page"' : '') + '>' + esc(m.nom) +
+          (m.signal ? '<span class="nav-signal" title="Une offre est en cours"></span>' : '') + CHEVRON + '</summary>' +
+          '<div class="burger__liens">' +
+          (m.tous ? '<a href="' + m.href + '">' + esc(m.tous) + '</a>' : '') +
+          m.groupes.map(function (g) {
+            return (g.titre ? '<div class="nav-rub__titre">' + esc(g.titre) + '</div>' : '') +
+              g.liens.map(lienSousMenu).join('');
+          }).join('') + '</div></details>';
+      }).join('') +
+      '<div class="burger__pied">' +
+      '<a class="btn btn--secondaire btn--bloc" href="' + base + 'seance-essai/">Séance d\'essai</a>' +
+      '<a class="lien-hors" href="#">Espace membre</a>' +
+      '</div></div></details>';
 
     return '<header class="entete" data-spec="B.3 > Arborescence > Header">' +
       '<div class="entete__inner">' +
       '<a class="entete__logo" href="' + base + '">' + logo('harmony-fitness-logo.svg', 'Harmony Fitness, accueil', 'entete__img') + '</a>' +
-      '<nav class="entete__nav">' + nav.map(function (e) {
-        return '<a href="' + e.href + '"' + (e.nom === courante ? ' aria-current="page"' : '') +
-          '>' + esc(e.nom) + '</a>';
-      }).join('') + '</nav>' +
+      '<nav class="entete__nav" aria-label="Menu principal">' + nav + '</nav>' +
       '<div class="entete__actions">' +
       '<a class="entete__essai" href="' + base + 'seance-essai/">Séance d\'essai</a>' +
-      '<a class="btn" href="' + base + 'tarifs/">S\'abonner</a>' +
+      '<a class="btn" href="' + base + 'tarifs/">S\'abonner</a>' + burger +
       '</div></div></header>';
   }
 

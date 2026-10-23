@@ -901,7 +901,8 @@ cours : trois mots pour une action, c'est un mot de trop.
   avant. Restent le compte en icône seule et « S'abonner ». « Séance d'essai »
   disparaît du header mobile faute de place ; elle reste dans le CTA de chaque
   page. À trancher : est-ce acceptable, ou faut-il la garder et sacrifier autre
-  chose ? Le burger est de toute façon à maquetter.
+  chose ? Le burger est maquetté depuis le 2026-10-23 : la séance d'essai y
+  est, en bas du panneau, avec l'espace membre.
 - **la sortie vers l'espace membre.** Le libellé est tranché (« Espace
   membre », Hugo, 2026-10-23). Reste à confirmer que le lien est bien une
   redirection vers l'outil métier et non une page intermédiaire, et que le
@@ -1753,3 +1754,24 @@ page : Tarifs, qui a déjà la barre collante du club référent (B.3 : « une
 seule barre collante en haut »), et la landing de campagne, qui a son header
 réduit (Q50). La barre groupe ne colle jamais. À confirmer par Harmony, puis
 à reporter dans B.3 et dans l'annexe A (header de verticale).
+
+### Q69 · Clubs en menu déroulant, et un signal d'offre sur Tarifs
+**Statut :** à valider par Harmony (posé par Hugo le 2026-10-23)
+**Source :** B.3 > Arborescence. Le header a reçu ses menus déroulants le
+2026-10-23 : les trois niveaux de navigation de B.3 n'étaient pas maquettés,
+l'Offre du moment et l'Offre entreprise n'étaient accessibles depuis aucun
+menu.
+
+Deux ajouts vont au-delà de B.3 :
+- **Clubs est un déroulant**, avec les dix clubs par canton sur deux colonnes
+  et « Tous nos clubs ». B.3 fait de Clubs un lien simple vers le hub. Trouver
+  son club est la tâche la plus fréquente du site : un clic de moins.
+- **Un point violet sur « Tarifs »** quand une campagne tourne, et sur
+  l'entrée « Offre du moment » du déroulant. Sans lui, l'offre du moment, page
+  de conversion, reste cachée derrière un survol. Violet parce que c'est la
+  couleur des offres. Sans campagne, ni point ni entrée : c'est l'entrée du
+  menu qui disparaît, pas la page.
+
+À confirmer, puis à reporter dans B.3 et dans l'annexe A (header de
+verticale).
+

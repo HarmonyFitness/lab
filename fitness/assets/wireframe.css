@@ -343,13 +343,73 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
    donnent 201 px. Il reste cliquable, c'est la sortie de secours. */
 .entete__logo { display: inline-flex; flex: none; justify-self: start; text-decoration: none; }
 .entete__img { display: block; height: 30px; width: auto; }
-.entete__nav { display: flex; gap: var(--e-1); }
-.entete__nav a { text-decoration: none; color: var(--ink); font-weight: 500;
-  padding: 8px 14px; border-radius: var(--rayon-pilule); }
-.entete__nav a:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-strong);
+.entete__nav { display: flex; align-items: center; gap: var(--e-1); }
+.nav-rub__lien { text-decoration: none; color: var(--ink); font-weight: 500;
+  padding: 8px 4px 8px 14px; border-radius: var(--rayon-pilule); }
+.nav-rub__lien:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-strong);
   text-decoration-thickness: 2px; text-underline-offset: 8px; }
-.entete__nav a[aria-current] { color: var(--accent); font-weight: 600;
+.nav-rub__lien[aria-current] { color: var(--accent); font-weight: 600;
   text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 8px; }
+
+/* Menus déroulants (Hugo, 2026-10-23). Le libellé mène à la rubrique, la
+   flèche ouvre la liste. Ouvert au survol et au focus, sans JavaScript :
+   le panneau descend sous l'entrée, centré, avec un pont invisible
+   (padding-top) pour que la souris passe de l'un à l'autre sans le
+   refermer. Le header est positionné pour servir de repère au burger. */
+.entete { position: relative; }
+.nav-rub { position: relative; display: flex; align-items: center; }
+.nav-rub__fleche { display: inline-grid; place-items: center; width: 28px; height: 32px; margin-right: 6px;
+  padding: 0; border: 0; background: none; color: var(--ink-muted); cursor: pointer; border-radius: var(--rayon-pilule); }
+.nav-rub__fleche svg { width: 12px; height: 12px; transition: transform .15s ease; }
+.nav-rub:hover .nav-rub__fleche svg, .nav-rub:focus-within .nav-rub__fleche svg { transform: rotate(180deg); }
+.nav-rub__panneau { position: absolute; z-index: 50; top: 100%; left: 50%; transform: translateX(-50%);
+  padding-top: var(--e-3); display: none; }
+.nav-rub:hover .nav-rub__panneau, .nav-rub:focus-within .nav-rub__panneau { display: block; }
+.nav-rub__boite { display: grid; gap: var(--e-1) var(--e-6); min-width: 240px;
+  padding: var(--e-4) var(--e-5); background: var(--surface); border-radius: var(--rayon);
+  box-shadow: 0 12px 32px rgba(14, 26, 35, .14); }
+.nav-rub--large .nav-rub__boite { grid-template-columns: repeat(2, max-content); }
+.nav-rub__groupe a, .nav-rub__tous { display: block; padding: 6px 0; font-size: 15px; white-space: nowrap;
+  color: var(--ink); text-decoration: none; }
+.nav-rub__groupe a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.nav-rub__titre { font-size: 13px; font-weight: 600; color: var(--ink-muted); margin: 0 0 4px; }
+.nav-rub__tous { grid-column: 1 / -1; margin-top: var(--e-2); padding-top: var(--e-3);
+  border-top: 1px solid var(--line); color: var(--lien); font-weight: 600; }
+.nav-rub__tous:hover { text-decoration: underline; text-underline-offset: 4px; }
+/* Une page hors du lab : grisée, soulignée en pointillés, comme au footer. */
+.lien-hors, .nav-rub__groupe a.lien-hors, .burger__liens a.lien-hors { color: var(--ink-muted); text-decoration: underline dotted; text-underline-offset: 4px; }
+/* Une campagne tourne : point violet sur Tarifs et sur l'entrée Offre du
+   moment (Q69, à valider). Le violet est la couleur des offres. */
+.nav-signal { display: inline-block; width: 8px; height: 8px; margin-left: 6px; border-radius: 50%;
+  background: var(--promo); vertical-align: 2px; }
+.nav-promo, .nav-rub__groupe a.nav-promo, .burger__liens a.nav-promo { color: var(--promo); font-weight: 600; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Burger mobile : caché sur ordinateur. */
+.burger { display: none; }
+.burger > summary { list-style: none; display: grid; place-items: center; width: 44px; height: 44px;
+  border-radius: var(--rayon-pilule); cursor: pointer; color: var(--ink); }
+.burger > summary::-webkit-details-marker { display: none; }
+.burger > summary svg { width: 24px; height: 24px; }
+.burger .burger__fermer, .burger[open] .burger__ouvrir { display: none; }
+.burger[open] .burger__fermer { display: block; }
+.burger__panneau { position: absolute; z-index: 50; top: 100%; left: 0; right: 0;
+  height: calc(100svh - 70px); overflow-y: auto; background: var(--surface);
+  border-top: 1px solid var(--line); padding: var(--e-2) var(--gouttiere) var(--e-9); }
+.burger__rub { border-bottom: 1px solid var(--line); }
+.burger__rub > summary { list-style: none; display: flex; align-items: center; justify-content: space-between;
+  padding: var(--e-4) 0; font-size: 18px; font-weight: 500; cursor: pointer; }
+.burger__rub > summary::-webkit-details-marker { display: none; }
+.burger__rub > summary[aria-current] { color: var(--accent); font-weight: 600; }
+.burger__rub > summary svg { width: 14px; height: 14px; margin-left: auto; transition: transform .15s ease; }
+.burger__rub[open] > summary svg { transform: rotate(180deg); }
+.burger__rub .nav-signal { margin-left: 8px; }
+.burger__liens { display: grid; padding: 0 0 var(--e-4) var(--e-3); }
+.burger__liens a { padding: 10px 0; color: var(--ink); text-decoration: none; }
+.burger__liens .nav-rub__titre { margin-top: var(--e-3); }
+.burger__pied { display: grid; gap: var(--e-4); justify-items: start; margin-top: var(--e-6); }
+@media (prefers-reduced-motion: reduce) { .nav-rub__fleche svg, .burger__rub > summary svg { transition: none; } }
+
 .entete__actions { display: flex; align-items: center; gap: var(--e-2); justify-self: end; }
 /* Sur une page à hero plein écran (l'accueil), le header et la barre
    groupe prennent la largeur du hero, avec un petit retrait depuis ses
@@ -373,9 +433,9 @@ body:has(.hero-plein) .barre-groupe__inner { max-width: none;
   color: var(--action-fonce); font-weight: 600; text-decoration: none; white-space: nowrap;
   border-radius: var(--rayon-pilule); }
 .entete__essai:hover { color: var(--action-fonce); background: var(--action-fond); }
-/* Sous 900 px, la séance d'essai quitte le header, comme sur mobile :
+/* Sous 1040 px (les flèches des déroulants élargissent le menu), la séance d'essai quitte le header, comme sur mobile :
    elle reste au CTA de chaque page. */
-@media (max-width: 900px) {
+@media (max-width: 1040px) {
   .entete__essai { display: none; }
   .entete__inner { gap: var(--e-4); }
 }
@@ -1204,6 +1264,7 @@ a.carte__repere { text-decoration: none; }
      groupe. */
   .entete__nav { display: none; }
   .entete__essai { display: none; }
+  .burger { display: block; }
   .barre-groupe__compte-texte { display: none; }
   .entete__inner { grid-template-columns: auto auto; justify-content: space-between;
     gap: 10px; padding: 12px var(--gouttiere); }

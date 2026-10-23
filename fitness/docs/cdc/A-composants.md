@@ -45,7 +45,7 @@ Ce tableau recense les composants mutualisés entre plusieurs sites. La colonne 
 | Composant | Rôle métier | Sites concernés | Interactivité | Complexité |
 |---|---|---|---|---|
 | Header groupe (barre inter-sites) | Circulation entre les 5 univers de l'écosystème. Porte aussi, à droite, le lien « Espace membre », commun aux cinq sites | TOUS | Interactif | M |
-| Header verticale | Navigation propre à chaque site (4 à 5 entrées) | TOUS | Interactif | M |
+| Header verticale | Navigation propre à chaque site (4 à 5 entrées), menus déroulants pour les sous-rubriques (trois niveaux), burger en accordéon sur mobile | TOUS | Interactif | M |
 | Footer commun | Liens Besoin d'aide, Espace membre, Actualités, mentions légales, confidentialité, lien vers le formulaire de contact. Aucune adresse e-mail affichée : un e-mail ne se compte pas, ne présélectionne pas le club et ne se dispatche pas | TOUS | Statique | S |
 | Sélecteur de langue | Bascule entre FR / DE / EN (voir section 9) | TOUS | Interactif | S |
 

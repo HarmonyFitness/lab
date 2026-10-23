@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Nos clubs de fitness à Genève et Vaud | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-23i">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-23j">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
   <div x-html="HF.selecteurEtat(etat, { gabarit: 'club', base: '../' })"></div>
 
   <div x-html="HF.vues.barreGroupe()"></div>
-  <div x-html="HF.vues.entete('Clubs', '../')"></div>
+  <div x-html="HF.vues.entete('Clubs', '../', etat)"></div>
 
   <main class="conteneur">
 
@@ -105,8 +105,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-10-23i"></script>
-<script src="../assets/components.js?v=2026-10-23i"></script>
+<script src="../data/data.js?v=2026-10-23j"></script>
+<script src="../assets/components.js?v=2026-10-23j"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageClubs', function () {
@@ -131,7 +131,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-10-23i"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-23j"></script>
 
 </body>
 </html>
