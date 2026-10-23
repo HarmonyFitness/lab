@@ -72,7 +72,7 @@ Ce tableau recense les composants mutualisés entre plusieurs sites. La colonne 
 
 | Composant | Rôle métier | Sites concernés | Interactivité | Complexité |
 |---|---|---|---|---|
-| Carte géographique | FIT : 10 clubs, un seul composant pour /clubs, /tarifs et l'offre du moment. Repères distingués par catégorie (forme et lettre, pas seulement la couleur), chargement à la demande, compatible avec le consentement cookies, plein écran sur mobile. AQ : 3 bassins. Marqueurs aux couleurs Harmony | FIT, AQ | Interactif | M |
+| Carte géographique | FIT : 10 clubs, un seul composant pour /clubs, /tarifs et l'offre du moment. Repères distingués par catégorie (couleur du label et lettre, pas seulement la couleur), chargement à la demande, compatible avec le consentement cookies, plein écran sur mobile. AQ : 3 bassins. Marqueurs aux couleurs Harmony | FIT, AQ | Interactif | M |
 | Filtres multi-critères | FIT : cours par formule, club, objectif, intensité et format, plus une recherche par nom ; le filtre formule commande la liste des clubs, et l'accès aux cours est cumulatif. AQ : cours par bassin. Coaching : coachs par club / spécialité | FIT, AQ | Interactif | M |
 | Grille filtrable de professionnels | Coachs, instructeurs, moniteurs saisis une fois dans le CMS, filtrables par lieu et spécialité | FIT, MAA, AQ | Interactif | M |
 | Planning des cours collectifs | Planning type saisi dans le CMS pour la mise en ligne. Intégration API Echino en option ensuite, sans refonte du composant (voir principe de découplage en 8.2) | FIT | Interactif | M |

@@ -690,9 +690,17 @@ window.HF.vues = (function () {
   var H = window.HF, D = H.data, R = H.regles;
   var esc = H.esc, prixTexte = H.prixTexte, texte = H.texte, aValider = H.aValider;
 
-  function forme(cat, prefixe) {
-    return '<span class="' + prefixe + ' ' + prefixe + '--' + cat.forme + '"></span>';
+  /* Label de catégorie (Hugo, 2026-10-23) : un mot sur une pastille de
+     couleur, dans les bleus et gris d'Harmony, du plus discret au plus
+     marqué (Gym gris, Essential bleu clair, Premium bleu de marque). Plus
+     de forme (carré, rond, triangle) : on ne dessine pas d'icône pour
+     une catégorie. Le mot porte le sens, la couleur ne dit rien seule. */
+  function labelCat(cat, texteLabel) {
+    return '<span class="label-cat label-cat--' + cat.id + '">' +
+      esc(texteLabel || ('Club ' + cat.nom)) + '</span>';
   }
+  /* Gardé pour les appels existants : ne dessine plus rien. */
+  function forme() { return ''; }
 
   /* --- Structure ------------------------------------------------- */
 
@@ -1014,7 +1022,7 @@ window.HF.vues = (function () {
     return '<span data-spec="B.3 > Catégories de clubs > Règles d\'affichage">' +
       '<button type="button" class="badge-cat badge-cat--' + cat.id + '" data-act="panneau-cat" data-id="' + cat.id + '"' +
       ' aria-expanded="' + (o.ouvert ? 'true' : 'false') + '">' +
-      forme(cat, 'badge-cat__forme') + 'Club ' + esc(cat.nom) + '</button>' +
+      'Club ' + esc(cat.nom) + '</button>' +
       (o.sansLigne ? '' : ' <span class="ligne-acces">' + esc(cat.ligneAcces) + '</span>') +
       (o.ouvert ? panneauCategorie(idCat) : '') + '</span>';
   }
@@ -1039,7 +1047,7 @@ window.HF.vues = (function () {
          cartes produit. */
       '<div class="grille grille--3">' + D.categories.map(function (cat) {
         return '<div class="bloc">' +
-          '<h3>' + forme(cat, 'badge-cat__forme') + ' Club ' + esc(cat.nom) + '</h3>' +
+          '<h3>' + labelCat(cat) + '</h3>' +
           '<p>' + esc(cat.promesse) + aValider(cat.promesseAValider) + '</p>' +
           (o.court ? '' : '<ul>' + cat.socle.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ul>') +
           '<p class="ligne-acces">' + esc(cat.ligneAcces) + '</p>' +
@@ -1085,7 +1093,7 @@ window.HF.vues = (function () {
       D.clubs.map(function (c) {
         var cat = H.categorie(c.categorie), p = H.position(c);
         var actif = etat.club === c.id || etat.survol === c.id;
-        var classes = 'carte__repere carte__repere--' + cat.forme + ' carte__repere--' + cat.id +
+        var classes = 'carte__repere carte__repere--' + cat.id +
           (actif ? ' carte__repere--actif' : '');
         var pos = ' style="left:' + p.x.toFixed(1) + '%;top:' + p.y.toFixed(1) + '%"';
         var titre = ' title="' + esc(c.nom) + ' · ' + esc(cat.nom) + '"' +
@@ -1101,11 +1109,11 @@ window.HF.vues = (function () {
           titre + '>' + cat.lettre + '</button>';
       }).join('') +
       '</div><span class="carte__source">Fond : OFS, GEOSTAT</span></div>' +
-      /* Légende sous la carte, pour ne masquer aucun repère. Forme et
-         lettre, jamais la couleur seule (B.3 > Page Tarifs > Règles). */
+      /* Légende sous la carte, pour ne masquer aucun repère : la pastille
+         du repère, sa lettre et le nom. La couleur ne dit rien seule. */
       '<div class="carte__legende">' + D.categories.map(function (cat) {
-        return '<span>' + forme(cat, 'badge-cat__forme') + esc(cat.nom) +
-          ' (' + cat.lettre + ')</span>';
+        return '<span><span class="carte__pastille carte__repere--' + cat.id + '">' + cat.lettre +
+          '</span>' + esc(cat.nom) + '</span>';
       }).join('') + '</div>';
   }
 
@@ -1131,9 +1139,8 @@ window.HF.vues = (function () {
               ' href="?club=' + c.id + '"' +
               ' data-act="choisir-club" data-id="' + c.id + '"' +
               ' data-survol="' + c.id + '">' +
-              forme(cat, 'badge-cat__forme') +
-              '<span><span class="club-ligne__nom">' + esc(c.nom) + '</span>' +
-              '<span class="club-ligne__meta"> · ' + esc(cat.nom) + '<br>' +
+              '<span><span class="club-ligne__nom">' + esc(c.nom) + '</span> ' + labelCat(cat) +
+              '<span class="club-ligne__meta"><br>' +
               esc(texte(c.adresse, '[adresse]')) + '</span></span></a>';
           }).join('');
       }).join('') +
@@ -1214,7 +1221,7 @@ window.HF.vues = (function () {
       esc(libelle) + '</span></p>';
   }
   return {
-    actionCarte: actionCarte,
+    actionCarte: actionCarte, labelCat: labelCat,
     barreGroupe: barreGroupe, entete: entete, enteteLanding: enteteLanding,
     heroLanding: heroLanding, pied: pied, piedLanding: piedLanding,
     filAriane: filAriane,
@@ -2089,7 +2096,7 @@ Object.assign(window.HF.vues, (function () {
           '<ul>' + g.clubs.map(function (c) {
             var cat = H.categorie(c.categorie);
             return '<li><a href="' + b + 'clubs/club/?club=' + c.id + '">' + esc(c.nom) + '</a>' +
-              ' <span class="mention">' + V.forme(cat, 'badge-cat__forme') + esc(cat.nom) + '</span></li>';
+              ' ' + V.labelCat(cat) + '</li>';
           }).join('') + '</ul></div>';
       }).join('') +
       '<p><a class="lien-texte" href="' + b + 'clubs/">Tous nos clubs</a></p></div>' +
@@ -2100,7 +2107,7 @@ Object.assign(window.HF.vues, (function () {
          dessous (« Accès à 7 clubs »). Le détail vit sur le hub. */
       '<p class="apercu-clubs__categories">' +
       D.categories.map(function (cat) {
-        return '<span>' + V.forme(cat, 'badge-cat__forme') + esc(cat.nom) + '</span>';
+        return V.labelCat(cat);
       }).join(' ') +
       ' : <a class="lien-texte" href="' + b + 'clubs/#categories">ce qui change d\'une catégorie à l\'autre</a></p>' +
       '</section>';

@@ -491,15 +491,19 @@ body:has(.hero-plein) .barre-groupe__inner { max-width: none;
   line-height: 1.3; background: var(--cat-gym-fond); color: var(--cat-gym);
 }
 /* Trois poids, du plus discret au plus marqué : Gym, Essential, Premium.
-   La forme et le mot restent dans le badge, la couleur ne dit rien seule. */
+   Le mot porte le sens, la couleur ne dit rien seule (plus de forme
+   depuis le 2026-10-23). */
 .badge-cat--essential { background: var(--cat-essential-fond); color: var(--cat-essential); }
 .badge-cat--premium { background: var(--cat-premium); color: #fff; }
 .badge-cat:hover { border-color: currentColor; }
-.badge-cat__forme { width: 11px; height: 11px; display: inline-block;
-  background: currentColor; flex: none; }
-.badge-cat__forme--cercle { border-radius: 50%; }
-.badge-cat__forme--carre { border-radius: 2px; }
-.badge-cat__forme--triangle { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+/* Label de catégorie hors badge cliquable (listes, légendes, titres) :
+   même pastille, mêmes couleurs, plus petit. */
+.label-cat { display: inline-flex; align-items: center; font-size: 12px; font-weight: 600;
+  line-height: 1.3; padding: 2px 8px; border-radius: var(--rayon-xs); vertical-align: 1px;
+  background: var(--cat-gym-fond); color: var(--cat-gym); white-space: nowrap; }
+.label-cat--essential { background: var(--cat-essential-fond); color: var(--cat-essential); }
+.label-cat--premium { background: var(--cat-premium); color: #fff; }
+h3 .label-cat { font-size: 15px; padding: 4px 10px; }
 .ligne-acces { font-size: 14px; color: var(--gris-60); }
 .panneau-cat {
   background: var(--surface-tint); border-radius: var(--rayon);
@@ -556,19 +560,17 @@ body:has(.hero-plein) .barre-groupe__inner { max-width: none;
   width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 700; color: #fff; background: var(--ink);
   border: 2px solid #fff; cursor: pointer; box-shadow: 0 1px 4px rgba(14, 26, 35, .25); }
-.carte__repere--cercle { border-radius: 50%; }
-.carte__repere--carre { border-radius: 4px; }
-.carte__repere--triangle { clip-path: polygon(50% 0, 100% 100%, 0 100%); border: none;
-  outline: 2px solid #fff; }
-/* Repères aux couleurs des badges de catégorie : Gym gris, Essential bleu
-   teinté, Premium bleu de marque. La forme et la lettre restent : la
-   couleur ne dit jamais rien seule. L'actif ne peut plus se distinguer
-   par la couleur (le bouton et Premium partagent le bleu de marque) : il
-   grandit et prend un halo bleu clair. */
-.carte__repere--gym { background: var(--cat-gym); }
-.carte__repere--essential { background: var(--cat-essential); }
-.carte__repere--premium { background: var(--cat-premium); }
-.carte__repere--actif { background: var(--action); transform: translate(-50%, -50%) scale(1.25); z-index: 2;
+/* Repères ronds aux couleurs des labels de catégorie (Hugo, 2026-10-23) :
+   Gym gris, Essential bleu clair, Premium bleu de marque, chacun avec sa
+   lettre. Plus de forme. L'actif grandit et prend un halo bleu clair. */
+.carte__repere { border-radius: 50%; }
+.carte__repere--gym { background: var(--cat-gym-fond); color: var(--cat-gym); border-color: #fff; }
+.carte__repere--essential { background: var(--cat-essential-fond); color: var(--cat-essential); }
+.carte__repere--premium { background: var(--cat-premium); color: #fff; }
+.carte__pastille { display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%; font-size: 10px; font-weight: 700; }
+.carte__pastille.carte__repere--gym, .carte__pastille.carte__repere--essential { box-shadow: inset 0 0 0 1px currentColor; }
+.carte__repere--actif { background: var(--action); color: #fff; transform: translate(-50%, -50%) scale(1.25); z-index: 2;
   box-shadow: 0 0 0 4px var(--bleu-clair-trait); }
 .carte-bloc { display: flex; flex-direction: column; }
 /* flex: 1 0 auto et pas flex: 1 : une hauteur posée sur la carte (420 px
@@ -1105,7 +1107,6 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
 .apercu-clubs__liste li a { font-weight: 600; text-decoration: none; color: var(--gris-95); }
 .apercu-clubs__liste li a:hover { text-decoration: underline; }
 .apercu-clubs__liste .mention { margin-left: 6px; }
-.apercu-clubs__liste .badge-cat__forme { margin-right: 4px; }
 .apercu-clubs__carte .carte { height: 360px; }
 a.carte__repere { text-decoration: none; }
 
