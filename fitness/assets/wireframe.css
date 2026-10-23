@@ -303,12 +303,17 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
    le header de Fitness (Hugo, 2026-10-22). */
 .barre-groupe { background: var(--surface-tint); font-size: 13px; line-height: 20px;
   border-bottom: 1px solid var(--line); }
-.barre-groupe__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 2px var(--e-1);
+.barre-groupe__inner { display: flex; align-items: center; gap: var(--e-3);
   max-width: var(--large); margin: 0 auto; padding: 3px calc(var(--gouttiere) - 10px); }
+.barre-groupe__sites { display: flex; flex-wrap: wrap; gap: 2px var(--e-1); min-width: 0; }
 .barre-groupe a { color: var(--ink-muted); text-decoration: none; padding: 2px 10px;
   border-radius: var(--rayon-pilule); }
 .barre-groupe a:hover { color: var(--ink); background: var(--surface); }
 .barre-groupe a[aria-current] { color: var(--accent); background: var(--surface); font-weight: 600; }
+/* Espace membre, commun aux cinq sites : à droite de la barre groupe. */
+.barre-groupe .barre-groupe__compte { display: inline-flex; align-items: center; gap: 6px;
+  margin-left: auto; flex: none; color: var(--ink); white-space: nowrap; }
+.barre-groupe__icone { width: 16px; height: 16px; flex: none; }
 
 /* Pas de filet sous le header (Hugo, 2026-10-22) : il ne se sépare de la
    page que par l'espace. */
@@ -337,18 +342,19 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
   padding: 8px 14px; border-radius: var(--rayon-pilule); }
 .entete__nav a:hover { color: var(--ink); background: var(--surface-tint); }
 .entete__nav a[aria-current] { color: var(--accent); background: var(--surface-tint); font-weight: 600; }
-.entete__actions { display: flex; align-items: center; gap: 12px; justify-self: end; }
+.entete__actions { display: flex; align-items: center; gap: var(--e-2); justify-self: end; }
 .entete__actions .btn { white-space: nowrap; }
-.entete__compte { display: inline-flex; align-items: center; gap: 6px; font-size: 15px;
-  text-decoration: none; color: var(--ink); white-space: nowrap; margin-right: 4px; }
-.entete__compte:hover { color: var(--accent); text-decoration: underline; }
-.entete__icone { width: 20px; height: 20px; flex: none; }
-/* Le menu centré laisse moins de place aux actions. Sous 1280 px,
-   « Espace membre » passe en icône seule (l'aria-label garde le nom) ;
-   sous 1040 px, la séance d'essai quitte le header, comme sur mobile :
+/* Séance d'essai en lien texte, pas en bouton : l'abonnement est
+   l'objectif principal, il garde seul la forme de bouton (Hugo,
+   2026-10-23). Couleur d'action et graisse de bouton pour qu'on le lise
+   comme une action, zone de clic de la hauteur d'un bouton. */
+.entete__essai { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px;
+  color: var(--action-fonce); font-weight: 600; text-decoration: none; white-space: nowrap;
+  border-radius: var(--rayon-pilule); }
+.entete__essai:hover { color: var(--action-fonce); background: var(--action-fond); }
+/* Sous 900 px, la séance d'essai quitte le header, comme sur mobile :
    elle reste au CTA de chaque page. */
-@media (max-width: 1279px) { .entete__compte-texte { display: none; } }
-@media (max-width: 1040px) {
+@media (max-width: 900px) {
   .entete__essai { display: none; }
   .entete__inner { gap: var(--e-4); }
 }
@@ -1169,15 +1175,16 @@ a.carte__repere { text-decoration: none; }
   .pied__inner { padding: var(--e-6) var(--gouttiere) var(--e-5); }
   .cta-essai { padding: var(--e-6) var(--e-5) var(--e-8); background-size: 200px 150px; }
   /* Mobile : le menu passe derrière un burger, non maquetté ici (Q41).
-     Restent le compte, en icône seule, et l'action principale. La séance
-     d'essai reste accessible par le CTA de chaque page. */
+     Reste l'action principale. La séance d'essai reste accessible par le
+     CTA de chaque page ; l'espace membre, en icône seule, par la barre
+     groupe. */
   .entete__nav { display: none; }
-  .entete__compte-texte { display: none; }
   .entete__essai { display: none; }
+  .barre-groupe__compte-texte { display: none; }
   .entete__inner { grid-template-columns: auto auto; justify-content: space-between;
     gap: 10px; padding: 12px var(--gouttiere); }
   .entete__img { height: 24px; }
-  .barre-groupe__inner { flex-wrap: nowrap; overflow-x: auto; }
+  .barre-groupe__sites { flex-wrap: nowrap; overflow-x: auto; }
   .barre-groupe a { white-space: nowrap; }
   .planning th:nth-child(4), .planning td:nth-child(4) { display: none; }
   .planning th, .planning td { padding: 12px 10px; }

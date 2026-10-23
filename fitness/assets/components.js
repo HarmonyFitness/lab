@@ -697,13 +697,27 @@ window.HF.vues = (function () {
   /* « Harmony » en texte, pas en logo : avec le logo Fitness juste dessous,
      le header en montrait deux (Hugo, 2026-10-22).
      Libellés de B.3. « Sports de combat », jamais « Arts martiaux » (Q66). */
+  /* L'espace membre est commun aux cinq sites : il vit dans la barre
+     groupe, à droite, et plus dans le header de Fitness (Hugo,
+     2026-10-23). Il ouvre l'espace hébergé par l'outil métier, dont le nom
+     n'apparaît jamais (B.3). Icône et mot sur ordinateur, icône seule sur
+     mobile : l'aria-label garde le nom. Les sites défilent dans leur propre
+     bande, pour que le lien reste visible quand la ligne déborde. */
   function barreGroupe() {
     var liens = ['Harmony', 'Fitness', 'Sports de combat', 'École de natation', 'Famille'];
     return '<div class="barre-groupe" data-spec="B.3 > Arborescence > Barre groupe">' +
       '<div class="barre-groupe__inner">' +
+      '<nav class="barre-groupe__sites" aria-label="Sites Harmony">' +
       liens.map(function (l) {
         return '<a href="#"' + (l === 'Fitness' ? ' aria-current="true"' : '') + '>' + esc(l) + '</a>';
-      }).join('') + '</div></div>';
+      }).join('') + '</nav>' +
+      '<a class="barre-groupe__compte" href="#" rel="noopener" aria-label="Espace membre">' +
+      '<svg class="barre-groupe__icone" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
+      '<circle cx="10" cy="6.5" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/>' +
+      '<path d="M3.4 17c0-3.4 3-5.6 6.6-5.6s6.6 2.2 6.6 5.6" fill="none" ' +
+      'stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>' +
+      '<span class="barre-groupe__compte-texte">Espace membre</span></a>' +
+      '</div></div>';
   }
 
   /* B.3 > intro : 4 entrées et un bouton Séance d'essai. */
@@ -717,19 +731,12 @@ window.HF.vues = (function () {
     ];
     /* Menu centré : la largeur du logo change d'une verticale à l'autre,
        un menu collé au logo bougerait avec lui (Hugo, 2026-10-23). À
-       droite, les actions, de la plus discrète à la plus engageante :
-       espace membre, essayer, s'abonner.
+       droite, deux actions qui ne pèsent pas pareil : l'abonnement est
+       l'objectif, il est le seul bouton. La séance d'essai est un lien
+       texte, pour ne pas la mettre au même niveau (Hugo, 2026-10-23).
        « S'abonner » et non « S'inscrire » : c'est déjà le mot des cartes
        club et de la barre récap, et B.3 tient à un seul mot par chose.
-       « Espace membre » ouvre l'espace hébergé par l'outil métier, dont le
-       nom n'apparaît jamais (B.3). Icône et mot sur ordinateur, icône seule
-       quand la place manque : l'aria-label garde le nom. */
-    var compte = '<a class="entete__compte" href="#" rel="noopener" aria-label="Espace membre">' +
-      '<svg class="entete__icone" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
-      '<circle cx="10" cy="6.5" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/>' +
-      '<path d="M3.4 17c0-3.4 3-5.6 6.6-5.6s6.6 2.2 6.6 5.6" fill="none" ' +
-      'stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>' +
-      '<span class="entete__compte-texte">Espace membre</span></a>';
+       L'espace membre est dans la barre groupe, commun aux cinq sites. */
 
     return '<header class="entete" data-spec="B.3 > Arborescence > Header">' +
       '<div class="entete__inner">' +
@@ -738,8 +745,8 @@ window.HF.vues = (function () {
         return '<a href="' + e.href + '"' + (e.nom === courante ? ' aria-current="page"' : '') +
           '>' + esc(e.nom) + '</a>';
       }).join('') + '</nav>' +
-      '<div class="entete__actions">' + compte +
-      '<a class="btn btn--secondaire entete__essai" href="' + base + 'seance-essai/">Séance d\'essai</a>' +
+      '<div class="entete__actions">' +
+      '<a class="entete__essai" href="' + base + 'seance-essai/">Séance d\'essai</a>' +
       '<a class="btn" href="' + base + 'tarifs/">S\'abonner</a>' +
       '</div></div></header>';
   }

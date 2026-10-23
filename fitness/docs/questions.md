@@ -873,6 +873,17 @@ secondaire, « S'abonner » en principal vers /tarifs.
   le header est replié. Le nom de l'outil métier n'apparaît toujours nulle
   part.
 
+**Deuxième mise à jour du même jour (Hugo).**
+- **l'espace membre passe dans la barre groupe**, aligné à droite : il est
+  commun aux cinq sites, il n'a rien à faire dans le header d'une verticale.
+  Sur mobile, icône seule, et les sites défilent dans leur propre bande pour
+  qu'elle reste visible. Le lien du footer reste.
+- **« Séance d'essai » devient un lien texte**, plus un bouton secondaire.
+  Deux boutons côte à côte mettaient l'essai au niveau de l'abonnement, alors
+  que l'objectif principal est l'abonnement. Le lien garde la couleur
+  d'action et la graisse d'un bouton, pour se lire comme une action. Il quitte
+  le header sous 900 px.
+
 **S'abonner plutôt que S'inscrire**, et c'est une recommandation, pas un
 détail. « S'abonner » est déjà le mot de la carte club et de la barre récap.
 B.3 tient à un seul mot par chose, c'est la règle qui a fait choisir « Extra »
