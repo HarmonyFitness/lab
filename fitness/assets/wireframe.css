@@ -234,6 +234,9 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
    en bas de la maquette (barre récap, barre rapide, carte plein écran)
    remontent de sa hauteur, et la page garde un espace pour le pied. */
 :root { --haut-outillage: 40px; }
+/* Marge du hero plein écran de l'accueil, que la barre groupe et le header
+   reprennent sur cette page pour s'aligner sur ses bords. */
+:root { --marge-hero: 12px; }
 body:has(.wf-barre) { padding-bottom: var(--haut-outillage); }
 body:has(.wf-barre) .barre-recap { bottom: var(--haut-outillage); }
 body:has(.wf-barre) .carte-plein--fixe { bottom: var(--haut-outillage); }
@@ -343,6 +346,15 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
 .entete__nav a:hover { color: var(--ink); background: var(--surface-tint); }
 .entete__nav a[aria-current] { color: var(--accent); background: var(--surface-tint); font-weight: 600; }
 .entete__actions { display: flex; align-items: center; gap: var(--e-2); justify-self: end; }
+/* Sur une page à hero plein écran (l'accueil), le header et la barre
+   groupe prennent la largeur du hero : logo calé sur son bord gauche,
+   S'abonner et l'espace membre sur son bord droit (Hugo, 2026-10-23). Le
+   menu reste centré sur l'écran. Les liens de la barre groupe ont 10 px de
+   marge intérieure : c'est leur texte qui s'aligne, pas leur pastille. */
+body:has(.hero-plein) .entete__inner { max-width: none;
+  padding-left: var(--marge-hero); padding-right: var(--marge-hero); }
+body:has(.hero-plein) .barre-groupe__inner { max-width: none;
+  padding-left: max(0px, calc(var(--marge-hero) - 10px)); padding-right: max(0px, calc(var(--marge-hero) - 10px)); }
 .entete__actions .btn { white-space: nowrap; }
 /* Séance d'essai en lien texte, pas en bouton : l'abonnement est
    l'objectif principal, il garde seul la forme de bouton (Hugo,
@@ -938,7 +950,7 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
    arrondis. Sa hauteur est l'écran moins la barre groupe et le header
    (--haut-entetes) et la marge du bas. Le texte reste aligné sur le
    contenu de la page, pas collé au bord de la photo. */
-.hero-plein { --marge-hero: 12px; --haut-entetes: 108px; padding: 0 var(--marge-hero); }
+.hero-plein { --haut-entetes: 108px; padding: 0 var(--marge-hero); }
 .hero-accueil { position: relative; border-radius: var(--rayon-grand); overflow: hidden;
   height: calc(100svh - var(--haut-entetes) - var(--marge-hero)); min-height: 560px; max-height: 1000px; }
 .hero-accueil__photo, .hero-accueil__photo > .img { position: absolute; inset: 0; }
@@ -1136,7 +1148,8 @@ a.carte__repere { text-decoration: none; }
   .temoignage-portrait__citation { font-size: 22px; line-height: 30px; }
   /* Mobile : le texte reste sur la photo, plus haute, centré ; le voile
      assombrit la bande du milieu, où il se pose. */
-  .hero-plein { --marge-hero: 8px; --haut-entetes: 98px; }
+  :root { --marge-hero: 8px; }
+  .hero-plein { --haut-entetes: 98px; }
   .hero-accueil { min-height: 520px; }
   .hero-accueil__photo .img { padding: var(--e-4); }
   .hero-accueil::after { background: linear-gradient(to bottom, rgba(14, 26, 35, .25) 0%, rgba(14, 26, 35, .6) 35%, rgba(14, 26, 35, .6) 65%, rgba(14, 26, 35, .25) 100%); }
