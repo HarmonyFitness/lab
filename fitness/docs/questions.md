@@ -6,6 +6,11 @@ poser un placeholder visible dans la maquette et continuer.
 Statut : `ouverte` · `tranchée` (avec la réponse) · `à valider` (texte proposé,
 en attente de Harmony) · `sans objet`
 
+Depuis le 2026-10-23 (Hugo), les maquettes n'affichent plus de marqueur
+« à valider par Harmony » : les textes proposés s'y lisent comme le futur
+site, et ce fichier reste le seul endroit qui dit ce qui attend une
+validation. Les placeholders entre crochets restent.
+
 Dernière mise à jour : 2026-10-22, design system appliqué (Q65 à Q67), Q66 fermée, Q68 ouverte.
 
 ---

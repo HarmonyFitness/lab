@@ -556,7 +556,9 @@ window.HF = (function () {
     });
   }
   function spec(ref) { return '<span class="wf-spec">' + esc(ref) + '</span>'; }
-  function aValider(cond) { return cond ? '<span class="wf-avalider">à valider par Harmony</span>' : ''; }
+  /* Les marqueurs « à valider » ont été retirés des maquettes (Hugo,
+     2026-10-23) : ce qui reste à valider vit dans docs/questions.md. */
+  function aValider() { return ''; }
 
   /* Fond de carte : lac Léman, cantons de Genève et de Vaud, frontière
      suisse, en chemins SVG dans un repère de 1000 de large. Généré par
@@ -992,13 +994,7 @@ window.HF.vues = (function () {
         ? '<ul class="preuves">' + opt.preuves.map(function (pv) {
             return '<li><span class="preuves__valeur">' + esc(pv.valeur) + '</span>' +
               '<span class="preuves__libelle">' + esc(pv.libelle) + '</span></li>';
-          }).join('') + '</ul>' +
-          /* Les crochets disent déjà que la donnée manque : le marqueur
-             « à valider » irait en plus, dans une ligne de 12 px, et
-             casserait la seule chose que ce bloc doit faire, se lire vite.
-             Il est donc posé une fois, sous la rangée. */
-          (opt.preuves.some(function (pv) { return pv.aValider; })
-            ? '<p class="mention" style="margin-top:8px">' + H.aValider(true) + '</p>' : '')
+          }).join('') + '</ul>'
         : '') +
       '</div></section>';
   }
@@ -1876,7 +1872,7 @@ Object.assign(window.HF.vues, (function () {
       (c ? 'Parlez-en avec ' + esc(c.nom) + '. ' : 'Parlez-en avec votre club. ') +
       '<a class="lien-texte" href="' + (base || '') + 'nous-contacter/?' + p.toString() + '">' +
       (c ? 'Contacter ' + esc(c.nom) : 'Contacter un club') + '</a>' +
-      ' <span class="wf-avalider">page de contact à valider</span></p>';
+      '</p>';
   }
 
   /* Phrase de destination sous le formulaire de contact. On affiche à qui le
@@ -2042,8 +2038,7 @@ Object.assign(window.HF.vues, (function () {
       { titre: 'Le temps de récupérer', texte: 'Sauna, hammam, jacuzzi : la séance se termine en douceur.' }
     ];
     var tete = '<p class="manifeste__sur">Pourquoi Harmony</p>' +
-      '<h2 class="manifeste">' + esc(MANIFESTE) + '</h2>' +
-      '<p class="manifeste__note"><span class="wf-avalider">Manifeste et différenciants à valider par Harmony</span></p>';
+      '<h2 class="manifeste">' + esc(MANIFESTE) + '</h2>';
     if (o.visages) {
       return '<section class="section-voix section-voix--centre" data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' +
         tete + '<ul class="voix voix--centre">' + items.map(function (d, i) {
@@ -2136,7 +2131,7 @@ Object.assign(window.HF.vues, (function () {
           '</a>';
       }).join('') + '</div>' +
       '<p class="mention">Prix adulte, avec l\'engagement le plus avantageux. ' +
-      '<span class="wf-avalider">Textes du bloc à valider par Harmony</span></p>' +
+      '</p>' +
       /* Un vrai bouton sous les formules (Hugo, 2026-10-23) : les lignes
          sont cliquables, mais rien ne le disait. C'est le moment de
          conversion de la page. */
@@ -2746,7 +2741,7 @@ Object.assign(window.HF.vues, (function () {
         return '<div><h3>' + esc(g.objectif.nom) + H.aValider(g.aValider) + '</h3><ul>' +
           g.cours.map(function (co) {
             return '<li><a href="' + H.lienCours(co, '../../') + '">' + esc(co.nom) + '</a>' +
-              (co.traitement === null ? ' <span class="wf-avalider">page ou section à trancher</span>' : '') +
+              (co.traitement === null ? '' : '') +
               '</li>';
           }).join('') + '</ul></div>';
       }).join('') + '</div></section>';
@@ -3343,7 +3338,7 @@ Object.assign(window.HF.vues, (function () {
       (fam ? '<p class="mention">Famille <a class="lien-texte" href="' +
         H.lienFamille(fam, base) + '">' + esc(fam.nom) + '</a></p>' : '') +
       (co.traitement === null
-        ? '<p><span class="wf-avalider">page ou section à trancher</span></p>' : '') +
+        ? '<p></p>' : '') +
       '</div>';
   }
 
@@ -3414,7 +3409,7 @@ Object.assign(window.HF.vues, (function () {
       out += '<section id="' + co.id + '" style="margin-top:26px">' +
         '<h3>' + esc(co.nom) +
         (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') +
-        (co.traitement === null ? ' <span class="wf-avalider">page ou section à trancher</span>' : '') +
+        (co.traitement === null ? '' : '') +
         '</h3>' + attributsCours(co) +
         '<p>' + esc(co.description) + '</p>' +
         '<p class="mention">Ancre : <code>#' + co.id + '</code></p></section>';

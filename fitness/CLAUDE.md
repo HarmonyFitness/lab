@@ -28,7 +28,7 @@ Consultant et décideur sur la structure : Hugo.
 - Ne jamais ajouter une page, un bloc ou une fonctionnalité absent de B.3.
 - En cas de doute ou de contradiction entre deux sources : ne pas trancher. Ajouter la question dans `docs/questions.md`, poser un placeholder visible et continuer.
 - `docs/questions.md` garde le détail et l'historique de chaque question. La page Notion « Questions ouvertes » du cahier des charges en est la synthèse pour le client et le développeur : ce qui manque, à qui le demander, ce que ça bloque. **Les deux se mettent à jour ensemble** : fermer une question ici sans la retirer là-bas laisserait Harmony chercher une réponse qu'elle a déjà donnée.
-- Une question ouverte n'est pas un retard, c'est un trou identifié. Elle se voit à l'écran, en placeholder entre crochets ou en marqueur « à valider par Harmony », jamais en valeur plausible.
+- Une question ouverte n'est pas un retard, c'est un trou identifié. Elle se voit à l'écran en placeholder entre crochets, jamais en valeur plausible. Les marqueurs « à valider par Harmony » ont été retirés des maquettes (Hugo, 2026-10-23) : ce qui reste à valider est suivi dans `docs/questions.md` et sur la page Notion Questions ouvertes, pas à l'écran. N'en remettre aucun.
 
 ## Périmètre
 
@@ -47,7 +47,7 @@ Cours collectifs : 2 templates seulement, le hub et le gabarit cours. On maquett
 
 ## Fidélité attendue
 
-- **Design system Harmony Fitness appliqué** (Hugo, 2026-10-22, Q65). Le système est l'artefact « Harmony Fitness » (claude.ai/artifact/5N3saSTZVSaQagzxbAiHbH). Couleurs, polices, rayons et espacements en viennent, par les jetons de `wireframe.css`. Ce qui fait un wireframe reste : blocs photo en placeholder, crochets, marqueurs « à valider », `data-spec`, sélecteur d'état.
+- **Design system Harmony Fitness appliqué** (Hugo, 2026-10-22, Q65). Le système est l'artefact « Harmony Fitness » (claude.ai/artifact/5N3saSTZVSaQagzxbAiHbH). Couleurs, polices, rayons et espacements en viennent, par les jetons de `wireframe.css`. Ce qui fait un wireframe reste : blocs photo en placeholder, crochets, `data-spec`, sélecteur d'état.
 - Les noms de jetons du lab sont gardés (`--accent`, `--gris-*`, `--rayon`, `--e-*`) et branchés sur les valeurs du système. Une valeur du système qui change se change dans `:root`, à un seul endroit.
 - **Les boutons sont au bleu de marque**, celui du pied de page (`--action` = `--accent` #204d6e, survol `--accent-fonce`, Hugo, 2026-10-23). Bouton principal plein, secondaire en contour avec texte `--action-fonce`. **L'océan vif (#0079bd), essayé le 2026-10-22, est gardé pour la verticale Aqua** (École de natation) : il n'est plus utilisé dans Fitness, le jeton `--aqua` le conserve. Le bleu de marque sert aussi à l'état choisi (sélecteurs, carte choisie), au badge Premium, au pied de page et à la barre récap. Un repère de carte actif ne se distingue donc plus par sa couleur : il grandit et prend un halo bleu clair. Un lien dans le texte prend `--lien` (ocean-text) et reste souligné : il se reconnaît à sa forme, pas à sa seule couleur.
 - **Bleu clair** `--bleu-clair` (#dce8f2, éclairci le même jour), le bleu pâle du logo un peu grisé (Hugo, 2026-10-22) : la page était trop blanche et grise. Avec parcimonie, en grand aplat, jamais en filet ni en fond de page entier, pour ne pas faire cabinet médical. Aujourd'hui : bandeau essai de bas de page (avec les arcs du logo en CSS, texte à gauche) et bloc bien-être de l'accueil (`.bloc--clair`). Reporté dans le design system sous les noms `sky` et `sky-line`, avec la même règle (pas plus de deux aplats par page).
@@ -317,7 +317,7 @@ Contact
 - Le nom "Echino" n'apparaît jamais à l'écran.
 - H1, sous-titres et titles : reprendre exactement ceux de B.3.
 - Donnée inconnue : placeholder visible entre crochets, par exemple "[adresse]", "[X] séances", "[nom de l'application]".
-- Texte rédigé mais pas encore validé par Harmony : affiché tel quel, avec le marqueur "à valider par Harmony". Ne pas le remplacer par un placeholder, le texte existe.
+- Texte rédigé mais pas encore validé par Harmony : affiché tel quel, sans marqueur à l'écran (retirés le 2026-10-23), et noté dans `docs/questions.md`. Ne pas le remplacer par un placeholder, le texte existe.
 
 ## Documents pour le client
 

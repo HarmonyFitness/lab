@@ -1010,7 +1010,7 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
    du texte (Hugo, 2026-10-23). */
 .manifeste__sur { margin: 0 0 var(--e-3); font-size: 13px; font-weight: 600;
   letter-spacing: .08em; text-transform: uppercase; color: var(--action-fonce); }
-.manifeste { margin: 0; max-width: 760px; font-size: 28px; line-height: 38px; font-weight: 400; }
+.manifeste { margin: 0 0 var(--e-6); max-width: 760px; font-size: 28px; line-height: 38px; font-weight: 400; }
 .manifeste__note { margin: var(--e-3) 0 var(--e-6); }
 .section-voix--centre { text-align: center; }
 .section-voix--centre .manifeste { margin-inline: auto; }
