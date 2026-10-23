@@ -1395,6 +1395,12 @@ d'essai.
   `[nombre] avis`, `[source des avis]`, marqués à valider. Il faudra dire d'où
   ils viennent (Google, une plateforme d'avis, une enquête interne) et comment
   ils se mettent à jour : une note figée dans le CMS vieillit mal.
+  **Réponse de Hugo, 2026-10-23 :** 4,8 / 5, moyenne de tous les clubs sur
+  Google Maps. Saisie dans `data.js` (`avis`), affichée « 4,8 / 5, avis
+  Google Maps » dans les preuves et « Moyenne de nos 10 clubs sur Google
+  Maps » dans le bloc de note. Reste ouvert : le nombre d'avis (pas fourni,
+  donc pas affiché) et la mise à jour en production, la note devrait se lire
+  dans Google plutôt que se saisir une fois.
 - **Les témoignages** : de vrais membres, avec leur club.
 
 **Le hero porte trois preuves** (Hugo, 2026-09-16 : « qu'on soit tout de suite

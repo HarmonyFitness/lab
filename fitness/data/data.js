@@ -424,6 +424,12 @@ window.DATA = {
   /* saisie, pas une reprise du code.                                      */
   /* Liste des motifs provisoire, à valider par Harmony (Q38).             */
   /* ------------------------------------------------------------------ */
+  /* Note des avis (Hugo, 2026-10-23) : 4,8 sur 5, moyenne de tous les
+     clubs sur Google Maps. Le nombre d'avis n'est pas fourni : il reste
+     inconnu (null), jamais estimé. En production, la note se lit dans
+     Google, elle ne se saisit pas une fois pour toutes. */
+  avis: { note: 4.8, sur: 5, source: 'Google Maps', nombre: null },
+
   contact: {
     /* Destinataire central. Le nom est du contenu : il s'affiche. */
     central: { id: 'equipe-harmony', nom: 'Équipe Harmony', email: null },

@@ -1859,11 +1859,22 @@ Object.assign(window.HF.vues, (function () {
   /* Bloc de note, pour une landing d'annonce. Les chiffres ne sont pas
      inventés : une note et un nombre d'avis sont des faits, ils se lisent
      dans l'outil qui les collecte ou ils restent en placeholder. */
+  /* La note se lit dans data.js, au format suisse (4,8 / 5). Le nombre
+     d'avis reste un placeholder tant qu'il n'est pas fourni. */
+  function noteValeur() {
+    var a = D.avis || {};
+    return a.note != null ? a.note.toLocaleString('fr-CH') + ' / ' + (a.sur || 5) : '[note] / 5';
+  }
+  function noteSource() {
+    var a = D.avis || {};
+    return a.source ? 'avis ' + a.source : '[source des avis]';
+  }
   function noteAvis() {
-    return '<div class="note" data-spec="Annexe A > A.2 > Preuve sociale (à valider)">' +
-      '<div class="note__valeur">[note] / 5</div>' +
-      '<div class="note__detail">[nombre] avis · [source des avis]' +
-      H.aValider(true) + '</div></div>';
+    var a = D.avis || {};
+    return '<div class="note" data-spec="Annexe A > A.2 > Preuve sociale">' +
+      '<div class="note__valeur">' + esc(noteValeur()) + '</div>' +
+      '<div class="note__detail">Moyenne de nos ' + R.nbClubs() + ' clubs sur ' + esc(a.source || '[source des avis]') +
+      (a.nombre ? ' · ' + a.nombre + ' avis' : '') + '</div></div>';
   }
 
   /* B.3 > Page Tarifs > Trame > 6 : la sortie pour qui ne se reconnaît dans
@@ -2320,7 +2331,7 @@ Object.assign(window.HF.vues, (function () {
     ligneIndisponible: ligneIndisponible, ligneSansClub: ligneSansClub,
     barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub,
     planning: planning, grilleCoachs: grilleCoachs, panneauCoach: panneauCoach,
-    faq: faq, temoignages: temoignages, noteAvis: noteAvis,
+    faq: faq, temoignages: temoignages, noteAvis: noteAvis, noteValeur: noteValeur, noteSource: noteSource,
     destinataireEssai: destinataireEssai,
     ctaEssai: ctaEssai, compteur: compteur,
     ligneConseil: ligneConseil, destinataireLigne: destinataireLigne,
