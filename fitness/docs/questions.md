@@ -1671,6 +1671,15 @@ produit (`accroche`, reporté en section 7), rédigé, à valider. La phrase de
 Gym reprend la promesse de la catégorie, dont la plage horaire n'est
 toujours pas chiffrée.
 
+
+**Sous-titre du hero, 2026-10-23 (Hugo).** « Entraînez-vous sur un plateau
+complet, en salle ou dans l'eau, avec des coachs à vos côtés pour
+progresser. » Il remplace « 10 clubs de sport et de bien-être… », qui
+doublonnait la preuve « 10 clubs » ajoutée sous les boutons. Il porte un
+verbe (le H1 n'en a pas), l'aquatique et l'accompagnement. À valider :
+les cours aquatiques ne sont donnés que dans les clubs Premium, la phrase
+les présente comme une offre du réseau.
+
 ### Q63 · Où vit la newsletter
 **Statut :** tranchée par Hugo le 2026-10-22
 **Source :** B.3 > Accueil (« newsletter » parmi les composants) contre
