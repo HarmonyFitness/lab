@@ -1087,7 +1087,7 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
 .hero-accueil .btn--secondaire:hover { background: rgba(255, 255, 255, .14); color: #fff; }
 .hero-accueil :focus-visible { outline-color: #fff; }
 /* Preuves posées sur la photo : en blanc, filets translucides. */
-.hero-accueil .preuves--photo { border-top: 0; padding-top: 0; margin-top: var(--e-6); max-width: 560px; }
+.hero-accueil .preuves--photo { border-top: 0; padding-top: 0; margin-top: var(--e-8); max-width: 560px; }
 .preuves--photo li { border-left-color: rgba(255, 255, 255, .35); }
 .preuves--photo .preuves__valeur { color: #fff; }
 .preuves--photo .preuves__libelle { color: rgba(255, 255, 255, .82); }
@@ -1270,6 +1270,7 @@ a.carte__repere { text-decoration: none; }
   /* La légende de l'emplacement photo passe en bas : en haut, elle
      chevauchait le titre. */
   .hero-accueil__photo .img { padding: var(--e-2) var(--e-4); align-items: flex-end; font-size: 11px; }
+  .hero-accueil .preuves--photo { margin-top: var(--e-7); }
   .hero-accueil::after { background: linear-gradient(to bottom, rgba(14, 26, 35, .35) 0%, rgba(14, 26, 35, .75) 35%, rgba(14, 26, 35, .75) 65%, rgba(14, 26, 35, .35) 100%); }
   .hero-accueil__panneau { position: relative; top: auto; left: auto; transform: none; width: auto;
     padding: var(--e-7) var(--e-5); }
