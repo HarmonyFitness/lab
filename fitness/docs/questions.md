@@ -1685,6 +1685,12 @@ les présente comme des offres du réseau : assumé par Hugo (2026-10-23), les
 formules et les pages le disent. Reste à valider par Harmony comme le reste
 de la copy.
 
+
+**Titres de blocs, 2026-10-23 (Hugo).** « Comment voulez-vous vous
+entraîner ? » (seul, accompagné, en groupe) et « En groupe, des cours selon
+votre objectif » remplacent « Le sport chez Harmony » et « Des cours à votre
+rythme ». Rédigés, à valider.
+
 ### Q63 · Où vit la newsletter
 **Statut :** tranchée par Hugo le 2026-10-22
 **Source :** B.3 > Accueil (« newsletter » parmi les composants) contre

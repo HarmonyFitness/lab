@@ -2166,7 +2166,7 @@ Object.assign(window.HF.vues, (function () {
       }).filter(function (g) { return g.cours.length; });
     if (!groupes.length) return '';
     return '<section data-spec="B.3 > Accueil > cours en avant (par objectif)">' +
-      '<h2>Des cours selon votre objectif</h2>' +
+      '<h2>En groupe, des cours selon votre objectif</h2>' +
       '<div class="grille grille--3 defile-mobile">' + groupes.map(function (g) {
         var noms = g.cours.slice(0, 3).map(function (c) { return c.nom; });
         return '<div class="produit produit--lien">' +
@@ -2200,20 +2200,38 @@ Object.assign(window.HF.vues, (function () {
     ];
   }
 
-  /* Le sport chez Harmony, sur l'accueil (Hugo, 2026-10-23) : seuls les
-     cours collectifs y étaient montrés, alors que le plateau est le cœur
-     de toutes les formules. Quatre cartes à photo, cliquables en entier,
-     la ligne d'inclusion déduite des formules. */
+  /* Comment s'entraîner, sur l'accueil (Hugo, 2026-10-23) : trois façons
+     plutôt que quatre produits. Seul, le plateau ; accompagné, le
+     coaching ; en groupe, les cours collectifs et le Small Group Training.
+     C'est la question que se pose le visiteur, pas notre catalogue, et
+     « En groupe » ouvre le bloc suivant, les cours par objectif. Lignes
+     d'inclusion déduites des formules, données de piliersSport. */
   function sportEnAvant(base) {
     var b = base || '';
-    return '<section data-spec="B.3 > Accueil > le sport (piliers du hub Sport)">' +
-      '<h2>Le sport chez Harmony</h2>' +
-      '<div class="grille grille--cartes defile-mobile">' + piliersSport(b + 'sport/').map(function (p) {
-        return '<div class="produit produit--lien">' +
-          '<div class="produit__photo">' + V.blocImage(p.photo, 'large') + '</div>' +
-          '<h4><a href="' + p.href + '">' + esc(p.titre) + '</a></h4>' +
-          '<p class="mention">' + p.inclus + '</p></div>';
-      }).join('') + '</div></section>';
+    var p = {};
+    piliersSport(b + 'sport/').forEach(function (x) { p[x.titre] = x; });
+    var plateau = p['Plateau fitness'], coaching = p['Coaching personnel'],
+        cours = p['Cours collectifs'], sgt = p['Small Group Training'];
+    var carte = function (photo, mode, lien, corps) {
+      return '<div class="produit produit--lien">' +
+        '<div class="produit__photo">' + V.blocImage(photo, 'large') + '</div>' +
+        '<h4><a href="' + lien.href + '">' + esc(mode) + '</a></h4>' + corps + '</div>';
+    };
+    return '<section data-spec="B.3 > Accueil > le sport (seul, accompagné, en groupe)">' +
+      '<h2>Comment voulez-vous vous entraîner ?</h2>' +
+      '<div class="grille grille--3 defile-mobile modes">' +
+      carte('Photo : une membre seule sur le plateau, à son rythme', 'Seul', plateau,
+        '<p><strong>Plateau fitness</strong></p><p class="mention">' + plateau.inclus + '</p>') +
+      carte('Photo : un coach et un membre pendant une séance', 'Accompagné', coaching,
+        '<p><strong>Coaching personnel</strong></p><p class="mention">' + coaching.inclus + '</p>') +
+      /* En groupe : deux produits, un inclus et un payant. La carte mène
+         aux cours collectifs ; le Small Group Training a son propre lien,
+         avec sa ligne Extra, pour ne pas le faire passer pour inclus. */
+      carte('Photo : un cours collectif en salle, énergie du groupe', 'En groupe', cours,
+        '<p><strong>Cours collectifs</strong></p><p class="mention">' + cours.inclus + '</p>' +
+        '<p style="margin-top:8px"><a class="lien-texte" href="' + sgt.href + '">Small Group Training</a></p>' +
+        '<p class="mention">' + sgt.inclus + '</p>') +
+      '</div></section>';
   }
 
   /* Bien-être : les espaces en tags et le nombre de clubs qui en ont,

@@ -1347,6 +1347,9 @@ a.carte__repere { text-decoration: none; }
 /* Une action posée juste sous le contenu, pas poussée en pied de bloc :
    dans une carte couchée à grande photo, produit__pied laissait un trou. */
 .bloc__action { margin: var(--e-4) 0 0; }
+/* Seul, accompagné, en groupe : la façon de s'entraîner se lit d'abord, le
+   produit ensuite. */
+.modes h4 { font-size: 24px; line-height: 30px; font-weight: 600; margin-bottom: var(--e-1); }
 /* Bien-être de l'accueil : photo moins haute, centrée sur le texte. */
 [data-spec="B.3 > Accueil > bloc bien-être"] .bloc--couche { align-items: center; }
 [data-spec="B.3 > Accueil > bloc bien-être"] .bloc--couche .img { aspect-ratio: 4 / 3; }
@@ -1404,6 +1407,7 @@ a.carte__repere { text-decoration: none; }
      la suivante, pour qu'on voie qu'il y en a d'autres. */
   .grille.defile-mobile { display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
     gap: var(--e-3); margin-right: calc(-1 * var(--gouttiere)); padding-right: var(--gouttiere); }
+  .grille.defile-mobile { align-items: flex-start; }
   .grille.defile-mobile > * { flex: 0 0 78%; scroll-snap-align: start; }
   .preuves--photo .preuves__valeur { font-size: 20px; }
   .preuves--photo li { padding: 0 10px; }
