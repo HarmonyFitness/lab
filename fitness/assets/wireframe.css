@@ -72,13 +72,14 @@
   --accent: #204d6e;
   --accent-fonce: #183c57;
   --accent-fond: #e8eff5;
-  /* Océan vif : la couleur des boutons (Hugo, 2026-10-22). Le bleu vif du
-     logo poussé en saturation : du peps, sans quitter la famille de la
-     marque. Le plus vif qui porte encore un texte blanc lisible (4.7:1) ;
-     un vrai bleu fluo tomberait à 2.7:1. */
-  --action: #0079bd;
-  --action-fonce: #00639c;
-  --action-fond: #e5f1f9;
+  /* Boutons : retour au bleu de marque, celui du pied de page (Hugo,
+     2026-10-23). L'océan vif (#0079bd) essayé le 2026-10-22 est gardé pour
+     la verticale Aqua (École de natation) : il n'est plus utilisé dans
+     Fitness, le jeton --aqua le conserve pour qu'on ne le perde pas. */
+  --action: var(--accent);
+  --action-fonce: var(--accent-fonce);
+  --action-fond: var(--accent-fond);
+  --aqua: #0079bd;
   --lien: #1b6e90;
   --focus: #2480a6;
 
@@ -189,7 +190,7 @@ main > .hote-collant + * { margin-top: 0; }
 h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 
 /* ------------------------------------------------------------------ */
-/* Boutons : en pilule, océan vif pour l'action principale             */
+/* Boutons : en pilule, bleu de marque pour l'action principale             */
 /* ------------------------------------------------------------------ */
 /* Un seul bouton principal par zone, le reste en secondaire ou discret.
    Pas d'ombre sur un bouton, pas de capitales. 44 px de haut : une zone
@@ -545,11 +546,14 @@ body:has(.hero-plein) .barre-groupe__inner { max-width: none;
   outline: 2px solid #fff; }
 /* Repères aux couleurs des badges de catégorie : Gym gris, Essential bleu
    teinté, Premium bleu de marque. La forme et la lettre restent : la
-   couleur ne dit jamais rien seule. L'actif prend l'océan vif. */
+   couleur ne dit jamais rien seule. L'actif ne peut plus se distinguer
+   par la couleur (le bouton et Premium partagent le bleu de marque) : il
+   grandit et prend un halo bleu clair. */
 .carte__repere--gym { background: var(--cat-gym); }
 .carte__repere--essential { background: var(--cat-essential); }
 .carte__repere--premium { background: var(--cat-premium); }
-.carte__repere--actif { background: var(--action); }
+.carte__repere--actif { background: var(--action); transform: translate(-50%, -50%) scale(1.25); z-index: 2;
+  box-shadow: 0 0 0 4px var(--bleu-clair-trait); }
 .carte-bloc { display: flex; flex-direction: column; }
 /* flex: 1 0 auto et pas flex: 1 : une hauteur posée sur la carte (420 px
    sur le hub) doit tenir, sinon la base 0 la ramène à sa hauteur minimale. */
