@@ -1813,3 +1813,17 @@ catégorie » vers le module complet du hub (`/clubs#categories`). C'est la
 version la plus courte possible du module que B.3 demande, mais ce n'est
 plus un bloc : à confirmer, puis à reporter dans B.3.
 
+### Q71 · L'offre entreprise sort du menu, elle passe au footer
+**Statut :** à valider par Harmony (posé par Hugo le 2026-10-23)
+**Source :** B.3 > Arborescence : « Tarifs (menu déroulant) : Tous les
+tarifs, Offre du moment, Offre entreprise → renvoi corporate ».
+
+Le site vise d'abord le particulier. Dans le déroulant Tarifs, ouvert au
+moment où l'on regarde les prix, « Offre entreprise » donnait une raison de
+remettre l'achat à plus tard (« mon employeur a peut-être un tarif »), pour
+un lien qui ne sert qu'à peu de visiteurs : les entreprises arrivent par le
+site corporate. Le lien est déplacé au footer, colonne Aide, et renvoie
+toujours vers la page Entreprises du corporate. Le déroulant Tarifs garde
+Tous les tarifs et, pendant une campagne, l'Offre du moment. À confirmer,
+puis à reporter dans B.3.
+

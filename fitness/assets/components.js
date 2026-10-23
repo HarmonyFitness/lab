@@ -740,7 +740,7 @@ window.HF.vues = (function () {
      l'ordinateur et pour l'accordéon du burger mobile (Hugo, 2026-10-23).
      Clubs n'est pas un déroulant dans B.3 : on l'ajoute parce que trouver
      son club est la tâche la plus fréquente, à valider (Q69). Les pages
-     hors du lab (Massage, Offre entreprise) gardent « # » et se lisent en
+     hors du lab (Massage) gardent « # » et se lisent en
      grisé. L'Offre du moment n'apparaît que si une campagne tourne : c'est
      l'entrée du menu qui disparaît, pas la page. */
   function sousMenus(base, etat) {
@@ -767,8 +767,11 @@ window.HF.vues = (function () {
       { nom: 'Tarifs', href: base + 'tarifs/', signal: campagne,
         groupes: [{ liens: [
           { nom: 'Tous les tarifs', href: base + 'tarifs/' },
-          campagne ? { nom: 'Offre du moment', href: base + 'offre-du-moment/', promo: true } : null,
-          { nom: 'Offre entreprise' }
+          campagne ? { nom: 'Offre du moment', href: base + 'offre-du-moment/', promo: true } : null
+          /* L'offre entreprise quitte le menu pour le footer (Hugo,
+             2026-10-23, Q71) : dans le déroulant Tarifs, juste avant
+             l'achat, elle donnait une raison d'attendre (« mon employeur a
+             peut-être un tarif »). */
         ].filter(Boolean) }] }
     ];
   }
@@ -888,7 +891,10 @@ window.HF.vues = (function () {
       { titre: 'Aide', liens: [
         { nom: "Besoin d'aide ?" },
         { nom: 'Espace membre' },
-        { nom: 'Actualités', href: b + 'actualites/' }
+        { nom: 'Actualités', href: b + 'actualites/' },
+        /* Renvoi vers la page Entreprises du site corporate, hors du lab
+           (Q71). */
+        { nom: 'Offre entreprise' }
       ] },
       /* Le footer ne donne plus d'adresse e-mail : un seul canal écrit, le
          formulaire, pour que toute demande soit comptée et dispatchée (Q37). */
