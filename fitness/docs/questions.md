@@ -1699,6 +1699,12 @@ lab ; en production, stockage CMS et transmission à l'outil métier (6.3.4).
 
 ### Q64 · Quels cours « en avant » sur l'accueil
 **Statut :** tranchée par Hugo le 2026-10-22, reportée en section 7
+
+**Remplacée le 2026-10-23 (Hugo).** L'accueil ne met plus quatre cours en
+avant : il propose une entrée par objectif, six cartes vers les sections du
+catalogue. Le drapeau `enAvant` ne sert plus sur l'accueil ; il reste dans
+le modèle (section 7) tant qu'Harmony n'a pas dit s'il sert ailleurs (un
+slider de cours phares au-dessus du catalogue, que B.3 autorise).
 **Source :** B.3 > Accueil : « cours en avant », sans dire lesquels.
 
 Un drapeau facultatif `enAvant` sur le cours, pour que l'éditeur tienne un

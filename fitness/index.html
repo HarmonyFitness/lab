@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Fitness, cours collectifs et bien-être à Genève et Vaud | Harmony</title>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/wireframe.css?v=2026-10-23t">
+<link rel="stylesheet" href="assets/wireframe.css?v=2026-10-23u">
 </head>
 <body>
 
@@ -31,8 +31,8 @@
            collectif, des gens qui sourient. Deux tailles, le navigateur prend
            celle qu'il lui faut. -->
       <div class="hero-accueil__photo">
-        <img src="assets/photos/hero-cours-collectifs-2400.jpg?v=2026-10-23t"
-             srcset="assets/photos/hero-cours-collectifs-1200.jpg?v=2026-10-23t 1200w, assets/photos/hero-cours-collectifs-2400.jpg?v=2026-10-23t 2400w"
+        <img src="assets/photos/hero-cours-collectifs-2400.jpg?v=2026-10-23u"
+             srcset="assets/photos/hero-cours-collectifs-1200.jpg?v=2026-10-23u 1200w, assets/photos/hero-cours-collectifs-2400.jpg?v=2026-10-23u 2400w"
              sizes="100vw" alt="Cours collectif en club : une participante sourit, les bras levés, entourée d'autres membres sur leurs steps"
              fetchpriority="high">
       </div>
@@ -91,9 +91,11 @@
 
     <!-- ====================================================== BLOC 6 -->
     <!-- Le sport chez Harmony, les quatre piliers du hub Sport (Hugo,
-         2026-10-23), puis les cours en avant. -->
+         2026-10-23), puis les cours par objectif. -->
     <div x-html="HF.vues.sportEnAvant('')"></div>
-    <div x-html="HF.vues.coursEnAvant(4, '')"></div>
+    <!-- Les cours par objectif (Hugo, 2026-10-23) : six entrées vers le
+         catalogue du hub, à la place de quatre cours mis en avant. -->
+    <div x-html="HF.vues.objectifsCours('')"></div>
 
     <!-- ====================================================== BLOC 7 -->
     <div x-html="HF.vues.teaserBienEtre('')"></div>
@@ -120,8 +122,8 @@
 
 </div>
 
-<script src="data/data.js?v=2026-10-23t"></script>
-<script src="assets/components.js?v=2026-10-23t"></script>
+<script src="data/data.js?v=2026-10-23u"></script>
+<script src="assets/components.js?v=2026-10-23u"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageAccueil', function () {
@@ -135,7 +137,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="assets/alpine.min.js?v=2026-10-23t"></script>
+<script defer src="assets/alpine.min.js?v=2026-10-23u"></script>
 
 </body>
 </html>

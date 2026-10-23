@@ -2149,6 +2149,37 @@ Object.assign(window.HF.vues, (function () {
       'sport/cours-collectifs/">Tous les cours</a></p></section>';
   }
 
+  /* Les cours collectifs sur l'accueil : une entrée par objectif, pas une
+     sélection de cours (Hugo, 2026-10-23). On arrive avec un but (se
+     dépenser, se détendre…), pas avec un nom de cours en tête. Chaque
+     carte mène à la section de l'objectif dans le catalogue du hub, compte
+     ses cours et en cite trois. Même rangement que le catalogue
+     (catalogueParObjectif) : les nombres sont les mêmes des deux côtés. */
+  function objectifsCours(base) {
+    var b = base || '';
+    /* Les Extras ne sont pas comptés : la somme des six cartes retombe sur
+       la preuve du hero (« 46 cours collectifs différents »), qui ne compte
+       que ce qui est inclus. Le catalogue, lui, les montre marqués Extra. */
+    var groupes = R.catalogueParObjectif({}).filter(function (g) { return g.objectif.id; })
+      .map(function (g) {
+        return { objectif: g.objectif, cours: g.cours.filter(function (c) { return !c.estExtra; }) };
+      }).filter(function (g) { return g.cours.length; });
+    if (!groupes.length) return '';
+    return '<section data-spec="B.3 > Accueil > cours en avant (par objectif)">' +
+      '<h2>Des cours selon votre objectif</h2>' +
+      '<div class="grille grille--3 defile-mobile">' + groupes.map(function (g) {
+        var noms = g.cours.slice(0, 3).map(function (c) { return c.nom; });
+        return '<div class="produit produit--lien">' +
+          '<div class="produit__photo">' + V.blocImage('Photo : ' + g.objectif.nom.toLowerCase(), 'large') + '</div>' +
+          '<h4><a href="' + b + 'sport/cours-collectifs/#objectif-' + g.objectif.id + '">' +
+          esc(g.objectif.nom) + '</a></h4>' +
+          '<p class="mention"><strong>' + g.cours.length + ' cours</strong> · ' + esc(noms.join(', ')) +
+          (g.cours.length > 3 ? '…' : '') + '</p></div>';
+      }).join('') + '</div>' +
+      '<p class="bloc__action"><a class="lien-texte" href="' + b +
+      'sport/cours-collectifs/">Tous les cours et le planning</a></p></section>';
+  }
+
   /* Les quatre piliers du sport, une seule source pour le hub Sport et
      l'accueil. base mène au dossier sport/ depuis la page qui appelle. */
   function piliersSport(base) {
@@ -2237,7 +2268,7 @@ Object.assign(window.HF.vues, (function () {
     teaserActualites: teaserActualites,
     pourquoiHarmony: pourquoiHarmony, apercuClubs: apercuClubs, teaserOffre: teaserOffre,
     teaserTarifs: teaserTarifs, coursEnAvant: coursEnAvant, teaserBienEtre: teaserBienEtre,
-    piliersSport: piliersSport, sportEnAvant: sportEnAvant,
+    piliersSport: piliersSport, sportEnAvant: sportEnAvant, objectifsCours: objectifsCours,
     blocPrix: blocPrix, ligneRemise: ligneRemise, annoncePromo: annoncePromo,
     infoClubs: infoClubs,
     ligneRemiseAilleurs: ligneRemiseAilleurs,
