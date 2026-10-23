@@ -1736,8 +1736,8 @@ raccourcies. Ce qui est un fait reste en placeholder : prix, note, avis,
 témoignages, textes des articles, description de l'offre. Tout est à valider.
 
 **Manifeste raccourci, 2026-10-23 (Hugo).** Le précédent faisait trop
-manifeste, trop inspirant. Une phrase simple : « Chez Harmony, chacun
-s'entraîne à son rythme, sans pression. »
+manifeste, trop inspirant. Une phrase simple, sur deux lignes : « Chez Harmony, / chacun
+s'entraîne à son rythme. » (« sans pression » retiré le même jour).
 
 **Surtitre retiré, 2026-10-23 (Hugo).** « Pourquoi Harmony » au-dessus du
 manifeste n'apportait rien : le bloc s'ouvre directement sur le manifeste.

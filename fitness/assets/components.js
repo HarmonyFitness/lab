@@ -2034,7 +2034,8 @@ Object.assign(window.HF.vues, (function () {
   /* Le manifeste dit une conviction, pas l'offre : la liste salle, eau,
      coachs, wellness est déjà dans le sous-titre du hero et dans les trois
      différenciants juste dessous (Hugo, 2026-10-23). */
-  var MANIFESTE = 'Chez Harmony, chacun s\'entraîne à son rythme, sans pression.';
+  /* Deux lignes, coupées après « Chez Harmony, » (Hugo, 2026-10-23). */
+  var MANIFESTE = ['Chez Harmony,', 'chacun s\'entraîne à son rythme.'];
   function pourquoiHarmony(spec, opts) {
     var o = opts || {};
     var visages = ['une membre en conversation avec son coach',
@@ -2047,7 +2048,7 @@ Object.assign(window.HF.vues, (function () {
     ];
     /* Pas de surtitre « Pourquoi Harmony » (Hugo, 2026-10-23) : le
        manifeste se suffit. */
-    var tete = '<h2 class="manifeste">' + esc(MANIFESTE) + '</h2>';
+    var tete = '<h2 class="manifeste">' + MANIFESTE.map(esc).join('<br>') + '</h2>';
     if (o.visages) {
       return '<section class="section-voix section-voix--centre" data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' +
         tete + '<ul class="voix voix--centre">' + items.map(function (d, i) {
