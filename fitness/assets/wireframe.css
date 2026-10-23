@@ -355,7 +355,7 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
 .entete__logo { display: inline-flex; flex: none; justify-self: start; text-decoration: none; }
 .entete__img { display: block; height: 30px; width: auto; }
 .entete__nav { display: flex; align-items: center; gap: var(--e-1); }
-.nav-rub__lien { text-decoration: none; color: var(--ink); font-weight: 500;
+.nav-rub__lien { text-decoration: none; color: var(--ink); font-weight: 500; font-size: 15px;
   padding: 8px 4px 8px 14px; border-radius: var(--rayon-pilule); }
 .nav-rub__lien:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-strong);
   text-decoration-thickness: 2px; text-underline-offset: 8px; }
@@ -440,13 +440,14 @@ body:has(.hero-plein) .barre-groupe__inner { max-width: none;
    2026-10-23, sur le modèle d'Adobe) : le header est sur toutes les pages,
    un bouton plein y concurrençait l'action de la page (« Choisir
    Essential », « Demander à être rappelé »). Il se remplit au survol. */
-.btn.btn--entete { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.btn.btn--entete { background: transparent; color: var(--ink); border: 1.5px solid var(--ink);
+  font-size: 15px; min-height: 40px; padding: 7px 20px; }
 .btn.btn--entete:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
 /* Séance d'essai en lien texte, pas en bouton : l'abonnement est
    l'objectif principal, il garde seul la forme de bouton (Hugo,
    2026-10-23). Couleur d'action et graisse de bouton pour qu'on le lise
    comme une action, zone de clic de la hauteur d'un bouton. */
-.entete__essai { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px;
+.entete__essai { display: inline-flex; align-items: center; min-height: 40px; padding: 0 12px; font-size: 15px;
   color: var(--action-fonce); font-weight: 600; text-decoration: none; white-space: nowrap;
   border-radius: var(--rayon-pilule); }
 .entete__essai:hover { color: var(--action-fonce); background: var(--action-fond); }
