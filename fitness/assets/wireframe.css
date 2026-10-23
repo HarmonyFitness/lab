@@ -911,6 +911,51 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
 .planning__vide { padding: var(--e-4); background: var(--surface-tint); border-radius: var(--rayon);
   color: var(--gris-60); font-size: 15px; }
 
+/* Planning en semaine sur ordinateur, comme un agenda (Hugo, 2026-10-23) :
+   un jour par colonne, les heures de haut en bas, chaque séance à sa place
+   et à la hauteur de sa durée. Sur mobile, la liste jour par jour. */
+.semaine-nav { display: flex; align-items: center; gap: var(--e-2); margin: 0 0 var(--e-4); }
+.semaine-nav .btn--secondaire { min-width: 40px; padding-left: 0; padding-right: 0; justify-content: center; }
+.semaine-nav .btn:disabled { opacity: .4; cursor: default; }
+.semaine-nav__titre { font-size: 18px; font-weight: 600; margin: 0 var(--e-2); }
+.semaine { border: 1px solid var(--line); border-radius: var(--rayon); background: var(--surface); overflow: hidden; }
+.semaine__tete, .semaine__corps { display: grid; grid-template-columns: 56px repeat(7, minmax(0, 1fr)); }
+.semaine__tete { border-bottom: 1px solid var(--line); background: var(--surface-tint); }
+.semaine__date { display: flex; align-items: baseline; justify-content: center; gap: 6px;
+  padding: 10px 4px; font-size: 14px; color: var(--gris-60); }
+.semaine__date strong { font-size: 18px; font-weight: 600; color: var(--ink); }
+.semaine__date--auj strong { background: var(--accent); color: #fff; border-radius: 50%;
+  width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; }
+.semaine__corps { position: relative;
+  background-image: repeating-linear-gradient(to bottom, var(--line) 0 1px, transparent 1px var(--heure)); }
+.semaine__heures { position: relative; }
+.semaine__heure { position: absolute; right: 8px; transform: translateY(-50%); font-size: 12px;
+  color: var(--gris-60); background: var(--surface); padding: 0 2px; font-variant-numeric: tabular-nums; }
+.semaine__heure:first-child { transform: none; top: 2px !important; }
+.semaine__jour { position: relative; border-left: 1px solid var(--line); }
+.semaine__jour--auj { background: rgba(220, 232, 242, .35); }
+.seance { position: absolute; display: flex; flex-direction: column; gap: 1px; overflow: hidden;
+  padding: 4px 8px; border-radius: var(--rayon-xs); border-left: 3px solid var(--accent);
+  background: var(--bleu-clair); color: var(--accent); text-decoration: none; font-size: 12px; line-height: 16px; }
+.seance > * { flex: none; }
+.seance:hover { box-shadow: var(--ombre-survol); z-index: 1; }
+/* Moins de 45 minutes : l'heure et le nom sur une ligne, le reste au survol de la fiche. */
+.seance--courte { flex-direction: row; gap: 6px; padding-top: 2px; padding-bottom: 2px; }
+.seance--courte .seance__duree, .seance--courte .seance__info { display: none; }
+.seance--extra { background: var(--cat-gym-fond); border-left-color: var(--cat-gym); color: var(--cat-gym); }
+.seance__heure, .seance__info { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.seance__heure { font-variant-numeric: tabular-nums; opacity: .85; }
+.seance__nom { font-weight: 600; font-size: 13px; }
+.seance__info { color: var(--gris-80); }
+.bloc-planning .planning { display: none; }
+.filtres--planning select:first-child { display: none; }
+@media (max-width: 900px) {
+  .semaine { display: none; }
+  .bloc-planning .planning { display: table; }
+  .filtres--planning select:first-child { display: block; }
+  .semaine-nav__titre { font-size: 16px; }
+}
+
 /* Carte coach (CoachCard du design system) : photo ronde à gauche, prénom
    et badges à droite. Sans photo, l'initiale dans un rond blanc. */
 .coachs { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--e-4); }

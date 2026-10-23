@@ -1750,7 +1750,7 @@ Object.assign(window.HF.vues, (function () {
         }).join('') + '</select>';
     }
 
-    var filtres = '<div class="filtres">' +
+    var filtres = '<div class="filtres filtres--planning">' +
       opt(D.referentiels.jours.map(function (j) { return { id: j, nom: j[0].toUpperCase() + j.slice(1) }; }),
           f.jour, 'jour', 'Tous les jours') +
       opt(D.referentiels.objectifs, f.objectif, 'objectif', 'Tous les objectifs') +
@@ -1768,30 +1768,121 @@ Object.assign(window.HF.vues, (function () {
       return true;
     });
 
+    /* La semaine affichée, lue dans l'outil de réservation (Hugo,
+       2026-10-23) : de vraies dates, la semaine en cours d'abord, trois
+       semaines à l'avance au plus. Le lab rejoue le planning type. */
+    var dec = etat.semaine || 0;
+    var lundi = new Date(); lundi.setHours(0, 0, 0, 0);
+    lundi.setDate(lundi.getDate() - ((lundi.getDay() + 6) % 7) + 7 * dec);
+    var auj = new Date(); auj.setHours(0, 0, 0, 0);
+    var dates = D.referentiels.jours.map(function (j, i) {
+      var d = new Date(lundi); d.setDate(lundi.getDate() + i); return d;
+    });
+    function jourMois(d, opts) {
+      return d.toLocaleDateString('fr-CH', opts).replace(/(^|\s)1(\s)/, '$11er$2');
+    }
+    var dimanche = dates[6];
+    var titreSemaine = 'Semaine du ' + jourMois(lundi, { day: 'numeric' }) +
+      (lundi.getMonth() !== dimanche.getMonth() ? ' ' + jourMois(lundi, { month: 'long' }) : '') +
+      ' au ' + jourMois(dimanche, { day: 'numeric', month: 'long' });
+    var nav = '<div class="semaine-nav">' +
+      '<button type="button" class="btn btn--secondaire btn--petit" data-act="semaine" data-id="prec"' +
+      (dec === 0 ? ' disabled' : '') + ' aria-label="Semaine précédente">‹</button>' +
+      '<button type="button" class="btn btn--secondaire btn--petit" data-act="semaine" data-id="suiv"' +
+      (dec === 3 ? ' disabled' : '') + ' aria-label="Semaine suivante">›</button>' +
+      '<strong class="semaine-nav__titre">' + esc(titreSemaine) + '</strong>' +
+      (dec ? '<button type="button" class="btn btn--tertiaire btn--petit" data-act="semaine" data-id="courante">Cette semaine</button>' : '') +
+      '</div>';
+
+    function minutes(h) { var p = h.split(':'); return Number(p[0]) * 60 + Number(p[1]); }
+    function nomIntensite(co) {
+      var x = D.referentiels.intensites.find(function (i) { return i.id === co.intensite; });
+      return x ? x.nom : '';
+    }
+
+    /* Mobile : la liste, jour par jour. */
     var corps = '';
-    D.referentiels.jours.forEach(function (jour) {
+    D.referentiels.jours.forEach(function (jour, i) {
       var duJour = visibles.filter(function (s) { return s.jour === jour; })
         .sort(function (a, b) { return a.heure.localeCompare(b.heure); });
       if (!duJour.length) return;
-      corps += '<tr class="planning__jour"><td colspan="4">' + esc(jour[0].toUpperCase() + jour.slice(1)) + '</td></tr>';
+      corps += '<tr class="planning__jour"><td colspan="4">' +
+        esc(jourMois(dates[i], { weekday: 'long', day: 'numeric', month: 'long' }).replace(/^./, function (x) { return x.toUpperCase(); })) +
+        '</td></tr>';
       corps += duJour.map(function (s) {
         var co = H.cours(s.cours);
-        var inten = D.referentiels.intensites.find(function (x) { return x.id === co.intensite; });
         return '<tr><td>' + esc(s.heure) + '</td>' +
           '<td><a href="' + H.lienCours(co, '../../') + '">' + esc(co.nom) + '</a>' +
           (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') + '</td>' +
           '<td>' + esc(s.duree) + ' min</td>' +
-          '<td>' + esc(inten ? inten.nom : '') + '</td></tr>';
+          '<td>' + esc(nomIntensite(co)) + '</td></tr>';
       }).join('');
     });
 
-    return '<section id="planning" data-spec="B.3 > Trame de la page club > 4">' +
-      '<h2>Planning</h2>' + filtres +
+    /* Ordinateur : la semaine en colonnes, comme un agenda. Une séance est
+       placée à son heure et prend la hauteur de sa durée ; deux séances qui
+       se chevauchent se partagent la largeur du jour. */
+    var semaine = '';
+    if (visibles.length) {
+      var debut = Math.floor(Math.min.apply(null, visibles.map(function (s) { return minutes(s.heure); })) / 60);
+      var fin = Math.ceil(Math.max.apply(null, visibles.map(function (s) { return minutes(s.heure) + s.duree; })) / 60);
+      if (fin - debut < 6) fin = debut + 6;
+      var HEURE = 80;
+      var heures = '';
+      for (var h = debut; h < fin; h++) {
+        heures += '<div class="semaine__heure" style="top:' + ((h - debut) * HEURE) + 'px">' + h + ':00</div>';
+      }
+      var colonnes = D.referentiels.jours.map(function (jour, i) {
+        var duJour = visibles.filter(function (s) { return s.jour === jour; })
+          .map(function (s) { return { s: s, d: minutes(s.heure), f: minutes(s.heure) + s.duree }; })
+          .sort(function (a, b) { return a.d - b.d || b.f - a.f; });
+        /* Couloirs : un groupe de séances qui se chevauchent partage la
+           largeur en autant de couloirs qu'il en faut. */
+        var groupe = [], finGroupe = -1;
+        function fermer() {
+          var n = 0; groupe.forEach(function (x) { n = Math.max(n, x.couloir + 1); });
+          groupe.forEach(function (x) { x.n = n; }); groupe = [];
+        }
+        duJour.forEach(function (x) {
+          if (x.d >= finGroupe) { fermer(); finGroupe = -1; }
+          var pris = groupe.filter(function (y) { return y.f > x.d; }).map(function (y) { return y.couloir; });
+          var k = 0; while (pris.indexOf(k) !== -1) k++;
+          x.couloir = k; groupe.push(x); finGroupe = Math.max(finGroupe, x.f);
+        });
+        fermer();
+        var estAuj = dates[i].getTime() === auj.getTime();
+        return '<div class="semaine__jour' + (estAuj ? ' semaine__jour--auj' : '') + '">' +
+          duJour.map(function (x) {
+            var co = H.cours(x.s.cours);
+            var haut = (x.d - debut * 60) * HEURE / 60, taille = x.s.duree * HEURE / 60;
+            return '<a class="seance' + (co.estExtra ? ' seance--extra' : '') + (x.s.duree < 45 ? ' seance--courte' : '') + '" href="' + H.lienCours(co, '../../') + '"' +
+              ' style="top:' + haut + 'px;height:' + (taille - 2) + 'px;left:calc(' + (100 * x.couloir / x.n) + '% + 2px);' +
+              'width:calc(' + (100 / x.n) + '% - 4px)">' +
+              '<span class="seance__heure">' + esc(x.s.heure) + '<span class="seance__duree"> · ' + esc(x.s.duree) + ' min</span></span>' +
+              '<span class="seance__nom">' + esc(co.nom) + '</span>' +
+              '<span class="seance__info">' + (co.estExtra ? '<span class="extra__marque">Extra</span> ' : '') +
+              esc(nomIntensite(co)) + '</span></a>';
+          }).join('') + '</div>';
+      }).join('');
+      var entetes = dates.map(function (d) {
+        var estAuj = d.getTime() === auj.getTime();
+        return '<div class="semaine__date' + (estAuj ? ' semaine__date--auj' : '') + '">' +
+          '<span>' + esc(jourMois(d, { weekday: 'short' }).replace('.', '')) + '</span>' +
+          '<strong>' + d.getDate() + '</strong></div>';
+      }).join('');
+      semaine = '<div class="semaine">' +
+        '<div class="semaine__tete"><div></div>' + entetes + '</div>' +
+        '<div class="semaine__corps" style="height:' + ((fin - debut) * HEURE) + 'px;--heure:' + HEURE + 'px">' +
+        '<div class="semaine__heures">' + heures + '</div>' + colonnes + '</div></div>';
+    }
+
+    return '<section id="planning" class="bloc-planning" data-spec="B.3 > Trame de la page club > 4">' +
+      '<h2>Planning</h2>' + filtres + nav +
       (corps
-        ? '<table class="planning"><thead><tr><th>Heure</th><th>Cours</th><th>Durée</th>' +
+        ? semaine + '<table class="planning"><thead><tr><th>Heure</th><th>Cours</th><th>Durée</th>' +
           '<th>Intensité</th></tr></thead><tbody>' + corps + '</tbody></table>'
         : '<p class="planning__vide">Aucune séance ne correspond à ces filtres.</p>') +
-      '<p class="mention">Mis à jour le [date de mise à jour].</p></section>';
+      '</section>';
   }
 
   /* Composant Personne : carte + panneau au clic. Pas de page coach.
@@ -2391,6 +2482,7 @@ Object.assign(window.HF, (function () {
       catOuverte: null,
       coachOuvert: null,
       faqOuverte: null,
+      semaine: 0,
       message: null,
       filtres: { club: '', categorie: '', jour: '', objectif: '', intensite: '',
                  format: '', recherche: '' },
@@ -2498,6 +2590,10 @@ Object.assign(window.HF, (function () {
       etat.extrasChoisis = etat.extrasChoisis.filter(function (x) { return x !== id; });
     },
     'panneau-cat': function (etat, id) { etat.catOuverte = (etat.catOuverte === id) ? null : id; },
+    /* Planning : semaine affichée, 0 = la semaine en cours. */
+    'semaine': function (etat, id) {
+      etat.semaine = id === 'courante' ? 0 : Math.max(0, Math.min(3, (etat.semaine || 0) + (id === 'suiv' ? 1 : -1)));
+    },
     'panneau-coach': function (etat, id) { etat.coachOuvert = (etat.coachOuvert === id) ? null : id; },
     'faq': function (etat, id) { var n = Number(id); etat.faqOuverte = (etat.faqOuverte === n) ? null : n; },
     'finaliser': function (etat) { etat.message = 'Redirection vers le tunnel de souscription.'; },

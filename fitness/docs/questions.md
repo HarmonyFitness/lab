@@ -1905,3 +1905,21 @@ toujours vers la page Entreprises du corporate. Le déroulant Tarifs garde
 Tous les tarifs et, pendant une campagne, l'Offre du moment. À confirmer,
 puis à reporter dans B.3.
 
+### Q72 · Planning connecté à Echino : d'où viennent les comptages ?
+**Statut :** ouverte (posée le 2026-10-23)
+**Source :** Hugo, 2026-10-23 : « le planning de la semaine, qui sera
+connecté à Echino ». Avant : planning type saisi au CMS, API Echino en
+option ensuite (Annexe A, principe de découplage en 8.2).
+
+Le planning de la page club est maintenant celui de la semaine, lu dans
+Echino, avec de vraies dates. Mais la collection Séance du CMS (section 7)
+ne sert pas qu'à l'afficher : elle fait aussi les comptages et les
+déductions du site, le nombre de cours d'une formule, les clubs où un cours
+est donné, les Small Group Training d'un club, le caractère Extra d'une
+séance, les preuves de l'accueil. Deux pistes : tout lire dans Echino (il
+faut alors que l'API expose le cours, le format et le caractère Extra de
+chaque séance, et que le site sache quoi faire d'une semaine creuse ou
+d'une séance annulée), ou garder un planning type au CMS pour les
+comptages et lire Echino pour l'affichage seulement (deux sources à tenir
+d'accord). À trancher avec Richard et Harmony, puis à reporter dans la
+section 7 et la section 8.2.
