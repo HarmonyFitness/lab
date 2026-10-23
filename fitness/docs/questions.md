@@ -1718,6 +1718,15 @@ club vous rappelle pour fixer votre séance d'essai. » Phrases des formules
 raccourcies. Ce qui est un fait reste en placeholder : prix, note, avis,
 témoignages, textes des articles, description de l'offre. Tout est à valider.
 
+**Ajustements du 2026-10-23 (Hugo).** « Quoi de neuf dans vos clubs » ne
+tenait pas le ton : le bloc devient « La vie de nos clubs ». « Seul » devient
+« En autonomie ». Le manifeste répétait le sous-titre du hero et les trois
+points (salle, eau, coachs, détente dits trois fois de suite) : le sous-titre
+reste, parce que le H1 est une signature et que c'est lui qui dit ce
+qu'Harmony propose ; le manifeste dit désormais une conviction : « Le sport
+doit vous faire du bien, pas vous mettre la pression. Chez Harmony, chacun
+avance à son rythme, et on est là pour que vous teniez dans la durée. »
+
 ### Q63 · Où vit la newsletter
 **Statut :** tranchée par Hugo le 2026-10-22
 **Source :** B.3 > Accueil (« newsletter » parmi les composants) contre

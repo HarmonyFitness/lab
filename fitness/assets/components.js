@@ -2025,9 +2025,12 @@ Object.assign(window.HF.vues, (function () {
   /* opts.visages (accueil) : chaque argument est porté par une personne,
      un visage rond au-dessus de sa phrase, le tout centré sur un aplat
      teinté. La landing garde ses cartes. */
-  var MANIFESTE = 'Le sport doit vous faire du bien. Chez Harmony, on vous aide ' +
-    'à progresser à votre rythme, en salle comme dans l\'eau, puis on vous laisse ' +
-    'le temps de souffler.';
+  /* Le manifeste dit une conviction, pas l'offre : la liste salle, eau,
+     coachs, wellness est déjà dans le sous-titre du hero et dans les trois
+     différenciants juste dessous (Hugo, 2026-10-23). */
+  var MANIFESTE = 'Le sport doit vous faire du bien, pas vous mettre la pression. ' +
+    'Chez Harmony, chacun avance à son rythme, et on est là pour que vous teniez ' +
+    'dans la durée.';
   function pourquoiHarmony(spec, opts) {
     var o = opts || {};
     var visages = ['une membre en conversation avec son coach',
@@ -2232,10 +2235,10 @@ Object.assign(window.HF.vues, (function () {
     };
     return '<section data-spec="B.3 > Accueil > le sport (seul, accompagné, en groupe)">' +
       '<h2>Comment voulez-vous vous entraîner ?</h2>' +
-      '<p class="bloc__intro">Seul, avec un coach ou en groupe : chez Harmony, vous pouvez ' +
+      '<p class="bloc__intro">En autonomie, avec un coach ou en groupe : chez Harmony, vous pouvez ' +
       'passer de l\'un à l\'autre selon vos envies.</p>' +
       '<div class="grille grille--3 defile-mobile modes">' +
-      carte('Photo : une membre seule sur le plateau, à son rythme', 'Seul', plateau,
+      carte('Photo : une membre en autonomie sur le plateau, à son rythme', 'En autonomie', plateau,
         '<p><strong>Plateau fitness</strong></p><p>Vos machines, vos charges, votre rythme.</p><p class="mention">' + plateau.inclus + '</p>') +
       carte('Photo : un coach et un membre pendant une séance', 'Accompagné', coaching,
         '<p><strong>Coaching personnel</strong></p><p>Un programme construit avec vous, et quelqu\'un pour le suivre.</p><p class="mention">' + coaching.inclus + '</p>') +
@@ -2257,7 +2260,7 @@ Object.assign(window.HF.vues, (function () {
     return '<section data-spec="B.3 > Accueil > bloc bien-être">' +
       '<div class="bloc bloc--couche bloc--clair">' +
       V.blocImage('Photo : deux membres au hammam après la séance, détendues, lumière douce', 'carre') +
-      '<div class="bloc--couche__texte"><h2>Du temps pour vous</h2>' +
+      '<div class="bloc--couche__texte"><h2 class="titre-section">Du temps pour vous</h2>' +
       '<p>Récupérer compte autant que s\'entraîner. Après l\'effort, offrez-vous ' +
       'une pause au sauna, au hammam ou quelques longueurs dans la piscine.</p>' +
       V.tagsListe(espaces.map(function (e) { return e.nom; }), espaces.length) +
@@ -2271,7 +2274,7 @@ Object.assign(window.HF.vues, (function () {
     var liste = R.articlesFitness().slice(0, n || 3);
     if (!liste.length) return '';
     return '<section data-spec="B.3 > Accueil > teaser actualités">' +
-      '<h2>Quoi de neuf dans vos clubs</h2><div class="grille grille--3">' +
+      '<h2>La vie de nos clubs</h2><div class="grille grille--3">' +
       liste.map(function (a) { return carteArticle(a, base); }).join('') + '</div>' +
       '<p style="margin-top:14px"><a class="lien-texte" href="' + (base || '') +
       'actualites/">Toutes les actualités</a></p></section>';

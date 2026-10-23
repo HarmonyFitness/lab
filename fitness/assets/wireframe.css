@@ -1363,6 +1363,10 @@ a.carte__repere { text-decoration: none; }
 .bloc--couche .img { min-height: 0; width: 100%; aspect-ratio: 1 / 1; }
 .bloc--couche__texte { display: flex; flex-direction: column; height: 100%; }
 .bloc--couche h2 { font-size: 22px; margin-top: 0; }
+/* Un bloc couché qui est une section de page (bien-être de l'accueil) garde
+   la taille de titre des autres sections. */
+.bloc--couche h2.titre-section { font-size: 36px; line-height: 44px; }
+@media (max-width: 760px) { .bloc--couche h2.titre-section { font-size: 26px; line-height: 32px; } }
 /* Une action posée juste sous le contenu, pas poussée en pied de bloc :
    dans une carte couchée à grande photo, produit__pied laissait un trou. */
 .bloc__action { margin: var(--e-4) 0 0; }
