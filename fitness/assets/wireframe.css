@@ -340,7 +340,7 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
    glisse hors de l'écran en descendant, revient en remontant. Collé, il
    prend une ombre très légère pour se détacher du contenu qui passe
    dessous, puisqu'il n'a plus de filet. */
-.entete--collant { position: sticky; top: 0; z-index: 45;
+.entete.entete--collant { position: sticky; top: 0; z-index: 45;
   transition: transform .22s ease, box-shadow .22s ease; }
 .entete--collant.entete--cache { transform: translateY(-100%); }
 .entete--collant.entete--decolle { box-shadow: 0 6px 20px rgba(14, 26, 35, .06); }
