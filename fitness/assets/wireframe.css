@@ -926,7 +926,7 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
 
 /* Hero de l'accueil : la photo prend toute la largeur du hero, le titre, le
    sous-titre et les deux actions sont posés directement dessus, en blanc,
-   sans panneau (Hugo, 2026-10-22). Un voile sombre monte du coin bas gauche,
+   sans panneau (Hugo, 2026-10-22), centrés en hauteur (2026-10-23). Un voile sombre part du bord gauche,
    là où est le texte : il le garde lisible quelle que soit la photo, sans
    éteindre le reste de l'image. Le bloc photo du lab est plus sombre que
    les autres pour simuler une vraie photo : du blanc sur le gris clair des
@@ -948,9 +948,10 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
   object-position: 50% 60%; }
 .hero-plein + main { margin-top: var(--espace-section); }
 .hero-accueil::after { content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(to top right, rgba(14, 26, 35, .72) 0%, rgba(14, 26, 35, .35) 45%, rgba(14, 26, 35, 0) 75%); }
+  background: linear-gradient(to right, rgba(14, 26, 35, .72) 0%, rgba(14, 26, 35, .35) 45%, rgba(14, 26, 35, 0) 75%); }
 .hero-accueil__panneau {
-  position: absolute; z-index: 1; bottom: var(--e-8);
+  /* Centré verticalement sur la photo (Hugo, 2026-10-23). */
+  position: absolute; z-index: 1; top: 50%; transform: translateY(-50%);
   left: max(var(--e-7), calc((100% - var(--large)) / 2 + var(--gouttiere) - var(--marge-hero)));
   width: min(720px, calc(100% - 2 * var(--e-7)));
   color: #fff;
@@ -1133,12 +1134,13 @@ a.carte__repere { text-decoration: none; }
   .voix .visage:not(.visage--petit) { width: 56px; height: 56px; }
   .temoignage-portrait { grid-template-columns: 1fr; gap: var(--e-5); }
   .temoignage-portrait__citation { font-size: 22px; line-height: 30px; }
-  /* Mobile : le texte reste sur la photo, plus haute, le voile monte du bas. */
+  /* Mobile : le texte reste sur la photo, plus haute, centré ; le voile
+     assombrit la bande du milieu, où il se pose. */
   .hero-plein { --marge-hero: 8px; --haut-entetes: 98px; }
   .hero-accueil { min-height: 520px; }
   .hero-accueil__photo .img { padding: var(--e-4); }
-  .hero-accueil::after { background: linear-gradient(to top, rgba(14, 26, 35, .78) 0%, rgba(14, 26, 35, .4) 55%, rgba(14, 26, 35, 0) 85%); }
-  .hero-accueil__panneau { left: var(--e-5); right: var(--e-5); bottom: var(--e-5); width: auto; }
+  .hero-accueil::after { background: linear-gradient(to bottom, rgba(14, 26, 35, .25) 0%, rgba(14, 26, 35, .6) 35%, rgba(14, 26, 35, .6) 65%, rgba(14, 26, 35, .25) 100%); }
+  .hero-accueil__panneau { left: var(--e-5); right: var(--e-5); width: auto; }
   /* B.3 > Trame de la page club > 2 : fixe en bas d'écran sur mobile. */
   .barre-rapide { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
     margin: 0; border-radius: 0; border: 0; border-top: 1px solid var(--line);
