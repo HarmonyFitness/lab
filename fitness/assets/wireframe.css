@@ -347,14 +347,18 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
 .entete__nav a[aria-current] { color: var(--accent); background: var(--surface-tint); font-weight: 600; }
 .entete__actions { display: flex; align-items: center; gap: var(--e-2); justify-self: end; }
 /* Sur une page à hero plein écran (l'accueil), le header et la barre
-   groupe prennent la largeur du hero : logo calé sur son bord gauche,
-   S'abonner et l'espace membre sur son bord droit (Hugo, 2026-10-23). Le
-   menu reste centré sur l'écran. Les liens de la barre groupe ont 10 px de
-   marge intérieure : c'est leur texte qui s'aligne, pas leur pastille. */
+   groupe prennent la largeur du hero, avec un petit retrait depuis ses
+   bords (--retrait-entete) : logo à gauche, S'abonner et l'espace membre à
+   droite (Hugo, 2026-10-23). Le menu reste centré sur l'écran. Les liens
+   de la barre groupe ont 10 px de marge intérieure : c'est leur texte qui
+   s'aligne, pas leur pastille. */
+:root { --retrait-entete: var(--e-5); }
 body:has(.hero-plein) .entete__inner { max-width: none;
-  padding-left: var(--marge-hero); padding-right: var(--marge-hero); }
+  padding-left: calc(var(--marge-hero) + var(--retrait-entete));
+  padding-right: calc(var(--marge-hero) + var(--retrait-entete)); }
 body:has(.hero-plein) .barre-groupe__inner { max-width: none;
-  padding-left: max(0px, calc(var(--marge-hero) - 10px)); padding-right: max(0px, calc(var(--marge-hero) - 10px)); }
+  padding-left: calc(var(--marge-hero) + var(--retrait-entete) - 10px);
+  padding-right: calc(var(--marge-hero) + var(--retrait-entete) - 10px); }
 .entete__actions .btn { white-space: nowrap; }
 /* Séance d'essai en lien texte, pas en bouton : l'abonnement est
    l'objectif principal, il garde seul la forme de bouton (Hugo,
@@ -1148,7 +1152,7 @@ a.carte__repere { text-decoration: none; }
   .temoignage-portrait__citation { font-size: 22px; line-height: 30px; }
   /* Mobile : le texte reste sur la photo, plus haute, centré ; le voile
      assombrit la bande du milieu, où il se pose. */
-  :root { --marge-hero: 8px; }
+  :root { --marge-hero: 8px; --retrait-entete: var(--e-2); }
   .hero-plein { --haut-entetes: 98px; }
   .hero-accueil { min-height: 520px; }
   .hero-accueil__photo .img { padding: var(--e-4); }
