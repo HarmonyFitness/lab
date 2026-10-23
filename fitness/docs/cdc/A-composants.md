@@ -46,7 +46,7 @@ Ce tableau recense les composants mutualisés entre plusieurs sites. La colonne 
 |---|---|---|---|---|
 | Header groupe (barre inter-sites) | Circulation entre les 5 univers de l'écosystème | TOUS | Interactif | M |
 | Header verticale | Navigation propre à chaque site (4 à 5 entrées) | TOUS | Interactif | M |
-| Footer commun | Liens Besoin d'aide, Actualités, mentions légales, confidentialité, lien vers le formulaire de contact. Aucune adresse e-mail affichée : un e-mail ne se compte pas, ne présélectionne pas le club et ne se dispatche pas | TOUS | Statique | S |
+| Footer commun | Liens Besoin d'aide, Espace membre, Actualités, mentions légales, confidentialité, lien vers le formulaire de contact. Aucune adresse e-mail affichée : un e-mail ne se compte pas, ne présélectionne pas le club et ne se dispatche pas | TOUS | Statique | S |
 | Sélecteur de langue | Bascule entre FR / DE / EN (voir section 9) | TOUS | Interactif | S |
 
 ### Conversion et formulaires

@@ -860,6 +860,19 @@ Appliqué : menu collé au logo à gauche, actions à droite dans l'ordre
 croissant d'engagement, « Se connecter » avec icône, « Séance d'essai » en
 secondaire, « S'abonner » en principal vers /tarifs.
 
+**Mise à jour du 2026-10-23 (Hugo).** Deux changements :
+- **le menu est centré**, plus collé au logo. La largeur du logo change
+  d'une verticale à l'autre : un menu collé au logo bougerait avec lui sur
+  chaque site. Centré, il reste au même endroit partout. Aligné à droite, il
+  aurait bougé avec les actions et se serait fondu avec les boutons. Sous
+  1280 px, « Espace membre » passe en icône seule ; sous 1040 px, « Séance
+  d'essai » quitte le header comme sur mobile.
+- **« Espace membre » remplace « Se connecter »**, icône et mot sur
+  ordinateur, icône seule sur mobile (avec le nom en aria-label). Le lien est
+  aussi dans le footer, colonne Aide : c'est là qu'un membre le cherche quand
+  le header est replié. Le nom de l'outil métier n'apparaît toujours nulle
+  part.
+
 **S'abonner plutôt que S'inscrire**, et c'est une recommandation, pas un
 détail. « S'abonner » est déjà le mot de la carte club et de la barre récap.
 B.3 tient à un seul mot par chose, c'est la règle qui a fait choisir « Extra »
@@ -878,11 +891,10 @@ cours : trois mots pour une action, c'est un mot de trop.
   disparaît du header mobile faute de place ; elle reste dans le CTA de chaque
   page. À trancher : est-ce acceptable, ou faut-il la garder et sacrifier autre
   chose ? Le burger est de toute façon à maquetter.
-- **l'espace membre.** Le libellé est « Se connecter », avec une icône de
-  personne. Alternative : « Espace membre », plus explicite pour qui n'a pas
-  encore de compte mais plus long. Le lien sort vers l'outil métier : à
-  confirmer que c'est bien une redirection et non une page intermédiaire, et
-  que le membre revient ensuite sur le site.
+- **la sortie vers l'espace membre.** Le libellé est tranché (« Espace
+  membre », Hugo, 2026-10-23). Reste à confirmer que le lien est bien une
+  redirection vers l'outil métier et non une page intermédiaire, et que le
+  membre revient ensuite sur le site.
 
 ### Q42 · Hyrox est une licence, et Cross Training porte deux sens
 **Statut :** appliqué, un point à confirmer

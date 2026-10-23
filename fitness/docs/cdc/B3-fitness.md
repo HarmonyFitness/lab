@@ -6,7 +6,7 @@
 > jour en même temps que la page Notion : toute décision se reporte dans les deux,
 > jamais dans un seul.
 
-Site de marque, d'acquisition et d'orientation. Aucune transaction sur le site : les abonnements et les séances d'essai renvoient vers Echino, la réservation des soins bien-être vers l'outil du prestataire. Header : quatre entrées alignées à gauche, collées au logo (Clubs, Sport, Bien-être, Tarifs). À droite, les actions, de la plus discrète à la plus engageante : « Se connecter » avec une icône, qui ouvre l'espace membre de l'outil métier dont le nom n'apparaît jamais ; « Séance d'essai » en bouton secondaire ; « S'abonner » en bouton principal, vers /tarifs. On dit « S'abonner » et non « S'inscrire » : c'est déjà le mot de la carte club et de la barre récap. Sur mobile, le menu passe derrière un burger, le compte garde son icône seule et l'action principale reste. Les pages « Besoin d'aide ? » et Actualités restent accessibles depuis le footer. Trois niveaux de navigation.
+Site de marque, d'acquisition et d'orientation. Aucune transaction sur le site : les abonnements et les séances d'essai renvoient vers Echino, la réservation des soins bien-être vers l'outil du prestataire. Header : quatre entrées centrées (Clubs, Sport, Bien-être, Tarifs), pour que le menu ne bouge pas avec la largeur du logo d'une verticale à l'autre. À droite, les actions, de la plus discrète à la plus engageante : « Espace membre » avec une icône, qui ouvre l'espace membre de l'outil métier dont le nom n'apparaît jamais ; « Séance d'essai » en bouton secondaire ; « S'abonner » en bouton principal, vers /tarifs. On dit « S'abonner » et non « S'inscrire » : c'est déjà le mot de la carte club et de la barre récap. Sur mobile, le menu passe derrière un burger, le compte garde son icône seule et l'action principale reste. Les pages « Besoin d'aide ? » et Actualités restent accessibles depuis le footer, comme l'espace membre. Trois niveaux de navigation.
 
 ## Arborescence
 
@@ -42,7 +42,7 @@ fitness.harmony.ch
 │
 ├── [Bouton header]  Séance d'essai  /seance-essai
 │
-└── [Footer]  Nous contacter /nous-contacter   ·   Besoin d'aide ? /aide   ·   Actualités /actualites   ·   Mentions légales   ·   Confidentialité
+└── [Footer]  Nous contacter /nous-contacter   ·   Besoin d'aide ? /aide   ·   Espace membre (outil métier)   ·   Actualités /actualites   ·   Mentions légales   ·   Confidentialité
 ```
 
 **Composants transverses :** témoignages, FAQ contextuelle (la FAQ complète vit sur la page « Besoin d'aide ? »).

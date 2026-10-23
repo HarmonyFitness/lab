@@ -323,23 +323,35 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
 .entete--collant.entete--cache { transform: translateY(-100%); }
 .entete--collant.entete--decolle { box-shadow: 0 6px 20px rgba(14, 26, 35, .06); }
 @media (prefers-reduced-motion: reduce) { .entete--collant { transition: none; } }
-.entete__inner { display: flex; align-items: center; gap: var(--e-6);
+/* Trois colonnes, les deux du bord de même largeur : le menu reste au
+   centre quelle que soit la largeur du logo, qui change d'une verticale à
+   l'autre (Hugo, 2026-10-23). */
+.entete__inner { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--e-5);
   max-width: var(--large); margin: 0 auto; padding: 18px var(--gouttiere) 16px; }
 /* Logo Fitness : 160 px de large au moins (design system), 30 px de haut
    donnent 201 px. Il reste cliquable, c'est la sortie de secours. */
-.entete__logo { display: inline-flex; flex: none; text-decoration: none; }
+.entete__logo { display: inline-flex; flex: none; justify-self: start; text-decoration: none; }
 .entete__img { display: block; height: 30px; width: auto; }
-/* Menu à gauche, collé au logo. Les actions sont poussées à droite. */
 .entete__nav { display: flex; gap: var(--e-1); }
 .entete__nav a { text-decoration: none; color: var(--ink); font-weight: 500;
   padding: 8px 14px; border-radius: var(--rayon-pilule); }
 .entete__nav a:hover { color: var(--ink); background: var(--surface-tint); }
 .entete__nav a[aria-current] { color: var(--accent); background: var(--surface-tint); font-weight: 600; }
-.entete__actions { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+.entete__actions { display: flex; align-items: center; gap: 12px; justify-self: end; }
+.entete__actions .btn { white-space: nowrap; }
 .entete__compte { display: inline-flex; align-items: center; gap: 6px; font-size: 15px;
   text-decoration: none; color: var(--ink); white-space: nowrap; margin-right: 4px; }
 .entete__compte:hover { color: var(--accent); text-decoration: underline; }
 .entete__icone { width: 20px; height: 20px; flex: none; }
+/* Le menu centré laisse moins de place aux actions. Sous 1280 px,
+   « Espace membre » passe en icône seule (l'aria-label garde le nom) ;
+   sous 1040 px, la séance d'essai quitte le header, comme sur mobile :
+   elle reste au CTA de chaque page. */
+@media (max-width: 1279px) { .entete__compte-texte { display: none; } }
+@media (max-width: 1040px) {
+  .entete__essai { display: none; }
+  .entete__inner { gap: var(--e-4); }
+}
 
 /* Pied de page sur le bleu de marque, le bandeau de bas de page du
    système. Pas de logo ici : il ne se pose que sur un fond clair. */
@@ -1041,7 +1053,7 @@ a.carte__repere { text-decoration: none; }
 
 /* Header de landing : logo et une seule action. Rien qui emmène ailleurs.
    Voir questions.md > Q50. */
-.entete--landing .entete__inner { justify-content: space-between; }
+.entete--landing .entete__inner { grid-template-columns: auto auto; justify-content: space-between; }
 
 /* Hero de landing. La photo occupe toute la largeur du conteneur et le
    panneau se pose dessus, décalé : c'est la photo qu'on voit d'abord, le
@@ -1162,7 +1174,8 @@ a.carte__repere { text-decoration: none; }
   .entete__nav { display: none; }
   .entete__compte-texte { display: none; }
   .entete__essai { display: none; }
-  .entete__inner { gap: 10px; padding: 12px var(--gouttiere); }
+  .entete__inner { grid-template-columns: auto auto; justify-content: space-between;
+    gap: 10px; padding: 12px var(--gouttiere); }
   .entete__img { height: 24px; }
   .barre-groupe__inner { flex-wrap: nowrap; overflow-x: auto; }
   .barre-groupe a { white-space: nowrap; }

@@ -715,18 +715,21 @@ window.HF.vues = (function () {
       { nom: 'Bien-être',  href: base + 'bien-etre/' },
       { nom: 'Tarifs',     href: base + 'tarifs/' }
     ];
-    /* Menu collé au logo, à gauche. À droite, les actions, de la plus
-       discrète à la plus engageante : se connecter, essayer, s'abonner.
+    /* Menu centré : la largeur du logo change d'une verticale à l'autre,
+       un menu collé au logo bougerait avec lui (Hugo, 2026-10-23). À
+       droite, les actions, de la plus discrète à la plus engageante :
+       espace membre, essayer, s'abonner.
        « S'abonner » et non « S'inscrire » : c'est déjà le mot des cartes
        club et de la barre récap, et B.3 tient à un seul mot par chose.
-       La connexion ouvre l'espace membre, hébergé par l'outil métier, dont
-       le nom n'apparaît jamais (B.3). */
-    var compte = '<a class="entete__compte" href="#" rel="noopener">' +
+       « Espace membre » ouvre l'espace hébergé par l'outil métier, dont le
+       nom n'apparaît jamais (B.3). Icône et mot sur ordinateur, icône seule
+       quand la place manque : l'aria-label garde le nom. */
+    var compte = '<a class="entete__compte" href="#" rel="noopener" aria-label="Espace membre">' +
       '<svg class="entete__icone" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
       '<circle cx="10" cy="6.5" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/>' +
       '<path d="M3.4 17c0-3.4 3-5.6 6.6-5.6s6.6 2.2 6.6 5.6" fill="none" ' +
       'stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>' +
-      '<span class="entete__compte-texte">Se connecter</span></a>';
+      '<span class="entete__compte-texte">Espace membre</span></a>';
 
     return '<header class="entete" data-spec="B.3 > Arborescence > Header">' +
       '<div class="entete__inner">' +
@@ -755,7 +758,7 @@ window.HF.vues = (function () {
      une : le seul élément vivant en bas de page était le bandeau séance
      d'essai juste au-dessus, ce qui donnait au footer l'air de renvoyer là.
      Les liens vont maintenant aux pages qui existent. Celles qui ne sont
-     pas au périmètre du lab (Actualités, Besoin d'aide ?, le téléphone)
+     pas au périmètre du lab (Besoin d'aide ?, Espace membre, le téléphone)
      gardent « # » et s'affichent en grisé, pour qu'on voie que c'est voulu
      et pas oublié. */
   function pied(base) {
@@ -772,7 +775,14 @@ window.HF.vues = (function () {
         { nom: 'Small Group Training', href: b + 'sport/small-group-training/' },
         { nom: 'Coaching personnel', href: b + 'sport/coaching-personnel/' }
       ] },
-      { titre: 'Aide', liens: [{ nom: "Besoin d'aide ?" }, { nom: 'Actualités', href: b + 'actualites/' }] },
+      /* L'espace membre est aussi au footer (Hugo, 2026-10-23) : c'est là
+         qu'un membre le cherche quand le header est replié sur mobile. Il
+         vit chez l'outil métier, hors du lab, d'où le grisé. */
+      { titre: 'Aide', liens: [
+        { nom: "Besoin d'aide ?" },
+        { nom: 'Espace membre' },
+        { nom: 'Actualités', href: b + 'actualites/' }
+      ] },
       /* Le footer ne donne plus d'adresse e-mail : un seul canal écrit, le
          formulaire, pour que toute demande soit comptée et dispatchée (Q37). */
       { titre: 'Contact', liens: [
