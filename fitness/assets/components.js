@@ -2034,9 +2034,7 @@ Object.assign(window.HF.vues, (function () {
   /* Le manifeste dit une conviction, pas l'offre : la liste salle, eau,
      coachs, wellness est déjà dans le sous-titre du hero et dans les trois
      différenciants juste dessous (Hugo, 2026-10-23). */
-  var MANIFESTE = 'Le sport doit vous faire du bien, pas vous mettre la pression. ' +
-    'Chez Harmony, chacun avance à son rythme, et on est là pour que vous teniez ' +
-    'dans la durée.';
+  var MANIFESTE = 'Chez Harmony, chacun s\'entraîne à son rythme, sans pression.';
   function pourquoiHarmony(spec, opts) {
     var o = opts || {};
     var visages = ['une membre en conversation avec son coach',
