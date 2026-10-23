@@ -832,7 +832,7 @@ window.HF.vues = (function () {
       '<nav class="entete__nav" aria-label="Menu principal">' + nav + '</nav>' +
       '<div class="entete__actions">' +
       '<a class="entete__essai" href="' + base + 'seance-essai/">Séance d\'essai</a>' +
-      '<a class="btn" href="' + base + 'tarifs/">S\'abonner</a>' + burger +
+      '<a class="btn btn--entete" href="' + base + 'tarifs/">S\'abonner</a>' + burger +
       '</div></div></header>';
   }
 

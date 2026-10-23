@@ -427,6 +427,12 @@ body:has(.hero-plein) .barre-groupe__inner { max-width: none;
   padding-left: calc(var(--marge-hero) + var(--retrait-entete) - 10px);
   padding-right: calc(var(--marge-hero) + var(--retrait-entete) - 10px); }
 .entete__actions .btn { white-space: nowrap; }
+/* S'abonner du header en contour sobre, dans l'encre du texte (Hugo,
+   2026-10-23, sur le modèle d'Adobe) : le header est sur toutes les pages,
+   un bouton plein y concurrençait l'action de la page (« Choisir
+   Essential », « Demander à être rappelé »). Il se remplit au survol. */
+.btn.btn--entete { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.btn.btn--entete:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
 /* Séance d'essai en lien texte, pas en bouton : l'abonnement est
    l'objectif principal, il garde seul la forme de bouton (Hugo,
    2026-10-23). Couleur d'action et graisse de bouton pour qu'on le lise
