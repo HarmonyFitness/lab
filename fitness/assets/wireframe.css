@@ -1079,12 +1079,13 @@ a.carte__repere { text-decoration: none; }
 
 /* Teaser tarifs : une ligne par formule, cliquable en entier. */
 .formules { display: flex; flex-direction: column; gap: var(--e-2); margin: var(--e-4) 0 var(--e-3); }
-.formules__ligne { display: grid; grid-template-columns: 1fr 1fr auto; gap: var(--e-4);
+.formules__ligne { display: grid; grid-template-columns: minmax(150px, .8fr) 1.6fr 1fr auto; gap: var(--e-4);
   align-items: baseline; background: var(--surface-tint);
   border-radius: var(--rayon); padding: var(--e-4) var(--carte-pad); color: var(--ink);
   text-decoration: none; }
 .formules__ligne:hover { box-shadow: var(--ombre-survol); color: var(--ink); }
 .formules__nom { font-weight: 600; font-size: 20px; }
+.formules__accroche { font-size: 15px; color: var(--ink); }
 .formules__acces { font-size: 14px; color: var(--gris-60); }
 .formules__prix { font-size: 20px; font-weight: 600; letter-spacing: -.01em; text-align: right;
   font-variant-numeric: tabular-nums; }
@@ -1255,7 +1256,10 @@ a.carte__repere { text-decoration: none; }
   .apercu-clubs__carte { display: none; }
   .bloc--offre__action { align-items: flex-start; width: 100%; }
   .formules__ligne { grid-template-columns: 1fr auto; }
-  .formules__acces { grid-column: 1 / -1; }
+  .formules__accroche, .formules__acces { grid-column: 1 / -1; }
+  .formules__accroche { grid-row: 2; }
+  .formules__acces { grid-row: 3; }
+  .formules__prix { grid-row: 1; grid-column: 2; }
   .pied__inner { padding: var(--e-6) var(--gouttiere) var(--e-5); }
   .cta-essai { padding: var(--e-6) var(--e-5) var(--e-8); background-size: 200px 150px; }
   /* Mobile : le menu passe derrière un burger, non maquetté ici (Q41).

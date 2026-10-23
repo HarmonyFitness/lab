@@ -2069,7 +2069,9 @@ Object.assign(window.HF.vues, (function () {
   }
 
   /* Teaser tarifs : une ligne par formule, dans l'ordre des formules, avec
-     ce qui les sépare le plus vite, le nombre de clubs et le prix « dès ».
+     une phrase qui dit ce qu'elle est (champ accroche du produit, Hugo,
+     2026-10-23), puis ce qui les sépare le plus vite, le nombre de clubs et
+     le prix « dès ».
      Pas de carte produit : sans club référent, rien ne se souscrit ici.
      Chaque ligne mène à la page Tarifs, qui fait foi. */
   function teaserTarifs(etat, base) {
@@ -2082,6 +2084,7 @@ Object.assign(window.HF.vues, (function () {
         var pr = R.prixMini(p, 'adulte', etat);
         return '<a class="formules__ligne" href="' + b + 'tarifs/#abonnements">' +
           '<span class="formules__nom">' + H.nomProduitHtml(p) + '</span>' +
+          '<span class="formules__accroche">' + (p.accroche ? esc(p.accroche) : '[Phrase de la formule]') + '</span>' +
           '<span class="formules__acces">' + esc(R.ligneAcces(p.categorie)) + '</span>' +
           '<span class="formules__prix">dès ' + prixTexte(pr.valeur) + ' / mois' +
           (pr.promo ? ' <span class="pastille-remise">- ' + pr.promo.remise.valeur +
@@ -2089,6 +2092,7 @@ Object.assign(window.HF.vues, (function () {
           '</a>';
       }).join('') + '</div>' +
       '<p class="mention">Tarif adulte, engagement le plus avantageux. ' +
+      '<span class="wf-avalider">Phrases des formules à valider par Harmony</span> ' +
       '<a class="lien-texte" href="' + b + 'tarifs/">Voir tous les tarifs</a></p>' +
       '</section>';
   }

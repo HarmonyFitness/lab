@@ -1661,6 +1661,16 @@ deviennent « Un club près de chez vous », « Une formule pour chaque envie »
 « Des cours à votre rythme », « Du temps pour vous » et « Ce qu'en disent nos
 membres ». Ils restent à valider comme le reste de la copy de la page.
 
+
+**Ajout du 2026-10-23 (Hugo).** Le teaser des formules porte une phrase
+courte par formule, entre le nom et la ligne d'accès : « Le plateau fitness,
+sur une plage horaire plus large. », « Le plateau fitness et les cours
+collectifs en salle. », « Tout Essential, plus la piscine et les cours
+aquatiques. », « Tout Premium, avec les Extras compris. ». C'est un champ du
+produit (`accroche`, reporté en section 7), rédigé, à valider. La phrase de
+Gym reprend la promesse de la catégorie, dont la plage horaire n'est
+toujours pas chiffrée.
+
 ### Q63 · Où vit la newsletter
 **Statut :** tranchée par Hugo le 2026-10-22
 **Source :** B.3 > Accueil (« newsletter » parmi les composants) contre
