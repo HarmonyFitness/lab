@@ -1210,7 +1210,7 @@ window.HF.vues = (function () {
      (le titre s'étire par-dessus) ; le bouton le montre. Il est visuel,
      caché aux lecteurs d'écran, qui ont déjà le lien du titre. */
   function actionCarte(libelle) {
-    return '<p class="carte__action"><span class="btn btn--secondaire btn--petit" aria-hidden="true">' +
+    return '<p class="carte__action"><span class="btn btn--tertiaire btn--petit" aria-hidden="true">' +
       esc(libelle) + '</span></p>';
   }
   return {
@@ -1715,7 +1715,7 @@ Object.assign(window.HF.vues, (function () {
       '<div class="carte-club__pied">' +
       '<a class="btn btn--petit" href="' + (o.base || '') + 'tarifs/?club=' + c.id +
       '&amp;source=' + (o.source || 'liste-clubs') + '">S\'abonner</a>' +
-      '<a class="btn btn--secondaire btn--petit" href="' + (o.base || '') + 'clubs/club/?club=' + c.id + '">Voir le club</a>' +
+      '<a class="btn btn--tertiaire btn--petit" href="' + (o.base || '') + 'clubs/club/?club=' + c.id + '">Voir le club</a>' +
       '<span class="mention">' + desParMoisTexte(c.id, etat) + '</span>' +
       '<a class="lien-texte" href="' + (o.base || '') + 'clubs/club/?club=' + c.id +
       '#planning">Planning</a></div></article>';

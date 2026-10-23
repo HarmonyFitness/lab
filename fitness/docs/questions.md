@@ -1141,7 +1141,8 @@ dit la pratique, le hub dit le mode d'accès.
 
 **Revue du 2026-10-23 (Hugo).** « Si c'est cliquable, alors il faut un
 bouton » : une surface cliquable sans bouton n'est pas instinctive. Toute
-carte cliquable porte désormais un bouton secondaire en bas (« Voir le
+carte cliquable porte désormais un bouton tertiaire en bas (le mot et une
+flèche, sans fond ni contour : en contour, il concurrençait « S'abonner ») (« Voir le
 cours », « Lire l'article », « Voir les cours », « Voir le club »…). La
 carte reste cliquable en entier, par la même technique. Ce qui n'a pas de
 bouton n'est plus cliquable : les lignes de formules de l'accueil. Le

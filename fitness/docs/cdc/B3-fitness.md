@@ -163,7 +163,7 @@ Saisi une fois dans le CMS, affiché sur /clubs (ancre #categories), sur /tarifs
 
 ### Carte club (liste /clubs)
 
-- Toute la carte est cliquable vers la page club, et un bouton secondaire « Voir le club » le montre : une surface cliquable sans bouton ne se devine pas.
+- Toute la carte est cliquable vers la page club, et un bouton tertiaire « Voir le club » (le mot et une flèche, sans fond ni contour, pour ne pas concurrencer « S'abonner ») le montre : une surface cliquable sans bouton ne se devine pas.
 - Un bouton principal, « S'abonner », qui ouvre `/tarifs/[slug du club]` avec le club référent présélectionné. À côté : « Tarif adulte dès CHF X.– / mois », prix de la formule la moins chère qui donne accès au club, au tarif Adulte (sinon « dès » afficherait le prix Jeune), tous engagements confondus et remise en cours comprise : sinon /clubs annonce un prix que /tarifs dément deux clics plus loin.
 - Un lien texte « Planning » vers le planning de la page club (ancre).
 - Sur un club Gym, le nombre de cours par semaine est remplacé par « Pas de cours collectifs · Small Group Training en Extra ». La ligne n'est jamais masquée : elle informe.
