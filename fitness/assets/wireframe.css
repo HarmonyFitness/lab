@@ -1271,7 +1271,9 @@ a.carte__repere { text-decoration: none; }
      la hauteur de son texte, avec de l'air, et la suite de la page se
      devine dès l'arrivée. */
   .hero-accueil, body:has(.wf-barre) .hero-accueil { height: auto; min-height: 0; max-height: none; }
-  .hero-accueil__photo .img { padding: var(--e-4); }
+  /* La légende de l'emplacement photo passe en bas : en haut, elle
+     chevauchait le titre. */
+  .hero-accueil__photo .img { padding: var(--e-2) var(--e-4); align-items: flex-end; font-size: 11px; }
   .hero-accueil::after { background: linear-gradient(to bottom, rgba(14, 26, 35, .35) 0%, rgba(14, 26, 35, .75) 35%, rgba(14, 26, 35, .75) 65%, rgba(14, 26, 35, .35) 100%); }
   .hero-accueil__panneau { position: relative; top: auto; left: auto; transform: none; width: auto;
     padding: var(--e-7) var(--e-5); }
