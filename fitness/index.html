@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Fitness, cours collectifs et bien-être à Genève et Vaud | Harmony</title>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/wireframe.css?v=2026-10-23n">
+<link rel="stylesheet" href="assets/wireframe.css?v=2026-10-23p">
 </head>
 <body>
 
@@ -31,8 +31,8 @@
            collectif, des gens qui sourient. Deux tailles, le navigateur prend
            celle qu'il lui faut. -->
       <div class="hero-accueil__photo">
-        <img src="assets/photos/hero-cours-collectifs-2400.jpg?v=2026-10-23n"
-             srcset="assets/photos/hero-cours-collectifs-1200.jpg?v=2026-10-23n 1200w, assets/photos/hero-cours-collectifs-2400.jpg?v=2026-10-23n 2400w"
+        <img src="assets/photos/hero-cours-collectifs-2400.jpg?v=2026-10-23p"
+             srcset="assets/photos/hero-cours-collectifs-1200.jpg?v=2026-10-23p 1200w, assets/photos/hero-cours-collectifs-2400.jpg?v=2026-10-23p 2400w"
              sizes="100vw" alt="Cours collectif en club : une participante sourit, les bras levés, entourée d'autres membres sur leurs steps"
              fetchpriority="high">
       </div>
@@ -46,6 +46,18 @@
           <a class="btn" href="tarifs/">S'abonner</a>
           <a class="btn btn--secondaire" href="#clubs">Trouver mon club</a>
         </p>
+        <!-- Trois preuves sous les boutons, comme sur la landing (Hugo,
+             2026-10-23) : avant de cliquer, on se demande si c'est sérieux
+             et si c'est près de chez soi. Deux chiffres déduits, la note
+             est un fait à fournir. -->
+        <ul class="preuves preuves--photo">
+          <li><span class="preuves__valeur" x-text="HF.regles.nbClubs()"></span>
+              <span class="preuves__libelle">clubs à Genève et Vaud</span></li>
+          <li><span class="preuves__valeur">[note] / 5</span>
+              <span class="preuves__libelle">[nombre] avis</span></li>
+          <li><span class="preuves__valeur" x-text="HF.regles.nbSeancesSemaine()"></span>
+              <span class="preuves__libelle">séances par semaine, incluses</span></li>
+        </ul>
       </div>
     </section>
   </div>
@@ -60,10 +72,10 @@
     <div x-html="HF.vues.pourquoiHarmony(null, { visages: true })"></div>
 
     <!-- ====================================================== BLOC 3 -->
-    <!-- Aperçu carte clubs puis module Catégories en version courte : les
-         deux parlent des clubs, ils se suivent. -->
+    <!-- Aperçu carte clubs. Le module Catégories y est réduit à une ligne
+         sous la liste (Hugo, 2026-10-23, Q70) : en bloc, il redisait le
+         teaser des formules. -->
     <div x-html="HF.vues.apercuClubs(etat, '')"></div>
-    <div x-html="HF.vues.moduleCategories({ court: true })"></div>
 
     <!-- ====================================================== BLOC 4 -->
     <!-- Offre du moment avec compteur. Absent sans campagne. -->
@@ -75,6 +87,9 @@
     <div x-html="HF.vues.teaserTarifs(etat, '')"></div>
 
     <!-- ====================================================== BLOC 6 -->
+    <!-- Le sport chez Harmony, les quatre piliers du hub Sport (Hugo,
+         2026-10-23), puis les cours en avant. -->
+    <div x-html="HF.vues.sportEnAvant('')"></div>
     <div x-html="HF.vues.coursEnAvant(4, '')"></div>
 
     <!-- ====================================================== BLOC 7 -->
@@ -102,8 +117,8 @@
 
 </div>
 
-<script src="data/data.js?v=2026-10-23n"></script>
-<script src="assets/components.js?v=2026-10-23n"></script>
+<script src="data/data.js?v=2026-10-23p"></script>
+<script src="assets/components.js?v=2026-10-23p"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageAccueil', function () {
@@ -117,7 +132,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="assets/alpine.min.js?v=2026-10-23n"></script>
+<script defer src="assets/alpine.min.js?v=2026-10-23p"></script>
 
 </body>
 </html>

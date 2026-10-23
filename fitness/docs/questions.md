@@ -1785,3 +1785,17 @@ Deux ajouts vont au-delà de B.3 :
 À confirmer, puis à reporter dans B.3 et dans l'annexe A (header de
 verticale).
 
+### Q70 · Le module Catégories de l'accueil réduit à une ligne
+**Statut :** à valider par Harmony (posé par Hugo le 2026-10-23)
+**Source :** B.3 > Accueil liste un « module Catégories de clubs (version
+courte) ». Relecture de l'accueil, 2026-10-23.
+
+Le module, même court, faisait trois cartes (Gym, Essential, Premium) avec
+leur promesse et leur accès, juste au-dessus du teaser des formules qui
+redit l'accès (« Accès à 7 clubs », « Accès aux 10 clubs ») : un écran de
+redite, deux sur mobile. Il est réduit à une ligne sous l'aperçu des clubs :
+les trois catégories avec leur forme, et un lien « ce que veut dire chaque
+catégorie » vers le module complet du hub (`/clubs#categories`). C'est la
+version la plus courte possible du module que B.3 demande, mais ce n'est
+plus un bloc : à confirmer, puis à reporter dans B.3.
+

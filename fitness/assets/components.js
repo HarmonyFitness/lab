@@ -2045,7 +2045,16 @@ Object.assign(window.HF.vues, (function () {
       }).join('') +
       '<p><a class="lien-texte" href="' + b + 'clubs/">Tous nos clubs</a></p></div>' +
       '<div class="apercu-clubs__carte">' + V.carte(etat, { lien: b }) + '</div>' +
-      '</div></section>';
+      '</div>' +
+      /* Le module Catégories réduit à une ligne (Hugo, 2026-10-23, Q70) :
+         en bloc, il redisait ce que dit le teaser des formules juste
+         dessous (« Accès à 7 clubs »). Le détail vit sur le hub. */
+      '<p class="apercu-clubs__categories">' +
+      D.categories.map(function (cat) {
+        return '<span>' + V.forme(cat, 'badge-cat__forme') + esc(cat.nom) + '</span>';
+      }).join(' ') +
+      ' : <a class="lien-texte" href="' + b + 'clubs/#categories">ce que veut dire chaque catégorie</a></p>' +
+      '</section>';
   }
 
   /* Offre du moment : une ligne, le compteur et le renvoi vers la landing.
@@ -2092,8 +2101,11 @@ Object.assign(window.HF.vues, (function () {
           '</a>';
       }).join('') + '</div>' +
       '<p class="mention">Tarif adulte, engagement le plus avantageux. ' +
-      '<span class="wf-avalider">Phrases des formules à valider par Harmony</span> ' +
-      '<a class="lien-texte" href="' + b + 'tarifs/">Voir tous les tarifs</a></p>' +
+      '<span class="wf-avalider">Phrases des formules à valider par Harmony</span></p>' +
+      /* Un vrai bouton sous les formules (Hugo, 2026-10-23) : les lignes
+         sont cliquables, mais rien ne le disait. C'est le moment de
+         conversion de la page. */
+      '<p class="bloc__action"><a class="btn" href="' + b + 'tarifs/">Voir les tarifs</a></p>' +
       '</section>';
   }
 
@@ -2102,13 +2114,54 @@ Object.assign(window.HF.vues, (function () {
     var b = base || '';
     var liste = R.coursEnAvant(n || 4);
     if (!liste.length) return '';
+    /* Photo en tête de carte et défilement horizontal sur mobile (Hugo,
+       2026-10-23) : quatre cartes d'étiquettes se lisaient comme un
+       tableau, et prenaient un écran et demi empilées. Le catalogue complet
+       vit sur le hub, la règle « pas de slider sur une liste indexable »
+       ne s'applique pas à ce teaser. */
     return '<section data-spec="B.3 > Accueil > cours en avant">' +
       '<h2>Des cours à votre rythme</h2>' +
-      '<div class="grille grille--cartes">' + liste.map(function (co) {
-        return V.carteCours(co, b);
+      '<div class="grille grille--cartes defile-mobile">' + liste.map(function (co) {
+        return V.carteCours(co, b, { photo: true });
       }).join('') + '</div>' +
       '<p style="margin-top:14px"><a class="lien-texte" href="' + b +
       'sport/cours-collectifs/">Tous les cours</a></p></section>';
+  }
+
+  /* Les quatre piliers du sport, une seule source pour le hub Sport et
+     l'accueil. base mène au dossier sport/ depuis la page qui appelle. */
+  function piliersSport(base) {
+    var b = base || '';
+    return [
+      { titre: 'Plateau fitness', href: b + 'plateau-fitness/', lien: 'Voir le plateau fitness',
+        photo: 'Photo plateau musculation', inclus: V.ligneInclusion('plateau'),
+        texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.' },
+      { titre: 'Cours collectifs', href: b + 'cours-collectifs/', lien: 'Voir les cours collectifs',
+        photo: 'Photo cours collectif en salle', inclus: V.ligneInclusion('cours'),
+        texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.' },
+      { titre: 'Small Group Training', href: b + 'small-group-training/', lien: 'Voir le Small Group Training',
+        photo: 'Photo entraînement en petit groupe', inclus: V.ligneExtra(),
+        texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.' },
+      { titre: 'Coaching personnel', href: b + 'coaching-personnel/', lien: 'Voir le coaching personnel',
+        photo: 'Photo séance de coaching', inclus: V.ligneInclusion('coaching', { prefixe: 'Des séances incluses' }),
+        texte: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.' }
+    ];
+  }
+
+  /* Le sport chez Harmony, sur l'accueil (Hugo, 2026-10-23) : seuls les
+     cours collectifs y étaient montrés, alors que le plateau est le cœur
+     de toutes les formules. Quatre cartes à photo, cliquables en entier,
+     la ligne d'inclusion déduite des formules. */
+  function sportEnAvant(base) {
+    var b = base || '';
+    return '<section data-spec="B.3 > Accueil > le sport (piliers du hub Sport)">' +
+      '<h2>Le sport chez Harmony</h2>' +
+      '<div class="grille grille--cartes defile-mobile">' + piliersSport(b + 'sport/').map(function (p) {
+        return '<div class="produit produit--lien">' +
+          '<div class="produit__photo">' + V.blocImage(p.photo, 'large') + '</div>' +
+          '<h4><a href="' + p.href + '">' + esc(p.titre) + '</a></h4>' +
+          '<p class="mention">' + p.inclus + '</p></div>';
+      }).join('') + '</div></section>';
   }
 
   /* Bien-être : les espaces en tags et le nombre de clubs qui en ont,
@@ -2124,8 +2177,8 @@ Object.assign(window.HF.vues, (function () {
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.</p>' +
       V.tagsListe(espaces.map(function (e) { return e.nom; }), espaces.length) +
       '<p class="mention">Dans ' + clubs.length + ' de nos ' + R.nbClubs() + ' clubs</p>' +
-      '<div class="produit__pied"><a class="btn btn--secondaire" href="' + b +
-      'bien-etre/">Découvrir le bien-être</a></div>' +
+      '<p class="bloc__action"><a class="btn btn--secondaire" href="' + b +
+      'bien-etre/">Découvrir le bien-être</a></p>' +
       '</div></div></section>';
   }
 
@@ -2163,6 +2216,7 @@ Object.assign(window.HF.vues, (function () {
     teaserActualites: teaserActualites,
     pourquoiHarmony: pourquoiHarmony, apercuClubs: apercuClubs, teaserOffre: teaserOffre,
     teaserTarifs: teaserTarifs, coursEnAvant: coursEnAvant, teaserBienEtre: teaserBienEtre,
+    piliersSport: piliersSport, sportEnAvant: sportEnAvant,
     blocPrix: blocPrix, ligneRemise: ligneRemise, annoncePromo: annoncePromo,
     infoClubs: infoClubs,
     ligneRemiseAilleurs: ligneRemiseAilleurs,
@@ -3185,6 +3239,7 @@ Object.assign(window.HF.vues, (function () {
     var forme = R.formeExtra(co.id, { club: o.club, categorie: o.categorie });
     return '<div class="produit produit--lien' +
       (forme === 'toujours' ? ' produit--extra' : '') + '">' +
+      (o.photo ? '<div class="produit__photo">' + V.blocImage('Photo cours ' + co.nom, 'large') + '</div>' : '') +
       '<h4><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a>' +
       (forme === 'toujours' ? ' <span class="extra__marque">Extra</span>' : '') + '</h4>' +
       attributsCours(co, { sansObjectif: !!o.sansObjectif }) +
