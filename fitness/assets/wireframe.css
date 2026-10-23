@@ -1266,10 +1266,14 @@ a.carte__repere { text-decoration: none; }
      assombrit la bande du milieu, où il se pose. */
   :root { --marge-hero: 8px; --retrait-entete: var(--e-2); }
   .hero-plein { --haut-entetes: 98px; }
-  .hero-accueil { min-height: 520px; }
+  /* Pas de hauteur d'écran sur mobile (Hugo, 2026-10-23) : le hero prend
+     la hauteur de son texte, avec de l'air, et la suite de la page se
+     devine dès l'arrivée. */
+  .hero-accueil, body:has(.wf-barre) .hero-accueil { height: auto; min-height: 0; max-height: none; }
   .hero-accueil__photo .img { padding: var(--e-4); }
   .hero-accueil::after { background: linear-gradient(to bottom, rgba(14, 26, 35, .35) 0%, rgba(14, 26, 35, .75) 35%, rgba(14, 26, 35, .75) 65%, rgba(14, 26, 35, .35) 100%); }
-  .hero-accueil__panneau { left: var(--e-5); right: var(--e-5); width: auto; }
+  .hero-accueil__panneau { position: relative; top: auto; left: auto; transform: none; width: auto;
+    padding: var(--e-7) var(--e-5); }
   /* B.3 > Trame de la page club > 2 : fixe en bas d'écran sur mobile. */
   .barre-rapide { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
     margin: 0; border-radius: 0; border: 0; border-top: 1px solid var(--line);
