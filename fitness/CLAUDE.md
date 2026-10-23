@@ -12,7 +12,7 @@ Consultant et décideur sur la structure : Hugo.
 - Ne jamais créer, modifier ou supprimer un fichier hors de `fitness/`. Si c'est nécessaire (config de déploiement, robots.txt), le proposer et attendre la validation.
 - Tous les liens internes sont relatifs, pour marcher en local comme sur lab.harmony.ch/fitness/.
 - Chaque page porte `<meta name="robots" content="noindex, nofollow">` : ces wireframes ne doivent jamais apparaître dans Google (le domaine harmony.ch porte le SEO du groupe).
-- Travail sur la branche `fitness-v2`. Fusion dans la branche de déploiement seulement quand Hugo le demande.
+- Travail sur la branche de session, puis **poussée sur `main` (déploiement) après chaque tâche, sans attendre d'accord** (Hugo, 2026-10-23, remplace « seulement quand Hugo le demande »). Toujours vérifier le rendu avant, et relire le journal du déploiement après.
 - Un commit par tâche, message en français qui dit ce qui a été fait.
 
 ## Source de vérité
