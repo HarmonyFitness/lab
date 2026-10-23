@@ -2047,8 +2047,9 @@ Object.assign(window.HF.vues, (function () {
       { titre: 'La salle et l\'eau', texte: 'Plateau, cours collectifs, piscine et cours aquatiques : de quoi varier chaque semaine.' },
       { titre: 'Le temps de récupérer', texte: 'Sauna, hammam, jacuzzi : la séance se termine en douceur.' }
     ];
-    var tete = '<p class="manifeste__sur">Pourquoi Harmony</p>' +
-      '<h2 class="manifeste">' + esc(MANIFESTE) + '</h2>';
+    /* Pas de surtitre « Pourquoi Harmony » (Hugo, 2026-10-23) : le
+       manifeste se suffit. */
+    var tete = '<h2 class="manifeste">' + esc(MANIFESTE) + '</h2>';
     if (o.visages) {
       return '<section class="section-voix section-voix--centre" data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' +
         tete + '<ul class="voix voix--centre">' + items.map(function (d, i) {

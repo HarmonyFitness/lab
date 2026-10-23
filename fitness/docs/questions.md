@@ -1734,6 +1734,9 @@ club vous rappelle pour fixer votre séance d'essai. » Phrases des formules
 raccourcies. Ce qui est un fait reste en placeholder : prix, note, avis,
 témoignages, textes des articles, description de l'offre. Tout est à valider.
 
+**Surtitre retiré, 2026-10-23 (Hugo).** « Pourquoi Harmony » au-dessus du
+manifeste n'apportait rien : le bloc s'ouvre directement sur le manifeste.
+
 **Ajustements du 2026-10-23 (Hugo).** « Quoi de neuf dans vos clubs » ne
 tenait pas le ton : le bloc devient « La vie de nos clubs ». « Seul » devient
 « En autonomie ». Le manifeste répétait le sous-titre du hero et les trois
