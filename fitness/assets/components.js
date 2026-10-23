@@ -1797,11 +1797,13 @@ Object.assign(window.HF.vues, (function () {
   /* Composant Personne : carte + panneau au clic. Pas de page coach.
      Forme du CoachCard du design system (2026-10-22) : photo ronde à
      gauche, prénom et badges à droite. En attendant la photo, les
-     initiales ; la légende du placeholder reste dans le title. */
+     initiales ; la légende du placeholder reste dans le title.
+     Mini bio facultative (Hugo, 2026-10-23) : sous les badges quand elle
+     est saisie, rien sinon. */
   function grilleCoachs(liste, etat) {
     return '<div class="coachs" data-spec="B.3 > Fiche coach dans le CMS">' +
       liste.map(function (k) {
-        return '<button type="button" class="coach" data-act="panneau-coach" data-id="' + k.id + '"' +
+        return '<button type="button" class="coach' + (k.bio ? ' coach--bio' : '') + '" data-act="panneau-coach" data-id="' + k.id + '"' +
           ' aria-expanded="' + (etat.coachOuvert === k.id) + '">' +
           '<span class="coach__photo" title="' + esc('Photo : ' + k.prenom + ', coach à [club]') + '" aria-hidden="true">' +
           esc(k.prenom.charAt(0).toUpperCase()) + '</span>' +
@@ -1809,7 +1811,9 @@ Object.assign(window.HF.vues, (function () {
           '<span class="coach__prenom">' + esc(k.prenom) + '</span>' +
           '<span class="coach__badges">' + k.badges.map(function (b) {
             return '<span class="coach__badge">' + esc(b) + '</span>';
-          }).join('') + '</span></span></button>';
+          }).join('') + '</span>' +
+          (k.bio ? '<span class="coach__bio">' + esc(k.bio) + '</span>' : '') +
+          '</span></button>';
       }).join('') + '</div>' +
       (etat.coachOuvert ? panneauCoach(etat.coachOuvert) : '');
   }
@@ -1817,7 +1821,6 @@ Object.assign(window.HF.vues, (function () {
   function panneauCoach(id) {
     var k = H.coach(id); if (!k) return '';
     return '<div class="panneau-cat"><h4>' + esc(k.prenom) + '</h4>' +
-      '<p>' + esc(k.phrase) + '</p>' +
       '<p class="mention">Intervient à : ' + k.lieux.map(function (l) {
         var c = H.club(l); return esc(c ? c.nom : l);
       }).join(', ') + '</p>' +

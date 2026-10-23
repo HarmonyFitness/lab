@@ -926,6 +926,9 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
 .coach__badges { display: flex; flex-wrap: wrap; gap: 4px; }
 .coach__badge { font-size: 12px; font-weight: 600; background: var(--surface);
   border-radius: var(--rayon-xs); padding: 1px 8px; color: var(--gris-80); }
+/* Mini bio facultative : la photo reste en haut quand le texte s'allonge. */
+.coach--bio { align-items: flex-start; }
+.coach__bio { font-size: 14px; line-height: 20px; color: var(--gris-80); margin-top: 2px; }
 
 .faq { border-top: 1px solid var(--line); }
 .faq__q { width: 100%; text-align: left; font: inherit; font-weight: 600; cursor: pointer;

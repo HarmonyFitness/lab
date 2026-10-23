@@ -960,33 +960,34 @@ window.DATA = {
 
   /* ------------------------------------------------------------------ */
   /* Coachs : section 7.2, fiche détaillée en B.3 > Fiche coach dans le CMS */
-  /* Personnes fictives. Prénom seul, 3 badges maximum.                     */
+  /* Personnes fictives. Prénom seul, 3 badges maximum. Mini bio           */
+  /* facultative (180 signes maximum) : Marc et Karim n'en ont pas.        */
   /* ------------------------------------------------------------------ */
   coachs: [
     { id: 'lea', prenom: 'Léa', photo: 'Portrait coach',
       badges: ['Les Mills', 'Small Group Training'], verticales: ['fitness'],
       lieux: ['blandonnet', 'meyrin', 'gland'], coachingPersonnel: true,
-      phrase: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
+      bio: 'Ancienne gymnaste, Léa donne des cours Les Mills depuis huit ans. Elle aime les séances qui bougent et les membres qui reviennent la semaine suivante.' },
     { id: 'marc', prenom: 'Marc', photo: 'Portrait coach',
       badges: ['Les Mills'], verticales: ['fitness'],
       lieux: ['blandonnet', 'geneve-eaux-vives', 'signy'], coachingPersonnel: false,
-      phrase: 'Sed do eiusmod tempor incididunt ut labore et dolore magna.' },
+      bio: '' },
     { id: 'sofia', prenom: 'Sofia', photo: 'Portrait coach',
       badges: ['Yoga', 'Pilates'], verticales: ['fitness'],
       lieux: ['geneve-eaux-vives', 'geneve-la-praille', 'veyrier'], coachingPersonnel: true,
-      phrase: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco.' },
+      bio: 'Professeure de yoga et de Pilates, Sofia travaille la posture et la respiration. Ses cours conviennent aussi à celles et ceux qui débutent.' },
     { id: 'nadia', prenom: 'Nadia', photo: 'Portrait coach',
       badges: ['Aqua', 'Yoga'], verticales: ['fitness', 'aqua'],
       lieux: ['geneve-la-praille', 'veyrier', 'denges'], coachingPersonnel: false,
-      phrase: 'Duis aute irure dolor in reprehenderit in voluptate velit.' },
+      bio: 'Nadia vient de la natation. Elle anime les cours aquatiques et le yoga, pour bouger sans forcer sur les articulations.' },
     { id: 'thomas', prenom: 'Thomas', photo: 'Portrait coach',
       badges: ['Small Group Training', 'Coach personnel'], verticales: ['fitness'],
       lieux: ['geneve-paquis', 'geneve-la-praille', 'meyrin'], coachingPersonnel: true,
-      phrase: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa.' },
+      bio: 'Préparateur physique, Thomas aide chacun à fixer un objectif et à s\'y tenir, en petit groupe comme en séance individuelle.' },
     { id: 'karim', prenom: 'Karim', photo: 'Portrait coach',
       badges: ['Les Mills', 'Coach personnel'], verticales: ['fitness'],
       lieux: ['meyrin', 'versoix', 'denges'], coachingPersonnel: true,
-      phrase: 'Qui officia deserunt mollit anim id est laborum lorem ipsum.' }
+      bio: '' }
   ],
 
   /* ------------------------------------------------------------------ */
