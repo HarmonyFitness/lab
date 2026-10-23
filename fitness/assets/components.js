@@ -2018,31 +2018,38 @@ Object.assign(window.HF.vues, (function () {
      Des teasers : chacun lit les données et renvoie vers la page qui fait
      foi. Rien n'est saisi ici qui existe ailleurs. */
 
-  /* « Pourquoi Harmony » : les quatre différenciants sont du contenu
-     Harmony, en placeholder tant qu'ils ne sont pas donnés. Un seul bloc
+  /* « Pourquoi Harmony » : un court manifeste puis trois différenciants
+     (Hugo, 2026-10-23, au lieu d'un titre et de quatre arguments). Le
+     texte est une proposition, à valider par Harmony (Q62). Un seul bloc
      pour l'accueil et la landing de campagne (Q52). */
-  /* opts.visages (accueil, Hugo, 2026-10-22) : chaque argument est porté
-     par une personne, un visage rond et sa phrase, sur un aplat teinté, au
-     lieu de quatre boîtes. La landing garde ses quatre cartes. */
+  /* opts.visages (accueil) : chaque argument est porté par une personne,
+     un visage rond au-dessus de sa phrase, le tout centré sur un aplat
+     teinté. La landing garde ses cartes. */
+  var MANIFESTE = 'Un club de sport doit vous faire du bien. Alors chez Harmony, ' +
+    'on vous accompagne pour progresser à votre rythme, en salle comme dans l\'eau, ' +
+    'et on vous laisse le temps de souffler.';
   function pourquoiHarmony(spec, opts) {
     var o = opts || {};
-    var visages = ['un coach du club, souriant, en tenue', 'une membre en conversation avec son coach',
-      'l\'accueil d\'un club, quelqu\'un qui salue', 'deux membres qui rient entre deux exercices'];
-    var items = [1, 2, 3, 4].map(function (i) {
-      return { titre: '[Différenciant ' + i + ']',
-        texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' };
-    });
+    var visages = ['une membre en conversation avec son coach',
+      'une nageuse qui sort la tête de l\'eau, souriante',
+      'une membre détendue au sauna, les yeux fermés'];
+    var items = [
+      { titre: 'Des coachs à vos côtés', texte: 'Un accompagnement pour avancer, du premier jour aux objectifs suivants.' },
+      { titre: 'La salle et l\'eau', texte: 'Plateau, cours en salle, piscine et cours aquatiques, dans un même réseau de clubs.' },
+      { titre: 'Le temps de récupérer', texte: 'Sauna, hammam et espaces wellness pour finir la séance en douceur.' }
+    ];
+    var tete = '<p class="manifeste__sur">Pourquoi Harmony</p>' +
+      '<h2 class="manifeste">' + esc(MANIFESTE) + '</h2>' +
+      '<p class="manifeste__note"><span class="wf-avalider">Manifeste et différenciants à valider par Harmony</span></p>';
     if (o.visages) {
-      return '<section class="section-voix" data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' +
-        '<h2>Pourquoi Harmony</h2>' +
-        '<ul class="voix">' + items.map(function (d, i) {
+      return '<section class="section-voix section-voix--centre" data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' +
+        tete + '<ul class="voix voix--centre">' + items.map(function (d, i) {
           return '<li><span class="visage" title="' + esc('Photo : ' + visages[i]) + '" aria-hidden="true"></span>' +
             '<div><h3>' + esc(d.titre) + '</h3><p>' + esc(d.texte) + '</p></div></li>';
         }).join('') + '</ul></section>';
     }
-    return '<section data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' +
-      '<h2>Pourquoi Harmony</h2>' +
-      '<div class="grille grille--4">' + items.map(function (d) {
+    return '<section data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' + tete +
+      '<div class="grille grille--3">' + items.map(function (d) {
         return '<div class="bloc"><h3>' + esc(d.titre) + '</h3><p>' + esc(d.texte) + '</p></div>';
       }).join('') + '</div></section>';
   }

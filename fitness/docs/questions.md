@@ -1354,7 +1354,7 @@ remonte une page pour finir ce qu'il a commencé en bas.
 |---|---|
 | Hero | tient la promesse de l'annonce, échéance, action |
 | L'offre | ce qu'on achète, prix, ce qui est inclus |
-| Pourquoi Harmony | quatre différenciants : la landing s'adresse à des gens qui ne connaissent pas la marque |
+| Pourquoi Harmony | un manifeste et trois différenciants (quatre jusqu'au 2026-10-23, voir Q62) : la landing s'adresse à des gens qui ne connaissent pas la marque |
 | Ils s'entraînent chez Harmony | la note, le nombre d'avis, trois témoignages |
 | Dernière étape | le club, puis l'action |
 | Conditions, FAQ, lien vers tous les tarifs | ce qu'on vérifie avant de s'engager |
@@ -1370,9 +1370,10 @@ et sur le hub des cours ; B.3 les prévoit sur l'Accueil et sur la séance
 d'essai.
 
 **Ce qui attend Harmony.**
-- **Les quatre différenciants** : ce sont des arguments de marque, ils ne
-  s'inventent pas. Placeholders `[Différenciant 1]` à `[Différenciant 4]`.
-  Quatre, parce qu'au-delà personne ne les lit.
+- **Les différenciants** : ce sont des arguments de marque, ils ne
+  s'inventent pas. Placeholders `[Différenciant 1]` à `[Différenciant 4]`
+  au départ ; depuis le 2026-10-23, un manifeste et trois différenciants
+  rédigés, marqués à valider (Q62).
 - **La note et le nombre d'avis** : ce sont des faits. `[note] / 5`,
   `[nombre] avis`, `[source des avis]`, marqués à valider. Il faudra dire d'où
   ils viennent (Google, une plateforme d'avis, une enquête interne) et comment
@@ -1690,6 +1691,16 @@ de la copy.
 entraîner ? » (seul, accompagné, en groupe) et « En groupe, des cours selon
 votre objectif » remplacent « Le sport chez Harmony » et « Des cours à votre
 rythme ». Rédigés, à valider.
+
+
+**Pourquoi Harmony, 2026-10-23 (Hugo).** Le titre « Pourquoi Harmony »
+devient un surtitre, sous lequel un court manifeste : « Un club de sport doit
+vous faire du bien. Alors chez Harmony, on vous accompagne pour progresser à
+votre rythme, en salle comme dans l'eau, et on vous laisse le temps de
+souffler. » Trois différenciants au lieu de quatre : « Des coachs à vos
+côtés », « La salle et l'eau », « Le temps de récupérer ». Mise en page
+centrée sur l'accueil. Même bloc sur la landing (Q52). Rédigés, à valider :
+ce sont des arguments de marque, Harmony peut les remplacer.
 
 ### Q63 · Où vit la newsletter
 **Statut :** tranchée par Hugo le 2026-10-22

@@ -1005,6 +1005,22 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
 .visage { display: block; width: 80px; height: 80px; border-radius: 50%; background: var(--bleu-clair); }
 .visage--petit { width: 48px; height: 48px; }
 
+/* Manifeste (Pourquoi Harmony) : un surtitre, une phrase en grand, puis les
+   trois différenciants. Sur l'accueil, tout est centré, le visage au-dessus
+   du texte (Hugo, 2026-10-23). */
+.manifeste__sur { margin: 0 0 var(--e-3); font-size: 13px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--action-fonce); }
+.manifeste { margin: 0; max-width: 760px; font-size: 28px; line-height: 38px; font-weight: 400; }
+.manifeste__note { margin: var(--e-3) 0 var(--e-6); }
+.section-voix--centre { text-align: center; }
+.section-voix--centre .manifeste { margin-inline: auto; }
+.voix--centre { grid-template-columns: repeat(3, 1fr); }
+.voix.voix--centre li { display: flex; flex-direction: column; align-items: center; gap: var(--e-3); }
+.voix--centre h3 { margin-top: 0; }
+.section-voix--centre .manifeste__note { display: flex; justify-content: center; max-width: none; }
+.section-voix--centre .wf-avalider { margin-left: 0; }
+.voix--centre p { max-width: 300px; margin-inline: auto; }
+
 /* Témoignage en portrait : la personne d'abord, en grand, sa phrase à côté,
    les autres voix en dessous, plus petites. */
 .temoignage-portrait { display: grid; grid-template-columns: 4fr 7fr; gap: var(--e-7); align-items: center; }
@@ -1230,6 +1246,9 @@ a.carte__repere { text-decoration: none; }
   .voix { grid-template-columns: 1fr; gap: var(--e-5); }
   .voix li { grid-template-columns: 56px 1fr; gap: var(--e-4); }
   .voix .visage:not(.visage--petit) { width: 56px; height: 56px; }
+  .manifeste { font-size: 22px; line-height: 30px; }
+  .voix--centre { grid-template-columns: 1fr; }
+  .voix--centre li { gap: var(--e-3); }
   .temoignage-portrait { grid-template-columns: 1fr; gap: var(--e-5); }
   .temoignage-portrait__citation { font-size: 22px; line-height: 30px; }
   /* Mobile : le texte reste sur la photo, plus haute, centré ; le voile
