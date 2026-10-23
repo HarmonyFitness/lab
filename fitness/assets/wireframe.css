@@ -311,8 +311,11 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
 .barre-groupe__sites { display: flex; flex-wrap: wrap; gap: 2px var(--e-1); min-width: 0; }
 .barre-groupe a { color: var(--ink-muted); text-decoration: none; padding: 2px 10px;
   border-radius: var(--rayon-pilule); }
-.barre-groupe a:hover { color: var(--ink); background: var(--surface); }
-.barre-groupe a[aria-current] { color: var(--accent); background: var(--surface); font-weight: 600; }
+/* Page courante soulignée, pas en pastille (Hugo, 2026-10-23) : même
+   grammaire dans la barre groupe et dans le menu du header. */
+.barre-groupe a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+.barre-groupe a[aria-current] { color: var(--accent); font-weight: 600;
+  text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 /* Espace membre, commun aux cinq sites : à droite de la barre groupe. */
 .barre-groupe .barre-groupe__compte { display: inline-flex; align-items: center; gap: 6px;
   margin-left: auto; flex: none; color: var(--ink); white-space: nowrap; }
@@ -343,8 +346,10 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
 .entete__nav { display: flex; gap: var(--e-1); }
 .entete__nav a { text-decoration: none; color: var(--ink); font-weight: 500;
   padding: 8px 14px; border-radius: var(--rayon-pilule); }
-.entete__nav a:hover { color: var(--ink); background: var(--surface-tint); }
-.entete__nav a[aria-current] { color: var(--accent); background: var(--surface-tint); font-weight: 600; }
+.entete__nav a:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-strong);
+  text-decoration-thickness: 2px; text-underline-offset: 8px; }
+.entete__nav a[aria-current] { color: var(--accent); font-weight: 600;
+  text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 8px; }
 .entete__actions { display: flex; align-items: center; gap: var(--e-2); justify-self: end; }
 /* Sur une page à hero plein écran (l'accueil), le header et la barre
    groupe prennent la largeur du hero, avec un petit retrait depuis ses
