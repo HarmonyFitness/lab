@@ -2025,18 +2025,18 @@ Object.assign(window.HF.vues, (function () {
   /* opts.visages (accueil) : chaque argument est porté par une personne,
      un visage rond au-dessus de sa phrase, le tout centré sur un aplat
      teinté. La landing garde ses cartes. */
-  var MANIFESTE = 'Un club de sport doit vous faire du bien. Alors chez Harmony, ' +
-    'on vous accompagne pour progresser à votre rythme, en salle comme dans l\'eau, ' +
-    'et on vous laisse le temps de souffler.';
+  var MANIFESTE = 'Le sport doit vous faire du bien. Chez Harmony, on vous aide ' +
+    'à progresser à votre rythme, en salle comme dans l\'eau, puis on vous laisse ' +
+    'le temps de souffler.';
   function pourquoiHarmony(spec, opts) {
     var o = opts || {};
     var visages = ['une membre en conversation avec son coach',
       'une nageuse qui sort la tête de l\'eau, souriante',
       'une membre détendue au sauna, les yeux fermés'];
     var items = [
-      { titre: 'Des coachs à vos côtés', texte: 'Un accompagnement pour avancer, du premier jour aux objectifs suivants.' },
-      { titre: 'La salle et l\'eau', texte: 'Plateau, cours en salle, piscine et cours aquatiques, dans un même réseau de clubs.' },
-      { titre: 'Le temps de récupérer', texte: 'Sauna, hammam et espaces wellness pour finir la séance en douceur.' }
+      { titre: 'Des coachs à vos côtés', texte: 'Pour bien démarrer, garder le cap et viser plus loin.' },
+      { titre: 'La salle et l\'eau', texte: 'Plateau, cours collectifs, piscine et cours aquatiques : de quoi varier chaque semaine.' },
+      { titre: 'Le temps de récupérer', texte: 'Sauna, hammam, jacuzzi : la séance se termine en douceur.' }
     ];
     var tete = '<p class="manifeste__sur">Pourquoi Harmony</p>' +
       '<h2 class="manifeste">' + esc(MANIFESTE) + '</h2>' +
@@ -2062,6 +2062,8 @@ Object.assign(window.HF.vues, (function () {
     var b = base || '';
     return '<section id="clubs" data-spec="B.3 > Accueil > aperçu carte clubs">' +
       '<h2>Un club près de chez vous</h2>' +
+      '<p class="bloc__intro">' + R.nbClubs() + ' clubs entre Genève et Vaud. Choisissez celui ' +
+      'qui vous arrange, près de chez vous ou du travail.</p>' +
       '<div class="apercu-clubs">' +
       '<div class="apercu-clubs__liste">' + R.clubsParCanton().map(function (g) {
         return '<div><h3 class="choix-club__canton">' + esc(H.libelleCanton(g.canton)) + '</h3>' +
@@ -2081,7 +2083,7 @@ Object.assign(window.HF.vues, (function () {
       D.categories.map(function (cat) {
         return '<span>' + V.forme(cat, 'badge-cat__forme') + esc(cat.nom) + '</span>';
       }).join(' ') +
-      ' : <a class="lien-texte" href="' + b + 'clubs/#categories">ce que veut dire chaque catégorie</a></p>' +
+      ' : <a class="lien-texte" href="' + b + 'clubs/#categories">ce qui change d\'une catégorie à l\'autre</a></p>' +
       '</section>';
   }
 
@@ -2117,6 +2119,8 @@ Object.assign(window.HF.vues, (function () {
       .sort(function (x, y) { return x.ordre - y.ordre; });
     return '<section data-spec="B.3 > Accueil > teaser tarifs">' +
       '<h2>Une formule pour chaque envie</h2>' +
+      '<p class="bloc__intro">Du plateau seul à l\'accès complet, choisissez ce qui vous ressemble. ' +
+      'Sans club choisi, voici les prix de départ.</p>' +
       '<div class="formules">' + formules.map(function (p) {
         var pr = R.prixMini(p, 'adulte', etat);
         return '<a class="formules__ligne" href="' + b + 'tarifs/#abonnements">' +
@@ -2128,12 +2132,12 @@ Object.assign(window.HF.vues, (function () {
             (pr.promo.remise.type === 'montant' ? ' CHF' : '%') + '</span>' : '') + '</span>' +
           '</a>';
       }).join('') + '</div>' +
-      '<p class="mention">Tarif adulte, engagement le plus avantageux. ' +
-      '<span class="wf-avalider">Phrases des formules à valider par Harmony</span></p>' +
+      '<p class="mention">Prix adulte, avec l\'engagement le plus avantageux. ' +
+      '<span class="wf-avalider">Textes du bloc à valider par Harmony</span></p>' +
       /* Un vrai bouton sous les formules (Hugo, 2026-10-23) : les lignes
          sont cliquables, mais rien ne le disait. C'est le moment de
          conversion de la page. */
-      '<p class="bloc__action"><a class="btn" href="' + b + 'tarifs/">Voir les tarifs</a></p>' +
+      '<p class="bloc__action"><a class="btn" href="' + b + 'tarifs/">Comparer les formules</a></p>' +
       '</section>';
   }
 
@@ -2173,7 +2177,9 @@ Object.assign(window.HF.vues, (function () {
       }).filter(function (g) { return g.cours.length; });
     if (!groupes.length) return '';
     return '<section data-spec="B.3 > Accueil > cours en avant (par objectif)">' +
-      '<h2>En groupe, des cours selon votre objectif</h2>' +
+      '<h2>En groupe, choisissez votre objectif</h2>' +
+      '<p class="bloc__intro">Se renforcer, se dépenser, se détendre : chaque cours a son but. ' +
+      'Partez de ce que vous cherchez.</p>' +
       '<div class="grille grille--3 defile-mobile">' + groupes.map(function (g) {
         var noms = g.cours.slice(0, 3).map(function (c) { return c.nom; });
         return '<div class="produit produit--lien">' +
@@ -2184,7 +2190,7 @@ Object.assign(window.HF.vues, (function () {
           (g.cours.length > 3 ? '…' : '') + '</p></div>';
       }).join('') + '</div>' +
       '<p class="bloc__action"><a class="lien-texte" href="' + b +
-      'sport/cours-collectifs/">Tous les cours et le planning</a></p></section>';
+      'sport/cours-collectifs/">Voir tous les cours et le planning</a></p></section>';
   }
 
   /* Les quatre piliers du sport, une seule source pour le hub Sport et
@@ -2226,16 +2232,18 @@ Object.assign(window.HF.vues, (function () {
     };
     return '<section data-spec="B.3 > Accueil > le sport (seul, accompagné, en groupe)">' +
       '<h2>Comment voulez-vous vous entraîner ?</h2>' +
+      '<p class="bloc__intro">Seul, avec un coach ou en groupe : chez Harmony, vous pouvez ' +
+      'passer de l\'un à l\'autre selon vos envies.</p>' +
       '<div class="grille grille--3 defile-mobile modes">' +
       carte('Photo : une membre seule sur le plateau, à son rythme', 'Seul', plateau,
-        '<p><strong>Plateau fitness</strong></p><p class="mention">' + plateau.inclus + '</p>') +
+        '<p><strong>Plateau fitness</strong></p><p>Vos machines, vos charges, votre rythme.</p><p class="mention">' + plateau.inclus + '</p>') +
       carte('Photo : un coach et un membre pendant une séance', 'Accompagné', coaching,
-        '<p><strong>Coaching personnel</strong></p><p class="mention">' + coaching.inclus + '</p>') +
+        '<p><strong>Coaching personnel</strong></p><p>Un programme construit avec vous, et quelqu\'un pour le suivre.</p><p class="mention">' + coaching.inclus + '</p>') +
       /* En groupe : deux produits, un inclus et un payant. La carte mène
          aux cours collectifs ; le Small Group Training a son propre lien,
          avec sa ligne Extra, pour ne pas le faire passer pour inclus. */
       carte('Photo : un cours collectif en salle, énergie du groupe', 'En groupe', cours,
-        '<p><strong>Cours collectifs</strong></p><p class="mention">' + cours.inclus + '</p>' +
+        '<p><strong>Cours collectifs</strong></p><p>L\'énergie du groupe pour aller plus loin.</p><p class="mention">' + cours.inclus + '</p>' +
         '<p style="margin-top:8px"><a class="lien-texte" href="' + sgt.href + '">Small Group Training</a></p>' +
         '<p class="mention">' + sgt.inclus + '</p>') +
       '</div></section>';
@@ -2250,12 +2258,12 @@ Object.assign(window.HF.vues, (function () {
       '<div class="bloc bloc--couche bloc--clair">' +
       V.blocImage('Photo : deux membres au hammam après la séance, détendues, lumière douce', 'carre') +
       '<div class="bloc--couche__texte"><h2>Du temps pour vous</h2>' +
-      '<p>Récupérer compte autant que s\'entraîner. ' +
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.</p>' +
+      '<p>Récupérer compte autant que s\'entraîner. Après l\'effort, offrez-vous ' +
+      'une pause au sauna, au hammam ou quelques longueurs dans la piscine.</p>' +
       V.tagsListe(espaces.map(function (e) { return e.nom; }), espaces.length) +
       '<p class="mention">Dans ' + clubs.length + ' de nos ' + R.nbClubs() + ' clubs</p>' +
       '<p class="bloc__action"><a class="btn btn--secondaire" href="' + b +
-      'bien-etre/">Découvrir le bien-être</a></p>' +
+      'bien-etre/">Découvrir nos espaces bien-être</a></p>' +
       '</div></div></section>';
   }
 
@@ -2263,7 +2271,7 @@ Object.assign(window.HF.vues, (function () {
     var liste = R.articlesFitness().slice(0, n || 3);
     if (!liste.length) return '';
     return '<section data-spec="B.3 > Accueil > teaser actualités">' +
-      '<h2>Actualités</h2><div class="grille grille--3">' +
+      '<h2>Quoi de neuf dans vos clubs</h2><div class="grille grille--3">' +
       liste.map(function (a) { return carteArticle(a, base); }).join('') + '</div>' +
       '<p style="margin-top:14px"><a class="lien-texte" href="' + (base || '') +
       'actualites/">Toutes les actualités</a></p></section>';
@@ -2272,8 +2280,8 @@ Object.assign(window.HF.vues, (function () {
   function ctaEssai(base, spec) {
     return '<section class="cta-essai" data-spec="' +
       esc(spec || 'B.3 > Page Tarifs > Trame > 6') + '">' +
-      '<h2>Envie d\'essayer d\'abord ?</h2>' +
-      '<p>Demandez à être rappelé pour votre séance d\'essai.</p>' +
+      '<h2>Envie d\'essayer avant de vous décider ?</h2>' +
+      '<p>Laissez-nous vos coordonnées, le club vous rappelle pour fixer votre séance d\'essai.</p>' +
       '<a class="btn" href="' + (base || '') + 'seance-essai/">Demander une séance d\'essai</a></section>';
   }
 

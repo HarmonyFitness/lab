@@ -1702,6 +1702,22 @@ côtés », « La salle et l'eau », « Le temps de récupérer ». Mise en page
 centrée sur l'accueil. Même bloc sur la landing (Q52). Rédigés, à valider :
 ce sont des arguments de marque, Harmony peut les remplacer.
 
+
+**Relecture copywriting, 2026-10-23 (Hugo).** Tous les textes de l'accueil,
+hors hero, repris dans le ton de la marque (simple, chaleureux, au « vous »).
+Manifeste resserré : « Le sport doit vous faire du bien. Chez Harmony, on
+vous aide à progresser à votre rythme, en salle comme dans l'eau, puis on
+vous laisse le temps de souffler. » Une phrase d'introduction sous les titres
+des clubs, des formules, du sport et des objectifs. Une phrase par façon de
+s'entraîner (seul, accompagné, en groupe). Le texte du bien-être remplace son
+lorem. Titres : « En groupe, choisissez votre objectif », « Quoi de neuf dans
+vos clubs » (au lieu de « Actualités »). Boutons : « Comparer les formules »,
+« Découvrir nos espaces bien-être ». Bandeau essai, sur toutes les pages :
+« Envie d'essayer avant de vous décider ? Laissez-nous vos coordonnées, le
+club vous rappelle pour fixer votre séance d'essai. » Phrases des formules
+raccourcies. Ce qui est un fait reste en placeholder : prix, note, avis,
+témoignages, textes des articles, description de l'offre. Tout est à valider.
+
 ### Q63 · Où vit la newsletter
 **Statut :** tranchée par Hugo le 2026-10-22
 **Source :** B.3 > Accueil (« newsletter » parmi les composants) contre

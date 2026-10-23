@@ -1366,6 +1366,8 @@ a.carte__repere { text-decoration: none; }
 /* Une action posée juste sous le contenu, pas poussée en pied de bloc :
    dans une carte couchée à grande photo, produit__pied laissait un trou. */
 .bloc__action { margin: var(--e-4) 0 0; }
+/* Phrase d'introduction sous le titre d'un bloc de l'accueil. */
+.bloc__intro { margin: calc(-1 * var(--e-2)) 0 var(--e-5); max-width: 62ch; color: var(--ink-muted); }
 /* Seul, accompagné, en groupe : la façon de s'entraîner se lit d'abord, le
    produit ensuite. */
 .modes h4 { font-size: 24px; line-height: 30px; font-weight: 600; margin-bottom: var(--e-1); }

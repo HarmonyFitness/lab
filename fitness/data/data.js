@@ -300,7 +300,7 @@ window.DATA = {
       /* Phrase courte qui dit ce qu'est la formule, lue sur l'accueil entre
          le nom et la ligne d'accès (Hugo, 2026-10-23). Rédigée, à valider
          par Harmony (Q62). */
-      accroche: 'Le plateau fitness, sur une plage horaire plus large.',
+      accroche: 'Le plateau fitness, avec des horaires plus larges.',
       inclus: { plateau: true, cours: false, aqua: false, coaching: false },
       prix: { adulte: { sans: null, '12mois': null } },
       conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -321,7 +321,7 @@ window.DATA = {
     },
     {
       id: 'formule-premium', photo: 'Photo cours aquatique en piscine', type: 'formule', nom: 'Premium', categorie: 'premium', ordre: 3,
-      accroche: 'Tout Essential, plus la piscine et les cours aquatiques.',
+      accroche: 'Tout Essential, avec en plus la piscine et les cours aquatiques.',
       inclus: { plateau: true, cours: true, aqua: true, coaching: '[X] séances' },
       prix: {
         adulte: { sans: null, '12mois': null },
@@ -347,7 +347,7 @@ window.DATA = {
     {
       id: 'formule-platinium', photo: 'Photo espace wellness, sauna et hammam',
       type: 'formule', nom: 'Premium Platinum', categorie: 'premium', ordre: 4,
-      accroche: 'Tout Premium, avec les Extras compris.',
+      accroche: 'Tout Premium, Extras compris.',
       souscriptionDepuis: ['premium'],
       inclutExtras: true,
       inclus: { plateau: true, cours: true, aqua: true, coaching: '[X] séances', extras: true },
