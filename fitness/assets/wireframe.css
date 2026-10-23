@@ -239,7 +239,7 @@ body:has(.wf-barre) .barre-recap { bottom: var(--haut-outillage); }
 body:has(.wf-barre) .carte-plein--fixe { bottom: var(--haut-outillage); }
 /* Le hero de l'accueil tient au-dessus de la barre, pour qu'on le juge
    comme sur le futur site, où elle n'existe pas. */
-body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - var(--haut-outillage)); }
+body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - var(--marge-hero) - var(--haut-outillage)); }
 .wf-barre {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; height: var(--haut-outillage);
   background: var(--ui-fond); border-top: 2px dashed var(--ui);
@@ -316,18 +316,16 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
 .barre-groupe__icone { width: 16px; height: 16px; flex: none; }
 
 /* Pas de filet sous le header (Hugo, 2026-10-22) : il ne se sépare de la
-   page que par l'espace. Header flottant (Hugo, 2026-10-23) : une carte
-   blanche à coins arrondis, décollée des bords. Fond plein, pas de verre :
-   le système réserve le verre à ce qui se pose sur une vraie photo. */
-.entete { background: var(--surface); margin: var(--e-2) var(--e-3) 0; border-radius: var(--rayon); }
+   page que par l'espace. */
+.entete { background: var(--surface); }
 /* Header collant (Q68) : la classe est posée par components.js, sauf sur
    une page qui a déjà sa barre collante (Tarifs) et sur une landing. Il
    glisse hors de l'écran en descendant, revient en remontant. Collé, il
    prend une ombre très légère pour se détacher du contenu qui passe
    dessous, puisqu'il n'a plus de filet. */
-.entete--collant { position: sticky; top: var(--e-2); z-index: 45;
+.entete--collant { position: sticky; top: 0; z-index: 45;
   transition: transform .22s ease, box-shadow .22s ease; }
-.entete--collant.entete--cache { transform: translateY(calc(-100% - 2 * var(--e-2))); }
+.entete--collant.entete--cache { transform: translateY(-100%); }
 .entete--collant.entete--decolle { box-shadow: 0 6px 20px rgba(14, 26, 35, .06); }
 @media (prefers-reduced-motion: reduce) { .entete--collant { transition: none; } }
 /* Trois colonnes, les deux du bord de même largeur : le menu reste au
@@ -926,32 +924,50 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
 .voix--une li { grid-template-columns: 48px 1fr; gap: var(--e-4); }
 .voix--une p { font-size: 15px; }
 
-/* Hero de l'accueil (Hugo, 2026-10-23, d'après son brouillon Figma) : le
-   titre, le sous-titre et les deux actions centrés en haut, sur un dégradé
-   qui va du blanc au bleu clair ; la photo dessous, centrée, coins arrondis
-   en haut, coupée par le bas de l'écran. Derrière elle, le dégradé descend
-   jusqu'au bleu de marque, qui déborde de chaque côté. Seules couleurs : les
-   jetons de la charte. Le texte n'est plus posé sur la photo, il n'a donc
-   plus besoin de voile ni de boutons blancs.
-   Header + hero = la hauteur de l'écran (Hugo, 2026-10-22) : sa hauteur est
-   l'écran moins la barre groupe et le header (--haut-entetes). Le dégradé
-   va d'un bord à l'autre, sans marge. */
-.hero-plein { --haut-entetes: 117px; }
-.hero-accueil { display: flex; flex-direction: column; align-items: center;
-  height: calc(100svh - var(--haut-entetes)); min-height: 600px; max-height: 1000px; overflow: hidden;
-  background: linear-gradient(180deg, var(--surface) 0%, var(--bleu-clair) 38%, var(--accent) 100%); }
-.hero-accueil__texte { flex: none; max-width: 980px; text-align: center;
-  padding: var(--e-8) var(--gouttiere) var(--e-7); }
-.hero-accueil__texte h1 { margin-bottom: var(--e-3); }
-.hero-accueil__texte p { margin-bottom: 0; }
-.hero-accueil__texte h1 + p { font-size: 18px; line-height: 28px; max-width: 60ch; margin: 0 auto; }
-.hero-accueil__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
-  margin-top: var(--e-5) !important; }
-.hero-accueil__photo { position: relative; flex: 1 1 auto; min-height: 240px;
-  width: min(1128px, 80%); border-radius: var(--rayon) var(--rayon) 0 0; overflow: hidden; }
+/* Hero de l'accueil : la photo prend toute la largeur du hero, le titre, le
+   sous-titre et les deux actions sont posés directement dessus, en blanc,
+   sans panneau (Hugo, 2026-10-22). Un voile sombre monte du coin bas gauche,
+   là où est le texte : il le garde lisible quelle que soit la photo, sans
+   éteindre le reste de l'image. Le bloc photo du lab est plus sombre que
+   les autres pour simuler une vraie photo : du blanc sur le gris clair des
+   placeholders ne montrerait rien de ce que le hero doit faire. La légende
+   est en haut à droite, loin du texte. */
+/* Pleine largeur, header + hero = la hauteur de l'écran (Hugo, 2026-10-22,
+   sur le modèle de superpower.com). Le hero sort du conteneur : la photo va
+   d'un bord à l'autre, avec une marge de 12 px qui laisse voir ses coins
+   arrondis. Sa hauteur est l'écran moins la barre groupe et le header
+   (--haut-entetes) et la marge du bas. Le texte reste aligné sur le
+   contenu de la page, pas collé au bord de la photo. */
+.hero-plein { --marge-hero: 12px; --haut-entetes: 108px; padding: 0 var(--marge-hero); }
+.hero-accueil { position: relative; border-radius: var(--rayon-grand); overflow: hidden;
+  height: calc(100svh - var(--haut-entetes) - var(--marge-hero)); min-height: 560px; max-height: 1000px; }
+.hero-accueil__photo, .hero-accueil__photo > .img { position: absolute; inset: 0; }
+.hero-accueil__photo .img { min-height: 0; border-radius: 0; align-items: flex-start; justify-content: flex-end;
+  padding: var(--e-5) var(--e-6); background: #5d6f7c; color: rgba(255, 255, 255, .78); }
 .hero-accueil__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  object-position: 50% 40%; }
+  object-position: 50% 60%; }
 .hero-plein + main { margin-top: var(--espace-section); }
+.hero-accueil::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top right, rgba(14, 26, 35, .72) 0%, rgba(14, 26, 35, .35) 45%, rgba(14, 26, 35, 0) 75%); }
+.hero-accueil__panneau {
+  position: absolute; z-index: 1; bottom: var(--e-8);
+  left: max(var(--e-7), calc((100% - var(--large)) / 2 + var(--gouttiere) - var(--marge-hero)));
+  width: min(720px, calc(100% - 2 * var(--e-7)));
+  color: #fff;
+}
+.hero-accueil__panneau h1 { margin-bottom: var(--e-3); color: #fff; }
+.hero-accueil__panneau p { margin-bottom: 0; }
+.hero-accueil__panneau h1 + p { font-size: 18px; line-height: 28px; max-width: 52ch; }
+.hero-accueil__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--e-5) !important; }
+/* Sur la photo, le bouton secondaire passe en contour blanc : le contour
+   gris du système disparaîtrait sur une image. */
+/* Sur la photo, le bouton principal passe en blanc, texte bleu : le bleu
+   plein se perdait dans une image sombre (Hugo, 2026-10-22). */
+.hero-accueil .btn:not(.btn--secondaire) { background: #fff; border-color: #fff; color: var(--action-fonce); }
+.hero-accueil .btn:not(.btn--secondaire):hover { background: var(--action-fond); border-color: var(--action-fond); color: var(--action-fonce); }
+.hero-accueil .btn--secondaire { background: transparent; color: #fff; border-color: #fff; }
+.hero-accueil .btn--secondaire:hover { background: rgba(255, 255, 255, .14); color: #fff; }
+.hero-accueil :focus-visible { outline-color: #fff; }
 
 /* Aperçu des clubs : la liste par canton à gauche, la carte à droite, la
    même proportion que le choix du club revu le 2026-10-22 (carte à 360 px).
@@ -1117,12 +1133,12 @@ a.carte__repere { text-decoration: none; }
   .voix .visage:not(.visage--petit) { width: 56px; height: 56px; }
   .temoignage-portrait { grid-template-columns: 1fr; gap: var(--e-5); }
   .temoignage-portrait__citation { font-size: 22px; line-height: 30px; }
-  /* Mobile : même composition, la photo presque pleine largeur. */
-  .hero-plein { --haut-entetes: 107px; }
-  .hero-accueil { min-height: 560px; }
-  .hero-accueil__texte { padding: var(--e-6) var(--gouttiere) var(--e-5); }
-  .hero-accueil__texte h1 + p { font-size: 16px; line-height: 24px; }
-  .hero-accueil__photo { width: calc(100% - 2 * var(--e-2)); }
+  /* Mobile : le texte reste sur la photo, plus haute, le voile monte du bas. */
+  .hero-plein { --marge-hero: 8px; --haut-entetes: 98px; }
+  .hero-accueil { min-height: 520px; }
+  .hero-accueil__photo .img { padding: var(--e-4); }
+  .hero-accueil::after { background: linear-gradient(to top, rgba(14, 26, 35, .78) 0%, rgba(14, 26, 35, .4) 55%, rgba(14, 26, 35, 0) 85%); }
+  .hero-accueil__panneau { left: var(--e-5); right: var(--e-5); bottom: var(--e-5); width: auto; }
   /* B.3 > Trame de la page club > 2 : fixe en bas d'écran sur mobile. */
   .barre-rapide { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
     margin: 0; border-radius: 0; border: 0; border-top: 1px solid var(--line);

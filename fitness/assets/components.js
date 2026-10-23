@@ -2028,7 +2028,7 @@ Object.assign(window.HF.vues, (function () {
     var b = base || '';
     var espaces = R.espacesBienEtre(), clubs = R.clubsBienEtre();
     return '<section data-spec="B.3 > Accueil > bloc bien-être">' +
-      '<div class="bloc bloc--couche">' +
+      '<div class="bloc bloc--couche bloc--clair">' +
       V.blocImage('Photo : deux membres au hammam après la séance, détendues, lumière douce', 'carre') +
       '<div class="bloc--couche__texte"><h2>Du temps pour vous</h2>' +
       '<p>Récupérer compte autant que s\'entraîner. ' +
@@ -3319,13 +3319,8 @@ Object.assign(window.HF.vues, (function () {
        propre hauteur : caché. Le focus clavier dedans le garde visible. */
     /* « Collé » se lit sur la position à l'écran : offsetTop d'un élément
        sticky suit le défilement et ne dit plus où il était au départ. */
-    var colle = h.getBoundingClientRect().top <= (parseFloat(getComputedStyle(h).top) || 0) + 0.5 && y > 0;
-    /* Sur une page à hero plein écran (l'accueil), il reste là tant qu'on
-       est dans le hero, et ne se cache qu'une fois le hero passé (Hugo,
-       2026-10-23). Ailleurs, dès qu'on a descendu trois fois sa hauteur. */
-    var hero = document.querySelector('.hero-plein');
-    var limite = hero ? hero.offsetTop + hero.offsetHeight - h.offsetHeight : 3 * h.offsetHeight;
-    var cache = colle && y > dernierY && y > limite && !h.contains(document.activeElement);
+    var colle = h.getBoundingClientRect().top <= 0.5 && y > 0;
+    var cache = colle && y > dernierY && y > 3 * h.offsetHeight && !h.contains(document.activeElement);
     h.classList.toggle('entete--cache', cache);
     h.classList.toggle('entete--decolle', colle);
     dernierY = y;

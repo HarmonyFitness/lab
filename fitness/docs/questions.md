@@ -1753,11 +1753,3 @@ page : Tarifs, qui a déjà la barre collante du club référent (B.3 : « une
 seule barre collante en haut »), et la landing de campagne, qui a son header
 réduit (Q50). La barre groupe ne colle jamais. À confirmer par Harmony, puis
 à reporter dans B.3 et dans l'annexe A (header de verticale).
-
-**Mise à jour du 2026-10-23 (Hugo).** Le header devient **flottant** : une
-carte blanche à coins arrondis, décollée des bords, qui garde un peu d'air en
-haut quand elle colle. Fond plein, pas de verre : il n'est pas posé sur une
-photo. **Sur l'accueil, il reste visible tant qu'on est dans le hero**, puis
-se cache en descendant et revient au premier geste vers le haut, comme
-ailleurs. Le hero est la première chose qu'on lit : le header n'a pas à
-disparaître pendant qu'on le parcourt. Le cas se déduit de la page.
