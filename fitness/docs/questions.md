@@ -1137,7 +1137,18 @@ il reste de la famille Pilates : son fil d'Ariane donne
 dit la pratique, le hub dit le mode d'accès.
 
 ### Q47 · Carte de cours cliquable en entier, sans bouton
-**Statut :** tranchée par Hugo le 2026-09-16
+**Statut :** tranchée par Hugo le 2026-09-16, revue le 2026-10-23
+
+**Revue du 2026-10-23 (Hugo).** « Si c'est cliquable, alors il faut un
+bouton » : une surface cliquable sans bouton n'est pas instinctive. Toute
+carte cliquable porte désormais un bouton secondaire en bas (« Voir le
+cours », « Lire l'article », « Voir les cours », « Voir le club »…). La
+carte reste cliquable en entier, par la même technique. Ce qui n'a pas de
+bouton n'est plus cliquable : les lignes de formules de l'accueil. Le
+raisonnement ci-dessous (cinquante boutons en concurrence) est donc
+écarté : les boutons sont secondaires et petits, l'action principale de la
+page garde seule le bouton plein.
+
 **Source :** Hugo : « doit-on rendre les cartes cours (cours co, SGT)
 cliquables ou ajouter un CTA ? Plutôt que le titre cliquable ? »
 

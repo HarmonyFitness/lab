@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Small Group Training et Hyrox à Genève | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-23z">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-23aa">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -57,16 +57,15 @@
            haut. Un training n'est pas un produit, c'est un cours en petit
            groupe auquel l'Extra donne accès. -->
       <div class="grille grille--cartes">
-        <!-- Toute la carte est cliquable, sans bouton : la carte mène à une
-             fiche, elle ne déclenche pas une action. Un bouton par carte
-             ferait une rangée de boutons qui entrerait en concurrence avec
-             les vraies actions de la page (Q47). -->
+        <!-- Toute la carte est cliquable, et un bouton le montre (Q47,
+             revue par Hugo le 2026-10-23). -->
         <template x-for="co in sgt()" :key="co.id">
           <div class="produit produit--lien">
             <h3><a :href="HF.lienCours(co, '../../')" x-text="co.nom"></a></h3>
             <div x-html="HF.vues.attributsCours(co)"></div>
             <p x-text="co.description"></p>
             <p class="mention" x-text="'Proposé à : ' + clubsDe(co)"></p>
+            <div x-html="HF.vues.actionCarte('Voir le training')"></div>
           </div>
         </template>
       </div>
@@ -85,8 +84,8 @@
   </main>
   <div x-html="HF.vues.pied('../../')"></div>
 </div>
-<script src="../../data/data.js?v=2026-10-23z"></script>
-<script src="../../assets/components.js?v=2026-10-23z"></script>
+<script src="../../data/data.js?v=2026-10-23aa"></script>
+<script src="../../assets/components.js?v=2026-10-23aa"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -107,6 +106,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-10-23z"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-23aa"></script>
 </body>
 </html>

@@ -1205,7 +1205,16 @@ window.HF.vues = (function () {
           (etat.engagement === e.id) + '">' + esc(e.nom) + '</button>';
       }).join('') + '</div>';
   }
+  /* Le bouton d'une carte cliquable (Hugo, 2026-10-23) : une surface
+     cliquable sans bouton ne se devine pas. Toute la carte reste le lien
+     (le titre s'étire par-dessus) ; le bouton le montre. Il est visuel,
+     caché aux lecteurs d'écran, qui ont déjà le lien du titre. */
+  function actionCarte(libelle) {
+    return '<p class="carte__action"><span class="btn btn--secondaire btn--petit" aria-hidden="true">' +
+      esc(libelle) + '</span></p>';
+  }
   return {
+    actionCarte: actionCarte,
     barreGroupe: barreGroupe, entete: entete, enteteLanding: enteteLanding,
     heroLanding: heroLanding, pied: pied, piedLanding: piedLanding,
     filAriane: filAriane,
@@ -1706,6 +1715,7 @@ Object.assign(window.HF.vues, (function () {
       '<div class="carte-club__pied">' +
       '<a class="btn btn--petit" href="' + (o.base || '') + 'tarifs/?club=' + c.id +
       '&amp;source=' + (o.source || 'liste-clubs') + '">S\'abonner</a>' +
+      '<a class="btn btn--secondaire btn--petit" href="' + (o.base || '') + 'clubs/club/?club=' + c.id + '">Voir le club</a>' +
       '<span class="mention">' + desParMoisTexte(c.id, etat) + '</span>' +
       '<a class="lien-texte" href="' + (o.base || '') + 'clubs/club/?club=' + c.id +
       '#planning">Planning</a></div></article>';
@@ -1928,7 +1938,7 @@ Object.assign(window.HF.vues, (function () {
       metaArticle(a) +
       '<h3><a href="' + (base || '') + 'actualites/article/?article=' + esc(a.id) + '">' +
       esc(a.titre) + '</a></h3>' +
-      '<p class="mention">' + esc(a.chapeau) + '</p></article>';
+      '<p class="mention">' + esc(a.chapeau) + '</p>' + V.actionCarte('Lire l\'article') + '</article>';
   }
 
   /* L'article à la une : une carte couchée, la photo plus grande, le titre
@@ -1940,7 +1950,7 @@ Object.assign(window.HF.vues, (function () {
       '<h2><a href="' + (base || '') + 'actualites/article/?article=' + esc(a.id) + '">' +
       esc(a.titre) + '</a></h2>' +
       '<p class="article-une__chapeau">' + esc(a.chapeau) + '</p>' +
-      '<p class="mention">Lire l\'article</p></div></article>';
+      V.actionCarte('Lire l\'article') + '</div></article>';
   }
 
   /* La liste : un article à la une, puis les autres (Hugo, 2026-10-22).
@@ -2121,14 +2131,16 @@ Object.assign(window.HF.vues, (function () {
       'Sans club choisi, voici les prix de départ.</p>' +
       '<div class="formules">' + formules.map(function (p) {
         var pr = R.prixMini(p, 'adulte', etat);
-        return '<a class="formules__ligne" href="' + b + 'tarifs/#abonnements">' +
+        /* La ligne n'est plus un lien (Hugo, 2026-10-23) : cliquable sans
+           bouton, elle ne se devinait pas. Le bouton dessous mène aux tarifs. */
+        return '<div class="formules__ligne">' +
           '<span class="formules__nom">' + H.nomProduitHtml(p) + '</span>' +
           '<span class="formules__accroche">' + (p.accroche ? esc(p.accroche) : '[Phrase de la formule]') + '</span>' +
           '<span class="formules__acces">' + esc(R.ligneAcces(p.categorie)) + '</span>' +
           '<span class="formules__prix">dès ' + prixTexte(pr.valeur) + ' / mois' +
           (pr.promo ? ' <span class="pastille-remise">- ' + pr.promo.remise.valeur +
             (pr.promo.remise.type === 'montant' ? ' CHF' : '%') + '</span>' : '') + '</span>' +
-          '</a>';
+          '</div>';
       }).join('') + '</div>' +
       '<p class="mention">Prix adulte, avec l\'engagement le plus avantageux. ' +
       '</p>' +
@@ -2185,7 +2197,7 @@ Object.assign(window.HF.vues, (function () {
           '<h4><a href="' + b + 'sport/cours-collectifs/#objectif-' + g.objectif.id + '">' +
           esc(g.objectif.nom) + '</a></h4>' +
           '<p class="mention"><strong>' + g.cours.length + ' cours</strong> · ' + esc(noms.join(', ')) +
-          (g.cours.length > 3 ? '…' : '') + '</p></div>';
+          (g.cours.length > 3 ? '…' : '') + '</p>' + V.actionCarte('Voir les cours') + '</div>';
       }).join('') + '</div>' +
       '<p class="bloc__action"><a class="lien-texte" href="' + b +
       'sport/cours-collectifs/">Voir tous les cours et le planning</a></p></section>';
@@ -2223,10 +2235,11 @@ Object.assign(window.HF.vues, (function () {
     piliersSport(b + 'sport/').forEach(function (x) { p[x.titre] = x; });
     var plateau = p['Plateau fitness'], coaching = p['Coaching personnel'],
         cours = p['Cours collectifs'], sgt = p['Small Group Training'];
-    var carte = function (photo, mode, lien, corps) {
+    var carte = function (photo, mode, lien, corps, action) {
       return '<div class="produit produit--lien">' +
         '<div class="produit__photo">' + V.blocImage(photo, 'large') + '</div>' +
-        '<h4><a href="' + lien.href + '">' + esc(mode) + '</a></h4>' + corps + '</div>';
+        '<h4><a href="' + lien.href + '">' + esc(mode) + '</a></h4>' + corps +
+        V.actionCarte(action) + '</div>';
     };
     return '<section data-spec="B.3 > Accueil > le sport (seul, accompagné, en groupe)">' +
       '<h2>Comment voulez-vous vous entraîner ?</h2>' +
@@ -2234,16 +2247,17 @@ Object.assign(window.HF.vues, (function () {
       'passer de l\'un à l\'autre selon vos envies.</p>' +
       '<div class="grille grille--3 defile-mobile modes">' +
       carte('Photo : une membre en autonomie sur le plateau, à son rythme', 'En autonomie', plateau,
-        '<p><strong>Plateau fitness</strong></p><p>Vos machines, vos charges, votre rythme.</p><p class="mention">' + plateau.inclus + '</p>') +
+        '<p><strong>Plateau fitness</strong></p><p>Vos machines, vos charges, votre rythme.</p><p class="mention">' + plateau.inclus + '</p>', 'Découvrir le plateau') +
       carte('Photo : un coach et un membre pendant une séance', 'Accompagné', coaching,
-        '<p><strong>Coaching personnel</strong></p><p>Un programme construit avec vous, et quelqu\'un pour le suivre.</p><p class="mention">' + coaching.inclus + '</p>') +
+        '<p><strong>Coaching personnel</strong></p><p>Un programme construit avec vous, et quelqu\'un pour le suivre.</p><p class="mention">' + coaching.inclus + '</p>', 'Découvrir le coaching') +
       /* En groupe : deux produits, un inclus et un payant. La carte mène
          aux cours collectifs ; le Small Group Training a son propre lien,
          avec sa ligne Extra, pour ne pas le faire passer pour inclus. */
       carte('Photo : un cours collectif en salle, énergie du groupe', 'En groupe', cours,
         '<p><strong>Cours collectifs</strong></p><p>L\'énergie du groupe pour aller plus loin.</p><p class="mention">' + cours.inclus + '</p>' +
         '<p style="margin-top:8px"><a class="lien-texte" href="' + sgt.href + '">Small Group Training</a></p>' +
-        '<p class="mention">' + sgt.inclus + '</p>') +
+        '<p class="mention">' + sgt.inclus + '</p>',
+        'Découvrir les cours') +
       '</div></section>';
   }
 
@@ -3337,8 +3351,7 @@ Object.assign(window.HF.vues, (function () {
          des disciplines (Hugo, 2026-09-16, Q46). */
       (fam ? '<p class="mention">Famille <a class="lien-texte" href="' +
         H.lienFamille(fam, base) + '">' + esc(fam.nom) + '</a></p>' : '') +
-      (co.traitement === null
-        ? '<p></p>' : '') +
+      V.actionCarte(forme === 'toujours' ? 'Voir le training' : 'Voir le cours') +
       '</div>';
   }
 
@@ -3401,7 +3414,7 @@ Object.assign(window.HF.vues, (function () {
           esc(co.nom) + '</a>' +
           (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') +
           '</h3>' + attributsCours(co) +
-          '<p>' + esc(co.description) + '</p></div>';
+          '<p>' + esc(co.description) + '</p>' + V.actionCarte('Voir le cours') + '</div>';
       }).join('') + '</div>';
     }
 

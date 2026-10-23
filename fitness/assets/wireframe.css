@@ -639,7 +639,11 @@ body:has(.hero-plein) .barre-groupe__inner { max-width: none;
    lien, qui s'ouvre dans un nouvel onglet au clic du milieu comme il faut.
    Les liens à l'intérieur (la famille) repassent au-dessus de la nappe.
    Contrepartie assumée : on ne peut plus sélectionner le texte de la carte. */
-.produit--lien { position: relative; }
+.produit--lien { position: relative; display: flex; flex-direction: column; }
+/* Le bouton de la carte, poussé en bas pour que les boutons d'une rangée
+   s'alignent (Hugo, 2026-10-23 : cliquable veut dire bouton). */
+.carte__action { margin: auto 0 0; padding-top: var(--e-4); }
+.produit--lien:hover .carte__action .btn { background: var(--action-fond); border-color: var(--action); }
 .produit--lien:hover { box-shadow: var(--ombre-survol); }
 .produit--lien:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
 .produit--lien h2 a::after,
@@ -1115,7 +1119,6 @@ a.carte__repere { text-decoration: none; }
   align-items: baseline; background: var(--surface-tint);
   border-radius: var(--rayon); padding: var(--e-4) var(--carte-pad); color: var(--ink);
   text-decoration: none; }
-.formules__ligne:hover { box-shadow: var(--ombre-survol); color: var(--ink); }
 .formules__nom { font-weight: 600; font-size: 20px; }
 .formules__accroche { font-size: 15px; color: var(--ink); }
 .formules__acces { font-size: 14px; color: var(--gris-60); }
