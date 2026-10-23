@@ -422,17 +422,18 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
 @media (prefers-reduced-motion: reduce) { .nav-rub__fleche svg, .burger__rub > summary svg { transition: none; } }
 
 .entete__actions { display: flex; align-items: center; gap: var(--e-2); justify-self: end; }
-/* Sur une page à hero plein écran (l'accueil), le header et la barre
-   groupe prennent la largeur du hero, avec un petit retrait depuis ses
-   bords (--retrait-entete) : logo à gauche, S'abonner et l'espace membre à
-   droite (Hugo, 2026-10-23). Le menu reste centré sur l'écran. Les liens
-   de la barre groupe ont 10 px de marge intérieure : c'est leur texte qui
-   s'aligne, pas leur pastille. */
+/* Sur toutes les pages, landing comprise (Hugo, 2026-10-23, d'abord sur
+   l'accueil seul), le header et la barre groupe prennent la largeur de
+   l'écran, avec un petit retrait depuis les bords (--marge-hero puis
+   --retrait-entete, alignés sur la photo du hero de l'accueil) : logo à
+   gauche, S'abonner et l'espace membre à droite. Le menu reste centré sur
+   l'écran. Les liens de la barre groupe ont 10 px de marge intérieure :
+   c'est leur texte qui s'aligne, pas leur pastille. */
 :root { --retrait-entete: var(--e-5); }
-body:has(.hero-plein) .entete__inner { max-width: none;
+.entete .entete__inner { max-width: none;
   padding-left: calc(var(--marge-hero) + var(--retrait-entete));
   padding-right: calc(var(--marge-hero) + var(--retrait-entete)); }
-body:has(.hero-plein) .barre-groupe__inner { max-width: none;
+.barre-groupe .barre-groupe__inner { max-width: none;
   padding-left: calc(var(--marge-hero) + var(--retrait-entete) - 10px);
   padding-right: calc(var(--marge-hero) + var(--retrait-entete) - 10px); }
 .entete__actions .btn { white-space: nowrap; }
