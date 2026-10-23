@@ -95,6 +95,21 @@ window.HF = (function () {
       return Object.keys(vus).length;
     },
 
+    /* Nombre de cours collectifs différents chez Harmony, tous clubs et
+       tous formats confondus : la même population que le catalogue du hub
+       et que nbCoursFormule (Extras et variantes en filtre exclus). C'est la
+       preuve du hero de l'accueil (Hugo, 2026-10-23). */
+    nbCoursCollectifs: function () {
+      var vus = {};
+      D.seances.forEach(function (se) {
+        var co = cours(se.cours);
+        if (!co || co.estExtra) return;
+        if (co.traitement === 'filtre-intensite' || co.traitement === 'filtre-format') return;
+        vus[co.id] = 1;
+      });
+      return Object.keys(vus).length;
+    },
+
     /* Grisé : un seul sens, "pas accessible depuis ce club".
        Deux conditions, à ne pas confondre. L'accès vient de la catégorie du
        produit : Premium couvre tous les clubs. La souscription peut en plus

@@ -1676,12 +1676,14 @@ toujours pas chiffrée.
 dans l'eau, progressez avec nos coachs, puis détendez-vous dans nos espaces
 wellness. » (une première version sans la détente a été remplacée le même
 jour). Les cours collectifs sont portés par la troisième preuve,
-« [N] cours collectifs par semaine, inclus ». Il remplace « 10 clubs de sport et de bien-être… », qui
+« [N] cours collectifs différents » (le nombre de cours, pas de séances). Il remplace « 10 clubs de sport et de bien-être… », qui
 doublonnait la preuve « 10 clubs » ajoutée sous les boutons. Il porte des
 verbes (le H1 n'en a pas), l'aquatique, l'accompagnement et le wellness.
-À valider : Pâquis n'a aucun espace wellness, et
-les cours aquatiques ne sont donnés que dans les clubs Premium, la phrase
-les présente comme des offres du réseau.
+Pâquis n'a aucun espace wellness et les cours
+aquatiques ne sont donnés que dans les clubs Premium, alors que la phrase
+les présente comme des offres du réseau : assumé par Hugo (2026-10-23), les
+formules et les pages le disent. Reste à valider par Harmony comme le reste
+de la copy.
 
 ### Q63 · Où vit la newsletter
 **Statut :** tranchée par Hugo le 2026-10-22
