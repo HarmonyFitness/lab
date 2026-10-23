@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Fitness, cours collectifs et bien-être à Genève et Vaud | Harmony</title>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/wireframe.css?v=2026-10-23c">
+<link rel="stylesheet" href="assets/wireframe.css?v=2026-10-23d">
 </head>
 <body>
 
@@ -19,24 +19,17 @@
   <div x-html="HF.vues.entete('', '')"></div>
 
   <!-- ====================================================== BLOC 1 -->
-  <!-- Hero : la photo, la signature et les deux actions que B.3 met en
-       tête, s'abonner et trouver un club. La troisième, essayer, est dans
-       le header et dans le bandeau de fin de page, comme partout.
-       Hors du conteneur : la photo prend toute la largeur de l'écran, avec
-       une petite marge, et header + hero tiennent dans la hauteur de
-       l'écran (Hugo, 2026-10-22). -->
+  <!-- Hero : la signature et les deux actions que B.3 met en tête,
+       s'abonner et trouver un club. La troisième, essayer, est dans le
+       header et dans le bandeau de fin de page, comme partout.
+       Texte centré en haut sur un dégradé du blanc au bleu clair, la photo
+       dessous, qui descend jusqu'au bas de l'écran sur le bleu de marque
+       (Hugo, 2026-10-23, d'après son brouillon Figma). Hors du conteneur :
+       le dégradé va d'un bord à l'autre, et header + hero tiennent dans la
+       hauteur de l'écran. -->
   <div class="hero-plein">
     <section class="hero-accueil" data-spec="B.3 &gt; Accueil &gt; Hero + CTA primaire">
-      <!-- Première vraie photo du lab (fournie par Hugo, 2026-10-22) : un cours
-           collectif, des gens qui sourient. Deux tailles, le navigateur prend
-           celle qu'il lui faut. -->
-      <div class="hero-accueil__photo">
-        <img src="assets/photos/hero-cours-collectifs-2400.jpg?v=2026-10-23c"
-             srcset="assets/photos/hero-cours-collectifs-1200.jpg?v=2026-10-23c 1200w, assets/photos/hero-cours-collectifs-2400.jpg?v=2026-10-23c 2400w"
-             sizes="100vw" alt="Cours collectif en club : une participante sourit, les bras levés, entourée d'autres membres sur leurs steps"
-             fetchpriority="high">
-      </div>
-      <div class="hero-accueil__panneau">
+      <div class="hero-accueil__texte">
         <h1 class="h-display">Votre bien-être en mouvement</h1>
         <p><span x-text="HF.regles.nbClubs()"></span> clubs de sport et de
            bien-être dans les cantons de Genève et de Vaud, une formule pour
@@ -46,6 +39,15 @@
           <a class="btn" href="tarifs/">S'abonner</a>
           <a class="btn btn--secondaire" href="#clubs">Trouver mon club</a>
         </p>
+      </div>
+      <!-- Première vraie photo du lab (fournie par Hugo, 2026-10-22) : un cours
+           collectif, des gens qui sourient. Deux tailles, le navigateur prend
+           celle qu'il lui faut. -->
+      <div class="hero-accueil__photo">
+        <img src="assets/photos/hero-cours-collectifs-2400.jpg?v=2026-10-23d"
+             srcset="assets/photos/hero-cours-collectifs-1200.jpg?v=2026-10-23d 1200w, assets/photos/hero-cours-collectifs-2400.jpg?v=2026-10-23d 2400w"
+             sizes="(max-width: 760px) 100vw, 80vw" alt="Cours collectif en club : une participante sourit, les bras levés, entourée d'autres membres sur leurs steps"
+             fetchpriority="high">
       </div>
     </section>
   </div>
@@ -102,8 +104,8 @@
 
 </div>
 
-<script src="data/data.js?v=2026-10-23c"></script>
-<script src="assets/components.js?v=2026-10-23c"></script>
+<script src="data/data.js?v=2026-10-23d"></script>
+<script src="assets/components.js?v=2026-10-23d"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageAccueil', function () {
@@ -117,7 +119,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="assets/alpine.min.js?v=2026-10-23c"></script>
+<script defer src="assets/alpine.min.js?v=2026-10-23d"></script>
 
 </body>
 </html>
