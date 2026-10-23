@@ -1750,9 +1750,8 @@ Object.assign(window.HF.vues, (function () {
         }).join('') + '</select>';
     }
 
-    var filtres = '<div class="filtres filtres--planning">' +
-      opt(D.referentiels.jours.map(function (j) { return { id: j, nom: j[0].toUpperCase() + j.slice(1) }; }),
-          f.jour, 'jour', 'Tous les jours') +
+    /* Le jour se choisit dans la rangée des jours, pas dans un filtre. */
+    var filtres = '<div class="filtres">' +
       opt(D.referentiels.objectifs, f.objectif, 'objectif', 'Tous les objectifs') +
       opt(D.referentiels.intensites, f.intensite, 'intensite', 'Toutes les intensités') +
       opt(D.referentiels.formats.filter(function (x) { return formatsPresents.indexOf(x.id) !== -1; }),
@@ -1761,7 +1760,6 @@ Object.assign(window.HF.vues, (function () {
 
     var visibles = seances.filter(function (s) {
       var co = H.cours(s.cours); if (!co) return false;
-      if (f.jour && s.jour !== f.jour) return false;
       if (f.objectif && co.objectifPrincipal !== f.objectif) return false;
       if (f.intensite && co.intensite !== f.intensite) return false;
       if (f.format && co.format !== f.format) return false;
@@ -1772,9 +1770,10 @@ Object.assign(window.HF.vues, (function () {
        2026-10-23) : de vraies dates, la semaine en cours d'abord, trois
        semaines à l'avance au plus. Le lab rejoue le planning type. */
     var dec = etat.semaine || 0;
-    var lundi = new Date(); lundi.setHours(0, 0, 0, 0);
-    lundi.setDate(lundi.getDate() - ((lundi.getDay() + 6) % 7) + 7 * dec);
     var auj = new Date(); auj.setHours(0, 0, 0, 0);
+    var idxAuj = (auj.getDay() + 6) % 7;
+    var lundi = new Date(auj);
+    lundi.setDate(auj.getDate() - idxAuj + 7 * dec);
     var dates = D.referentiels.jours.map(function (j, i) {
       var d = new Date(lundi); d.setDate(lundi.getDate() + i); return d;
     });
@@ -1794,94 +1793,56 @@ Object.assign(window.HF.vues, (function () {
       (dec ? '<button type="button" class="btn btn--tertiaire btn--petit" data-act="semaine" data-id="courante">Cette semaine</button>' : '') +
       '</div>';
 
-    function minutes(h) { var p = h.split(':'); return Number(p[0]) * 60 + Number(p[1]); }
-    function nomIntensite(co) {
-      var x = D.referentiels.intensites.find(function (i) { return i.id === co.intensite; });
-      return x ? x.nom : '';
-    }
-
-    /* Mobile : la liste, jour par jour. */
-    var corps = '';
-    D.referentiels.jours.forEach(function (jour, i) {
-      var duJour = visibles.filter(function (s) { return s.jour === jour; })
-        .sort(function (a, b) { return a.heure.localeCompare(b.heure); });
-      if (!duJour.length) return;
-      corps += '<tr class="planning__jour"><td colspan="4">' +
-        esc(jourMois(dates[i], { weekday: 'long', day: 'numeric', month: 'long' }).replace(/^./, function (x) { return x.toUpperCase(); })) +
-        '</td></tr>';
-      corps += duJour.map(function (s) {
-        var co = H.cours(s.cours);
-        return '<tr><td>' + esc(s.heure) + '</td>' +
-          '<td><a href="' + H.lienCours(co, '../../') + '">' + esc(co.nom) + '</a>' +
-          (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') + '</td>' +
-          '<td>' + esc(s.duree) + ' min</td>' +
-          '<td>' + esc(nomIntensite(co)) + '</td></tr>';
-      }).join('');
-    });
-
-    /* Ordinateur : la semaine en colonnes, comme un agenda. Une séance est
-       placée à son heure et prend la hauteur de sa durée ; deux séances qui
-       se chevauchent se partagent la largeur du jour. */
-    var semaine = '';
-    if (visibles.length) {
-      var debut = Math.floor(Math.min.apply(null, visibles.map(function (s) { return minutes(s.heure); })) / 60);
-      var fin = Math.ceil(Math.max.apply(null, visibles.map(function (s) { return minutes(s.heure) + s.duree; })) / 60);
-      if (fin - debut < 6) fin = debut + 6;
-      var HEURE = 80;
-      var heures = '';
-      for (var h = debut; h < fin; h++) {
-        heures += '<div class="semaine__heure" style="top:' + ((h - debut) * HEURE) + 'px">' + h + ':00</div>';
-      }
-      var colonnes = D.referentiels.jours.map(function (jour, i) {
-        var duJour = visibles.filter(function (s) { return s.jour === jour; })
-          .map(function (s) { return { s: s, d: minutes(s.heure), f: minutes(s.heure) + s.duree }; })
-          .sort(function (a, b) { return a.d - b.d || b.f - a.f; });
-        /* Couloirs : un groupe de séances qui se chevauchent partage la
-           largeur en autant de couloirs qu'il en faut. */
-        var groupe = [], finGroupe = -1;
-        function fermer() {
-          var n = 0; groupe.forEach(function (x) { n = Math.max(n, x.couloir + 1); });
-          groupe.forEach(function (x) { x.n = n; }); groupe = [];
-        }
-        duJour.forEach(function (x) {
-          if (x.d >= finGroupe) { fermer(); finGroupe = -1; }
-          var pris = groupe.filter(function (y) { return y.f > x.d; }).map(function (y) { return y.couloir; });
-          var k = 0; while (pris.indexOf(k) !== -1) k++;
-          x.couloir = k; groupe.push(x); finGroupe = Math.max(finGroupe, x.f);
-        });
-        fermer();
+    /* Les jours à l'horizontale, aujourd'hui choisi par défaut ; les cours
+       du jour choisi en dessous, les uns sous les autres (Hugo,
+       2026-10-23). Même composant sur ordinateur et sur mobile. */
+    var choisi = etat.jourPlanning == null ? idxAuj : etat.jourPlanning;
+    var jours = '<div class="jours" role="tablist" aria-label="Jour">' +
+      D.referentiels.jours.map(function (jour, i) {
+        var n = visibles.filter(function (s) { return s.jour === jour; }).length;
         var estAuj = dates[i].getTime() === auj.getTime();
-        return '<div class="semaine__jour' + (estAuj ? ' semaine__jour--auj' : '') + '">' +
-          duJour.map(function (x) {
-            var co = H.cours(x.s.cours);
-            var haut = (x.d - debut * 60) * HEURE / 60, taille = x.s.duree * HEURE / 60;
-            return '<a class="seance' + (co.estExtra ? ' seance--extra' : '') + (x.s.duree < 45 ? ' seance--courte' : '') + '" href="' + H.lienCours(co, '../../') + '"' +
-              ' style="top:' + haut + 'px;height:' + (taille - 2) + 'px;left:calc(' + (100 * x.couloir / x.n) + '% + 2px);' +
-              'width:calc(' + (100 / x.n) + '% - 4px)">' +
-              '<span class="seance__heure">' + esc(x.s.heure) + '<span class="seance__duree"> · ' + esc(x.s.duree) + ' min</span></span>' +
-              '<span class="seance__nom">' + esc(co.nom) + '</span>' +
-              '<span class="seance__info">' + (co.estExtra ? '<span class="extra__marque">Extra</span> ' : '') +
-              esc(nomIntensite(co)) + '</span></a>';
-          }).join('') + '</div>';
-      }).join('');
-      var entetes = dates.map(function (d) {
-        var estAuj = d.getTime() === auj.getTime();
-        return '<div class="semaine__date' + (estAuj ? ' semaine__date--auj' : '') + '">' +
-          '<span>' + esc(jourMois(d, { weekday: 'short' }).replace('.', '')) + '</span>' +
-          '<strong>' + d.getDate() + '</strong></div>';
-      }).join('');
-      semaine = '<div class="semaine">' +
-        '<div class="semaine__tete"><div></div>' + entetes + '</div>' +
-        '<div class="semaine__corps" style="height:' + ((fin - debut) * HEURE) + 'px;--heure:' + HEURE + 'px">' +
-        '<div class="semaine__heures">' + heures + '</div>' + colonnes + '</div></div>';
-    }
+        return '<button type="button" role="tab" class="jours__jour' +
+          (i === choisi ? ' jours__jour--choisi' : '') + (estAuj ? ' jours__jour--auj' : '') +
+          (n ? '' : ' jours__jour--vide') + '" aria-selected="' + (i === choisi) + '"' +
+          ' data-act="jour-planning" data-id="' + i + '"' +
+          ' aria-label="' + esc(jourMois(dates[i], { weekday: 'long', day: 'numeric', month: 'long' }) +
+            (estAuj ? ', aujourd\'hui' : '') + ', ' + n + ' cours') + '">' +
+          '<span class="jours__nom">' + esc(estAuj ? 'Auj.' : jourMois(dates[i], { weekday: 'short' }).replace('.', '')) + '</span>' +
+          '<span class="jours__date">' + dates[i].getDate() + '</span></button>';
+      }).join('') + '</div>';
 
-    return '<section id="planning" class="bloc-planning" data-spec="B.3 > Trame de la page club > 4">' +
-      '<h2>Planning</h2>' + filtres + nav +
-      (corps
-        ? semaine + '<table class="planning"><thead><tr><th>Heure</th><th>Cours</th><th>Durée</th>' +
-          '<th>Intensité</th></tr></thead><tbody>' + corps + '</tbody></table>'
-        : '<p class="planning__vide">Aucune séance ne correspond à ces filtres.</p>') +
+    function minutes(h) { var p = h.split(':'); return Number(p[0]) * 60 + Number(p[1]); }
+    function fin(s) {
+      var m = minutes(s.heure) + s.duree;
+      return Math.floor(m / 60) + ':' + ('0' + (m % 60)).slice(-2);
+    }
+    var duJour = visibles.filter(function (s) { return s.jour === D.referentiels.jours[choisi]; })
+      .sort(function (a, b) { return a.heure.localeCompare(b.heure); });
+    var titreJour = jourMois(dates[choisi], { weekday: 'long', day: 'numeric', month: 'long' })
+      .replace(/^./, function (x) { return x.toUpperCase(); });
+    var liste = duJour.length
+      ? '<ul class="seances">' + duJour.map(function (s) {
+          var co = H.cours(s.cours);
+          var inten = D.referentiels.intensites.find(function (x) { return x.id === co.intensite; });
+          var form = D.referentiels.formats.find(function (x) { return x.id === co.format; });
+          return '<li class="seance-ligne' + (co.estExtra ? ' seance-ligne--extra' : '') + '">' +
+            '<div class="seance-ligne__heure"><strong>' + esc(s.heure) + '</strong>' +
+            '<span>' + esc(fin(s)) + '</span></div>' +
+            '<div class="seance-ligne__corps">' +
+            '<a class="seance-ligne__nom" href="' + H.lienCours(co, '../../') + '">' + esc(co.nom) + '</a>' +
+            '<span class="seance-ligne__tags">' +
+            (co.estExtra ? '<span class="extra__marque">Extra</span>' : '') +
+            (inten ? '<span class="tag">' + esc(inten.nom) + '</span>' : '') +
+            (form ? '<span class="tag">' + esc(form.nom) + '</span>' : '') +
+            '<span class="seance-ligne__duree">' + esc(s.duree) + ' min</span></span></div></li>';
+        }).join('') + '</ul>'
+      : '<p class="planning__vide">Aucun cours ' +
+        (f.objectif || f.intensite || f.format ? 'ne correspond à ces filtres ' : '') +
+        'ce jour-là.</p>';
+
+    return '<section id="planning" data-spec="B.3 > Trame de la page club > 4">' +
+      '<h2>Planning</h2>' + filtres + nav + jours +
+      '<h3 class="seances__titre">' + esc(titreJour) + '</h3>' + liste +
       '</section>';
   }
 
@@ -2483,6 +2444,7 @@ Object.assign(window.HF, (function () {
       coachOuvert: null,
       faqOuverte: null,
       semaine: 0,
+      jourPlanning: null,
       message: null,
       filtres: { club: '', categorie: '', jour: '', objectif: '', intensite: '',
                  format: '', recherche: '' },
@@ -2593,7 +2555,9 @@ Object.assign(window.HF, (function () {
     /* Planning : semaine affichée, 0 = la semaine en cours. */
     'semaine': function (etat, id) {
       etat.semaine = id === 'courante' ? 0 : Math.max(0, Math.min(3, (etat.semaine || 0) + (id === 'suiv' ? 1 : -1)));
+      if (id === 'courante') etat.jourPlanning = null;
     },
+    'jour-planning': function (etat, id) { etat.jourPlanning = Number(id); },
     'panneau-coach': function (etat, id) { etat.coachOuvert = (etat.coachOuvert === id) ? null : id; },
     'faq': function (etat, id) { var n = Number(id); etat.faqOuverte = (etat.faqOuverte === n) ? null : n; },
     'finaliser': function (etat) { etat.message = 'Redirection vers le tunnel de souscription.'; },
