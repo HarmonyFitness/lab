@@ -908,9 +908,9 @@ window.HF.vues = (function () {
       ] },
       /* Le footer ne donne plus d'adresse e-mail : un seul canal écrit, le
          formulaire, pour que toute demande soit comptée et dispatchée (Q37). */
+      /* Pas de téléphone : on n'appelle pas Harmony (Hugo, 2026-10-23). */
       { titre: 'Contact', liens: [
-        { nom: 'Nous contacter', href: b + 'nous-contacter/' },
-        { nom: '[téléphone]' }
+        { nom: 'Nous contacter', href: b + 'nous-contacter/' }
       ] }
     ];
     return '<footer class="pied" data-spec="B.3 > Arborescence > Footer"><div class="pied__inner">' +
@@ -2723,29 +2723,21 @@ Object.assign(window.HF.vues, (function () {
   var H = window.HF, D = H.data, R = H.regles, V = H.vues;
   var esc = H.esc, prixTexte = H.prixTexte, texte = H.texte, aValider = H.aValider;
 
-  /* B.3 > Trame de la page club > 2. Fixe en bas d'écran sur mobile. */
-  function barreRapide(c) {
-    var liens = [
-      { nom: 'Planning', href: '#planning' },
-      { nom: 'Horaires', href: '#infos' },
-      { nom: 'Itinéraire', href: '#infos' },
-      { nom: 'Appeler', href: '#infos' }
-    ];
-    return '<div class="barre-rapide" data-spec="B.3 > Trame de la page club > 2">' +
-      liens.map(function (l) {
-        return '<a href="' + l.href + '">' + esc(l.nom) + '</a>';
-      }).join('') +
-      '<span class="mention">Ouvert aujourd\'hui jusqu\'à [heure]</span></div>';
-  }
-
-  /* B.3 > Trame de la page club > 3. Identiques à la fiche Google. */
+  /* B.3 > Trame de la page club > 3. Identiques à la fiche Google.
+     Plus de barre rapide (Hugo, 2026-10-23) : elle redisait ces infos juste
+     au-dessus. Ce qu'elle avait en propre vit ici : « Ouvert aujourd'hui »
+     sous les horaires, l'itinéraire sous l'adresse. Pas de téléphone : on
+     n'appelle pas le club, on lui écrit. */
   function infosPratiques(c) {
+    var itineraire = 'https://www.google.com/maps/search/?api=1&query=' +
+      encodeURIComponent('Harmony Fitness ' + c.nom);
     var lignes = [
-      ['Adresse', texte(c.adresse, '[adresse]')],
-      ['Horaires', texte(c.horaires, '[horaires, jours fériés compris]')],
+      ['Adresse', esc(texte(c.adresse, '[adresse]')) +
+        '<br><a class="lien-texte" href="' + esc(itineraire) + '" target="_blank" rel="noopener">Itinéraire</a>'],
+      ['Horaires', esc(texte(c.horaires, '[horaires, jours fériés compris]')) +
+        '<br><span class="mention">Ouvert aujourd\'hui jusqu\'à [heure]</span>'],
       ['Transports', '[transports]'],
-      ['Parking', c.equipements.indexOf('parking') !== -1 ? '[détail parking]' : 'Pas de parking'],
-      ['Téléphone', texte(c.tel, '[téléphone]')]
+      ['Parking', c.equipements.indexOf('parking') !== -1 ? '[détail parking]' : 'Pas de parking']
     ];
     /* Plus d'adresse e-mail affichée : elle ne se compte pas, ne se dispatche
        pas et laisse le manager surveiller deux boîtes. On envoie au
@@ -2756,7 +2748,7 @@ Object.assign(window.HF.vues, (function () {
     return '<section id="infos" data-spec="B.3 > Trame de la page club > 3">' +
       '<h2>Infos pratiques</h2>' +
       '<dl class="infos">' + lignes.map(function (l) {
-        return '<div class="infos__item"><dt>' + esc(l[0]) + '</dt><dd>' + esc(l[1]) + '</dd></div>';
+        return '<div class="infos__item"><dt>' + esc(l[0]) + '</dt><dd>' + l[1] + '</dd></div>';
       }).join('') +
       '<div class="infos__item"><dt>Écrire au club</dt><dd><a class="lien-texte" href="../../nous-contacter/?motif=club&amp;club=' +
       c.id + '&amp;source=page-club">Nous contacter</a></dd></div>' +
@@ -2907,7 +2899,7 @@ Object.assign(window.HF.vues, (function () {
   }
 
   return {
-    barreRapide: barreRapide, infosPratiques: infosPratiques, coursDuClub: coursDuClub,
+    infosPratiques: infosPratiques, coursDuClub: coursDuClub,
     formulesEtExtras: formulesEtExtras, equipementsBloc: equipementsBloc,
     bienEtreBloc: bienEtreBloc, passerelleNatation: passerelleNatation,
     passerelleCoursCollectifs: passerelleCoursCollectifs,

@@ -242,7 +242,7 @@ h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
    page se lit comme le futur site, header et hero compris, et les choix
    restent à portée sur toute la page. Sur un écran étroit, la ligne défile
    à l'horizontale plutôt que de passer sur deux lignes. Les éléments fixés
-   en bas de la maquette (barre récap, barre rapide, carte plein écran)
+   en bas de la maquette (barre récap, carte plein écran)
    remontent de sa hauteur, et la page garde un espace pour le pied. */
 :root { --haut-outillage: 40px; }
 /* Marge du hero plein écran de l'accueil, que la barre groupe et le header
@@ -991,13 +991,6 @@ textarea.champ { resize: vertical; }
 body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte { top: 94px; }
 .hub-clubs__carte .carte { height: 420px; }
 
-/* Barre rapide de la page club : fixe en bas d'écran sur mobile. */
-.barre-rapide { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px;
-  background: var(--surface-tint); border: 1px solid transparent; border-radius: var(--rayon-pilule);
-  padding: 10px var(--e-5); margin: var(--e-5) 0 0; }
-.barre-rapide a { font-weight: 600; text-decoration: none; }
-.barre-rapide a:hover { text-decoration: underline; }
-
 .hero-club { display: grid; grid-template-columns: 3fr 2fr; gap: var(--e-6);
   align-items: start; margin-top: var(--e-2); }
 .hero-club__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
@@ -1278,14 +1271,6 @@ a.carte__repere { text-decoration: none; }
   .hero-accueil::after { background: linear-gradient(to bottom, rgba(14, 26, 35, .35) 0%, rgba(14, 26, 35, .75) 35%, rgba(14, 26, 35, .75) 65%, rgba(14, 26, 35, .35) 100%); }
   .hero-accueil__panneau { position: relative; top: auto; left: auto; transform: none; width: auto;
     padding: var(--e-7) var(--e-5); }
-  /* B.3 > Trame de la page club > 2 : fixe en bas d'écran sur mobile. */
-  .barre-rapide { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
-    margin: 0; border-radius: 0; border: 0; border-top: 1px solid var(--line);
-    background: var(--surface); padding: 12px 16px;
-    overflow-x: auto; white-space: nowrap; flex-wrap: nowrap; }
-  body.a-barre-rapide { padding-bottom: 64px; }
-  body:has(.wf-barre) .barre-rapide { bottom: var(--haut-outillage); }
-  body.a-barre-rapide:has(.wf-barre) { padding-bottom: calc(64px + var(--haut-outillage)); }
   /* La barre récap tient sur une ligne en mobile : le détail est déjà sur la
      carte choisie, on garde le nom, le prix et le bouton. Deux barres
      collantes mangeaient un quart de l'écran (audit du 2026-10-21, écart 6). */
@@ -1373,6 +1358,9 @@ a.carte__repere { text-decoration: none; }
 .infos__item:nth-last-child(-n+3) { border-bottom: 0; }
 .infos dt { font-size: 14px; color: var(--gris-60); margin-bottom: 2px; }
 .infos dd { margin: 0; }
+/* Cinq infos : la dernière prend la place restante de sa ligne. */
+.infos__item:last-child:nth-child(3n+2) { grid-column: span 2; border-right: 0; }
+.infos__item:nth-child(3):nth-last-child(3) { border-bottom: 1px solid var(--surface); }
 
 /* Carte couchée du hub Sport : photo à gauche, texte à droite. */
 /* .grille > * impose un flex en colonne à ses enfants : la carte couchée
@@ -1446,6 +1434,7 @@ a.carte__repere { text-decoration: none; }
   .infos__item:nth-child(2n) { border-right: 0; }
   .infos__item:nth-last-child(-n+3) { border-bottom: 1px solid var(--surface); }
   .infos__item:nth-last-child(-n+2) { border-bottom: 0; }
+  .infos__item:nth-child(4):nth-last-child(2) { border-bottom: 1px solid var(--surface); }
   .bloc--couche, .grille > .bloc--couche { grid-template-columns: 1fr; gap: var(--e-4); }
   /* Teasers de l'accueil : défilement horizontal, une carte et le bord de
      la suivante, pour qu'on voie qu'il y en a d'autres. */

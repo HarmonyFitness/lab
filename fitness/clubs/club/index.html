@@ -6,9 +6,9 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Salle de sport | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-23ao">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-23ap">
 </head>
-<body class="a-barre-rapide">
+<body>
 
 <div x-data="pageClub" x-init="init()">
 
@@ -53,9 +53,6 @@
             <div x-html="HF.vues.blocImage('Photo du club ' + club.nom, 'large')"></div>
           </div>
         </section>
-
-        <!-- ================================================== BLOC 2 -->
-        <div x-html="HF.vues.barreRapide(club)"></div>
 
         <!-- ================================================== BLOC 3 -->
         <div x-html="HF.vues.infosPratiques(club)"></div>
@@ -125,8 +122,8 @@
 
 </div>
 
-<script src="../../data/data.js?v=2026-10-23ao"></script>
-<script src="../../assets/components.js?v=2026-10-23ao"></script>
+<script src="../../data/data.js?v=2026-10-23ap"></script>
+<script src="../../assets/components.js?v=2026-10-23ap"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageClub', function () {
@@ -170,7 +167,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-10-23ao"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-23ap"></script>
 
 </body>
 </html>
