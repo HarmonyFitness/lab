@@ -123,7 +123,7 @@ Clubs et catégories
 Page Tarifs
 - Une page, deux états, même gabarit. `/tarifs/[slug]` = même page avec le club référent présélectionné.
 - Club référent obligatoire pour souscrire (abonnement, offre, carnet).
-- Sans club : tous les prix visibles, aucun bouton de souscription, ligne "Choisissez d'abord votre club pour souscrire."
+- Sans club : tous les prix visibles, aucun bouton de souscription, ligne "Choisissez d'abord votre club pour souscrire." Chaque carte porte quand même un bouton secondaire « Choisir mon club », qui ramène au choix du club (Hugo, 2026-10-28 : sans bouton, on ne comprenait pas qu'il fallait choisir son club ; c'est l'étape suivante, pas un bouton de souscription, comme sur la landing).
 - Choix du club intégré à la page : pas de pop-up, pas de géolocalisation. Desktop : liste à gauche, carte à droite. Mobile : pastilles par canton + bouton "Voir sur la carte" (plein écran).
 - Grisé = un seul sens : "pas accessible depuis ce club". Les produits concernés sont regroupés en une ligne en fin de section ("Pas disponible depuis [club] : ... Pourquoi ?").
 - Tarif par âge : Adulte (défaut), Ado · 16-18 ans, Jeune · 19-25 ans, Senior · 65 ans et +. Il ne grise jamais. Un produit sans ce tarif s'affiche au prix adulte avec "Pas de tarif [x], prix adulte". Tarifs réduits : Essential et Premium seulement.

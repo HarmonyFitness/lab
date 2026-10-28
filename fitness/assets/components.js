@@ -1444,6 +1444,12 @@ Object.assign(window.HF.vues, (function () {
     var choisi = etat.produitChoisi === p.id;
     var pr = R.prix(p, etat.tarif, etat.engagement, etat);
     var haut = '', bas = '', pied = '', specRef;
+    /* Sans club, la carte porte quand même l'étape suivante (Hugo,
+       2026-10-28, comme sur la landing) : sans bouton, on ne comprenait pas
+       qu'il fallait choisir son club. Ce n'est pas un bouton de
+       souscription : il ramène au choix du club. */
+    var sansClub = '<button type="button" class="btn btn--secondaire btn--bloc" data-act="aller-choix-club">' +
+      'Choisir mon club</button>';
 
     if (p.type === 'formule') {
       specRef = 'B.3 > Page Tarifs > Trame > 4';
@@ -1468,7 +1474,7 @@ Object.assign(window.HF.vues, (function () {
       pied = etat.club
         ? '<button type="button" class="btn btn--bloc" data-act="choisir-produit" data-id="' +
           p.id + '">Choisir ' + esc(p.nom) + '</button>'
-        : '';
+        : sansClub;
 
     } else if (p.type === 'offre') {
       specRef = 'B.3 > Page Tarifs > Trame > 3';
@@ -1486,7 +1492,7 @@ Object.assign(window.HF.vues, (function () {
       pied = etat.club
         ? '<button type="button" class="btn btn--bloc" data-act="choisir-produit" data-id="' +
           p.id + '">Choisir ' + esc(p.nom) + '</button>'
-        : '';
+        : sansClub;
 
     } else {
       specRef = 'B.3 > Page Tarifs > Trame > 5';
@@ -1507,7 +1513,7 @@ Object.assign(window.HF.vues, (function () {
       pied = etat.club
         ? '<button type="button" class="btn btn--bloc" data-act="choisir-produit" data-id="' +
           p.id + '">Acheter ce carnet</button>'
-        : '';
+        : sansClub;
     }
 
     /* Le pied fourni par la page décide seul, club ou pas : sur une landing,
