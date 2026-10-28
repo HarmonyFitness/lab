@@ -1069,7 +1069,6 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
    retirés, la couleur vient des photos. L'arc du logo sur les photos a été
    essayé puis retiré lui aussi, il ne se déclinerait pas sur les autres
    verticales. */
-.section-voix { background: var(--surface-tint); border-radius: var(--rayon-grand); padding: var(--e-7); }
 .voix { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr;
   gap: var(--e-6) var(--e-7); }
 .voix li { display: grid; grid-template-columns: 80px 1fr; gap: var(--e-5); align-items: start; margin: 0; }
@@ -1078,19 +1077,17 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
 .visage { display: block; width: 80px; height: 80px; border-radius: 50%; background: var(--bleu-clair); }
 .visage--petit { width: 48px; height: 48px; }
 
-/* Manifeste (Pourquoi Harmony) : un surtitre, une phrase en grand, puis les
-   trois différenciants. Sur l'accueil, tout est centré, le visage au-dessus
-   du texte (Hugo, 2026-10-23). */
-.manifeste { margin: 0 0 var(--e-6); max-width: 760px; font-size: 28px; line-height: 38px; font-weight: 400; }
-.manifeste__note { margin: var(--e-3) 0 var(--e-6); }
-.section-voix--centre { text-align: center; }
-.section-voix--centre .manifeste { margin-inline: auto; }
-.voix--centre { grid-template-columns: repeat(3, 1fr); }
-.voix.voix--centre li { display: flex; flex-direction: column; align-items: center; gap: var(--e-3); }
-.voix--centre h3 { margin-top: 0; }
-.section-voix--centre .manifeste__note { display: flex; justify-content: center; max-width: none; }
-.section-voix--centre .wf-avalider { margin-left: 0; }
-.voix--centre p { max-width: 300px; margin-inline: auto; }
+/* Manifeste (Pourquoi Harmony), variante B du 2026-10-28 (Hugo) : la phrase
+   en grand et centrée, sans aplat, puis trois grandes photos 4/3 avec leur
+   titre et leur texte, alignés à gauche. Sur mobile, les trois défilent. */
+.manifeste { margin: 0 auto var(--e-8); max-width: 900px; text-align: center;
+  font-size: 48px; line-height: 56px; font-weight: 400; letter-spacing: -.025em; }
+.manifeste__points { list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--e-5); }
+.manifeste__points li { margin: 0; }
+.manifeste__photo .img { aspect-ratio: 4 / 3; min-height: 0; border-radius: var(--rayon-grand); margin-bottom: var(--e-4); }
+.manifeste__points h3 { margin: 0 0 var(--e-1); }
+.manifeste__points p { margin: 0; color: var(--ink-muted); }
 
 /* Témoignage en portrait : la personne d'abord, en grand, sa phrase à côté,
    les autres voix en dessous, plus petites. */
@@ -1311,13 +1308,15 @@ a.carte__repere { text-decoration: none; }
   .hub-clubs { grid-template-columns: 1fr; }
   .hub-clubs__carte { display: none; }
   .hero-club { grid-template-columns: 1fr; gap: var(--e-4); }
-  .section-voix { padding: var(--e-5); }
   .voix { grid-template-columns: 1fr; gap: var(--e-5); }
   .voix li { grid-template-columns: 56px 1fr; gap: var(--e-4); }
   .voix .visage:not(.visage--petit) { width: 56px; height: 56px; }
-  .manifeste { font-size: 20px; line-height: 28px; }
-  .voix--centre { grid-template-columns: 1fr; }
-  .voix--centre li { gap: var(--e-3); }
+  .manifeste { font-size: 32px; line-height: 40px; text-align: left; margin-bottom: var(--e-6); }
+  .manifeste__points { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: var(--e-3);
+    margin-right: calc(-1 * var(--gouttiere)); padding-right: var(--gouttiere); }
+  .manifeste__points li { flex: 0 0 78%; scroll-snap-align: start; }
+  .manifeste__points h3 { font-size: 17px; line-height: 24px; }
+  .manifeste__points p { font-size: 15px; }
   .temoignage-portrait { grid-template-columns: 1fr; gap: var(--e-5); }
   .temoignage-portrait__citation { font-size: 22px; line-height: 30px; }
   /* Mobile : le texte reste sur la photo, plus haute, centré ; le voile
@@ -1538,7 +1537,7 @@ a.carte__repere { text-decoration: none; }
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace; margin-bottom: 6px; }
 @media (max-width: 1100px) { .apercu { grid-template-columns: 1fr; } }
 /* Les deux lignes du manifeste tiennent jusqu'aux plus petits écrans. */
-@media (max-width: 360px) { .manifeste { font-size: 17px; line-height: 24px; } .section-voix--centre { padding-left: var(--e-3); padding-right: var(--e-3); } }
+@media (max-width: 360px) { .manifeste { font-size: 28px; line-height: 36px; } }
 
 /* Tarif par âge : sous 420 px, quatre segments sur deux lignes dans une
    seule pilule avaient l'air cassés. Une grille de deux sur deux, aux

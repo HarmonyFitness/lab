@@ -2110,38 +2110,34 @@ Object.assign(window.HF.vues, (function () {
      (Hugo, 2026-10-23, au lieu d'un titre et de quatre arguments). Le
      texte est une proposition, à valider par Harmony (Q62). Un seul bloc
      pour l'accueil et la landing de campagne (Q52). */
-  /* opts.visages (accueil) : chaque argument est porté par une personne,
-     un visage rond au-dessus de sa phrase, le tout centré sur un aplat
-     teinté. La landing garde ses cartes. */
+  /* Mise en page revue le 2026-10-28 (Hugo, variante B) : le manifeste en
+     grand et centré, sans aplat, puis trois grandes photos 4/3, titre et
+     texte dessous. Les ronds pâles se lisaient comme des icônes vides ;
+     ce sont des personnes qui portent les arguments. Même bloc sur
+     l'accueil et la landing. Sur mobile, les trois défilent à l'horizontale.
+     opts est gardé pour les appels existants, il ne change plus rien. */
   /* Le manifeste dit une conviction, pas l'offre : la liste salle, eau,
      coachs, wellness est déjà dans le sous-titre du hero et dans les trois
      différenciants juste dessous (Hugo, 2026-10-23). */
   /* Deux lignes, coupées après « Chez Harmony, » (Hugo, 2026-10-23). */
   var MANIFESTE = ['Chez Harmony,', 'chacun s\'entraîne à son rythme.'];
-  function pourquoiHarmony(spec, opts) {
-    var o = opts || {};
-    var visages = ['une membre en conversation avec son coach',
-      'une nageuse qui sort la tête de l\'eau, souriante',
-      'une membre détendue au sauna, les yeux fermés'];
+  function pourquoiHarmony(spec) {
     var items = [
-      { titre: 'Des coachs à vos côtés', texte: 'Pour bien démarrer, garder le cap et viser plus loin.' },
-      { titre: 'La salle et l\'eau', texte: 'Plateau, cours collectifs, piscine et cours aquatiques : de quoi varier chaque semaine.' },
-      { titre: 'Le temps de récupérer', texte: 'Sauna, hammam, jacuzzi : la séance se termine en douceur.' }
+      { titre: 'Des coachs à vos côtés', texte: 'Pour bien démarrer, garder le cap et viser plus loin.',
+        photo: 'une membre en conversation avec son coach' },
+      { titre: 'La salle et l\'eau', texte: 'Plateau, cours collectifs, piscine et cours aquatiques : de quoi varier chaque semaine.',
+        photo: 'une nageuse qui sort la tête de l\'eau, souriante' },
+      { titre: 'Le temps de récupérer', texte: 'Sauna, hammam, jacuzzi : la séance se termine en douceur.',
+        photo: 'une membre détendue au sauna, les yeux fermés' }
     ];
     /* Pas de surtitre « Pourquoi Harmony » (Hugo, 2026-10-23) : le
        manifeste se suffit. */
-    var tete = '<h2 class="manifeste">' + MANIFESTE.map(esc).join('<br>') + '</h2>';
-    if (o.visages) {
-      return '<section class="section-voix section-voix--centre" data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' +
-        tete + '<ul class="voix voix--centre">' + items.map(function (d, i) {
-          return '<li><span class="visage" title="' + esc('Photo : ' + visages[i]) + '" aria-hidden="true"></span>' +
-            '<div><h3>' + esc(d.titre) + '</h3><p>' + esc(d.texte) + '</p></div></li>';
-        }).join('') + '</ul></section>';
-    }
-    return '<section data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' + tete +
-      '<div class="grille grille--3">' + items.map(function (d) {
-        return '<div class="bloc"><h3>' + esc(d.titre) + '</h3><p>' + esc(d.texte) + '</p></div>';
-      }).join('') + '</div></section>';
+    return '<section class="manifeste-bloc" data-spec="' + esc(spec || 'B.3 > Accueil > arguments « pourquoi Harmony »') + '">' +
+      '<h2 class="manifeste">' + MANIFESTE.map(esc).join('<br>') + '</h2>' +
+      '<ul class="manifeste__points">' + items.map(function (d) {
+        return '<li><div class="manifeste__photo">' + V.blocImage('Photo : ' + d.photo, 'large') + '</div>' +
+          '<h3>' + esc(d.titre) + '</h3><p>' + esc(d.texte) + '</p></li>';
+      }).join('') + '</ul></section>';
   }
 
   /* Aperçu des clubs : la liste par canton et la carte, les mêmes règles
