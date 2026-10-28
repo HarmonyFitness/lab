@@ -866,6 +866,7 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
 .barre-recap__inner { display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
   max-width: var(--large); margin: 0 auto; padding: 14px var(--gouttiere); }
 .barre-recap__detail { font-size: 14px; color: rgba(255, 255, 255, .82); }
+.barre-recap__extras { display: none; font-weight: 600; }
 .barre-recap__total { font-size: 22px; line-height: 1.2; letter-spacing: -.01em;
   font-weight: 600; font-variant-numeric: tabular-nums; margin-left: auto; }
 .barre-recap .btn { background: #fff; color: var(--action-fonce); border-color: #fff; }
@@ -1335,6 +1336,7 @@ a.carte__repere { text-decoration: none; }
      carte choisie, on garde le nom, le prix et le bouton. Deux barres
      collantes mangeaient un quart de l'écran (audit du 2026-10-21, écart 6). */
   .barre-recap__detail { display: none; }
+  .barre-recap__extras { display: inline; }
   .barre-recap__inner { display: grid; grid-template-columns: 1fr auto; align-items: center;
     gap: 0 12px; padding: 10px var(--gouttiere); }
   .barre-recap__inner > div:first-child { grid-column: 1; grid-row: 1; font-size: 14px; line-height: 1.3; }
@@ -1501,6 +1503,10 @@ a.carte__repere { text-decoration: none; }
   .grille.defile-mobile { display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
     gap: var(--e-3); margin-right: calc(-1 * var(--gouttiere)); padding-right: var(--gouttiere); }
   .grille.defile-mobile { align-items: flex-start; }
+  /* Formules de Tarifs : on les compare en faisant glisser, pas en
+     remontant la page ; même hauteur, les lignes restent en face. */
+  .grille.defile-mobile--egal { align-items: stretch; }
+  .grille.defile-mobile--egal > * { flex-basis: 86%; }
   .grille.defile-mobile > * { flex: 0 0 78%; scroll-snap-align: start; }
   .preuves--photo .preuves__valeur { font-size: 20px; }
   .preuves--photo li { padding: 0 10px; }
@@ -1530,3 +1536,11 @@ a.carte__repere { text-decoration: none; }
 @media (max-width: 1100px) { .apercu { grid-template-columns: 1fr; } }
 /* Les deux lignes du manifeste tiennent jusqu'aux plus petits écrans. */
 @media (max-width: 360px) { .manifeste { font-size: 17px; line-height: 24px; } .section-voix--centre { padding-left: var(--e-3); padding-right: var(--e-3); } }
+
+/* Tarif par âge : sous 420 px, quatre segments sur deux lignes dans une
+   seule pilule avaient l'air cassés. Une grille de deux sur deux, aux
+   coins de carte (critique du 2026-10-28). */
+@media (max-width: 420px) {
+  .selecteur-age .segments { display: grid; grid-template-columns: 1fr 1fr; border-radius: var(--rayon); }
+  .selecteur-age .segments button { border-radius: var(--rayon-petit); padding: 6px 8px; }
+}

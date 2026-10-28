@@ -1196,7 +1196,7 @@ window.HF.vues = (function () {
   /* --- Sélecteurs ------------------------------------------------ */
 
   function selecteurTarif(etat) {
-    return '<div data-spec="B.3 > Page Tarifs > Trame > 2">' +
+    return '<div class="selecteur-age" data-spec="B.3 > Page Tarifs > Trame > 2">' +
       '<div class="segments">' + D.referentiels.tarifs.map(function (t) {
         return '<button type="button" data-act="tarif" data-id="' + t.id + '" aria-pressed="' +
           (etat.tarif === t.id) + '">' + esc(t.nom) +
@@ -1650,10 +1650,12 @@ Object.assign(window.HF.vues, (function () {
   /* Sans club, la barre attend (Hugo, 2026-10-22) : tant que le choix du
      club est à l'écran, « Choisir mon club » ferait doublon avec lui. Elle
      glisse en haut de l'écran une fois le bloc de choix dépassé, et le
-     bouton y ramène. Avec un club, elle colle comme avant. */
+     bouton y ramène. Avec un club, elle attend aussi (critique du
+     2026-10-28) : tant que le bloc du club est à l'écran, « Club référent :
+     Meyrin » s'y lisait deux fois. */
   function barreCollante(etat) {
     var c = etat.club ? H.club(etat.club) : null;
-    return '<div class="barre-collante' + (c ? '' : ' barre-collante--attente') + '"' +
+    return '<div class="barre-collante barre-collante--attente"' +
       ' data-spec="B.3 > Page Tarifs > Règles > Barre collante">' +
       '<div class="barre-collante__inner">' +
       (c
@@ -1688,6 +1690,11 @@ Object.assign(window.HF.vues, (function () {
       (etat.message ? '<div class="barre-recap__message">' + esc(etat.message) + '</div>' : '') +
       '<div class="barre-recap__inner">' +
       '<div><strong>' + esc(p.nom) + '</strong>' +
+      /* Sur mobile, le détail est masqué faute de place : les Extras
+         ajoutés gardent une ligne courte, sinon « Ajouter » semblait sans
+         effet (critique du 2026-10-28). */
+      (extras.length ? '<span class="barre-recap__extras"> + ' + extras.length + ' Extra' +
+        (extras.length > 1 ? 's' : '') + '</span>' : '') +
       '<div class="barre-recap__detail">' + esc(detail.join(' · ')) + '</div></div>' +
       '<div class="barre-recap__total">' + prixTexte(pr.valeur) +
       (p.type === 'formule' ? ' / mois' : '') + '</div>' +
@@ -1754,10 +1761,10 @@ Object.assign(window.HF.vues, (function () {
 
     /* Le jour se choisit dans la rangée des jours, pas dans un filtre. */
     var filtres = '<div class="filtres">' +
-      opt(D.referentiels.objectifs, f.objectif, 'objectif', 'Tous les objectifs') +
-      opt(D.referentiels.intensites, f.intensite, 'intensite', 'Toutes les intensités') +
+      opt(D.referentiels.objectifs, f.objectif, 'objectif', 'Tous objectifs') +
+      opt(D.referentiels.intensites, f.intensite, 'intensite', 'Toutes intensités') +
       opt(D.referentiels.formats.filter(function (x) { return formatsPresents.indexOf(x.id) !== -1; }),
-          f.format, 'format', 'Tous les formats') +
+          f.format, 'format', 'Tous formats') +
       '</div>';
 
     var visibles = seances.filter(function (s) {
@@ -3632,8 +3639,8 @@ Object.assign(window.HF.vues, (function () {
 })();
 
 /* ------------------------------------------------------------------ */
-/* Barre « Choisir mon club » de Tarifs : visible seulement une fois le */
-/* bloc de choix du club dépassé, tant qu'aucun club n'est choisi.      */
+/* Barre collante de Tarifs : visible seulement une fois le bloc du club  */
+/* dépassé, avec ou sans club choisi (2026-10-28).                      */
 /* ------------------------------------------------------------------ */
 /* La barre est re-rendue par Alpine à chaque changement d'état : la classe
    se recalcule au défilement et après chaque rendu, jamais gardée. */
@@ -3643,7 +3650,8 @@ Object.assign(window.HF.vues, (function () {
     var barre = document.querySelector('.barre-collante--attente');
     if (!barre) return;
     var ordi = document.getElementById('choix-club');
-    var bloc = ordi && ordi.offsetParent ? ordi : document.getElementById('choix-club-mobile');
+    var bloc = document.getElementById('bloc-club') ||
+      (ordi && ordi.offsetParent ? ordi : document.getElementById('choix-club-mobile'));
     var depasse = bloc ? bloc.getBoundingClientRect().bottom < 0 : true;
     barre.classList.toggle('barre-collante--visible', depasse);
   }
