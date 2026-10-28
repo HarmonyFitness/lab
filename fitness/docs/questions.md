@@ -1736,7 +1736,7 @@ vous aide à progresser à votre rythme, en salle comme dans l'eau, puis on
 vous laisse le temps de souffler. » Une phrase d'introduction sous les titres
 des clubs, des formules, du sport et des objectifs. Une phrase par façon de
 s'entraîner (seul, accompagné, en groupe). Le texte du bien-être remplace son
-lorem. Titres : « En groupe, choisissez votre objectif » (devenu « Quel est votre objectif ? » le
+lorem. Titres : « En groupe, choisissez votre objectif » (devenu « Des cours selon votre objectif » le
 2026-10-28, une fois séparé du bloc des façons de s'entraîner), « Quoi de neuf dans
 vos clubs » (au lieu de « Actualités »). Boutons : « Comparer les formules »,
 « Découvrir nos espaces bien-être ». Bandeau essai, sur toutes les pages :
