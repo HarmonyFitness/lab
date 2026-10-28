@@ -37,7 +37,11 @@
   --line-strong: #7a8b97;      /* bordures de champs et de boutons, 3:1 */
   --ink: #1b2731;
   --ink-muted: #4c565c;        /* texte secondaire, lisible sur les trois surfaces */
-  --photo-vide: #e3e9ee;       /* bloc photo en attente de sa vraie photo */
+  /* Bloc photo en attente de sa vraie photo : un dégradé ardoise, comme le
+     hero, plutôt qu'un aplat gris (Hugo, 2026-10-28). Il se lit comme une
+     photo, pas comme une boîte vide. */
+  --photo-vide: linear-gradient(135deg, #22303a 0%, #3e505d 45%, #6b7e8b 100%);
+  --photo-legende: rgba(255, 255, 255, .82);
   /* Bleu clair : le bleu pâle du logo, un peu grisé. Il donne de la couleur
      aux moments calmes de la page sans virer au cyan pâle des cabinets
      médicaux : il est plus dense, jamais posé en filet ou en fond de page
@@ -302,11 +306,11 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
 }
 
 /* ------------------------------------------------------------------ */
-/* Bloc image : gris avec sa légende                                    */
+/* Bloc image : dégradé ardoise avec sa légende                         */
 /* ------------------------------------------------------------------ */
 .img {
   display: flex; align-items: center; justify-content: center; text-align: center;
-  background: var(--photo-vide); color: var(--ink-muted);
+  background: var(--photo-vide); color: var(--photo-legende);
   font-size: 14px; padding: 12px; border-radius: var(--rayon-grand); min-height: 90px;
 }
 .img--large { aspect-ratio: 16 / 7; }
@@ -1630,7 +1634,8 @@ a.carte__repere { text-decoration: none; }
   padding-top: var(--e-3); border-top: 1px solid var(--line); }
 .soin__infos dt { font-weight: 600; }
 .soin__infos dd { margin: 0; }
-.soin__partenaire .img { width: 160px; min-height: 0; aspect-ratio: 3 / 1; font-size: 12px; margin-top: var(--e-2); }
+/* Un logo n'est pas une photo : il garde un aplat clair. */
+.soin__partenaire .img { background: var(--gris-10); color: var(--ink-muted); width: 160px; min-height: 0; aspect-ratio: 3 / 1; font-size: 12px; margin-top: var(--e-2); }
 @media (max-width: 760px) {
   .bloc--couche.soin { grid-template-columns: 1fr; }
   .soin__infos > div { grid-template-columns: 1fr; gap: 2px; }
