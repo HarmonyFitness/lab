@@ -600,16 +600,20 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
 /* ------------------------------------------------------------------ */
 /* Sélecteurs : tarif, engagement                                       */
 /* ------------------------------------------------------------------ */
-/* Sélecteur à segments : une pilule, le segment choisi rempli. */
-.segments { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px;
-  border: 1px solid var(--line-strong); border-radius: var(--rayon-pilule); background: var(--surface); }
+/* Sélecteur à segments (Hugo, 2026-10-28) : il règle l'affichage, il ne
+   déclenche rien, donc il ne doit pas ressembler à un bouton. Plus de
+   pilule ni de bleu plein : un rail gris, le segment choisi posé dessus en
+   blanc, texte en encre. Le bleu reste aux boutons d'action. */
+.segments { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 4px;
+  border: 0; border-radius: var(--rayon); background: var(--gris-10); }
 .segments button {
-  font: inherit; font-size: 14px; font-weight: 500; min-height: 34px; padding: 5px 16px;
-  border: 0; border-radius: var(--rayon-pilule); cursor: pointer;
-  background: transparent; color: var(--accent);
+  font: inherit; font-size: 14px; font-weight: 500; min-height: 36px; padding: 6px 14px;
+  border: 0; border-radius: var(--rayon-petit); cursor: pointer;
+  background: transparent; color: var(--ink-muted);
 }
-.segments button:hover { background: var(--accent-fond); }
-.segments button[aria-pressed="true"] { background: var(--accent); color: #fff; font-weight: 600; }
+.segments button:hover { color: var(--ink); background: rgba(255, 255, 255, .55); }
+.segments button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 600;
+  box-shadow: 0 1px 2px rgba(14, 26, 35, .12), 0 1px 1px rgba(14, 26, 35, .06); }
 .mention { font-size: 13px; color: var(--gris-60); line-height: 1.5; }
 
 /* ------------------------------------------------------------------ */
