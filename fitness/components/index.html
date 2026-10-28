@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Composants partagés · Lab Harmony Fitness</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-28zx">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-28zz">
 </head>
 <body>
 
@@ -57,6 +57,11 @@
       <div x-html="HF.vues.blocImage('Photo cours collectif', 'large')"></div>
       <div x-html="HF.vues.blocImage('Léa, coach Pilates à Meyrin', 'portrait')"></div>
     </div>
+
+    <h3 class="h-bloc">1.5 Onglets d'une page</h3>
+    <p class="mention">Page club : menu d'ancres collé en haut, section en cours soulignée,
+      « S'abonner » à droite une fois la barre collée. Une liste de sections, réutilisable sur toute page longue.</p>
+    <div x-html="HF.vues.ongletsPage([{id:'structure',nom:'Structure'},{id:'club',nom:'Club'},{id:'tarifs',nom:'Tarifs'},{id:'contenu',nom:'Contenu'}])"></div>
 
     <!-- ============================================================ -->
     <h2 id="club" class="h-bloc">2. Club et catégories</h2>
@@ -337,8 +342,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-10-28zx"></script>
-<script src="../assets/components.js?v=2026-10-28zx"></script>
+<script src="../data/data.js?v=2026-10-28zz"></script>
+<script src="../assets/components.js?v=2026-10-28zz"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('galerie', function () {
@@ -380,7 +385,7 @@ document.addEventListener('alpine:init', function () {
 });
 </script>
 <!-- Alpine 3.14.1, copie locale : les wireframes s'ouvrent sans serveur et sans réseau. -->
-<script defer src="../assets/alpine.min.js?v=2026-10-28zx"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-28zz"></script>
 
 </body>
 </html>

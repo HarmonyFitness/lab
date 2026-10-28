@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Salle de sport | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-28zx">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-28zz">
 </head>
 <body>
 
@@ -53,29 +53,36 @@
                 <a class="btn btn--secondaire" href="../../seance-essai/">Demander une séance d'essai</a>
               </div>
             </div>
-            <div x-html="HF.vues.blocImage('Photo du club ' + club.nom, 'large')"></div>
           </div>
         </section>
 
+        <!-- Onglets (Hugo, 2026-10-28) : le hero ne donnait que S'abonner et
+             l'essai ; on va en un geste au planning ou à l'équipe. Posés
+             entre le texte du hero et sa photo, pour être vus à l'arrivée :
+             sous la photo, ils tombaient sous le bord de l'écran. -->
+        <div class="hote-collant" x-html="HF.vues.ongletsPage(onglets(), { libelle: 'Sur la page du club',
+          cta: { href: '../../tarifs/?club=' + club.id + '&source=page-club', libelle: 'S\'abonner' } })"></div>
+        <div class="hero-club__photo" x-html="HF.vues.blocImage('Photo du club ' + club.nom, 'large')"></div>
+
         <!-- ================================================== BLOC 3 -->
-        <div x-html="HF.vues.infosPratiques(club)"></div>
+        <div id="infos" x-html="HF.vues.infosPratiques(club)"></div>
 
         <!-- ================================================== BLOC 4 -->
-        <div x-html="HF.vues.planning(club.id, etat)"></div>
+        <div id="planning" x-html="HF.vues.planning(club.id, etat)"></div>
         <p class="mention" x-show="club.categorie === 'gym'" data-spec="B.3 &gt; Variante Gym">
           Pas de cours collectifs dans un club Gym : seuls les Small Group
           Training apparaissent au planning, marqués « Extra ».
         </p>
 
         <!-- ============================ BLOC 5, remplacé en variante Gym -->
-        <div x-html="HF.vues.coursDuClub(club)"></div>
+        <div id="cours" x-html="HF.vues.coursDuClub(club)"></div>
         <div x-html="HF.vues.passerelleCoursCollectifs(club)"></div>
 
         <!-- ================================================== BLOC 6 -->
-        <div x-html="HF.vues.formulesEtExtras(club, etat)"></div>
+        <div id="formules" x-html="HF.vues.formulesEtExtras(club, etat)"></div>
 
         <!-- ================================================== BLOC 7 -->
-        <section data-spec="B.3 &gt; Trame de la page club &gt; 7">
+        <section id="equipe" data-spec="B.3 &gt; Trame de la page club &gt; 7">
           <h2 x-text="'L\'équipe de ' + club.nom"></h2>
           <div x-html="HF.vues.grilleCoachs(HF.regles.coachsDuClub(club.id), etat)"></div>
           <!-- Maillage interne (Hugo, 2026-10-28) : de l'équipe au coaching. -->
@@ -83,16 +90,16 @@
         </section>
 
         <!-- ================================================== BLOC 8 -->
-        <div x-html="HF.vues.equipementsBloc(club, '../../')"></div>
+        <div id="equipements" x-html="HF.vues.equipementsBloc(club, '../../')"></div>
 
         <!-- ================================================== BLOC 9 -->
-        <div x-html="HF.vues.bienEtreBloc(club, '../../')"></div>
+        <div id="bien-etre" x-html="HF.vues.bienEtreBloc(club, '../../')"></div>
 
         <!-- ================================================= BLOC 10 -->
         <div x-html="HF.vues.passerelleNatation(club)"></div>
 
         <!-- ================================================= BLOC 11 -->
-        <section data-spec="B.3 &gt; Trame de la page club &gt; 11">
+        <section id="images" data-spec="B.3 &gt; Trame de la page club &gt; 11">
           <h2>En images</h2>
           <div x-html="HF.vues.storiesClub(club)"></div>
           <h2 class="h-bloc">Ils viennent ici</h2>
@@ -106,7 +113,7 @@
         <div x-html="HF.vues.offreDuClub(club, etat)"></div>
 
         <!-- ================================================= BLOC 13 -->
-        <section data-spec="B.3 &gt; Trame de la page club &gt; 13">
+        <section id="questions" data-spec="B.3 &gt; Trame de la page club &gt; 13">
           <h2>Questions sur ce club</h2>
           <div x-html="HF.vues.faq(faqLocale(), etat)"></div>
         </section>
@@ -125,8 +132,8 @@
 
 </div>
 
-<script src="../../data/data.js?v=2026-10-28zx"></script>
-<script src="../../assets/components.js?v=2026-10-28zx"></script>
+<script src="../../data/data.js?v=2026-10-28zz"></script>
+<script src="../../assets/components.js?v=2026-10-28zz"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageClub', function () {
@@ -141,6 +148,23 @@ document.addEventListener('alpine:init', function () {
         HF.brancherSelecteur(this.$el, this.etat);
         this.$watch('etat.club', function () { this.majTitre(); }.bind(this));
         this.majTitre();
+      },
+      /* Les onglets ne nomment que les sections présentes : pas de Cours
+         dans un club Gym, pas de Bien-être dans un club qui n'a ni espace
+         ni soin. Mêmes conditions que les blocs eux-mêmes. */
+      onglets: function () {
+        var c = this.club, R = HF.regles;
+        return [
+          { id: 'infos', nom: 'Infos pratiques' },
+          { id: 'planning', nom: 'Planning' },
+          R.coursParObjectif(c.id).length ? { id: 'cours', nom: 'Cours' } : null,
+          { id: 'formules', nom: 'Formules' },
+          { id: 'equipe', nom: 'L\'équipe' },
+          { id: 'equipements', nom: 'Équipements' },
+          (R.bienEtreDuClub(c.id).length || (c.soins || []).length) ? { id: 'bien-etre', nom: 'Bien-être' } : null,
+          { id: 'images', nom: 'En images' },
+          { id: 'questions', nom: 'Questions' }
+        ].filter(Boolean);
       },
       /* B.3 > SEO des pages clubs : requête générique dans le title. */
       majTitre: function () {
@@ -170,7 +194,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-10-28zx"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-28zz"></script>
 
 </body>
 </html>

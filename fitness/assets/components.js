@@ -1813,6 +1813,25 @@ Object.assign(window.HF.vues, (function () {
       '</div></div>';
   }
 
+  /* Onglets d'une page longue (page club, Hugo, 2026-10-28) : un menu
+     d'ancres vers les sections, collé en haut de l'écran, la section en
+     cours soulignée. Le hero ne donnait que deux actions, s'abonner ou
+     essayer ; un membre qui cherche le planning ou l'équipe y va en un
+     geste. opts.cta garde l'action principale à portée, puisque le header
+     ne colle pas sur une page qui a sa propre barre (une seule en haut).
+     Ce ne sont pas des onglets qui cachent du contenu : toute la page
+     reste lue et indexée, les liens sont de vraies ancres. */
+  function ongletsPage(onglets, opts) {
+    var o = opts || {};
+    return '<nav class="onglets" aria-label="' + esc(o.libelle || 'Sur cette page') + '">' +
+      '<div class="onglets__inner"><div class="onglets__liens">' +
+      onglets.map(function (x) {
+        return '<a href="#' + x.id + '">' + esc(x.nom) + '</a>';
+      }).join('') + '</div>' +
+      (o.cta ? '<a class="btn btn--petit onglets__cta" href="' + o.cta.href + '">' + esc(o.cta.libelle) + '</a>' : '') +
+      '</div></nav>';
+  }
+
   /* Barre récap : produit, engagement, tarif, extras, total par mois.
      Elle est fixée en bas d'écran (B.3 : "barre récap en bas d'écran"),
      et apparaît dès qu'un produit est choisi : c'est le bouton de
@@ -2632,7 +2651,7 @@ Object.assign(window.HF.vues, (function () {
     infoClubs: infoClubs,
     ligneRemiseAilleurs: ligneRemiseAilleurs,
     ligneIndisponible: ligneIndisponible, ligneSansClub: ligneSansClub,
-    barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub,
+    barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub, ongletsPage: ongletsPage,
     planning: planning, grilleCoachs: grilleCoachs, panneauCoach: panneauCoach,
     storiesClub: storiesClub,
     faq: faq, temoignages: temoignages, noteAvis: noteAvis, noteValeur: noteValeur, noteSource: noteSource,
@@ -3948,7 +3967,7 @@ Object.assign(window.HF.vues, (function () {
     if (header && document.contains(header)) return header;
     header = document.querySelector('header.entete:not(.entete--landing)');
     if (!header) return null;
-    if (document.querySelector('.barre-collante')) { header = null; return null; }
+    if (document.querySelector('.barre-collante, .onglets')) { header = null; return null; }
     if (header.parentElement) header.parentElement.classList.add('hote-collant');
     header.classList.add('entete--collant');
     return header;
@@ -3975,6 +3994,46 @@ Object.assign(window.HF.vues, (function () {
     if (header && header.contains(ev.target)) header.classList.remove('entete--cache');
   });
   window.addEventListener('load', function () { trouver(); });
+})();
+
+/* ------------------------------------------------------------------ */
+/* Onglets d'une page : la section en cours est soulignée (aria-current). */
+/* ------------------------------------------------------------------ */
+/* La dernière section dont le haut est passé sous la barre est la section
+   en cours. Recalculé au défilement et après chaque rendu d'Alpine. */
+(function () {
+  'use strict';
+  function verifier() {
+    var nav = document.querySelector('.onglets');
+    if (!nav) return;
+    /* Le bouton de la barre n'apparaît qu'une fois la barre collée : avant,
+       le header et le hero montrent déjà « S'abonner » à l'écran. */
+    nav.classList.toggle('onglets--colle', nav.getBoundingClientRect().top <= 0.5 && window.scrollY > 0);
+    var liens = [].slice.call(nav.querySelectorAll('.onglets__liens a'));
+    /* L'ancre pose la section 80 px sous le haut de l'écran (scroll-margin
+       des [id]) : la limite doit l'englober. */
+    var limite = nav.getBoundingClientRect().bottom + 40;
+    var courant = null;
+    liens.forEach(function (a) {
+      var cible = document.getElementById(a.getAttribute('href').slice(1));
+      if (cible && cible.getBoundingClientRect().top <= limite) courant = a;
+    });
+    liens.forEach(function (a) {
+      if (a === courant) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+    /* Sur mobile, l'onglet en cours reste visible dans la bande qui défile. */
+    if (courant && courant.dataset.vu !== '1') {
+      liens.forEach(function (a) { delete a.dataset.vu; });
+      courant.dataset.vu = '1';
+      var bande = courant.parentElement;
+      bande.scrollLeft = courant.offsetLeft - (bande.clientWidth - courant.offsetWidth) / 2;
+    }
+  }
+  window.addEventListener('scroll', verifier, { passive: true });
+  window.addEventListener('load', function () {
+    verifier();
+    new MutationObserver(verifier).observe(document.body, { childList: true, subtree: true });
+  });
 })();
 
 /* ------------------------------------------------------------------ */

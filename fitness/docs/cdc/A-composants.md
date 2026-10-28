@@ -108,6 +108,7 @@ L'inventaire ci-dessus traite la page Tarifs comme une seule ligne de complexit�
 - **Point d'info** — TOUS — S. Panneau court au survol et au toucher, qui détaille une ligne sans l'allonger (ex. les clubs que couvre une formule). Marche sans JavaScript : vrai bouton, ouverture en `:hover` et `:focus-within`.
 - **Barre récap collante** — FIT, MAA — M. Fixée en bas d'écran dès qu'un produit est choisi, elle porte le bouton qui emmène au checkout. Un espaceur de même hauteur rend au document la place qu'elle prend, sinon le pied de page devient inatteignable.
 - **Catalogue de cours** — FIT — M. Rangé par objectif, avec les filtres de 6.1 et la recherche par nom. Pas de slider à la place d'une liste que le référencement doit voir.
+- **Onglets d'une page** — TOUS — S. Menu d'ancres collé en haut d'une page longue (page club, Hugo, 2026-10-28), section en cours soulignée, action principale à droite une fois collé. Une liste de sections en entrée : il sert à toute page longue d'une verticale (page bassin, page discipline). Ne cache aucun contenu.
 - **Fil d'Ariane** — TOUS — S. Absent de l'inventaire initial, présent sur toutes les pages profondes.
 - **Tableau de disponibilité par club** — FIT — S. Une colonne par espace bien-être, une ligne par club, déduit des équipements. Réutilisable pour toute matrice club × attribut.
 - **En-tête, hero et pied de landing** — FIT, MAA — M à eux trois. Variante de gabarit pour les pages de campagne, voir 6.1 et l'Annexe B.3. À valider par Harmony.

@@ -887,6 +887,27 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
   position: sticky; top: 0; z-index: 40; background: var(--surface);
   border-bottom: 1px solid var(--line);
 }
+/* Onglets d'une page (page club, Hugo, 2026-10-28) : collés en haut, fond
+   blanc jusqu'aux bords de l'écran, l'onglet de la section en cours
+   souligné comme la rubrique courante du header. Sur mobile, la bande
+   défile à l'horizontale et le bouton reste à droite. */
+.onglets { position: sticky; top: 0; z-index: 40; background: var(--surface);
+  box-shadow: 0 0 0 100vmax var(--surface); clip-path: inset(0 -100vmax);
+  border-bottom: 1px solid var(--line); }
+.onglets__inner { display: flex; align-items: center; gap: var(--e-4); }
+.onglets__liens { display: flex; gap: var(--e-5); overflow-x: auto; scrollbar-width: none;
+  flex: 1 1 auto; min-width: 0; }
+.onglets__liens::-webkit-scrollbar { display: none; }
+.onglets__liens a { flex: none; display: flex; align-items: center; min-height: 52px;
+  font-size: 15px; font-weight: 500; color: var(--ink-muted); text-decoration: none;
+  border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+.onglets__liens a:hover { color: var(--ink); border-bottom-color: var(--line-strong); }
+.onglets__liens a[aria-current] { color: var(--accent); font-weight: 600; border-bottom-color: var(--accent); }
+.onglets__cta { flex: none; }
+.onglets:not(.onglets--colle) .onglets__cta { display: none; }
+main .onglets { margin-top: var(--e-6); }
+main > .hote-collant:has(> .onglets) + * { margin-top: var(--e-6); }
+main > .hero-club__photo + * { margin-top: var(--espace-section); }
 .barre-collante--attente { position: fixed; left: 0; right: 0; top: 0; z-index: 46;
   transform: translateY(-100%); visibility: hidden; box-shadow: 0 6px 20px rgba(14, 26, 35, .06);
   transition: transform .22s ease, visibility 0s linear .22s; }
@@ -1121,7 +1142,7 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
    page sans photo garde le même texte, au même endroit. */
 .hero-club { display: grid; grid-template-columns: 1fr; gap: var(--e-7); margin-top: var(--e-2); }
 .hero-club > div:first-child { max-width: 760px; }
-.hero-club .img { aspect-ratio: 3 / 1; min-height: 0; }
+.hero-club .img, .hero-club__photo .img { aspect-ratio: 3 / 1; min-height: 0; }
 .hero-club__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start;
   margin-top: var(--e-5); }
 /* Prix sous « S'abonner » sans élargir sa colonne : la mention prend la
@@ -1388,7 +1409,7 @@ a.carte__repere { text-decoration: none; }
   .hub-clubs { grid-template-columns: 1fr; }
   .hub-clubs__carte { display: none; }
   .hero-club { gap: var(--e-5); }
-  .hero-club .img { aspect-ratio: 4 / 3; }
+  .hero-club .img, .hero-club__photo .img { aspect-ratio: 4 / 3; }
   .voix { grid-template-columns: 1fr; gap: var(--e-5); }
   .voix li { grid-template-columns: 56px 1fr; gap: var(--e-4); }
   .voix .visage:not(.visage--petit) { width: 56px; height: 56px; }
