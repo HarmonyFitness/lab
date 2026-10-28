@@ -2134,8 +2134,9 @@ Object.assign(window.HF.vues, (function () {
   /* Le manifeste dit une conviction, pas l'offre : la liste salle, eau,
      coachs, wellness est déjà dans le sous-titre du hero et dans les trois
      différenciants juste dessous (Hugo, 2026-10-23). */
-  /* Deux lignes, coupées après « Chez Harmony, » (Hugo, 2026-10-23). */
-  var MANIFESTE = ['Chez Harmony,', 'chacun s\'entraîne à son rythme.'];
+  /* Deux lignes, coupées après « Chez Harmony Fitness, » (Hugo, 2026-10-23 ;
+     « Harmony Fitness » le 2026-10-28). */
+  var MANIFESTE = ['Chez Harmony Fitness,', 'chacun s\'entraîne à son rythme.'];
   function pourquoiHarmony(spec) {
     var items = [
       { titre: 'Des coachs à vos côtés', texte: 'Pour bien démarrer, garder le cap et viser plus loin.',
@@ -2386,9 +2387,8 @@ Object.assign(window.HF.vues, (function () {
     return '<section data-spec="B.3 > Accueil > bloc bien-être">' +
       '<div class="bloc bloc--couche bloc--clair">' +
       V.blocImage('Photo : deux membres au hammam après la séance, détendues, lumière douce', 'carre') +
-      '<div class="bloc--couche__texte"><h2 class="titre-section">Du temps pour vous</h2>' +
-      '<p>Récupérer compte autant que s\'entraîner. Après l\'effort, offrez-vous ' +
-      'une pause au sauna ou au hammam.</p>' +
+      '<div class="bloc--couche__texte"><h2 class="titre-section">Récupérer compte autant que s\'entraîner</h2>' +
+      '<p>Après l\'effort, offrez-vous une pause au sauna ou au hammam.</p>' +
       V.tagsListe(espaces.map(function (e) { return e.nom; }), espaces.length) +
       '<p class="mention">Dans ' + clubs.length + ' de nos ' + R.nbClubs() + ' clubs</p>' +
       '<p class="bloc__action"><a class="btn btn--secondaire" href="' + b +

@@ -1802,6 +1802,12 @@ au lieu de « votre rythme » (le manifeste le dit) ; la carte Dans l'eau ne
 dit plus « Bouger » (l'objectif « Bouger mieux » le dit) ; le bien-être ne
 parle plus de la piscine, qui a sa carte. Textes rédigés, à valider.
 
+**2026-10-28, Hugo.** Le manifeste dit « Chez Harmony Fitness, chacun s'entraîne
+à son rythme. » (la marque complète, plus « Harmony » seul). Le bloc bien-être
+met la récupération dans son titre : « Du temps pour vous » devient
+« Récupérer compte autant que s'entraîner », la phrase qui ouvrait le texte ;
+le texte garde « Après l'effort, offrez-vous une pause au sauna ou au hammam. »
+
 ### Q63 · Où vit la newsletter
 **Statut :** tranchée par Hugo le 2026-10-22
 **Source :** B.3 > Accueil (« newsletter » parmi les composants) contre
