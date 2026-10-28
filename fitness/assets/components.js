@@ -2843,20 +2843,27 @@ Object.assign(window.HF.vues, (function () {
   }
 
   /* B.3 > Trame de la page club > 5. Texte stable et indexable : c'est lui
-     qui capte "[cours] [commune]". */
+     qui capte "[cours] [commune]". Une ligne par objectif, les cours en
+     liens à la suite, avec leur nombre de séances par semaine compté sur le
+     planning (Hugo, 2026-10-28) : la liste à puces redisait le planning sans
+     rien apprendre de plus, et prenait 700 px sur mobile. */
   function coursDuClub(c) {
     var groupes = R.coursParObjectif(c.id);
     if (!groupes.length) return '';
+    var seances = R.seancesDuClub(c.id);
+    function parSemaine(co) {
+      var n = seances.filter(function (s) { return s.cours === co.id; }).length;
+      return n === 1 ? '1 par semaine' : n + ' par semaine';
+    }
     return '<section data-spec="B.3 > Trame de la page club > 5">' +
       '<h2>Les cours de ' + esc(c.nom) + '</h2>' +
-      '<div class="grille grille--3">' + groupes.map(function (g) {
-        return '<div><h3>' + esc(g.objectif.nom) + H.aValider(g.aValider) + '</h3><ul>' +
-          g.cours.map(function (co) {
-            return '<li><a href="' + H.lienCours(co, '../../') + '">' + esc(co.nom) + '</a>' +
-              (co.traitement === null ? '' : '') +
-              '</li>';
-          }).join('') + '</ul></div>';
-      }).join('') + '</div></section>';
+      '<dl class="cours-club">' + groupes.map(function (g) {
+        return '<div class="cours-club__ligne"><dt>' + esc(g.objectif.nom) + H.aValider(g.aValider) + '</dt>' +
+          '<dd>' + g.cours.map(function (co) {
+            return '<span class="cours-club__cours"><a href="' + H.lienCours(co, '../../') + '">' + esc(co.nom) +
+              '</a> <span class="cours-club__freq">' + parSemaine(co) + '</span></span>';
+          }).join('') + '</dd></div>';
+      }).join('') + '</dl></section>';
   }
 
   /* B.3 > Trame de la page club > 6. Partie extras masquée si le club n'en a pas. */

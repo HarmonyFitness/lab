@@ -1646,3 +1646,17 @@ a.carte__repere { text-decoration: none; }
   .bloc--couche.soin { grid-template-columns: 1fr; }
   .soin__infos > div { grid-template-columns: 1fr; gap: 2px; }
 }
+
+/* Les cours d'un club : une ligne par objectif, les cours à la suite avec
+   leur nombre de séances par semaine (Hugo, 2026-10-28). */
+.cours-club { margin: 0; }
+.cours-club__ligne { display: grid; grid-template-columns: 16rem 1fr; gap: var(--e-5);
+  padding: var(--e-4) 0; border-top: 1px solid var(--line); }
+.cours-club__ligne:last-child { border-bottom: 1px solid var(--line); }
+.cours-club dt { font-weight: 600; }
+.cours-club dd { margin: 0; display: flex; flex-wrap: wrap; gap: var(--e-2) var(--e-6); }
+.cours-club__freq { color: var(--ink-muted); font-size: 14px; white-space: nowrap; }
+@media (max-width: 760px) {
+  .cours-club__ligne { grid-template-columns: 1fr; gap: var(--e-2); padding: var(--e-3) 0; }
+  .cours-club dd { gap: var(--e-1) var(--e-4); }
+}
