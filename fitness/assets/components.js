@@ -1205,7 +1205,7 @@ window.HF.vues = (function () {
   /* --- Sélecteurs ------------------------------------------------ */
 
   function selecteurTarif(etat) {
-    return '<div class="selecteur-age" data-spec="B.3 > Page Tarifs > Trame > 2">' +
+    return '<div class="selecteur-age" data-spec="B.3 > Page Tarifs > Trame > 4">' +
       '<div class="segments">' + D.referentiels.tarifs.map(function (t) {
         return '<button type="button" data-act="tarif" data-id="' + t.id + '" aria-pressed="' +
           (etat.tarif === t.id) + '">' + esc(t.nom) +

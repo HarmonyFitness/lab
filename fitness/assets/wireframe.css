@@ -621,6 +621,11 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
 .segments button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 600;
   box-shadow: 0 1px 2px rgba(14, 26, 35, .12), 0 1px 1px rgba(14, 26, 35, .06); }
 .mention { font-size: 13px; color: var(--gris-60); line-height: 1.5; }
+/* Réglages des formules (Hugo, 2026-10-28) : engagement et tarif par âge
+   côte à côte en tête de la section Abonnements, l'un sous l'autre sur
+   mobile. Le tarif par âge ne concerne que les formules. */
+.reglages-formules { display: flex; flex-wrap: wrap; gap: 16px 32px; margin-bottom: 14px; }
+.reglage__titre { font-size: 14px; line-height: 20px; font-weight: 600; margin: 0 0 6px; }
 
 /* ------------------------------------------------------------------ */
 /* Cartes produit, extra, club                                          */

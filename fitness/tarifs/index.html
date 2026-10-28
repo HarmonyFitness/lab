@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Tarifs et abonnements fitness à Genève et Vaud | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-28zh">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-28zi">
 </head>
 <body>
 
@@ -34,14 +34,11 @@
 
     <!-- ====================================================== BLOC 2 -->
     <section id="bloc-club">
-      <div class="ordi-seulement" x-html="HF.vues.choixClub(etat, {})"></div>
+      <!-- Le tarif par âge vit dans Abonnements : seules les formules ont
+           des tarifs réduits (Hugo, 2026-10-28). Le repli ne le répète pas. -->
+      <div class="ordi-seulement" x-html="HF.vues.choixClub(etat, { sansTarif: true })"></div>
       <div class="mobile-seulement"
-           x-html="etat.club ? HF.vues.clubReplie(etat, {}) : HF.vues.pastillesMobile(etat)"></div>
-
-      <div style="margin-top:16px" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 2">
-        <h2 class="titre-h3">Votre tarif</h2>
-        <div x-html="HF.vues.selecteurTarif(etat)"></div>
-      </div>
+           x-html="etat.club ? HF.vues.clubReplie(etat, { sansTarif: true }) : HF.vues.pastillesMobile(etat)"></div>
     </section>
 
     <!-- ====================================================== BLOC 3 -->
@@ -75,7 +72,16 @@
     <!-- ====================================================== BLOC 4 -->
     <section id="abonnements" data-spec="B.3 &gt; Page Tarifs &gt; Trame &gt; 4">
       <h2>Abonnements</h2>
-      <div style="margin-bottom:14px" x-html="HF.vues.selecteurEngagement(etat)"></div>
+      <div class="reglages-formules">
+        <div>
+          <h3 class="reglage__titre">Engagement</h3>
+          <div x-html="HF.vues.selecteurEngagement(etat)"></div>
+        </div>
+        <div>
+          <h3 class="reglage__titre">Votre tarif</h3>
+          <div x-html="HF.vues.selecteurTarif(etat)"></div>
+        </div>
+      </div>
       <div x-html="HF.vues.ligneSansClub(etat)"></div>
       <div class="grille grille--cartes defile-mobile defile-mobile--egal" style="margin-top:12px">
         <template x-for="p in visibles('formule')" :key="p.id">
@@ -160,8 +166,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-10-28zh"></script>
-<script src="../assets/components.js?v=2026-10-28zh"></script>
+<script src="../data/data.js?v=2026-10-28zi"></script>
+<script src="../assets/components.js?v=2026-10-28zi"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageTarifs', function () {
@@ -216,7 +222,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-10-28zh"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-28zi"></script>
 
 </body>
 </html>
