@@ -243,6 +243,7 @@ window.DATA = {
       gps: { lat: 46.2330, lng: 6.0800 },
       equipements: ['musculation', 'cardio', 'fonctionnel', 'cross', 'salle-cours', 'sauna', 'hammam', 'parking'],
       atouts: ['Excepteur sint occaecat cupidatat', 'Non proident sunt in culpa'],
+      soins: ['physiotherapie'],
       proximite: ['blandonnet', 'versoix'] },
 
     { id: 'versoix', nom: 'Versoix', ville: 'Versoix', quartier: null,
@@ -251,6 +252,7 @@ window.DATA = {
       gps: { lat: 46.2830, lng: 6.1620 },
       equipements: ['musculation', 'cardio', 'salle-cours', 'sauna', 'parking'],
       atouts: ['Qui officia deserunt mollit', 'Anim id est laborum'],
+      soins: ['physiotherapie'],
       proximite: ['meyrin', 'gland'] },
 
     { id: 'veyrier', nom: 'Veyrier', ville: 'Veyrier', quartier: null,
@@ -259,6 +261,7 @@ window.DATA = {
       gps: { lat: 46.1650, lng: 6.1840 },
       equipements: ['musculation', 'cardio', 'fonctionnel', 'salle-cours', 'piscine', 'sauna', 'jacuzzi', 'parking'],
       atouts: ['Lorem ipsum dolor sit amet', 'Sed ut perspiciatis unde omnis'],
+      soins: ['physiotherapie'],
       proximite: ['geneve-la-praille', 'geneve-eaux-vives'] },
 
     { id: 'denges', nom: 'Denges', ville: 'Denges', quartier: null,
@@ -267,6 +270,7 @@ window.DATA = {
       gps: { lat: 46.5320, lng: 6.5350 },
       equipements: ['musculation', 'cardio', 'fonctionnel', 'cross', 'salle-cours', 'piscine', 'sauna', 'hammam', 'jets', 'parking'],
       atouts: ['Iste natus error sit voluptatem', 'Accusantium doloremque laudantium'],
+      soins: ['massage', 'physiotherapie'],
       proximite: ['gland', 'signy'] },
 
     { id: 'gland', nom: 'Gland', ville: 'Gland', quartier: null,
@@ -275,6 +279,7 @@ window.DATA = {
       gps: { lat: 46.4200, lng: 6.2680 },
       equipements: ['musculation', 'cardio', 'salle-cours', 'sauna', 'hammam', 'parking'],
       atouts: ['Totam rem aperiam eaque ipsa', 'Quae ab illo inventore veritatis'],
+      soins: ['physiotherapie'],
       proximite: ['signy', 'versoix'] },
 
     { id: 'signy', nom: 'Signy', ville: 'Signy', quartier: null,
@@ -284,6 +289,22 @@ window.DATA = {
       equipements: ['musculation', 'cardio', 'fonctionnel', 'salle-cours', 'sauna', 'hammam', 'parking'],
       atouts: ['Et quasi architecto beatae vitae', 'Dicta sunt explicabo nemo enim'],
       proximite: ['gland', 'versoix'] }
+  ],
+
+  /* Soins : B.3 > Bien-être > Massage & physiothérapie. Repris du site
+     actuel (harmony.ch, relevé le 2026-10-28). Les clubs ne se saisissent
+     pas ici : c'est le champ « soins » de la fiche club. Tarifs, durées et
+     prise de rendez-vous en physio manquent (Q56). */
+  soins: [
+    { id: 'massage', nom: 'Massage', types: ['Sportif', 'Relaxant', 'Ciblé'],
+      praticien: 'Gregory Galenc, masseur',
+      reservation: { outil: 'OneDoc',
+        url: 'https://www.onedoc.ch/fr/masseur-classique/denges/pc3ex/gregory-galenc' },
+      remboursement: 'Par les assurances complémentaires, selon votre couverture. Praticien affilié ASCA et RME.' },
+    { id: 'physiotherapie', nom: 'Physiothérapie', types: [],
+      praticien: 'Les physiothérapeutes de l\'Hôpital de la Tour',
+      partenaire: 'Hôpital de la Tour',
+      reservation: null, remboursement: null }
   ],
 
   /* ------------------------------------------------------------------ */

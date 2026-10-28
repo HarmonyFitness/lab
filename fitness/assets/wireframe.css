@@ -1601,11 +1601,17 @@ a.carte__repere { text-decoration: none; }
   .bloc--couche.bloc--clair { padding: var(--e-5); gap: var(--e-5); }
 }
 
-/* Page Massage et physiothérapie : liste des soins, nom à gauche, durée et
-   tarif à droite (Hugo, 2026-10-28). */
-.soins { list-style: none; margin: var(--e-4) 0 0; padding: 0; }
-.soins__ligne { display: flex; justify-content: space-between; gap: var(--e-4);
-  padding: var(--e-4) 0; border-top: 1px solid var(--line); }
-.soins__ligne .mention { margin-top: 2px; }
-.soins__infos { display: flex; flex-direction: column; align-items: flex-end; flex: none;
-  font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* Page Massage et physiothérapie : un bloc couché par soin, les infos
+   pratiques en couples libellé-valeur (Hugo, 2026-10-28). */
+.soin { align-items: center; }
+.soin .img { aspect-ratio: 4 / 3; }
+.soin__infos { margin: var(--e-4) 0 0; display: grid; gap: var(--e-3); }
+.soin__infos > div { display: grid; grid-template-columns: 9rem 1fr; gap: var(--e-4);
+  padding-top: var(--e-3); border-top: 1px solid var(--line); }
+.soin__infos dt { font-weight: 600; }
+.soin__infos dd { margin: 0; }
+.soin__partenaire .img { width: 160px; min-height: 0; aspect-ratio: 3 / 1; font-size: 12px; margin-top: var(--e-2); }
+@media (max-width: 760px) {
+  .bloc--couche.soin { grid-template-columns: 1fr; }
+  .soin__infos > div { grid-template-columns: 1fr; gap: 2px; }
+}

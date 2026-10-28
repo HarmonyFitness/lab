@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Massage et physiothérapie à Genève et Vaud | Harmony</title>
+<title>Massage et physiothérapie dans nos clubs | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-28s">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-28t">
 </head>
 <body>
 
 <div x-data="pageSoins" x-init="init()">
 
-  <!-- Gabarit monté avant les données (Hugo, 2026-10-28). Les soins, les
-       praticiens, les durées, les tarifs et l'outil de réservation manquent
-       encore (Q56) : ils sont en emplacements entre crochets, rien n'est
-       inventé. -->
+  <!-- Contenus repris du site actuel (harmony.ch/massage-physiotherapie,
+       /cours/massage et /cours/physiotherapie, relevés par Hugo le
+       2026-10-28). Ce que le site actuel ne dit pas reste entre crochets :
+       tarifs, durées, prise de rendez-vous en physio (Q56). -->
 
   <div x-html="HF.vues.barreGroupe()"></div>
   <div x-html="HF.vues.entete('Bien-être', '../../', etat)"></div>
@@ -30,67 +30,71 @@
       <div class="hero-club">
         <div>
           <h1>Massage et physiothérapie</h1>
-          <p>Des praticiens, sur rendez-vous, pour récupérer après l'effort ou
-             soulager une douleur. La réservation se fait chez eux, pas ici.</p>
+          <p>Récupérer après l'effort, soulager une douleur, retrouver de la
+             mobilité : des praticiens vous reçoivent dans nos clubs, sur
+             rendez-vous.</p>
         </div>
         <div x-html="HF.vues.blocImage('Photo cabine de soin', 'large')"></div>
       </div>
     </section>
 
     <!-- ====================================================== BLOC 2 -->
-    <!-- Les soins, rangés en deux familles, avec durée et tarif indicatif.
-         « Indicatif » reste à définir (fourchette, ou prix par praticien) :
-         Q56, point 3. -->
-    <section data-spec="B.3 &gt; Bien-être &gt; Massage &amp; physiothérapie">
-      <h2>Nos soins</h2>
-      <div class="grille grille--2" style="margin-top:12px">
-        <template x-for="f in familles" :key="f.nom">
-          <div class="bloc">
-            <h3 x-text="f.nom"></h3>
-            <ul class="soins">
-              <template x-for="s in f.soins" :key="s.nom">
-                <li class="soins__ligne">
-                  <div>
-                    <strong x-text="s.nom"></strong>
-                    <p class="mention" x-text="s.texte"></p>
-                  </div>
-                  <div class="soins__infos">
-                    <span x-text="s.duree"></span>
-                    <span x-text="s.tarif"></span>
-                  </div>
-                </li>
-              </template>
-            </ul>
+    <!-- Un bloc par soin : ce que c'est, où, avec qui, comment réserver.
+         Le massage a un praticien et un lien OneDoc ; « Réserver » sort vers
+         sa fiche. -->
+    <section id="massage" data-spec="B.3 &gt; Bien-être &gt; Massage &amp; physiothérapie">
+      <div class="bloc bloc--couche soin">
+        <div x-html="HF.vues.blocImage('Photo massage', 'large')"></div>
+        <div class="bloc--couche__texte">
+          <h2 class="titre-section">Massage</h2>
+          <p>Pour relâcher les tensions après une séance intense et limiter
+             les courbatures, ou simplement pour souffler.</p>
+          <div class="tags">
+            <template x-for="t in soin('massage').types" :key="t"><span class="tag" x-text="t"></span></template>
           </div>
-        </template>
+          <dl class="soin__infos">
+            <div><dt>Où</dt><dd x-html="liensClubs('massage')"></dd></div>
+            <div><dt>Avec</dt><dd x-text="soin('massage').praticien"></dd></div>
+            <div><dt>Remboursement</dt><dd x-text="soin('massage').remboursement"></dd></div>
+            <div><dt>Tarifs</dt><dd>[Durées et tarifs]</dd></div>
+          </dl>
+          <p class="bloc__action">
+            <a class="btn" :href="soin('massage').reservation.url" target="_blank" rel="noopener"
+               x-text="'Réserver sur ' + soin('massage').reservation.outil"></a>
+          </p>
+          <p class="mention" x-text="'La réservation se fait sur ' + soin('massage').reservation.outil + ', chez le masseur.'"></p>
+        </div>
       </div>
     </section>
 
     <!-- ====================================================== BLOC 3 -->
-    <!-- Un praticien par carte, avec son club et le bouton qui sort vers son
-         outil de réservation. Le lien reçoit le club et le soin si l'outil
-         l'accepte (B.3 : « paramétré si possible », Q56, point 4). Le club
-         viendra d'un champ de la fiche club, comme les équipements : la page
-         dira alors où, comme la page Espaces. -->
-    <section data-spec="B.3 &gt; Bien-être &gt; Massage &amp; physiothérapie">
-      <h2>Nos praticiens</h2>
-      <div class="grille grille--cartes defile-mobile defile-mobile--egal" style="margin-top:12px">
-        <template x-for="p in praticiens" :key="p.id">
-          <div class="produit">
-            <div x-html="HF.vues.blocImage('Photo praticien', 'large')"></div>
-            <h3 style="margin-top:12px" x-text="p.nom"></h3>
-            <p class="mention" x-text="p.specialite + ' · ' + p.club"></p>
-            <p x-text="p.bio"></p>
-            <p class="carte__action">
-              <a class="btn btn--secondaire" href="#">Prendre rendez-vous</a>
-            </p>
-            <p class="mention">Sur le site de réservation du praticien.</p>
-          </div>
-        </template>
+    <!-- Physio : le site actuel n'a aucun lien de rendez-vous (son bouton
+         mène à l'abonnement fitness). On ne le reprend pas : la façon de
+         réserver reste en emplacement (Q56). -->
+    <section id="physiotherapie" data-spec="B.3 &gt; Bien-être &gt; Massage &amp; physiothérapie">
+      <div class="bloc bloc--couche soin">
+        <div x-html="HF.vues.blocImage('Photo physiothérapie', 'large')"></div>
+        <div class="bloc--couche__texte">
+          <h2 class="titre-section">Physiothérapie</h2>
+          <p>Soulager une douleur, retrouver de la mobilité, se rééduquer après
+             une blessure ou une opération, prévenir les blessures : des
+             physiothérapeutes de l'Hôpital de la Tour vous suivent dans nos
+             clubs.</p>
+          <div class="soin__partenaire" x-html="HF.vues.blocImage('Logo Hôpital de la Tour')"></div>
+          <dl class="soin__infos">
+            <div><dt>Où</dt><dd x-html="liensClubs('physiotherapie')"></dd></div>
+            <div><dt>Avec</dt><dd x-text="soin('physiotherapie').praticien"></dd></div>
+            <div><dt>Rendez-vous</dt><dd>[Comment prendre rendez-vous]</dd></div>
+            <div><dt>Tarifs</dt><dd>[Tarifs et remboursement]</dd></div>
+          </dl>
+        </div>
       </div>
     </section>
 
     <!-- ====================================================== BLOC 4 -->
+    <!-- Conseils repris du site actuel. « Élimination des toxines » n'est
+         pas repris : affirmation santé fragile, à côté d'un partenaire
+         hospitalier. -->
     <section data-spec="B.3 &gt; Bien-être &gt; Massage &amp; physiothérapie">
       <h2>Bon à savoir</h2>
       <div class="grille grille--3" style="margin-top:12px">
@@ -115,42 +119,42 @@
 
 </div>
 
-<script src="../../data/data.js?v=2026-10-28s"></script>
-<script src="../../assets/components.js?v=2026-10-28s"></script>
+<script src="../../data/data.js?v=2026-10-28t"></script>
+<script src="../../assets/components.js?v=2026-10-28t"></script>
 <script>
 document.addEventListener('alpine:init', function () {
-  /* Emplacements : la liste des soins, leurs durées, les tarifs et les
-     praticiens ne sont pas fournis (Q56). Un prix ne s'invente pas. */
-  function soin(n) {
-    return { nom: '[Soin ' + n + ']', duree: '[Durée]', tarif: '[Tarif]',
-      texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' };
-  }
-  function praticien(n, specialite) {
-    return { id: n, nom: '[Prénom Nom]', specialite: specialite, club: '[Club]',
-      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.' };
-  }
   Alpine.data('pageSoins', function () {
     return {
       etat: HF.etatInitial(),
-      familles: [
-        { nom: 'Massage', soins: [soin(1), soin(2), soin(3)] },
-        { nom: 'Physiothérapie', soins: [soin(4), soin(5), soin(6)] }
-      ],
-      praticiens: [praticien(1, '[Massage]'), praticien(2, '[Physiothérapie]'), praticien(3, '[Massage]')],
       pratique: [
-        { titre: '[Réservation]', texte: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' },
-        { titre: '[Remboursement]', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.' },
-        { titre: '[Annulation]', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.' }
+        { titre: 'Avant la physio',
+          texte: 'Portez une tenue souple. Apportez vos documents médicaux : radios, IRM, prescriptions.' },
+        { titre: 'Le bon moment pour un massage',
+          texte: 'Dans les 24 à 48 heures après l\'effort. Dites au masseur quelle pression vous convient.' },
+        { titre: 'Ouvert à qui ?',
+          texte: '[Membres seulement, ou ouvert à tous]' }
       ],
       init: function () {
         HF.brancher(this.$el, this.etat);
         HF.brancherSelecteur(this.$el, this.etat);
+      },
+      soin: function (id) {
+        return DATA.soins.find(function (s) { return s.id === id; });
+      },
+      /* Les clubs d'un soin se lisent sur les fiches club (champ soins),
+         dans l'ordre alphabétique. */
+      liensClubs: function (id) {
+        return DATA.clubs.filter(function (c) { return (c.soins || []).indexOf(id) !== -1; })
+          .sort(function (a, b) { return a.nom.localeCompare(b.nom, 'fr'); })
+          .map(function (c) {
+            return '<a href="../../clubs/club/?club=' + c.id + '">' + c.nom + '</a>';
+          }).join(', ');
       }
     };
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-10-28s"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-28t"></script>
 
 </body>
 </html>

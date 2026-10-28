@@ -1522,7 +1522,7 @@ la réponse tombe, un seul drapeau dans `data.js` change la page Espaces, le
 bloc bien-être des dix pages club et les quatre cartes formule, d'un coup.
 
 ### Q56 · Ce qu'il manque pour construire la page Soins
-**Statut :** ouverte, gabarit monté le 2026-10-28 avec emplacements
+**Statut :** ouverte, page maquettée le 2026-10-28 avec les contenus du site actuel
 **Source :** B.3 > Bien-être : « Massage & physiothérapie. Vitrine des soins,
 orienter vers la réservation externe. Présentation des soins, praticiens,
 tarifs indicatifs, CTA sortant vers l'outil de réservation (paramétré si
@@ -1549,12 +1549,37 @@ dire où, comme la page Espaces le fait.
 En attendant, le hub renvoie vers `/bien-etre/soins` avec le marqueur « page à
 construire » : le lien existe dans la site map, on ne le cache pas.
 
-**2026-10-28.** Hugo demande la page sans attendre les données : elle est montée
-en gabarit, contenu entre crochets (soins, durées, tarifs, praticiens, club,
-lien de réservation). Une piste publique, à confirmer avec le client : un
-cabinet indépendant, Mon Physio, est installé dans le club de Gland et prend
-ses rendez-vous sur agenda.ch. Si c'est le modèle partout, les praticiens sont
-des indépendants hébergés et l'outil est le leur.
+**2026-10-28.** Hugo demande la page sans attendre les données : elle est d'abord
+montée en gabarit, puis remplie le même jour avec un relevé du site actuel
+(harmony.ch/massage-physiotherapie, /cours/massage, /cours/physiotherapie)
+fourni par Hugo. Ce qui est repris :
+
+- **Massage** : à Denges seulement, avec Gregory Galenc, réservation sur
+  OneDoc (sa fiche), pris en charge par les assurances complémentaires selon la
+  couverture, praticien affilié ASCA et RME. Types : sportif, relaxant, ciblé.
+- **Physiothérapie** : par les physiothérapeutes de l'Hôpital de la Tour, à
+  Denges, Gland, Meyrin, Versoix et Veyrier.
+
+Les points 2 et 4 sont donc en partie répondus : des praticiens externes, et
+pour le massage un outil (OneDoc), dont on ne sait pas s'il accepte des
+paramètres. Restent ouverts, à demander à Harmony :
+
+1. **Tarifs et durées**, massage et physio : rien n'est affiché aujourd'hui.
+2. **Comment on prend rendez-vous en physio.** Le site actuel n'a aucun lien :
+   son bouton « Commencer » mène à l'abonnement fitness. Non repris.
+3. La liste des clubs physio est-elle à jour, le partenariat avec l'Hôpital de
+   la Tour toujours actif, le massage toujours à Denges avec Gregory Galenc ?
+4. **Soins réservés aux membres ou ouverts à tous ?**
+5. **La physio est-elle remboursée par l'assurance de base (LAMal) sur
+   prescription ?** Rien n'est écrit tant qu'on ne sait pas.
+
+Non repris du site actuel : « l'élimination des toxines », affirmation santé
+fragile à côté d'un partenaire hospitalier, et la physio présentée comme un
+cours collectif.
+
+Modèle : une collection Soin (nom, types, praticien, réservation,
+remboursement) et un champ « soins » sur la fiche club, d'où la page et le hub
+Bien-être déduisent où chaque soin est proposé (section 7 mise à jour).
 
 ### Q57 · « Jacuzzi ou jet massant » : une ligne du client, deux équipements chez nous
 **Statut :** ouverte sur un point, deux points répondus le 2026-09-17
