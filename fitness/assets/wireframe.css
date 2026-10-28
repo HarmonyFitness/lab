@@ -1495,6 +1495,14 @@ a.carte__repere { text-decoration: none; }
    dans une carte couchée à grande photo, produit__pied laissait un trou. */
 .bloc__action { margin: var(--e-4) 0 0; }
 /* Phrase d'introduction sous le titre d'un bloc de l'accueil. */
+/* Objectifs de l'accueil en cartes texte (Hugo, 2026-10-28) : le nombre
+   de cours en grand tient lieu de visuel. */
+.objectif-carte__nombre { margin: 0 0 var(--e-2); font-size: 40px; line-height: 44px; font-weight: 300;
+  color: var(--ink); letter-spacing: -.02em; }
+.objectif-carte__nombre span { font-size: 15px; font-weight: 500; letter-spacing: 0; color: var(--ink-muted); }
+.objectif-carte .titre-carte { font-size: 20px; line-height: 26px; }
+/* Témoignages sans visage : un filet à gauche à la place de la pastille. */
+.voix.voix--sans-visage li { display: block; padding-left: var(--e-4); border-left: 2px solid var(--line); }
 .bloc__intro { margin: calc(-1 * var(--e-2)) 0 var(--e-5); max-width: 62ch; color: var(--ink-muted); }
 /* Seul, accompagné, en groupe : la façon de s'entraîner se lit d'abord, le
    produit ensuite. */

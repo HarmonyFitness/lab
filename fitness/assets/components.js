@@ -1940,9 +1940,11 @@ Object.assign(window.HF.vues, (function () {
       }).join('') + '</section>';
   }
 
-  /* opts.portrait (accueil) : le premier témoignage en grand, avec son
-     portrait à l'arc du logo, les autres en ligne avec un petit visage. On
-     lit d'abord une personne, pas une grille de citations. */
+  /* opts.portrait (accueil) : le premier témoignage en grand, à côté
+     d'une photo d'ambiance du club, les autres en ligne. Pas de visage
+     (Hugo, 2026-10-28) : la photo ne sera pas celle du membre qui parle,
+     et un visage posé à côté d'une citation signée se lit comme son
+     auteur. Une scène de club, des gens de dos ou en plan large. */
   function temoignages(n, opts) {
     var txt = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor ' +
       'incididunt ut labore et dolore magna aliqua.';
@@ -1950,14 +1952,13 @@ Object.assign(window.HF.vues, (function () {
     if ((opts || {}).portrait) {
       var autres = [];
       for (var j = 1; j < (n || 3); j++) {
-        autres.push('<li><span class="visage visage--petit" title="Photo : portrait du membre" aria-hidden="true"></span>' +
-          '<div><p>« ' + txt + ' »</p><div class="temoignage__auteur">[Prénom], membre à [club]</div></div></li>');
+        autres.push('<li><div><p>« ' + txt + ' »</p><div class="temoignage__auteur">[Prénom], membre à [club]</div></div></li>');
       }
       return '<div class="temoignage-portrait" data-spec="Annexe A > A.2 > Bloc témoignage">' +
-        V.blocImage('Photo : portrait d\'une membre, la soixantaine, dans son club, regard caméra', 'portrait') +
+        V.blocImage('Photo d\'ambiance : une scène de club, sans visage reconnaissable', 'portrait') +
         '<div><blockquote class="temoignage-portrait__citation">« ' + txt + ' »</blockquote>' +
         '<div class="temoignage__auteur">[Prénom], membre à [club] depuis [année]</div>' +
-        '<ul class="voix voix--une">' + autres.join('') + '</ul></div></div>';
+        '<ul class="voix voix--une voix--sans-visage">' + autres.join('') + '</ul></div></div>';
     }
     for (var i = 0; i < (n || 3); i++) {
       out.push('<div class="temoignage"><p>« ' + txt + ' »</p>' +
@@ -2331,11 +2332,15 @@ Object.assign(window.HF.vues, (function () {
       '<p class="bloc__intro">Tous nos cours collectifs, rangés par ce que vous venez chercher.</p>' +
       '<div class="grille grille--3 defile-mobile">' + groupes.map(function (g) {
         var noms = g.cours.slice(0, 3).map(function (c) { return c.nom; });
-        return '<div class="produit produit--lien">' +
-          '<div class="produit__photo">' + V.blocImage('Photo : ' + g.objectif.nom.toLowerCase(), 'large') + '</div>' +
+        /* Cartes texte, sans photo (Hugo, 2026-10-28) : six photos
+           distinctes pour des objectifs abstraits se produisent mal, et le
+           bloc répétait la grille de photos du manifeste juste au-dessus.
+           Le contenu fait le visuel : le nombre de cours en grand. */
+        return '<div class="produit produit--lien objectif-carte">' +
+          '<p class="objectif-carte__nombre">' + g.cours.length + ' <span>cours</span></p>' +
           '<h3 class="titre-carte"><a href="' + b + 'sport/cours-collectifs/#objectif-' + g.objectif.id + '">' +
           esc(g.objectif.nom) + '</a></h3>' +
-          '<p class="mention"><strong>' + g.cours.length + ' cours</strong> · ' + esc(noms.join(', ')) +
+          '<p class="mention">' + esc(noms.join(', ')) +
           (g.cours.length > 3 ? '…' : '') + '</p>' + V.actionCarte('Voir les cours') + '</div>';
       }).join('') + '</div>' +
       '<p class="bloc__action"><a class="lien-texte" href="' + b +
