@@ -181,7 +181,17 @@ window.HF = (function () {
 
     extrasDuClub: function (idClub) {
       if (!idClub) return [];
-      return D.extras.filter(function (e) { return e.clubs.indexOf(idClub) !== -1; });
+      return regles.extrasRanges(D.extras.filter(function (e) { return e.clubs.indexOf(idClub) !== -1; }));
+    },
+
+    /* Ceux qui s'achètent ici d'abord, ceux « Sur demande en club » en
+       dernier (Hugo, 2026-10-28) : la liste commence par ce qu'on peut
+       ajouter. Règle lue sur le mode de vente, l'ordre de saisie est gardé
+       à l'intérieur de chaque groupe. */
+    extrasRanges: function (liste) {
+      var l = liste || D.extras;
+      return l.filter(function (e) { return e.modeVente === 'en-ligne'; })
+        .concat(l.filter(function (e) { return e.modeVente !== 'en-ligne'; }));
     },
 
     /* Actualités. La collection est unique et partagée par les cinq sites
