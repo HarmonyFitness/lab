@@ -193,6 +193,13 @@ section > h1 + p, .hero-club > div > h1 + p { font-size: 18px; line-height: 28px
    de style qui espace. Une page ne peut plus avoir 28 px ici et 44 px là
    pour la même chose. Le fil d'Ariane reste collé au hero qui le suit. */
 main > * + * { margin-top: var(--espace-section); }
+/* Tarifs : le choix du club suit l'intro et ouvre le catalogue, ce n'est
+   pas une section à part. Replié, ce n'est qu'une ligne : à 112 px de
+   chaque côté elle flottait (Hugo, 2026-10-28). La section qui suit est
+   l'offre du moment, ou les abonnements quand l'offre est masquée. */
+main > #bloc-club { margin-top: var(--e-6); }
+main > #bloc-club + #offre-du-moment,
+main > #bloc-club + #offre-du-moment[style*="display: none"] + #abonnements { margin-top: var(--e-8); }
 /* Sections regroupées sous un seul élément (x-if d'Alpine, qui veut une
    racine unique) : elles gardent le rythme de la page. */
 .pile-sections > * + * { margin-top: var(--espace-section); }
@@ -1358,6 +1365,9 @@ a.carte__repere { text-decoration: none; }
 @media (max-width: 760px) {
   /* Un cran de moins sur mobile, comme le dit le système. */
   :root { --gouttiere: 16px; --espace-section: 72px; --carte-pad: 20px; }
+  main > #bloc-club { margin-top: var(--e-5); }
+  main > #bloc-club + #offre-du-moment,
+  main > #bloc-club + #offre-du-moment[style*="display: none"] + #abonnements { margin-top: var(--e-7); }
   body { font-size: 16px; }
   h1 { font-size: 32px; line-height: 40px; }
   .h-display { font-size: 40px; line-height: 46px; }
