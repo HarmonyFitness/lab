@@ -335,7 +335,25 @@ mieux) et Les Mills Body Balance (aussi bouger mieux).
 Si les coachs le poussent côté cardio ou côté détente, le classement bouge.
 
 ### Q27 · Liste détaillée des Extras
-**Statut :** ouverte
+**Statut :** ouverte (prix et inclusions réglés le 2026-10-28, clubs à confirmer)
+**Réponse partielle de Hugo, 2026-10-28 :**
+- Service linge : compris dans Premium Platinum, CHF 300.– à l'année pour
+  Essential et Premium. Le linge et le pressing sont **deux services
+  distincts** : « Service linge » est rétabli à côté de « Service Pressing ».
+- Service Pressing : compris dans Premium Platinum, sur demande (en club) pour
+  Essential et Premium.
+- Gel de l'abonnement : compris dans Premium Platinum, CHF 100.– à l'année
+  pour Gym, Essential et Premium.
+- Small Group Training : CHF 300.– à l'année, CHF 50.– par mois, pour Gym,
+  Essential et Premium, compris dans Premium Platinum.
+- Prix mensuel quand seul l'annuel est donné : annuel / 10 (Hugo, d'abord / 12
+  arrondi au franc supérieur, corrigé le même jour) : linge CHF 30.–, gel
+  CHF 10.–.
+
+Reste ouvert : les clubs où chaque service est proposé (posés : tous les clubs
+Essential et Premium, plus Genève · Pâquis pour le gel et le Small Group
+Training, puisque Gym y a droit), les identifiants boutique (`idMetier`), et la
+validation du prix mensuel (annuel / 10) par Harmony.
 **Source :** Hugo a posé une liste provisoire le 2026-09-14, en attendant celle
 d'Harmony : Small Group Training, Service Pressing, Gel de l'abonnement, tous
 dans les clubs Essential et Premium, tous à « CHF XX.– ».

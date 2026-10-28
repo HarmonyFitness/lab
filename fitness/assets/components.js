@@ -145,14 +145,33 @@ window.HF = (function () {
       };
     },
 
-    /* Un Extra est-il compris dans le produit choisi ? Seuls les Extras
-       vendus en ligne le sont : ceux vendus en club restent "Sur demande en
-       club", puisqu'ils ne se vendent pas ici. Règle déduite du mode de
-       vente, jamais une liste d'exceptions écrite à la main. */
+    /* Un Extra est-il compris dans le produit choisi ? Ceux qui portent
+       `compris` le sont dans la formule qui inclut les Extras, même vendus en
+       club ailleurs : le Service Pressing est « sur demande » en Essential
+       et Premium, et compris dans Premium Platinum (Hugo, 2026-10-28). La
+       règle se lit sur l'Extra, jamais dans une liste écrite à la main. */
     extraInclus: function (e, etat) {
       if (!etat || !etat.produitChoisi) return false;
       var p = produit(etat.produitChoisi);
-      return !!p && !!p.inclutExtras && e.modeVente === 'en-ligne';
+      return !!p && !!p.inclutExtras && !!e.compris;
+    },
+
+    /* L'Extra s'ajoute-t-il à cette formule ? Lu dans `formules` (catégories
+       des formules) : le Service linge ne s'ajoute pas à Gym. Sans formule
+       choisie, la question ne se pose pas encore. */
+    extraPourFormule: function (e, p) {
+      if (!p || p.type !== 'formule' || !e.formules) return true;
+      return e.formules.indexOf(p.categorie) !== -1;
+    },
+
+    /* Prix d'un Extra pour un engagement, par mois, comme les formules.
+       total : ce que l'engagement coûte en tout (le 12 mois se paie à
+       l'année). Prix inconnu : null, jamais une valeur inventée. */
+    prixExtra: function (e, idEngagement) {
+      var eng = idEngagement || engagementDefaut();
+      var v = e.prix && typeof e.prix[eng] === 'number' ? e.prix[eng] : null;
+      var mois = eng === '12mois' ? 12 : 1;
+      return { valeur: v, total: v === null ? null : Math.round(v * mois * 100) / 100, mois: mois };
     },
 
     extraDisponible: function (e, idClub) {
@@ -1296,7 +1315,7 @@ Object.assign(window.HF.vues, (function () {
 
   function detailExtras(etat) {
     var liste = (etat && etat.club ? R.extrasDuClub(etat.club) : D.extras)
-      .filter(function (e) { return e.modeVente === 'en-ligne'; });
+      .filter(function (e) { return e.compris; });
     return tagsListe(liste.map(function (e) { return e.nom; }));
   }
 
@@ -1620,6 +1639,15 @@ Object.assign(window.HF.vues, (function () {
     var enLigne = e.modeVente === 'en-ligne';
     var ajoute = (etat.extrasChoisis || []).indexOf(e.id) !== -1;
     var inclus = R.extraInclus(e, etat);
+    var choisi = etat.produitChoisi ? H.produit(etat.produitChoisi) : null;
+    var horsFormule = !R.extraPourFormule(e, choisi);
+    /* Prix par mois et total de l'engagement, comme la carte formule : sur
+       12 mois, l'Extra se paie à l'année (Hugo, 2026-10-28). */
+    var pe = R.prixExtra(e, etat.engagement);
+    var prix = '<span class="extra__prix"><span><strong>' + prixTexte(pe.valeur) + '</strong> / mois</span>' +
+      (pe.mois > 1 && pe.total !== null
+        ? '<span class="mention">' + prixTexte(pe.total) + ' pour 12 mois</span>' : '') +
+      '</span>';
     return '<div class="extra" data-spec="B.3 > Page Tarifs > Trame > 4 (Extras)">' +
       '<div class="extra__corps">' +
       '<strong>' + esc(e.nom) + '</strong> <span class="extra__marque">Extra</span>' +
@@ -1628,8 +1656,10 @@ Object.assign(window.HF.vues, (function () {
       (inclus
         ? '<span class="extra__inclus">Inclus avec la formule ' +
           esc(H.produit(etat.produitChoisi).nom) + '</span>'
+        : horsFormule
+          ? '<span class="mention">Pas avec la formule ' + esc(choisi.nom) + '</span>'
         : enLigne
-          ? '<strong>' + prixTexte(e.prix) + '</strong>' +
+          ? prix +
             (etat.club
               ? '<button type="button" class="btn btn--secondaire btn--petit" data-act="' +
                 (ajoute ? 'retirer-extra' : 'ajouter-extra') + '" data-id="' + e.id + '">' +
@@ -1721,6 +1751,13 @@ Object.assign(window.HF.vues, (function () {
       ? 'Finaliser mon achat' : 'Finaliser mon abonnement';
     var pr = R.prix(p, etat.tarif, etat.engagement, etat);
     var extras = (etat.extrasChoisis || []).map(H.extra).filter(Boolean);
+    /* Le total par mois compte les Extras ajoutés (B.3 > barre récap) :
+       formule plus Extras. Un prix inconnu laisse le total inconnu. */
+    var total = pr.valeur;
+    if (p.type === 'formule') extras.forEach(function (e) {
+      var v = R.prixExtra(e, etat.engagement).valeur;
+      total = (total === null || v === null) ? null : total + v;
+    });
     var detail = [H.tarif(etat.tarif).nom];
     if (p.type === 'formule') detail.push(H.engagement(etat.engagement).nom);
     if (p.type === 'offre') detail.push(texte(p.duree, '[durée]'));
@@ -1736,7 +1773,7 @@ Object.assign(window.HF.vues, (function () {
       (extras.length ? '<span class="barre-recap__extras"> + ' + extras.length + ' Extra' +
         (extras.length > 1 ? 's' : '') + '</span>' : '') +
       '<div class="barre-recap__detail">' + esc(detail.join(' · ')) + '</div></div>' +
-      '<div class="barre-recap__total">' + prixTexte(pr.valeur) +
+      '<div class="barre-recap__total">' + prixTexte(total) +
       (p.type === 'formule' ? ' / mois' : '') + '</div>' +
       '<button type="button" class="btn" data-act="finaliser">' + esc(libelle) + '</button>' +
       '</div></div>';
@@ -2666,6 +2703,18 @@ Object.assign(window.HF, (function () {
       if (p && p.inclutExtras && (etat.extrasChoisis || []).length) {
         etat.extrasChoisis = [];
         etat.message = 'Les Extras que vous aviez ajoutés sont compris dans la formule ' + p.nom + '.';
+      }
+      /* Un Extra qui ne s'ajoute pas à la formule choisie est retiré, et
+         on le dit (Service linge avec Gym, par exemple). */
+      var horsFormule = (etat.extrasChoisis || []).map(H.extra).filter(function (e) {
+        return e && !R.extraPourFormule(e, p);
+      });
+      if (horsFormule.length) {
+        etat.extrasChoisis = etat.extrasChoisis.filter(function (x) {
+          return !horsFormule.some(function (e) { return e.id === x; });
+        });
+        etat.message = horsFormule.map(function (e) { return e.nom; }).join(', ') +
+          ' ne s\'ajoute pas à la formule ' + p.nom + ', retiré de votre sélection.';
       }
       if (p && p.type === 'formule') allerA('extras');
     },
@@ -3769,8 +3818,11 @@ Object.assign(window.HF.vues, (function () {
       'qui donne accès à tous les Small Group Training du club.' +
       (platinum ? ' Cet Extra est compris dans la formule ' +
         H.nomProduitHtml(platinum) + '.' : '') + '</p>' +
-      '<p><strong>' + prixTexte(e.prix) + '</strong> ' +
-      '<span class="mention">pour l\'Extra, quel que soit le nombre de Small Group Training pratiqués</span></p>' +
+      /* Les deux prix, mensuel et annuel (Hugo, 2026-10-28) : la fiche n'a
+         pas de sélecteur d'engagement. */
+      '<p><strong>' + prixTexte(R.prixExtra(e, 'sans').valeur) + ' / mois</strong> sans engagement, ou <strong>' +
+      prixTexte(R.prixExtra(e, '12mois').total) + ' pour 12 mois</strong>. ' +
+      '<span class="mention">Pour l\'Extra, quel que soit le nombre de Small Group Training pratiqués.</span></p>' +
       (clubs.length
         ? '<p class="mention">Proposé à : ' + clubs.map(function (c) {
             return esc(c.nom);

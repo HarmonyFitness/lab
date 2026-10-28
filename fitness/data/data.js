@@ -527,9 +527,14 @@ window.DATA = {
   /* extra est proposé. La fiche club, la page Tarifs et la fiche cours    */
   /* lisent cette donnée (B.3 > Fiche club dans le CMS).                   */
   /*                                                                      */
-  /* Liste provisoire posée par Hugo le 2026-09-14, en attendant celle     */
-  /* d'Harmony. Les trois derniers sont proposés dans les clubs Essential  */
-  /* et Premium, c'est-à-dire partout sauf Genève · Pâquis, le seul Gym.   */
+  /* Prix et inclusions donnés par Hugo le 2026-10-28 (Q27).              */
+  /* prix : par mois, comme les formules. Le 12 mois se paie à l'année et  */
+  /* se saisit en total / 12 ; le sans engagement est le prix mensuel. Là  */
+  /* où Harmony ne donne qu'un prix annuel, le mensuel est ce prix / 10    */
+  /* (Hugo, 2026-10-28).                                                  */
+  /* formules : catégories des formules auxquelles l'Extra s'ajoute.       */
+  /* compris : compris dans la formule qui porte inclutExtras (Premium     */
+  /* Platinum), même s'il se vend en club ailleurs (Service Pressing).     */
   /* ------------------------------------------------------------------ */
   extras: [
     /* Un seul Extra pour tous les Small Group Training (Hugo, 2026-09-16).
@@ -546,19 +551,43 @@ window.DATA = {
     { id: 'small-group-training', nom: 'Small Group Training', type: 'sgt',
       clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'geneve-paquis',
               'meyrin', 'versoix', 'veyrier', 'denges', 'gland', 'signy'],
-      modeVente: 'en-ligne', prix: null, idMetier: null, cours: null,
+      /* CHF 300.– à l'année, CHF 50.– par mois (Hugo, 2026-10-28). */
+      modeVente: 'en-ligne', prix: { '12mois': 300 / 12, sans: 50 },
+      formules: ['gym', 'essential', 'premium'], compris: true,
+      idMetier: null, cours: null,
       description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.' },
 
+    /* Deux services distincts, linge et pressing (Hugo, 2026-10-28, Q27) :
+       « Service linge » avait été fondu dans « Service Pressing » le
+       2026-09-14, il est rétabli. Linge : CHF 300.– à l'année, mensuel
+       300 / 10 (Hugo). */
+    { id: 'service-linge', nom: 'Service linge', type: 'service',
+      clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'meyrin',
+              'versoix', 'veyrier', 'denges', 'gland', 'signy'],
+      modeVente: 'en-ligne', prix: { '12mois': 300 / 12, sans: 300 / 10 },
+      formules: ['essential', 'premium'], compris: true,
+      idMetier: null, cours: null,
+      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat.' },
+
+    /* Sur demande en Essential et Premium, compris dans Premium Platinum
+       (Hugo, 2026-10-28) : vendu en club, donc sans prix ici. */
     { id: 'service-pressing', nom: 'Service Pressing', type: 'service',
       clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'meyrin',
               'versoix', 'veyrier', 'denges', 'gland', 'signy'],
-      modeVente: 'en-ligne', prix: null, idMetier: null, cours: null,
-      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat.' },
+      modeVente: 'en-club', prix: null,
+      formules: ['essential', 'premium'], compris: true,
+      idMetier: null, cours: null,
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.' },
 
+    /* CHF 100.– à l'année pour Gym, Essential et Premium, mensuel 100 / 10
+       (Hugo, 2026-10-28). Gym compris : il est
+       donc proposé à Genève · Pâquis aussi. */
     { id: 'gel-abonnement', nom: "Gel de l'abonnement", type: 'service',
-      clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'meyrin',
+      clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'geneve-paquis', 'meyrin',
               'versoix', 'veyrier', 'denges', 'gland', 'signy'],
-      modeVente: 'en-ligne', prix: null, idMetier: null, cours: null,
+      modeVente: 'en-ligne', prix: { '12mois': 100 / 12, sans: 100 / 10 },
+      formules: ['gym', 'essential', 'premium'], compris: true,
+      idMetier: null, cours: null,
       description: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.' },
 
     /* B.3 > Catégories de clubs : « Les séances en plus sont un Extra vendu
@@ -566,7 +595,9 @@ window.DATA = {
     { id: 'coaching-plus', nom: 'Séances de coaching en plus', type: 'service',
       clubs: ['blandonnet', 'geneve-eaux-vives', 'geneve-la-praille', 'meyrin',
               'versoix', 'veyrier', 'denges', 'gland', 'signy'],
-      modeVente: 'en-club', prix: null, idMetier: null, cours: null,
+      modeVente: 'en-club', prix: null,
+      formules: ['essential', 'premium'], compris: false,
+      idMetier: null, cours: null,
       description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.' }
   ],
 
