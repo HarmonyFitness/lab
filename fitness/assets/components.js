@@ -1773,7 +1773,7 @@ Object.assign(window.HF.vues, (function () {
       '<div class="carte-club__pied">' +
       '<a class="btn btn--secondaire btn--petit" href="' + (o.base || '') + 'tarifs/?club=' + c.id +
       '&amp;source=' + (o.source || 'liste-clubs') + '">S\'abonner</a>' +
-      '<a class="btn btn--tertiaire btn--petit" href="' + (o.base || '') + 'clubs/club/?club=' + c.id + '">Voir le club</a>' +
+      '<a class="btn btn--tertiaire btn--petit" href="' + (o.base || '') + 'clubs/club/?club=' + c.id + '">Voir le club de ' + esc(c.nom) + '</a>' +
       '<span class="mention">' + desParMoisTexte(c.id, etat) + '</span></div></article>';
   }
 
@@ -2971,7 +2971,7 @@ Object.assign(window.HF.vues, (function () {
           }).join('')
         : '') +
       '<p style="margin-top:14px"><a class="btn" href="../../tarifs/?club=' + c.id +
-      '&amp;source=page-club">Voir les tarifs</a></p></section>';
+      '&amp;source=page-club">Voir les tarifs à ' + esc(c.nom) + '</a></p></section>';
   }
 
   /* B.3 > Trame de la page club > 8 */
@@ -3776,7 +3776,7 @@ Object.assign(window.HF.vues, (function () {
             return esc(c.nom);
           }).join(', ') + '</p>'
         : '') +
-      '<p><a class="btn" href="' + base + 'tarifs/">Voir les tarifs</a></p>' +
+      '<p><a class="btn" href="' + base + 'tarifs/#extras">Voir les Extras et leurs prix</a></p>' +
       '</div></section>';
   }
 
