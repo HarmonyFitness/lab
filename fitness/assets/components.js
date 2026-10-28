@@ -1719,13 +1719,15 @@ Object.assign(window.HF.vues, (function () {
          design system : deux ou trois points forts, lus d'un coup d'oeil. */
       '<ul class="atouts">' + c.atouts.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>' +
       '<p class="carte-club__cours">' + esc(R.ligneCoursCarteClub(c.id)) + '</p>' +
+      /* Dans une liste de dix, dix boutons pleins se disputaient l'oeil
+         (critique du 2026-10-28) : S'abonner passe en secondaire, le lien
+         Planning disparaît (le planning suit les infos pratiques sur la
+         page du club). */
       '<div class="carte-club__pied">' +
-      '<a class="btn btn--petit" href="' + (o.base || '') + 'tarifs/?club=' + c.id +
+      '<a class="btn btn--secondaire btn--petit" href="' + (o.base || '') + 'tarifs/?club=' + c.id +
       '&amp;source=' + (o.source || 'liste-clubs') + '">S\'abonner</a>' +
       '<a class="btn btn--tertiaire btn--petit" href="' + (o.base || '') + 'clubs/club/?club=' + c.id + '">Voir le club</a>' +
-      '<span class="mention">' + desParMoisTexte(c.id, etat) + '</span>' +
-      '<a class="lien-texte" href="' + (o.base || '') + 'clubs/club/?club=' + c.id +
-      '#planning">Planning</a></div></article>';
+      '<span class="mention">' + desParMoisTexte(c.id, etat) + '</span></div></article>';
   }
 
   /* --- Contenu ---------------------------------------------------- */
@@ -2812,8 +2814,9 @@ Object.assign(window.HF.vues, (function () {
       }).join('') +
       '<div class="infos__item"><dt>Écrire au club</dt><dd><a class="lien-texte" href="../../nous-contacter/?motif=club&amp;club=' +
       c.id + '&amp;source=page-club">Nous contacter</a></dd></div>' +
+      /* Coordonnées strictement identiques à la fiche Google Business du
+         club (B.3) : règle de saisie, pas une phrase pour le visiteur. */
       '</dl>' +
-      '<p class="mention">Coordonnées strictement identiques à la fiche Google Business du club.</p>' +
       '</section>';
   }
 
@@ -3356,7 +3359,7 @@ Object.assign(window.HF.vues, (function () {
         ? '<table class="planning"><thead><tr><th>Heure</th><th>Cours</th><th>Club</th>' +
           '<th>Durée</th></tr></thead><tbody>' + corps + '</tbody></table>'
         : videPlanning(etat, base)) +
-      '<p class="mention">Planning type saisi au CMS. Mis à jour le [date de mise à jour].</p></section>';
+      '<p class="mention">Les horaires de la semaine sont sur la page de chaque club.</p></section>';
   }
 
   /* Catalogue rangé par les 6 objectifs (B.3 > Cours collectifs (hub)). */
@@ -3497,8 +3500,7 @@ Object.assign(window.HF.vues, (function () {
         (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') +
         (co.traitement === null ? '' : '') +
         '</h3>' + attributsCours(co) +
-        '<p>' + esc(co.description) + '</p>' +
-        '<p class="mention">Ancre : <code>#' + co.id + '</code></p></section>';
+        '<p>' + esc(co.description) + '</p></section>';
     });
 
     if (m.filtres.length) {
@@ -3508,7 +3510,7 @@ Object.assign(window.HF.vues, (function () {
             ? nomIntensite(co.intensite).toLowerCase() : nomFormat(co.format).toLowerCase();
           return esc(co.nom) + ' (' + esc(quoi) + ')';
         }).join(', ') +
-        '. Ces variantes ne sont pas des pages : elles se retrouvent par les filtres du planning.</p>';
+        ' : à retrouver dans le planning de votre club.</p>';
     }
 
     return out + '</section>';

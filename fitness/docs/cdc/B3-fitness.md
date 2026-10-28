@@ -164,8 +164,8 @@ Saisi une fois dans le CMS, affiché sur /clubs (ancre #categories), sur /tarifs
 ### Carte club (liste /clubs)
 
 - Toute la carte est cliquable vers la page club, et un bouton tertiaire « Voir le club » (le mot et une flèche, sans fond ni contour, pour ne pas concurrencer « S'abonner ») le montre : une surface cliquable sans bouton ne se devine pas.
-- Un bouton principal, « S'abonner », qui ouvre `/tarifs/[slug du club]` avec le club référent présélectionné. À côté : « Tarif adulte dès CHF X.– / mois », prix de la formule la moins chère qui donne accès au club, au tarif Adulte (sinon « dès » afficherait le prix Jeune), tous engagements confondus et remise en cours comprise : sinon /clubs annonce un prix que /tarifs dément deux clics plus loin.
-- Un lien texte « Planning » vers le planning de la page club (ancre).
+- Un bouton secondaire (contour), « S'abonner », qui ouvre `/tarifs/[slug du club]` avec le club référent présélectionné. À côté : « Tarif adulte dès CHF X.– / mois », prix de la formule la moins chère qui donne accès au club, au tarif Adulte (sinon « dès » afficherait le prix Jeune), tous engagements confondus et remise en cours comprise : sinon /clubs annonce un prix que /tarifs dément deux clics plus loin.
+- Pas de lien « Planning » sur la carte : le planning suit les infos pratiques sur la page du club. Dans une liste de dix clubs, dix boutons pleins et vingt liens se disputaient l'attention (critique du 2026-10-28, validée par Hugo).
 - Sur un club Gym, le nombre de cours par semaine est remplacé par « Pas de cours collectifs · Small Group Training en Extra ». La ligne n'est jamais masquée : elle informe.
 - Accessibilité : le lien principal est porté par le nom du club et étendu à toute la carte, les boutons passent au-dessus. Pas de liens imbriqués.
 - Suivi : un paramètre de source (liste /clubs ou page club) accompagne « S'abonner » jusqu'au lien Echino, pour mesurer l'usage du raccourci.
