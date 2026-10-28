@@ -1086,8 +1086,13 @@ textarea.champ { resize: vertical; }
 body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte { top: 94px; }
 .hub-clubs__carte .carte { height: 420px; }
 
-.hero-club { display: grid; grid-template-columns: 3fr 2fr; gap: var(--e-6);
-  align-items: start; margin-top: var(--e-2); }
+/* Hero des pages intérieures, très simple (Hugo, 2026-10-28) : le texte
+   d'abord, sur une colonne de lecture, puis la photo en bandeau sur toute
+   la largeur du contenu. Plus de photo coincée à droite à mi-hauteur. Une
+   page sans photo garde le même texte, au même endroit. */
+.hero-club { display: grid; grid-template-columns: 1fr; gap: var(--e-7); margin-top: var(--e-2); }
+.hero-club > div:first-child { max-width: 760px; }
+.hero-club .img { aspect-ratio: 3 / 1; min-height: 0; }
 .hero-club__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
   margin-top: var(--e-5); }
 
@@ -1338,7 +1343,8 @@ a.carte__repere { text-decoration: none; }
   .mobile-seulement { display: block; }
   .hub-clubs { grid-template-columns: 1fr; }
   .hub-clubs__carte { display: none; }
-  .hero-club { grid-template-columns: 1fr; gap: var(--e-4); }
+  .hero-club { gap: var(--e-5); }
+  .hero-club .img { aspect-ratio: 4 / 3; }
   .voix { grid-template-columns: 1fr; gap: var(--e-5); }
   .voix li { grid-template-columns: 56px 1fr; gap: var(--e-4); }
   .voix .visage:not(.visage--petit) { width: 56px; height: 56px; }
