@@ -26,7 +26,8 @@
   src: url("fonts/figtree-latin-600-italic.woff2") format("woff2"); }
 @font-face { font-family: "Figtree"; font-style: normal; font-weight: 700; font-display: swap;
   src: url("fonts/figtree-latin-700-normal.woff2") format("woff2"); }
-/* Belleza, pour les grands titres (h1, h2), à l'essai (Hugo, 2026-10-28) :
+/* Belleza, police de secours des grands titres quand Optima n'est pas
+   installée (Hugo, 2026-10-28) :
    la plus proche des polices libres du lettrage du logo, qui rappelle
    Optima. Optima est une police payante (Linotype), sans licence web ici.
    Une seule graisse, 400 : les titres ne passent jamais en gras, sinon le
@@ -119,7 +120,10 @@
   --niveau: #8a6a1f;
 
   --police: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --police-titres: "Belleza", "Figtree", "Segoe UI", system-ui, sans-serif;
+  /* Optima d'abord (Hugo, 2026-10-28) : police payante, aucun fichier
+     dans le lab, elle s'affiche là où elle est installée (macOS, iOS).
+     Ailleurs, Belleza, la plus proche des polices libres. */
+  --police-titres: Optima, "Optima nova", "Optima Nova LT Pro", "Belleza", "Figtree", system-ui, sans-serif;
 
   /* Rayons du système : doux, comme la courbe du logo. Très petit pour les
      badges et les tags, petit pour les champs, moyen pour les cartes, grand
