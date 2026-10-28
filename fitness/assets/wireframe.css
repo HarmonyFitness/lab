@@ -883,9 +883,20 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
 .filtres { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center;
   margin-bottom: var(--e-4); font-size: 14px; }
 .filtres select { font: inherit; font-size: 15px; min-height: 44px; padding: 8px 12px;
-  border: 1px solid var(--line-strong); border-radius: var(--rayon-petit); background: var(--surface);
-  color: var(--ink); }
+  border: 1px solid var(--line-strong); border-radius: var(--rayon-petit); background-color: var(--surface);
+  color: var(--ink); min-width: 200px; }
 .filtres select:hover { border-color: var(--accent); }
+/* Menus déroulants dessinés (Hugo, 2026-10-28) : la flèche native collait
+   au bord et changeait d'un navigateur à l'autre. Flèche en SVG, à 14 px
+   du bord, le texte s'arrête avant elle. Vaut pour les filtres et les
+   champs de formulaire. */
+.filtres select, select.champ { -webkit-appearance: none; appearance: none; cursor: pointer;
+  padding-right: 40px; text-overflow: ellipsis;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%231b2731' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; background-size: 12px 8px; }
+/* Un filtre avec son libellé : le libellé à gauche, à 8 px du menu, en
+   gris ; deux filtres se séparent par l'écart de la rangée. */
+.filtres label { display: inline-flex; align-items: center; gap: var(--e-2); color: var(--ink-muted); }
 .filtres__label { font-weight: 600; }
 
 /* Tags d'attributs d'un cours : objectif, intensité, format. Ils portent
@@ -1530,12 +1541,15 @@ a.carte__repere { text-decoration: none; }
   .bloc--couche .img { aspect-ratio: 16 / 7; }
   /* Cinq menus déroulants empilés prenaient un écran avant la première
      carte : deux par ligne. */
-  .filtres select { flex: 1 1 calc(50% - 8px); min-width: 0; }
-  /* Un filtre avec son libellé (hub Clubs) : le libellé au-dessus du menu,
-     deux filtres par ligne, comme les menus seuls. */
-  .filtres label { flex: 1 1 calc(50% - 8px); min-width: 0; display: flex; flex-direction: column;
-    gap: 4px; font-size: 13px; color: var(--ink-muted); }
-  .filtres label select { width: 100%; }
+  .filtres select { flex: 1 1 calc(50% - 8px); min-width: 0; font-size: 14px;
+    padding-left: 12px; padding-right: 32px; background-position: right 12px center; }
+  /* Un filtre avec son libellé (hub Clubs, coachs) : une ligne par filtre,
+     le libellé à gauche sur une largeur fixe pour que les menus s'alignent,
+     le menu prend le reste. À deux par ligne, « Toutes les formules » était
+     coupé (Hugo, 2026-10-28). */
+  .filtres label { flex: 1 1 100%; min-width: 0; display: grid; grid-template-columns: 7.5rem 1fr;
+    align-items: center; gap: var(--e-3); font-size: 14px; color: var(--ink-muted); }
+  .filtres label select { width: 100%; min-width: 0; }
   .filtres > span { flex-basis: 100%; }
   .champ-rangee { grid-template-columns: 1fr; }
 }

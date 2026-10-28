@@ -3311,16 +3311,18 @@ Object.assign(window.HF.vues, (function () {
     var clubs = D.clubs.filter(function (c) {
       return !f.categorie || c.categorie === f.categorie;
     });
+    /* Libellés courts, comme ceux du planning : à deux menus par ligne sur
+       mobile, « Toutes les intensités » était coupé. */
     return '<div class="filtres" data-spec="B.3 > Sport > Cours collectifs (hub)">' +
       /* Libellé au nom de la formule, pas du club : le filtre répond à
          « qu'est-ce que je peux faire avec cette formule », et la règle est
          cumulative. « Clubs Premium » aurait laissé croire à un lieu. */
       selectFiltre(D.categories.map(function (c) { return { id: c.id, nom: 'Avec la formule ' + c.nom }; }),
-        f.categorie, 'categorie', 'Toutes les formules') +
-      selectFiltre(clubs.map(function (c) { return { id: c.id, nom: c.nom }; }), f.club, 'club', 'Tous les clubs') +
-      selectFiltre(D.referentiels.objectifs, f.objectif, 'objectif', 'Tous les objectifs') +
-      selectFiltre(D.referentiels.intensites, f.intensite, 'intensite', 'Toutes les intensités') +
-      selectFiltre(D.referentiels.formats, f.format, 'format', 'Tous les formats') +
+        f.categorie, 'categorie', 'Toutes formules') +
+      selectFiltre(clubs.map(function (c) { return { id: c.id, nom: c.nom }; }), f.club, 'club', 'Tous clubs') +
+      selectFiltre(D.referentiels.objectifs, f.objectif, 'objectif', 'Tous objectifs') +
+      selectFiltre(D.referentiels.intensites, f.intensite, 'intensite', 'Toutes intensités') +
+      selectFiltre(D.referentiels.formats, f.format, 'format', 'Tous formats') +
       '</div>';
   }
 
