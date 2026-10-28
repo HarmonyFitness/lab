@@ -1993,3 +1993,22 @@ section 7 et la section 8.2.
   l'équivalent mensuel en grand et le total dessous ; à valider avec la façon
   dont la boutique le présente.
 
+### Q74 · Stories de la page club : qui les produit, à quel rythme ?
+**Statut :** ouverte (2026-10-28)
+**Source :** décision de Hugo, la galerie de la page club devient une rangée
+de stories, photos et vidéos verticales, à la façon d'Instagram.
+
+Le format promet du vrai et du récent. Trois points à régler avant la mise en
+ligne :
+
+1. **Qui produit** les photos et vidéos : le club, le marketing central, des
+   membres (avec leur accord écrit) ?
+2. **À quel rythme** elles changent. Une story datée d'il y a un an dit le
+   contraire de ce qu'on veut dire.
+3. **Ce qui se passe au toucher** : la maquette montre la rangée, pas la
+   lecture en plein écran. Lecteur sur le site, ou renvoi vers le compte
+   Instagram du club s'il existe ?
+
+Côté modèle, un champ « médias » sur la fiche club (type photo ou vidéo,
+légende, durée pour une vidéo), noté en section 7.
+

@@ -214,7 +214,7 @@ Principe : l'utile d'abord, la conviction ensuite. Une grande partie des visiteu
 8. **Équipements** : socle de la catégorie + « En plus à [club] »
 9. **Bien-être** : espaces du club, liens vers /bien-etre
 10. **Passerelle école de natation** (clubs avec bassin) : une carte, un lien vers la page du lieu sur le site de l'école de natation, aucun contenu natation sur la page fitness. Aquagym et aquabike restent au planning fitness
-11. **Galerie, témoignages**
+11. **Galerie, témoignages**. La galerie se présente en stories, à la façon d'Instagram (Hugo, 2026-10-28) : photos et vidéos verticales (9 / 16) qui défilent à l'horizontale, barre de progression et nom du club en haut, repère lecture et durée sur une vidéo. Plus social et plus vrai qu'une grille de photos posées. Qui les produit et à quel rythme : questions.md > Q74
 12. **Offre du moment** : les offres en cours accessibles depuis ce club, bloc masqué s'il n'y en a aucune
 13. **FAQ locale** : parking, vestiaires, enfants, piscine
 14. **Clubs à proximité** : 2 ou 3 clubs avec leur catégorie (maillage, et alternative si la catégorie dépasse le budget)

@@ -1093,8 +1093,19 @@ body:has(.entete--collant.entete--decolle:not(.entete--cache)) .hub-clubs__carte
 .hero-club { display: grid; grid-template-columns: 1fr; gap: var(--e-7); margin-top: var(--e-2); }
 .hero-club > div:first-child { max-width: 760px; }
 .hero-club .img { aspect-ratio: 3 / 1; min-height: 0; }
-.hero-club__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+.hero-club__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start;
   margin-top: var(--e-5); }
+/* Prix sous « S'abonner » sans élargir sa colonne : la mention prend la
+   ligne suivante sur toute la largeur, les deux boutons restent côte à côte. */
+.hero-club__actions:has(.hero-club__abonner) { display: grid; grid-template-columns: auto auto;
+  justify-content: start; gap: 6px 12px; }
+.hero-club__abonner { display: contents; }
+.hero-club__actions:has(.hero-club__abonner) .btn { justify-self: start; }
+.hero-club__abonner .mention { grid-row: 2; grid-column: 1 / -1; }
+@media (max-width: 480px) {
+  .hero-club__actions:has(.hero-club__abonner) { grid-template-columns: auto; }
+  .hero-club__actions:has(.hero-club__abonner) > .btn { grid-row: 3; margin-top: var(--e-3); }
+}
 
 /* --- Accueil ------------------------------------------------------- */
 
@@ -1660,3 +1671,21 @@ a.carte__repere { text-decoration: none; }
   .cours-club__ligne { grid-template-columns: 1fr; gap: var(--e-2); padding: var(--e-3) 0; }
   .cours-club dd { gap: var(--e-1) var(--e-4); }
 }
+
+/* Galerie de la page club en stories (Hugo, 2026-10-28) : cartes 9 / 16
+   qui défilent, barre de progression et nom du club en haut comme sur
+   Instagram, repère lecture et durée sur une vidéo. */
+.stories { list-style: none; margin: 0; padding: 0 0 var(--e-2); display: flex; gap: var(--e-4);
+  overflow-x: auto; scroll-snap-type: x mandatory; }
+.story { position: relative; flex: 0 0 200px; scroll-snap-align: start; }
+.story__media.img { aspect-ratio: 9 / 16; min-height: 0; border-radius: var(--rayon-grand);
+  font-size: 13px; padding: var(--e-5) var(--e-4); }
+.story__haut { position: absolute; inset: 0 0 auto; padding: var(--e-3) var(--e-3) 0; }
+.story__barre { display: block; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, .45); }
+.story__club { display: flex; align-items: center; gap: var(--e-2); margin-top: var(--e-2);
+  color: #fff; font-size: 12px; font-weight: 600; }
+.story__avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--bleu-clair);
+  box-shadow: 0 0 0 2px #fff; }
+.story__lecture { position: absolute; left: var(--e-3); bottom: var(--e-3); display: flex; align-items: center;
+  gap: 6px; color: #fff; font-size: 12px; font-variant-numeric: tabular-nums; }
+@media (max-width: 760px) { .story { flex-basis: 64%; } }

@@ -2415,6 +2415,36 @@ Object.assign(window.HF.vues, (function () {
       '<a class="btn" href="' + (base || '') + 'seance-essai/">Demander une séance d\'essai</a></section>';
   }
 
+  /* Galerie de la page club en stories, à la façon d'Instagram (Hugo,
+     2026-10-28) : des formats verticaux, photos et vidéos mêlées, qui
+     défilent à l'horizontale. Plus social et plus vrai qu'une grille de
+     photos posées. Les médias sont un champ de la fiche club (type photo
+     ou vidéo, légende) ; ici, des emplacements. Une vidéo porte un repère
+     lecture et sa durée. */
+  var STORIES = [
+    { type: 'video', legende: 'Vidéo : un cours collectif, filmé de la salle', duree: '[0:15]' },
+    { type: 'photo', legende: 'Photo : le plateau musculation un matin' },
+    { type: 'video', legende: 'Vidéo : un coach présente un exercice', duree: '[0:20]' },
+    { type: 'photo', legende: 'Photo : l\'accueil du club' },
+    { type: 'photo', legende: 'Photo : les vestiaires' },
+    { type: 'video', legende: 'Vidéo : un membre raconte sa séance', duree: '[0:30]' }
+  ];
+  var ICONE_LECTURE = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">' +
+    '<circle cx="12" cy="12" r="11" fill="rgba(255,255,255,.22)"/>' +
+    '<path d="M10 8l6 4-6 4z" fill="#fff"/></svg>';
+  function storiesClub(c) {
+    return '<ul class="stories" aria-label="Photos et vidéos du club">' + STORIES.map(function (st) {
+      return '<li class="story">' +
+        '<div class="story__media img">' + esc(st.legende) + '</div>' +
+        '<div class="story__haut"><span class="story__barre"></span>' +
+        '<span class="story__club"><span class="story__avatar" aria-hidden="true"></span>' +
+        esc('Harmony ' + c.nom) + '</span></div>' +
+        (st.type === 'video' ? '<span class="story__lecture">' + ICONE_LECTURE +
+          '<span>' + esc(st.duree) + '</span></span>' : '') +
+        '</li>';
+    }).join('') + '</ul>';
+  }
+
   /* Compteur lié à la date de fin de l'offre (Annexe A > A.2). */
   function compteur(fin) {
     if (!fin) return '';
@@ -2438,6 +2468,7 @@ Object.assign(window.HF.vues, (function () {
     ligneIndisponible: ligneIndisponible, ligneSansClub: ligneSansClub,
     barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub,
     planning: planning, grilleCoachs: grilleCoachs, panneauCoach: panneauCoach,
+    storiesClub: storiesClub,
     faq: faq, temoignages: temoignages, noteAvis: noteAvis, noteValeur: noteValeur, noteSource: noteSource,
     destinataireEssai: destinataireEssai,
     ctaEssai: ctaEssai, compteur: compteur,
