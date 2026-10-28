@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Coach sportif à Genève et Vaud | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-28zp">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-28zq">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -47,7 +47,7 @@
       </div>
       <div class="bloc" style="margin-top:16px">
         <h3>Ce qui est inclus</h3>
-        <p>[X] séances, <span x-html="HF.vues.ligneInclusion('coaching', { prefixe: 'incluses' })"></span>.</p>
+        <p x-text="HF.regles.seancesCoachingTexte() + '.'"></p>
         <p class="mention">Pas de séances de coaching incluses dans la formule Gym.</p>
         <h3 style="margin-top:14px">Envie de plus</h3>
         <p>Séances supplémentaires en <span class="extra__marque">Extra</span>,
@@ -137,8 +137,8 @@
   </main>
   <div x-html="HF.vues.pied('../../')"></div>
 </div>
-<script src="../../data/data.js?v=2026-10-28zp"></script>
-<script src="../../assets/components.js?v=2026-10-28zp"></script>
+<script src="../../data/data.js?v=2026-10-28zq"></script>
+<script src="../../assets/components.js?v=2026-10-28zq"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -154,7 +154,7 @@ document.addEventListener('alpine:init', function () {
       /* B.3 > Page Coaching personnel > 7 : combien de séances incluses,
          comment les réserver, changer de coach, séances en plus, formule Gym. */
       faqCoaching: [
-        { q: 'Combien de séances sont incluses ?', r: '[X] séances, incluses dès la formule Essential. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
+        { q: 'Combien de séances sont incluses ?', r: HF.regles.seancesCoachingTexte() + '. Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
         { q: 'Comment réserver une séance ?', r: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.' },
         { q: 'Puis-je changer de coach ?', r: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.' },
         { q: 'Comment prendre des séances en plus ?', r: "Sur demande en club : c'est un Extra, il ne se vend pas en ligne. Excepteur sint occaecat cupidatat non proident." },
@@ -180,6 +180,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-10-28zp"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-28zq"></script>
 </body>
 </html>

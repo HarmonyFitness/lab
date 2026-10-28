@@ -338,7 +338,9 @@ window.DATA = {
     {
       id: 'formule-essential', photo: 'Photo cours collectif en salle', type: 'formule', nom: 'Essential', categorie: 'essential', ordre: 2,
       accroche: 'Le plateau fitness et les cours collectifs en salle.',
-      inclus: { plateau: true, cours: true, aqua: false, coaching: '[X] séances' },
+      /* Séances de coaching incluses : 4 en Essential, 6 en Premium et
+         Premium Platinum (Hugo, 2026-10-28). */
+      inclus: { plateau: true, cours: true, aqua: false, coaching: '4 séances' },
       prix: {
         adulte: { sans: 119.90, '12mois': 1199 / 12 },
         ado:    { sans: 83.90,  '12mois': 839.30 / 12 },
@@ -352,7 +354,7 @@ window.DATA = {
     {
       id: 'formule-premium', photo: 'Photo cours aquatique en piscine', type: 'formule', nom: 'Premium', categorie: 'premium', ordre: 3,
       accroche: 'Tout Essential, avec en plus la piscine et les cours aquatiques.',
-      inclus: { plateau: true, cours: true, aqua: true, coaching: '[X] séances' },
+      inclus: { plateau: true, cours: true, aqua: true, coaching: '6 séances' },
       prix: {
         adulte: { sans: 159.90, '12mois': 1599 / 12 },
         ado:    { sans: 111.90, '12mois': 1119.30 / 12 },
@@ -381,7 +383,7 @@ window.DATA = {
       accroche: 'Tout Premium, Extras compris.',
       souscriptionDepuis: ['premium'],
       inclutExtras: true,
-      inclus: { plateau: true, cours: true, aqua: true, coaching: '[X] séances', extras: true },
+      inclus: { plateau: true, cours: true, aqua: true, coaching: '6 séances', extras: true },
       /* Pas de tarif Ado, Jeune ni Senior en ligne (boutique, 2026-10-28) :
          la carte s'affiche au prix adulte avec « Pas de tarif [x], prix
          adulte », comme le veut la règle. La boutique l'appelle « Platinium ». */

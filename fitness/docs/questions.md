@@ -33,7 +33,11 @@ Gym garde la promesse de B.3, qui est déjà rédigée.
 valider par Harmony ». Pas de placeholder entre crochets : le texte existe.
 
 ### Q2 · Nombre de séances de coaching incluses
-**Statut :** ouverte
+**Statut :** fermée le 2026-10-28
+**Réponse (Hugo, 2026-10-28) :** 4 séances en Essential, 6 en Premium et en
+Premium Platinum. Saisies sur les formules (`inclus.coaching`) ; la page
+Coaching personnel en déduit sa phrase (`seancesCoachingTexte`). Les deux
+offres Black Friday gardent « [X] séances » : rien n'a été dit pour elles.
 **Source :** B.3 > Catégories de clubs > règles d'affichage (« nombre à compléter »)
 et B.3 > Page Coaching personnel > bloc 2 (« [X] séances »).
 Apparaît sur la carte formule de /tarifs (ce qui est inclus) et sur

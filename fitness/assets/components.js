@@ -327,6 +327,28 @@ window.HF = (function () {
         .sort(function (a, b) { return (a.ordre || 0) - (b.ordre || 0); });
     },
 
+    /* « 4 séances avec la formule Essential, 6 avec les formules Premium et
+       Premium Platinum » : lu sur les formules, groupé par nombre, dans
+       l'ordre des formules (Hugo, 2026-10-28). Une phrase écrite dans une
+       page ne suivrait pas un changement de formule. */
+    seancesCoachingTexte: function () {
+      var groupes = [];
+      D.produits.filter(function (p) { return p.type === 'formule' && p.inclus && p.inclus.coaching; })
+        .sort(function (a, b) { return a.ordre - b.ordre; })
+        .forEach(function (p) {
+          var g = groupes.filter(function (x) { return x.valeur === p.inclus.coaching; })[0];
+          if (g) g.noms.push(p.nom); else groupes.push({ valeur: p.inclus.coaching, noms: [p.nom] });
+        });
+      return groupes.map(function (g, i) {
+        var noms = g.noms.length > 1
+          ? 'les formules ' + g.noms.slice(0, -1).join(', ') + ' et ' + g.noms[g.noms.length - 1]
+          : 'la formule ' + g.noms[0];
+        /* « 4 séances avec…, 6 avec… » : le mot n'est dit qu'une fois. */
+        var v = i === 0 ? g.valeur : g.valeur.replace(/ séances?$/, '');
+        return v + ' avec ' + noms;
+      }).join(', ');
+    },
+
     /* La formule qui comprend les Extras. On la retrouve par son champ,
        jamais par son identifiant : demain il peut y en avoir une autre. */
     formuleAvecExtras: function () {
