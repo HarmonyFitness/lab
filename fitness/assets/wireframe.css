@@ -565,7 +565,7 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
 .carte__nom { font-family: var(--police); font-size: 30px; fill: var(--ink-muted); letter-spacing: .01em; }
 .carte__nom--lac { font-size: 36px; font-style: italic; fill: #5c7d95; }
 .carte__nom--ailleurs { fill: #7f8d98; }
-.carte__source { position: absolute; right: 10px; bottom: 6px; font-size: 10px; color: #7f8d98; }
+.carte__source { position: absolute; right: 10px; bottom: 6px; font-size: 11px; color: var(--ink-muted); }
 .carte__repere { position: absolute; transform: translate(-50%, -50%);
   width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 700; color: #fff; background: var(--ink);
@@ -712,7 +712,8 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
 .produit__inclus li { display: flex; gap: 8px; padding: 7px 0; margin: 0;
   border-bottom: 1px solid var(--line); }
 .produit__inclus li:last-child { border-bottom: 0; }
-.produit__inclus .non { color: var(--gris-40); }
+/* « Non inclus » reste en retrait mais lisible : gris-60, 6:1 sur la carte teintée (3,3:1 en gris-40). */
+.produit__inclus .non { color: var(--gris-60); }
 .produit__marque { flex: none; width: 14px; font-weight: 700; color: var(--accent); }
 .produit__inclus .non .produit__marque { color: inherit; }
 /* Le prix est le chiffre de la carte : grand, serré, chiffres à chasse
@@ -789,9 +790,10 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
   padding: 0 6px; white-space: nowrap; vertical-align: 2px; }
 
 
-/* Une carte de cours en Extra dans le catalogue. Le liseré suffit à la
-   distinguer du coin de l'oeil ; le mot « Extra » fait le reste. */
-.produit--extra { border-left: 3px solid var(--line-strong); }
+/* Une carte de cours en Extra dans le catalogue. Un cours toujours en Extra se distingue par un fond gris plutôt que par
+   un liseré de 3 px (critique du 2026-10-28) ; le marqueur « Extra » et la
+   phrase portent le sens. */
+.produit--extra { background: var(--cat-gym-fond); }
 
 .indispo {
   background: var(--surface-tint);
@@ -890,11 +892,13 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
    toujours leur mot, jamais une couleur ou une forme seule. */
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: var(--e-2) 0 var(--e-3); }
 /* Petites étiquettes, pas des puces : une puce se clique, un tag se lit.
-   Fond blanc, posé sur une carte teintée ou sur la page. */
-.tag { display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; line-height: 1.4;
-  border: 1px solid var(--line); border-radius: var(--rayon-xs); padding: 2px 8px;
-  background: var(--surface); color: var(--gris-80); }
-.tag--secondaire { border-style: dashed; border-color: var(--line-strong); font-weight: 500;
+   Sans contour et en graisse normale (critique du 2026-10-28 : fond blanc,
+   filet et gras, ils ressemblaient à des boutons). Un voile d'encre lisible
+   sur la page comme sur une carte teintée. */
+.tag { display: inline-flex; align-items: center; font-size: 13px; font-weight: 500; line-height: 1.4;
+  border: 1px solid transparent; border-radius: var(--rayon-xs); padding: 2px 8px;
+  background: rgba(27, 39, 49, .07); color: var(--gris-80); }
+.tag--secondaire { border-style: dashed; border-color: var(--line-strong); background: transparent; font-weight: 500;
   color: var(--ink-muted); }
 /* Tags posés à l'intérieur d'une ligne d'inclusion : mêmes pastilles que
    sur les cartes de cours, une seule grammaire visuelle dans tout le lab. */
@@ -965,7 +969,7 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
 /* Carte coach (CoachCard du design system) : photo ronde à gauche, prénom
    et badges à droite. Sans photo, l'initiale dans un rond blanc. */
 .coachs { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--e-4); }
-.coach { display: flex; align-items: center; gap: var(--e-4); border: 0;
+.coach { display: flex; align-items: flex-start; gap: var(--e-4); border: 0;
   background: var(--surface-tint); border-radius: var(--rayon);
   padding: var(--e-4) var(--e-5); text-align: left; font: inherit; color: inherit; cursor: pointer; }
 .coach:hover { box-shadow: var(--ombre-survol); }
@@ -978,7 +982,6 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
 .coach__badge { font-size: 12px; font-weight: 600; background: var(--surface);
   border-radius: var(--rayon-xs); padding: 1px 8px; color: var(--gris-80); }
 /* Mini bio facultative : la photo reste en haut quand le texte s'allonge. */
-.coach--bio { align-items: flex-start; }
 .coach__bio { font-size: 14px; line-height: 20px; color: var(--gris-80); margin-top: 2px; }
 
 .faq { border-top: 1px solid var(--line); }
@@ -1449,8 +1452,8 @@ a.carte__repere { text-decoration: none; }
 [data-spec="B.3 > Accueil > bloc bien-être"] .bloc--couche .img { aspect-ratio: 4 / 3; }
 /* Ligne Catégories sous l'aperçu des clubs (Q70). */
 .apercu-clubs__categories { margin: var(--e-4) 0 0; font-size: 15px; color: var(--ink-muted); }
-.apercu-clubs__categories span { display: inline-flex; align-items: center; gap: 4px; margin-right: var(--e-3); color: var(--ink); }
-.apercu-clubs__categories span:last-of-type { margin-right: 0; }
+.apercu-clubs__categories .label-cat { margin-right: var(--e-2); }
+.apercu-clubs__categories .label-cat:last-of-type { margin-right: 0; }
 
 /* Table des matières d'un catalogue : une ligne de liens, pas une barre.
    Elle défile avec la page. */
@@ -1562,5 +1565,5 @@ a.carte__repere { text-decoration: none; }
   .catalogue > .produit > p.mention { font-size: 13px; }
   .catalogue .tag--secondaire { display: none; }
   .catalogue .carte__action { display: none; }
-  .catalogue > .produit--extra { border-left: 0; }
+  .catalogue > .produit--extra { background: transparent; }
 }

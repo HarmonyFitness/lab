@@ -1864,7 +1864,7 @@ Object.assign(window.HF.vues, (function () {
   function grilleCoachs(liste, etat) {
     return '<div class="coachs" data-spec="B.3 > Fiche coach dans le CMS">' +
       liste.map(function (k) {
-        return '<button type="button" class="coach' + (k.bio ? ' coach--bio' : '') + '" data-act="panneau-coach" data-id="' + k.id + '"' +
+        return '<button type="button" class="coach" data-act="panneau-coach" data-id="' + k.id + '"' +
           ' aria-expanded="' + (etat.coachOuvert === k.id) + '">' +
           '<span class="coach__photo" title="' + esc('Photo : ' + k.prenom + ', coach à [club]') + '" aria-hidden="true">' +
           esc(k.prenom.charAt(0).toUpperCase()) + '</span>' +
@@ -3534,17 +3534,21 @@ Object.assign(window.HF.vues, (function () {
       (mixte ? '<p class="mention">Inclus dans votre abonnement, sauf mention « Extra ».</p>' : '') +
       '<table class="tableau"><thead><tr><th>Club</th><th>Catégorie</th><th>Créneaux</th></tr></thead><tbody>' +
       groupes.map(function (g) {
-        var enExtra = g.seances.some(function (s) {
-          var c = H.cours(s.cours); return c && c.estExtra;
-        });
+        /* Le club ne porte « Extra » que si toutes ses séances le sont. Sur
+           une page de famille, La Praille donne du Pilates inclus et du TRX
+           Pilates en Extra : la mention va alors sur la séance, pas sur la
+           ligne entière (critique du 2026-10-28). */
+        var estExtra = function (s) { var c = H.cours(s.cours); return !!(c && c.estExtra); };
+        var tousExtra = g.seances.every(estExtra);
         return '<tr><td><a href="' + base + 'clubs/club/?club=' + g.club.id + '">' +
           esc(g.club.nom) + '</a>' +
-          (enExtra ? ' <span class="extra__marque">Extra</span>' : '') + '</td>' +
+          (tousExtra ? ' <span class="extra__marque">Extra</span>' : '') + '</td>' +
           '<td>' + esc(H.categorie(g.club.categorie).nom) + '</td>' +
           '<td>' + g.seances.map(function (s) {
             var co = H.cours(s.cours);
             return esc(s.jour + ' ' + s.heure) +
-              (co && groupes.famille ? ' (' + esc(co.nom) + ')' : '');
+              (co && groupes.famille ? ' (' + esc(co.nom) + ')' : '') +
+              (!tousExtra && estExtra(s) ? ' <span class="extra__marque">Extra</span>' : '');
           }).join(' · ') + '</td></tr>';
       }).join('') + '</tbody></table></section>';
   }
