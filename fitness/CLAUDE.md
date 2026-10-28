@@ -39,7 +39,7 @@ Consultant et décideur sur la structure : Hugo.
 - `/seance-essai`
 - `/nous-contacter` : formulaire unique de contact, ajouté le 2026-09-15 (Q37). Même gabarit que la séance d'essai, un autre motif.
 - `/sport`, `/sport/plateau-fitness`, `/sport/cours-collectifs`, `/sport/small-group-training`, `/sport/coaching-personnel`
-- `/bien-etre` et `/bien-etre/espaces`, ajoutés au périmètre le 2026-09-17. `/bien-etre/soins` attend la liste des prestations, les praticiens, les tarifs indicatifs et le nom de l'outil de réservation : sans eux, la page serait une coquille à refaire (Q56).
+- `/bien-etre` et `/bien-etre/espaces`, ajoutés au périmètre le 2026-09-17. `/bien-etre/soins` est montée en gabarit (Hugo, 2026-10-28) : hero, soins en deux familles (massage, physiothérapie) avec durée et tarif à droite, praticiens en cartes avec club et bouton « Prendre rendez-vous » qui sort vers leur outil, bon à savoir, lien vers les espaces, CTA essai. Tout le contenu est en emplacements entre crochets : la liste des prestations, les praticiens, les tarifs indicatifs et l'outil de réservation manquent toujours (Q56).
 - `/cours/[...]` : gabarit unique, deux cas. Une fiche de cours, ou une page de famille qui active en plus le bloc "variantes".
 - `/actualites` et `/actualites/[slug]` (`actualites/article/?article=…`), ajoutés le 2026-10-22. Accès par le footer et par le teaser de l'accueil, jamais par le header (B.3). Le gabarit article est partagé avec les quatre autres sites (B.2).
 

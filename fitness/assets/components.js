@@ -758,10 +758,10 @@ window.HF.vues = (function () {
      niveaux de navigation. Une seule source pour le menu déroulant de
      l'ordinateur et pour l'accordéon du burger mobile (Hugo, 2026-10-23).
      Clubs n'est pas un déroulant dans B.3 : on l'ajoute parce que trouver
-     son club est la tâche la plus fréquente, à valider (Q69). Les pages
-     hors du lab (Massage) gardent « # » et se lisent en
-     grisé. L'Offre du moment n'apparaît que si une campagne tourne : c'est
-     l'entrée du menu qui disparaît, pas la page. */
+     son club est la tâche la plus fréquente, à valider (Q69). Une page
+     hors du lab garderait « # » et se lirait en grisé. L'Offre du moment
+     n'apparaît que si une campagne tourne : c'est l'entrée du menu qui
+     disparaît, pas la page. */
   function sousMenus(base, etat) {
     var campagne = !!(etat && R.offreDuMoment(etat));
     return [
@@ -781,7 +781,7 @@ window.HF.vues = (function () {
       { nom: 'Bien-être', href: base + 'bien-etre/', tous: 'Tout le bien-être',
         groupes: [{ liens: [
           { nom: 'Espaces wellness', href: base + 'bien-etre/espaces/' },
-          { nom: 'Massage & physiothérapie' }
+          { nom: 'Massage & physiothérapie', href: base + 'bien-etre/soins/' }
         ] }] },
       { nom: 'Tarifs', href: base + 'tarifs/', signal: campagne,
         groupes: [{ liens: [

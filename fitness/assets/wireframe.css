@@ -1600,3 +1600,12 @@ a.carte__repere { text-decoration: none; }
 @media (max-width: 760px) {
   .bloc--couche.bloc--clair { padding: var(--e-5); gap: var(--e-5); }
 }
+
+/* Page Massage et physiothérapie : liste des soins, nom à gauche, durée et
+   tarif à droite (Hugo, 2026-10-28). */
+.soins { list-style: none; margin: var(--e-4) 0 0; padding: 0; }
+.soins__ligne { display: flex; justify-content: space-between; gap: var(--e-4);
+  padding: var(--e-4) 0; border-top: 1px solid var(--line); }
+.soins__ligne .mention { margin-top: 2px; }
+.soins__infos { display: flex; flex-direction: column; align-items: flex-end; flex: none;
+  font-variant-numeric: tabular-nums; white-space: nowrap; }

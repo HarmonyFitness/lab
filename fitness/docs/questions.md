@@ -1522,7 +1522,7 @@ la réponse tombe, un seul drapeau dans `data.js` change la page Espaces, le
 bloc bien-être des dix pages club et les quatre cartes formule, d'un coup.
 
 ### Q56 · Ce qu'il manque pour construire la page Soins
-**Statut :** bloquante, page non maquettée
+**Statut :** ouverte, gabarit monté le 2026-10-28 avec emplacements
 **Source :** B.3 > Bien-être : « Massage & physiothérapie. Vitrine des soins,
 orienter vers la réservation externe. Présentation des soins, praticiens,
 tarifs indicatifs, CTA sortant vers l'outil de réservation (paramétré si
@@ -1548,6 +1548,13 @@ dire où, comme la page Espaces le fait.
 
 En attendant, le hub renvoie vers `/bien-etre/soins` avec le marqueur « page à
 construire » : le lien existe dans la site map, on ne le cache pas.
+
+**2026-10-28.** Hugo demande la page sans attendre les données : elle est montée
+en gabarit, contenu entre crochets (soins, durées, tarifs, praticiens, club,
+lien de réservation). Une piste publique, à confirmer avec le client : un
+cabinet indépendant, Mon Physio, est installé dans le club de Gland et prend
+ses rendez-vous sur agenda.ch. Si c'est le modèle partout, les praticiens sont
+des indépendants hébergés et l'outil est le leur.
 
 ### Q57 · « Jacuzzi ou jet massant » : une ligne du client, deux équipements chez nous
 **Statut :** ouverte sur un point, deux points répondus le 2026-09-17
