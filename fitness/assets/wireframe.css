@@ -1741,7 +1741,33 @@ a.carte__repere { text-decoration: none; }
    Instagram, repère lecture et durée sur une vidéo. */
 .stories { list-style: none; margin: 0; padding: 0 0 var(--e-2); display: flex; gap: var(--e-4);
   overflow-x: auto; scroll-snap-type: x mandatory; }
-.story { position: relative; flex: 0 0 200px; scroll-snap-align: start; }
+/* 3,5 par ligne sur ordinateur (Hugo, 2026-10-28) : la demi-carte au bord
+   dit qu'il y en a d'autres à faire défiler. */
+.story { position: relative; flex: 0 0 calc((100% - 3 * var(--e-4)) / 3.5); scroll-snap-align: start; }
+.story__bouton { display: block; width: 100%; padding: 0; border: 0; background: none;
+  font: inherit; color: inherit; text-align: left; cursor: zoom-in; position: relative; }
+.story__bouton .story__media { display: flex; }
+.story__bouton:hover .story__media { filter: brightness(1.08); }
+/* Visionneuse : le média en grand sur un voile sombre, fermer en haut à
+   droite, précédent et suivant sur les côtés. */
+.visionneuse { position: fixed; inset: 0; z-index: 80; background: rgba(14, 26, 35, .92);
+  display: flex; align-items: center; justify-content: center; gap: var(--e-5); padding: var(--e-7) var(--e-5); }
+.visionneuse__media.img { position: relative; height: min(86vh, 900px); aspect-ratio: 9 / 16; min-height: 0;
+  max-width: calc(100vw - 2 * var(--e-5)); border-radius: var(--rayon-grand); }
+.visionneuse__fermer, .visionneuse__nav { border: 0; cursor: pointer; color: #fff;
+  background: rgba(255, 255, 255, .14); border-radius: 50%; width: 48px; height: 48px;
+  font-size: 28px; line-height: 1; display: flex; align-items: center; justify-content: center; flex: none; }
+.visionneuse__fermer:hover, .visionneuse__nav:hover { background: rgba(255, 255, 255, .26); }
+.visionneuse__fermer { position: absolute; top: var(--e-4); right: var(--e-4); }
+.visionneuse__compte { position: absolute; bottom: var(--e-4); left: 0; right: 0; margin: 0;
+  text-align: center; color: rgba(255, 255, 255, .8); font-size: 14px; }
+@media (max-width: 760px) {
+  .visionneuse { padding: var(--e-8) var(--e-2) var(--e-7); gap: var(--e-2); }
+  .visionneuse__nav { position: absolute; bottom: var(--e-3); width: 44px; height: 44px; }
+  .visionneuse__nav--prec { left: var(--e-4); }
+  .visionneuse__nav--suiv { right: var(--e-4); }
+  .visionneuse__media.img { height: auto; width: 100%; max-height: 78vh; }
+}
 .story__media.img { aspect-ratio: 9 / 16; min-height: 0; border-radius: var(--rayon-grand);
   font-size: 13px; padding: var(--e-5) var(--e-4); }
 .story__haut { position: absolute; inset: 0 0 auto; padding: var(--e-3) var(--e-3) 0; }

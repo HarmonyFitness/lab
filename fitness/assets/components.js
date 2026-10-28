@@ -2617,17 +2617,34 @@ Object.assign(window.HF.vues, (function () {
   var ICONE_LECTURE = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">' +
     '<circle cx="12" cy="12" r="11" fill="rgba(255,255,255,.22)"/>' +
     '<path d="M10 8l6 4-6 4z" fill="#fff"/></svg>';
-  function storiesClub(c) {
-    return '<ul class="stories" aria-label="Photos et vidéos du ' + H.lieu() + '">' + STORIES.map(function (st) {
-      return '<li class="story">' +
-        '<div class="story__media img">' + esc(st.legende) + '</div>' +
+  /* Chaque média est un bouton qui l'ouvre en grand (Hugo, 2026-10-28 :
+     c'est une galerie, on veut zoomer). La visionneuse se ferme, passe au
+     suivant et au précédent, et se ferme à Échap. */
+  function storiesClub(c, etat) {
+    var e = etat || {};
+    var ouvert = typeof e.storyOuverte === 'number' ? STORIES[e.storyOuverte] : null;
+    return '<ul class="stories" aria-label="Photos et vidéos du ' + H.lieu() + '">' + STORIES.map(function (st, i) {
+      return '<li class="story"><button type="button" class="story__bouton" data-act="story" data-id="' + i + '"' +
+        ' aria-label="Agrandir : ' + esc(st.legende) + '">' +
+        '<span class="story__media img">' + esc(st.legende) + '</span>' +
         '<div class="story__haut"><span class="story__barre"></span>' +
         '<span class="story__club"><span class="story__avatar" aria-hidden="true"></span>' +
         esc('Harmony ' + c.nom) + '</span></div>' +
         (st.type === 'video' ? '<span class="story__lecture">' + ICONE_LECTURE +
           '<span>' + esc(st.duree) + '</span></span>' : '') +
-        '</li>';
-    }).join('') + '</ul>';
+        '</button></li>';
+    }).join('') + '</ul>' +
+      (ouvert
+        ? '<div class="visionneuse" role="dialog" aria-modal="true" aria-label="' + esc(ouvert.legende) + '">' +
+          '<button type="button" class="visionneuse__fermer" data-act="story-fermer" aria-label="Fermer">×</button>' +
+          '<button type="button" class="visionneuse__nav visionneuse__nav--prec" data-act="story-nav" data-id="-1" aria-label="Précédente">‹</button>' +
+          '<div class="visionneuse__media img">' + esc(ouvert.legende) +
+          (ouvert.type === 'video' ? '<span class="story__lecture">' + ICONE_LECTURE + '<span>' + esc(ouvert.duree) + '</span></span>' : '') +
+          '</div>' +
+          '<button type="button" class="visionneuse__nav visionneuse__nav--suiv" data-act="story-nav" data-id="1" aria-label="Suivante">›</button>' +
+          '<p class="visionneuse__compte">' + (e.storyOuverte + 1) + ' / ' + STORIES.length + '</p>' +
+          '</div>'
+        : '');
   }
 
   /* Compteur lié à la date de fin de l'offre (Annexe A > A.2). */
@@ -2653,7 +2670,7 @@ Object.assign(window.HF.vues, (function () {
     ligneIndisponible: ligneIndisponible, ligneSansClub: ligneSansClub,
     barreCollante: barreCollante, barreRecap: barreRecap, carteClub: carteClub, ongletsPage: ongletsPage,
     planning: planning, grilleCoachs: grilleCoachs, panneauCoach: panneauCoach,
-    storiesClub: storiesClub,
+    storiesClub: storiesClub, nbStories: function () { return STORIES.length; },
     faq: faq, temoignages: temoignages, noteAvis: noteAvis, noteValeur: noteValeur, noteSource: noteSource,
     destinataireEssai: destinataireEssai,
     ctaEssai: ctaEssai, compteur: compteur,
@@ -2701,7 +2718,7 @@ Object.assign(window.HF, (function () {
       carteOuverte: false,
       apercuClub: null,
       survol: null,
-      catOuverte: null,
+      catOuverte: null, storyOuverte: null,
       coachOuvert: null,
       faqOuverte: null,
       semaine: 0,
@@ -2831,6 +2848,12 @@ Object.assign(window.HF, (function () {
       if (id === 'courante') etat.jourPlanning = null;
     },
     'jour-planning': function (etat, id) { etat.jourPlanning = Number(id); },
+    'story': function (etat, id) { etat.storyOuverte = Number(id); },
+    'story-fermer': function (etat) { etat.storyOuverte = null; },
+    'story-nav': function (etat, id) {
+      var n = (H.vues.nbStories && H.vues.nbStories()) || 1;
+      etat.storyOuverte = ((etat.storyOuverte || 0) + Number(id) + n) % n;
+    },
     'panneau-coach': function (etat, id) { etat.coachOuvert = (etat.coachOuvert === id) ? null : id; },
     'reinit-filtres': function (etat) {
       Object.keys(etat.filtres).forEach(function (k) { etat.filtres[k] = ''; });
@@ -2852,6 +2875,12 @@ Object.assign(window.HF, (function () {
   /* Délégation : un seul écouteur par page, les composants restent de
      simples chaînes de caractères. */
   function brancher(racine, etat) {
+    /* Une seule fois par racine : Alpine appelle init() de lui-même et
+       x-init="init()" le rappelle. Branchés deux fois, les écouteurs
+       jouaient chaque action deux fois (la visionneuse sautait une image,
+       revue du 2026-10-28). */
+    if (racine.__hfBranche) return;
+    racine.__hfBranche = true;
     racine.addEventListener('click', function (ev) {
       var el = ev.target.closest('[data-act]');
       if (!el || !racine.contains(el)) return;
@@ -2918,6 +2947,8 @@ Object.assign(window.HF, (function () {
   }
 
   function brancherSelecteur(racine, etat) {
+    if (racine.__hfSelecteur) return;
+    racine.__hfSelecteur = true;
     racine.addEventListener('change', function (ev) {
       var el = ev.target.closest('[data-etat]');
       if (!el) return;
@@ -3995,6 +4026,18 @@ Object.assign(window.HF.vues, (function () {
   });
   window.addEventListener('load', function () { trouver(); });
 })();
+
+/* Visionneuse de la galerie : Échap la ferme, les flèches du clavier
+   passent d'un média à l'autre. Elle clique ses propres boutons, pour
+   passer par le même chemin que la souris. */
+document.addEventListener('keydown', function (ev) {
+  var v = document.querySelector('.visionneuse');
+  if (!v) return;
+  var cible = ev.key === 'Escape' ? '.visionneuse__fermer'
+    : ev.key === 'ArrowRight' ? '.visionneuse__nav--suiv'
+    : ev.key === 'ArrowLeft' ? '.visionneuse__nav--prec' : null;
+  if (cible) { ev.preventDefault(); v.querySelector(cible).click(); }
+});
 
 /* ------------------------------------------------------------------ */
 /* Onglets d'une page : la section en cours est soulignée (aria-current). */
