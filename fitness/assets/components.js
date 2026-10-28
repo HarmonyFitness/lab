@@ -1121,8 +1121,11 @@ window.HF.vues = (function () {
   function badgeCategorie(idCat, opts) {
     var cat = H.categorie(idCat); if (!cat) return '';
     var o = opts || {};
+    /* opts.cle : un label par carte (le club), pour qu'un clic n'ouvre que
+       son panneau et pas celui de toutes les cartes de la même catégorie. */
+    var cle = o.cle ? cat.id + '@' + o.cle : cat.id;
     return '<span data-spec="B.3 > Catégories de clubs > Règles d\'affichage">' +
-      '<button type="button" class="badge-cat badge-cat--' + cat.id + '" data-act="panneau-cat" data-id="' + cat.id + '"' +
+      '<button type="button" class="badge-cat badge-cat--' + cat.id + '" data-act="panneau-cat" data-id="' + cle + '"' +
       ' aria-expanded="' + (o.ouvert ? 'true' : 'false') + '">' +
       'Club ' + esc(cat.nom) + '</button>' +
       (o.sansLigne ? '' : ' <span class="ligne-acces">' + esc(cat.ligneAcces) + '</span>') +
@@ -1871,7 +1874,11 @@ Object.assign(window.HF.vues, (function () {
     return '<article class="carte-club" data-spec="B.3 > Carte club">' +
       '<h3 class="carte-club__titre"><a class="carte-club__lien" href="' +
       (o.base || '') + 'clubs/club/?club=' + c.id + '">' + esc(c.nom) + '</a></h3>' +
-      '<p>' + V.badgeCategorie(c.categorie, { ouvert: etat.catOuverte === c.categorie }) + '</p>' +
+      /* Le label seul : « Club Premium · Accessible dès la formule
+         Premium » disait deux fois Premium (Hugo, 2026-10-28). L'accès par
+         formule est dans le panneau qui s'ouvre au clic sur le label. */
+      '<p>' + V.badgeCategorie(c.categorie, { sansLigne: true, cle: c.id,
+        ouvert: etat.catOuverte === c.categorie + '@' + c.id }) + '</p>' +
       '<p class="mention">' + esc(texte(c.adresse, '[adresse]')) + '</p>' +
       /* Atouts en liste cochée, comme les équipements du ClubCard du
          design system : deux ou trois points forts, lus d'un coup d'oeil. */

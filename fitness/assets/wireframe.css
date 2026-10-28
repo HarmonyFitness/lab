@@ -850,6 +850,11 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
 .carte-club > p { margin-bottom: .6em; }
 .carte-club:hover { box-shadow: var(--ombre-survol); }
 .carte-club__lien::after { content: ""; position: absolute; inset: 0; }
+/* Le label de catégorie repasse au-dessus du lien étiré : il ouvre son
+   panneau, qui donne l'accès par formule depuis que la carte ne répète plus
+   la ligne d'accès (Hugo, 2026-10-28). Sans ça, le clic menait au club. */
+.carte-club .badge-cat, .carte-club .panneau-cat { position: relative; z-index: 1; }
+.carte-club .panneau-cat { background: var(--surface); }
 .carte-club__titre { margin: 0 0 var(--e-2); }
 .carte-club__titre a { text-decoration: none; color: var(--gris-95); }
 .carte-club__cours { font-size: 14px; color: var(--gris-60); }
