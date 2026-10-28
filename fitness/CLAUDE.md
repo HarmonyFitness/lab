@@ -321,7 +321,8 @@ Contact
 - Vouvoiement. Boutons à la première personne ("Choisir mon club").
 - Jamais de tiret cadratin. Utiliser ":" ou ",".
 - Registre simple : "pour", pas "afin de".
-- Prix au format "CHF 89.–". Prix inconnus : "CHF XX.–". Ne jamais inventer un prix.
+- Prix au format suisse : "CHF 89.–" pour un montant rond, "CHF 119.90" avec centimes, apostrophe pour les milliers ("CHF 1’199.–"), tout par `HF.prixTexte`. Prix inconnus : "CHF XX.–". Ne jamais inventer un prix.
+- **Prix des formules réels depuis le 2026-10-28** (export WooCommerce hors promo, fourni par Hugo, Q11) : saisis par mois dans `data.js`, le 12 mois en total / 12 (le total affiché retombe sur le prix boutique), avec les ID produit en `idMetier`. Premium Platinum n'a que le tarif adulte. Gym porte `fraisInscription: { sans: 49 }`, affiché au-dessus du prix. Questions soulevées : Q73.
 - Vocabulaire fixe : club (jamais "salle"), formule, Abonnements (titre de section), carnet d'entrées, Extra, offre du moment, club référent, tarif, catégorie.
 - Le nom "Echino" n'apparaît jamais à l'écran.
 - H1, sous-titres et titles : reprendre exactement ceux de B.3.

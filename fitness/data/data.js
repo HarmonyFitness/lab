@@ -291,6 +291,10 @@ window.DATA = {
   /* type formule | offre | carnet. Pas de champ club : les clubs          */
   /* accessibles découlent de la catégorie (section 7.4).                  */
   /* prix[tarif][engagement] = null quand le prix n'est pas connu.          */
+  /* Prix des formules : export WooCommerce de souscription.harmony.ch,    */
+  /* hors promo, relevé le 2026-10-28 (Hugo). Le prix est mensuel : le     */
+  /* 12 mois se paie en une fois, il est saisi comme total / 12, le total  */
+  /* affiché retombe sur le prix boutique. idMetier = ID produit boutique. */
   /* Un tarif absent de prix s'affiche au prix adulte avec la mention       */
   /* "Pas de tarif [x], prix adulte" (B.3 > Page Tarifs > Règles).          */
   /* ------------------------------------------------------------------ */
@@ -302,35 +306,41 @@ window.DATA = {
          par Harmony (Q62). */
       accroche: 'Le plateau fitness, avec des horaires plus larges.',
       inclus: { plateau: true, cours: false, aqua: false, coaching: false },
-      prix: { adulte: { sans: null, '12mois': null } },
+      prix: { adulte: { sans: 69.90, '12mois': 699 / 12 } },
+      /* Frais d'inscription configurés dans la boutique, sans engagement
+         seulement. Le 12 mois standard (699) est programmé mais pas en
+         ligne : la boutique vend une version remisée à 599 (produit 55871). */
+      fraisInscription: { sans: 49 },
       conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      idMetier: null
+      idMetier: { adulte: { '12mois': 42524, sans: 15961 } }
     },
     {
       id: 'formule-essential', photo: 'Photo cours collectif en salle', type: 'formule', nom: 'Essential', categorie: 'essential', ordre: 2,
       accroche: 'Le plateau fitness et les cours collectifs en salle.',
       inclus: { plateau: true, cours: true, aqua: false, coaching: '[X] séances' },
       prix: {
-        adulte: { sans: null, '12mois': null },
-        ado:    { sans: null, '12mois': null },
-        jeune:  { sans: null, '12mois': null },
-        senior: { sans: null, '12mois': null }
+        adulte: { sans: 119.90, '12mois': 1199 / 12 },
+        ado:    { sans: 83.90,  '12mois': 839.30 / 12 },
+        jeune:  { sans: 95.90,  '12mois': 959.20 / 12 },
+        senior: { sans: 95.90,  '12mois': 959.20 / 12 }
       },
       conditions: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      idMetier: null
+      idMetier: { adulte: { '12mois': 91, sans: 107 }, ado: { '12mois': 93, sans: 110 },
+        jeune: { '12mois': 94, sans: 109 }, senior: { '12mois': 7060, sans: 7058 } }
     },
     {
       id: 'formule-premium', photo: 'Photo cours aquatique en piscine', type: 'formule', nom: 'Premium', categorie: 'premium', ordre: 3,
       accroche: 'Tout Essential, avec en plus la piscine et les cours aquatiques.',
       inclus: { plateau: true, cours: true, aqua: true, coaching: '[X] séances' },
       prix: {
-        adulte: { sans: null, '12mois': null },
-        ado:    { sans: null, '12mois': null },
-        jeune:  { sans: null, '12mois': null },
-        senior: { sans: null, '12mois': null }
+        adulte: { sans: 159.90, '12mois': 1599 / 12 },
+        ado:    { sans: 111.90, '12mois': 1119.30 / 12 },
+        jeune:  { sans: 127.90, '12mois': 1279.20 / 12 },
+        senior: { sans: 127.90, '12mois': 1279.20 / 12 }
       },
       conditions: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
-      idMetier: null
+      idMetier: { adulte: { '12mois': 95, sans: 111 }, ado: { '12mois': 97, sans: 113 },
+        jeune: { '12mois': 98, sans: 114 }, senior: { '12mois': 7061, sans: 7056 } }
     },
 
     /* Formule Premium Platinum, décidée par Harmony le 2026-09-15. C'est
@@ -351,17 +361,17 @@ window.DATA = {
       souscriptionDepuis: ['premium'],
       inclutExtras: true,
       inclus: { plateau: true, cours: true, aqua: true, coaching: '[X] séances', extras: true },
+      /* Pas de tarif Ado, Jeune ni Senior en ligne (boutique, 2026-10-28) :
+         la carte s'affiche au prix adulte avec « Pas de tarif [x], prix
+         adulte », comme le veut la règle. La boutique l'appelle « Platinium ». */
       prix: {
-        adulte: { sans: null, '12mois': null },
-        ado:    { sans: null, '12mois': null },
-        jeune:  { sans: null, '12mois': null },
-        senior: { sans: null, '12mois': null }
+        adulte: { sans: 249.90, '12mois': 2499 / 12 }
       },
       conditions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.',
-      idMetier: null
+      idMetier: { adulte: { '12mois': 99, sans: 103 } }
     },
 
-    /* Offres Black Friday. Seuls prix réels du lab : ils sont fournis.
+    /* Offres Black Friday. Prix fournis par Harmony.
        dureeMois sert au calcul de "soit env. CHF X.– par mois", qui est
        toujours calculé, jamais saisi (B.3 > Page Tarifs > trame > 3). */
     {

@@ -147,10 +147,13 @@ témoignages. Accès par le bouton du header, hors menu.
 de rappel. Reporté dans CLAUDE.md > Périmètre.
 
 ### Q11 · Prix
-**Statut :** ouverte par nature
+**Statut :** partiellement tranchée (formules renseignées le 2026-10-28)
 **Source :** B.3 ne contient aucun prix réel, section 7 non plus.
-Tous les prix sont en « CHF XX.– », sauf les deux offres Black Friday fournies
-directement (Premium 7 mois CHF 777.–, Essential 7 mois et 7 semaines CHF 777.–).
+Les quatre formules portent les prix de la boutique (export WooCommerce de
+souscription.harmony.ch, hors promo, relevé le 2026-10-28, fourni par Hugo),
+par tarif et par engagement, avec les ID produit. Restent en « CHF XX.– » :
+carnets d'entrées et Extras. Les deux offres Black Friday étaient déjà
+fournies (CHF 777.–). Voir Q73 pour ce que l'export a fait apparaître.
 
 ### Q12 · Adresses, horaires et coordonnées des 10 clubs
 **Statut :** ouverte par nature
@@ -1923,3 +1926,28 @@ d'une séance annulée), ou garder un planning type au CMS pour les
 comptages et lire Echino pour l'affichage seulement (deux sources à tenir
 d'accord). À trancher avec Richard et Harmony, puis à reporter dans la
 section 7 et la section 8.2.
+
+### Q73 · Ce que l'export des prix a fait apparaître
+**Statut :** ouverte (posée le 2026-10-28)
+**Source :** export WooCommerce des tarifs hors promo, 2026-10-28.
+
+- **Frais d'inscription de la formule Gym** : CHF 49.– sans engagement,
+  configurés dans la boutique. B.3 n'en parle pas. Ils sont affichés sur la
+  carte Gym, au-dessus du prix (« + CHF 49.– de frais d'inscription ») :
+  un coût caché jusqu'au tunnel serait pire. À confirmer, et à dire s'il en
+  existe en club pour les autres formules (l'export ne les voit pas).
+- **Gym 12 mois** : le produit standard (CHF 699.–) est programmé mais pas en
+  ligne ; la boutique vend aujourd'hui une version remisée à CHF 599.–. Le
+  lab affiche 699 (prix hors promo). Si la remise est durable, c'est une
+  promotion à saisir comme telle, pas un nouveau prix.
+- **Premium Platinum** : pas de tarif Ado, Jeune ni Senior en ligne. La carte
+  s'affiche donc au prix adulte avec « Pas de tarif [x], prix adulte ».
+  Voulu ou manquant ?
+- **Noms** : la boutique dit « Platinium » et « Young 16-18 / 19-25 ans », le
+  site dit « Premium Platinum », « Ado » et « Jeune ». Un seul mot par chose
+  (Q34) : à aligner dans la boutique ou ici.
+- **Prix avec centimes** : CHF 119.90, et un 12 mois payé en une fois
+  (CHF 1’199.–) dont l'équivalent mensuel tombe sur CHF 99.92. Le lab affiche
+  l'équivalent mensuel en grand et le total dessous ; à valider avec la façon
+  dont la boutique le présente.
+

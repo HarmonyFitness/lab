@@ -409,7 +409,8 @@ window.HF = (function () {
     prixRemise: function (valeur, promo) {
       if (typeof valeur !== 'number' || !promo) return null;
       if (promo.remise.type === 'montant') return valeur - promo.remise.valeur;
-      return Math.round(valeur * (1 - promo.remise.valeur / 100));
+      /* Arrondi au centime : les prix ont des centimes. */
+      return Math.round(valeur * (1 - promo.remise.valeur / 100) * 100) / 100;
     },
 
     /* Tarif par âge : ne grise jamais. Un produit sans le tarif choisi
@@ -544,8 +545,16 @@ window.HF = (function () {
   /* ---------------------------------------------------------------- */
   /* Formatage                                                          */
   /* ---------------------------------------------------------------- */
+  /* Format suisse : « CHF 89.– » pour un montant rond, « CHF 119.90 » avec
+     des centimes, apostrophe pour les milliers (« CHF 1’199.– »). Les prix
+     réels des formules ont des centimes depuis le 2026-10-28 (export
+     WooCommerce) ; un équivalent mensuel calculé est arrondi au centime. */
   function prixTexte(v) {
-    return (v === null || v === undefined) ? 'CHF XX.–' : 'CHF ' + v + '.–';
+    if (v === null || v === undefined) return 'CHF XX.–';
+    var cts = Math.round(v * 100);
+    var entier = Math.floor(cts / 100), reste = cts % 100;
+    var milliers = String(entier).replace(/\B(?=(\d{3})+(?!\d))/g, '’');
+    return 'CHF ' + milliers + (reste ? '.' + ('0' + reste).slice(-2) : '.–');
   }
   function texte(v, placeholder) {
     return (v === null || v === undefined || v === '') ? placeholder : v;
@@ -1445,7 +1454,13 @@ Object.assign(window.HF.vues, (function () {
         infoClubs(p.categorie) + '</p>' +
         lignesInclusion(p, etat) +
         ligneRemise(pr) + ligneRemiseAilleurs(p, etat) +
-        (pr.mentionRepli ? '<p class="mention">' + esc(pr.mentionRepli) + '</p>' : '');
+        (pr.mentionRepli ? '<p class="mention">' + esc(pr.mentionRepli) + '</p>' : '') +
+        /* Frais d'inscription configurés dans la boutique (Gym sans
+           engagement, 2026-10-28) : un coût réel. Au-dessus du prix, comme
+           toute mention de hauteur variable, pour garder les prix alignés. */
+        (p.fraisInscription && typeof p.fraisInscription[etat.engagement] === 'number'
+          ? '<p class="mention">+ ' + prixTexte(p.fraisInscription[etat.engagement]) +
+            ' de frais d\'inscription</p>' : '');
       bas =
         blocPrix(pr, '/ mois') +
         '<div class="produit__total">Total ' +
