@@ -1509,6 +1509,8 @@ a.carte__repere { text-decoration: none; }
      remontant la page ; même hauteur, les lignes restent en face. */
   .grille.defile-mobile--egal { align-items: stretch; }
   .grille.defile-mobile--egal > * { flex-basis: 86%; }
+  /* height: 100% des cartes de grille empêche l'étirement en flex. */
+  .grille.defile-mobile--egal > .produit { height: auto; }
   .grille.defile-mobile > * { flex: 0 0 78%; scroll-snap-align: start; }
   .preuves--photo .preuves__valeur { font-size: 20px; }
   .preuves--photo li { padding: 0 10px; }
@@ -1565,4 +1567,12 @@ a.carte__repere { text-decoration: none; }
   .catalogue .tag--secondaire { display: none; }
   .catalogue .carte__action { display: none; }
   .catalogue > .produit--extra { background: transparent; }
+}
+
+/* Bloc des façons de s'entraîner, ouvert par le manifeste (2026-10-28) :
+   la phrase et son intro centrées, les quatre cartes dessous. */
+.modes-bloc .manifeste { margin-bottom: var(--e-4); }
+.modes-bloc__intro { text-align: center; margin: 0 auto var(--e-7); text-wrap: balance; }
+@media (max-width: 760px) {
+  .modes-bloc__intro { text-align: left; margin: 0 0 var(--e-5); text-wrap: wrap; }
 }

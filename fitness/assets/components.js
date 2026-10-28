@@ -2316,7 +2316,14 @@ Object.assign(window.HF.vues, (function () {
     ];
   }
 
-  /* Comment s'entraîner, sur l'accueil (Hugo, 2026-10-23) : trois façons
+  /* Fusionné avec le manifeste le 2026-10-28 (Hugo) : les trois
+     différenciants redisaient le sous-titre du hero et ce bloc. La phrase
+     « Chez Harmony, chacun s'entraîne à son rythme. » en devient le titre,
+     les façons de s'entraîner en sont la preuve, chacune avec son bouton.
+     Quatrième façon, « Dans l'eau » : l'aquatique est un vrai différenciant
+     d'Harmony, dit avec sa disponibilité réelle (dès Premium, N clubs),
+     calculée. Placé juste après le hero, là où B.3 met les arguments.
+     Comment s'entraîner, sur l'accueil (Hugo, 2026-10-23) : trois façons
      plutôt que quatre produits. Seul, le plateau ; accompagné, le
      coaching ; en groupe, les cours collectifs et le Small Group Training.
      C'est la question que se pose le visiteur, pas notre catalogue, et
@@ -2334,11 +2341,13 @@ Object.assign(window.HF.vues, (function () {
         '<h3 class="titre-carte"><a href="' + lien.href + '">' + esc(mode) + '</a></h3>' + corps +
         V.actionCarte(action) + '</div>';
     };
-    return '<section data-spec="B.3 > Accueil > le sport (seul, accompagné, en groupe)">' +
-      '<h2>Comment voulez-vous vous entraîner ?</h2>' +
-      '<p class="bloc__intro">En autonomie, avec un coach ou en groupe : chez Harmony, vous pouvez ' +
-      'passer de l\'un à l\'autre selon vos envies.</p>' +
-      '<div class="grille grille--3 defile-mobile modes">' +
+    var aqua = H.famille('aqua');
+    var bassins = D.clubs.filter(function (c) { return c.bassin; }).length;
+    return '<section class="modes-bloc" data-spec="B.3 > Accueil > arguments « pourquoi Harmony » et le sport">' +
+      '<h2 class="manifeste">' + MANIFESTE.map(esc).join('<br>') + '</h2>' +
+      '<p class="bloc__intro modes-bloc__intro">En autonomie, avec un coach, en groupe ou dans l\'eau : ' +
+      'passez de l\'un à l\'autre selon vos envies.</p>' +
+      '<div class="grille grille--cartes defile-mobile defile-mobile--egal modes">' +
       carte('Photo : une membre en autonomie sur le plateau, à son rythme', 'En autonomie', plateau,
         '<p><strong>Plateau fitness</strong></p><p>Vos machines, vos charges, votre rythme.</p><p class="mention">' + plateau.inclus + '</p>', 'Découvrir le plateau') +
       carte('Photo : un coach et un membre pendant une séance', 'Accompagné', coaching,
@@ -2351,6 +2360,11 @@ Object.assign(window.HF.vues, (function () {
         '<p style="margin-top:8px"><a class="lien-texte" href="' + sgt.href + '">Small Group Training</a></p>' +
         '<p class="mention">' + sgt.inclus + '</p>',
         'Découvrir les cours') +
+      carte('Photo : une membre en cours d\'aquagym, souriante', 'Dans l\'eau',
+        { href: H.lienFamille(aqua, b) },
+        '<p><strong>Piscine et cours aquatiques</strong></p><p>Bouger autrement, en douceur pour le corps.</p>' +
+        '<p class="mention">' + V.ligneInclusion('aqua') + ' · dans ' + bassins + ' de nos ' + R.nbClubs() + ' clubs</p>',
+        'Découvrir les cours aquatiques') +
       '</div></section>';
   }
 
