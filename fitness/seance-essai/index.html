@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Séance d'essai | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-28b">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-28d">
 </head>
 <body>
 
@@ -92,14 +92,24 @@
       <div class="mobile-seulement" style="margin-top:8px"
            x-html="etat.club ? HF.vues.clubReplie(etat, {}) : HF.vues.pastillesMobile(etat)"></div>
 
+      <p class="champ-erreur" id="err-club" x-show="erreurs.club" x-text="erreurs.club"></p>
+
       <h3 class="h-bloc">Quand, et comment vous joindre</h3>
-      <div class="formulaire" style="margin-top:8px">
+      <!-- Un vrai formulaire : Entrée l'envoie, les champs obligatoires sont
+           marqués, chaque erreur s'affiche sous son champ et dit quoi faire
+           (critique du 2026-10-28 : la demande partait sans téléphone). Le
+           navigateur ne valide pas lui-même (novalidate) : ses bulles ne
+           suivent ni la langue ni le design. -->
+      <form class="formulaire" style="margin-top:8px" novalidate
+            x-show="!envoyee" @submit.prevent="envoyer()">
 
         <p class="champ-bloc">
           <label class="champ-label" for="date">Date souhaitée</label>
           <input id="date" type="date" class="champ" :min="dateMin" :max="dateMax"
-                 :value="etat.essaiDate"
-                 @change="etat.essaiDate = $event.target.value">
+                 :value="etat.essaiDate" required
+                 :aria-invalid="!!erreurs.date" aria-describedby="err-date"
+                 @change="etat.essaiDate = $event.target.value; erreurs.date = ''">
+          <span class="champ-erreur" id="err-date" x-show="erreurs.date" x-text="erreurs.date"></span>
           <span class="mention">Entre demain et dans deux semaines. La date est
             indicative : le club vous rappelle pour la confirmer.</span>
         </p>
@@ -121,17 +131,26 @@
         <div class="champ-rangee">
           <p class="champ-bloc">
             <label class="champ-label" for="nom">Nom et prénom</label>
-            <input id="nom" type="text" class="champ" autocomplete="name">
+            <input id="nom" type="text" class="champ" autocomplete="name" required
+                   x-model="nom" :aria-invalid="!!erreurs.nom" aria-describedby="err-nom"
+                   @input="erreurs.nom = ''">
+            <span class="champ-erreur" id="err-nom" x-show="erreurs.nom" x-text="erreurs.nom"></span>
           </p>
           <p class="champ-bloc">
             <label class="champ-label" for="tel">Téléphone</label>
-            <input id="tel" type="tel" class="champ" autocomplete="tel">
+            <input id="tel" type="tel" class="champ" autocomplete="tel" required inputmode="tel"
+                   x-model="tel" :aria-invalid="!!erreurs.tel" aria-describedby="err-tel"
+                   @input="erreurs.tel = ''">
+            <span class="champ-erreur" id="err-tel" x-show="erreurs.tel" x-text="erreurs.tel"></span>
             <span class="mention">C'est par là qu'on vous rappelle.</span>
           </p>
         </div>
         <p class="champ-bloc">
-          <label class="champ-label" for="courriel">E-mail</label>
-          <input id="courriel" type="email" class="champ" autocomplete="email">
+          <label class="champ-label" for="courriel">E-mail (facultatif)</label>
+          <input id="courriel" type="email" class="champ" autocomplete="email"
+                 x-model="courriel" :aria-invalid="!!erreurs.courriel" aria-describedby="err-courriel"
+                 @input="erreurs.courriel = ''">
+          <span class="champ-erreur" id="err-courriel" x-show="erreurs.courriel" x-text="erreurs.courriel"></span>
         </p>
         <p class="champ-bloc">
           <label class="champ-label" for="message">Un mot pour le club (facultatif)</label>
@@ -141,15 +160,28 @@
         <div x-html="HF.vues.destinataireEssai(etat.club)"></div>
 
         <p style="margin-top:16px">
-          <button type="button" class="btn" data-act="envoyer-essai">
-            Demander à être rappelé
-          </button>
+          <button type="submit" class="btn">Demander à être rappelé</button>
         </p>
-        <p class="mention" x-show="etat.message" x-text="etat.message"></p>
+        <p class="champ-erreur" role="alert" x-show="nbErreurs() > 1"
+           x-text="'Il manque ' + nbErreurs() + ' informations, signalées plus haut.'"></p>
         <p class="mention">
           Vos données servent uniquement à traiter votre demande.
           <a class="lien-texte" href="#">Confidentialité</a>
         </p>
+      </form>
+
+      <!-- Après l'envoi : ce qui part, à qui, et ce qui se passe ensuite. La
+           fin du parcours est un moment, pas une ligne grise sous le bouton. -->
+      <div class="confirmation" x-show="envoyee" role="status" tabindex="-1" x-ref="confirmation">
+        <h3>Demande envoyée à Harmony <span x-text="envoyee ? HF.club(etat.club).nom : ''"></span></h3>
+        <p>Le club vous rappelle au <strong x-text="tel"></strong> pour confirmer votre séance
+          <span x-text="dateLisible()"></span>.</p>
+        <p class="mention">Pour rappel, la journée d'essai est proposée au tarif de 20 CHF,
+          déduits en cas de souscription à un abonnement avec engagement.</p>
+        <div class="confirmation__actions">
+          <a class="btn btn--secondaire" :href="'../clubs/club/?club=' + etat.club">Découvrir le club</a>
+          <button type="button" class="btn btn--tertiaire btn--sans-fleche" @click="envoyee = false">Modifier ma demande</button>
+        </div>
       </div>
     </section>
 
@@ -187,8 +219,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-10-28b"></script>
-<script src="../assets/components.js?v=2026-10-28b"></script>
+<script src="../data/data.js?v=2026-10-28d"></script>
+<script src="../assets/components.js?v=2026-10-28d"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageEssai', function () {
@@ -218,15 +250,55 @@ document.addEventListener('alpine:init', function () {
         { titre: '[Réassurance 2]', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.' },
         { titre: '[Réassurance 3]', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.' }
       ],
+      nom: '', tel: '', courriel: '',
+      erreurs: { club: '', date: '', nom: '', tel: '', courriel: '' },
+      envoyee: false,
+      nbErreurs: function () {
+        var e = this.erreurs;
+        return Object.keys(e).filter(function (k) { return e[k]; }).length;
+      },
+      dateLisible: function () {
+        if (!this.etat.essaiDate) return '';
+        var d = new Date(this.etat.essaiDate + 'T12:00:00');
+        return 'du ' + d.toLocaleDateString('fr-CH', { weekday: 'long', day: 'numeric', month: 'long' });
+      },
+      /* Chaque erreur nomme le problème et la façon d'en sortir. Le focus va
+         au premier champ en faute, pour le clavier comme pour le lecteur
+         d'écran. */
+      envoyer: function () {
+        var e = this.erreurs, chiffres = this.tel.replace(/[^0-9]/g, '');
+        e.club = this.etat.club ? '' : 'Choisissez votre club : c\'est lui qui vous rappelle.';
+        e.date = this.etat.essaiDate ? '' : 'Choisissez une date, entre demain et dans deux semaines.';
+        e.nom = this.nom.trim() ? '' : 'Indiquez votre nom, pour que le club sache qui rappeler.';
+        e.tel = !chiffres ? 'Indiquez votre numéro de téléphone.'
+          : (chiffres.length < 9 ? 'Ce numéro semble incomplet. Exemple : 079 123 45 67.' : '');
+        e.courriel = !this.courriel.trim() || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(this.courriel.trim()) ? ''
+          : 'Cette adresse e-mail semble incomplète. Exemple : prenom@exemple.ch.';
+        var premier = ['club', 'date', 'nom', 'tel', 'courriel'].find(function (k) { return e[k]; });
+        if (premier) {
+          var cible = premier === 'club' ? document.getElementById('err-club')
+            : document.getElementById(premier === 'courriel' ? 'courriel' : premier);
+          if (cible) {
+            if (premier === 'club') cible.scrollIntoView({ block: 'center' });
+            else cible.focus();
+          }
+          return;
+        }
+        this.envoyee = true;
+        var self = this;
+        this.$nextTick(function () { self.$refs.confirmation.focus(); });
+      },
       init: function () {
         HF.brancher(this.$el, this.etat);
         HF.brancherSelecteur(this.$el, this.etat);
+        var self = this;
+        this.$watch('etat.club', function (v) { if (v) self.erreurs.club = ''; });
       }
     };
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-10-28b"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-28d"></script>
 
 </body>
 </html>

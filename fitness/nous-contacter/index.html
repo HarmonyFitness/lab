@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Nous contacter | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-28b">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-28d">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -23,20 +23,24 @@
     </section>
 
     <section data-spec="B.3 &gt; Contact">
-      <div class="formulaire">
+      <!-- Même logique que la demande d'essai (critique du 2026-10-28) : un
+           vrai formulaire, chaque erreur sous son champ, une confirmation qui
+           dit à qui le message est parti. -->
+      <form class="formulaire" novalidate x-show="!envoye" @submit.prevent="envoyer()">
         <p class="champ-bloc">
           <label class="champ-label" for="motif">Votre sujet</label>
           <!-- :selected plutôt que x-model : avec des options rendues par
                x-for, x-model s'applique avant que les options existent, et le
                menu reste vide alors que l'état est bon. -->
-          <select id="motif" class="champ"
-                  @change="etat.contactMotif = $event.target.value">
+          <select id="motif" class="champ" required
+                  :aria-invalid="!!erreurs.motif" aria-describedby="err-motif"
+                  @change="etat.contactMotif = $event.target.value; erreurs.motif = ''">
             <option value="">Choisissez un sujet</option>
             <template x-for="m in HF.data.contact.motifs" :key="m.id">
               <option :value="m.id" :selected="m.id === etat.contactMotif" x-text="m.libelle"></option>
             </template>
           </select>
-
+          <span class="champ-erreur" id="err-motif" x-show="erreurs.motif" x-text="erreurs.motif"></span>
         </p>
 
         <p class="champ-bloc">
@@ -44,23 +48,29 @@
             <span x-text="clubRequis() ? 'Votre club' : 'Club concerné (facultatif)'"></span>
           </label>
           <select id="club" class="champ"
-                  @change="etat.club = $event.target.value || null; HF.majUrl(etat)">
+                  :aria-invalid="!!erreurs.club" aria-describedby="err-club"
+                  @change="etat.club = $event.target.value || null; HF.majUrl(etat); erreurs.club = ''">
             <option value="">Choisissez un club</option>
             <template x-for="c in HF.data.clubs" :key="c.id">
               <option :value="c.id" :selected="c.id === etat.club"
                       x-text="c.nom + ' · ' + HF.categorie(c.categorie).nom"></option>
             </template>
           </select>
+          <span class="champ-erreur" id="err-club" x-show="erreurs.club" x-text="erreurs.club"></span>
         </p>
 
         <div class="champ-rangee">
           <p class="champ-bloc">
             <label class="champ-label" for="nom">Nom et prénom</label>
-            <input id="nom" type="text" class="champ" autocomplete="name">
+            <input id="nom" type="text" class="champ" autocomplete="name" required
+                   x-model="nom" :aria-invalid="!!erreurs.nom" aria-describedby="err-nom" @input="erreurs.nom = ''">
+            <span class="champ-erreur" id="err-nom" x-show="erreurs.nom" x-text="erreurs.nom"></span>
           </p>
           <p class="champ-bloc">
             <label class="champ-label" for="courriel">E-mail</label>
-            <input id="courriel" type="email" class="champ" autocomplete="email">
+            <input id="courriel" type="email" class="champ" autocomplete="email" required
+                   x-model="courriel" :aria-invalid="!!erreurs.courriel" aria-describedby="err-courriel" @input="erreurs.courriel = ''">
+            <span class="champ-erreur" id="err-courriel" x-show="erreurs.courriel" x-text="erreurs.courriel"></span>
           </p>
         </div>
         <p class="champ-bloc">
@@ -69,19 +79,30 @@
         </p>
         <p class="champ-bloc">
           <label class="champ-label" for="message">Votre message</label>
-          <textarea id="message" class="champ" rows="5"></textarea>
+          <textarea id="message" class="champ" rows="5" required
+                    x-model="message" :aria-invalid="!!erreurs.message" aria-describedby="err-message" @input="erreurs.message = ''"></textarea>
+          <span class="champ-erreur" id="err-message" x-show="erreurs.message" x-text="erreurs.message"></span>
         </p>
 
         <div x-html="HF.vues.destinataireLigne(etat.contactMotif, etat.club)"></div>
 
         <p style="margin-top:16px">
-          <button type="button" class="btn" data-act="envoyer-contact">Envoyer mon message</button>
+          <button type="submit" class="btn">Envoyer mon message</button>
         </p>
-        <p class="mention" x-show="etat.message" x-text="etat.message"></p>
+        <p class="champ-erreur" role="alert" x-show="nbErreurs() > 1"
+           x-text="'Il manque ' + nbErreurs() + ' informations, signalées plus haut.'"></p>
         <p class="mention">
           Vos données servent uniquement à traiter votre demande.
           <a class="lien-texte" href="#">Confidentialité</a>
         </p>
+      </form>
+
+      <div class="confirmation" x-show="envoye" role="status" tabindex="-1" x-ref="confirmation">
+        <h2 class="titre-h3">Message envoyé à <span x-text="envoye ? destinataire() : ''"></span></h2>
+        <p>Nous vous répondons au plus vite, à l'adresse <strong x-text="courriel"></strong>.</p>
+        <div class="confirmation__actions">
+          <button type="button" class="btn btn--tertiaire btn--sans-fleche" @click="envoye = false">Écrire un autre message</button>
+        </div>
       </div>
     </section>
 
@@ -95,14 +116,41 @@
   </main>
   <div x-html="HF.vues.pied('../')"></div>
 </div>
-<script src="../data/data.js?v=2026-10-28b"></script>
-<script src="../assets/components.js?v=2026-10-28b"></script>
+<script src="../data/data.js?v=2026-10-28d"></script>
+<script src="../assets/components.js?v=2026-10-28d"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
     return {
       etat: HF.etatInitial(),
       init: function () { HF.brancher(this.$el, this.etat); HF.brancherSelecteur(this.$el, this.etat); },
+      nom: '', courriel: '', message: '',
+      erreurs: { motif: '', club: '', nom: '', courriel: '', message: '' },
+      envoye: false,
+      nbErreurs: function () {
+        var e = this.erreurs;
+        return Object.keys(e).filter(function (k) { return e[k]; }).length;
+      },
+      destinataire: function () {
+        return HF.regles.destinataireContact(this.etat.contactMotif, this.etat.club).nom;
+      },
+      /* Chaque erreur nomme le problème et la sortie ; le focus va au
+         premier champ en faute. Le délai n'est jamais chiffré (Contact). */
+      envoyer: function () {
+        var e = this.erreurs, d = HF.regles.destinataireContact(this.etat.contactMotif, this.etat.club);
+        var mail = this.courriel.trim();
+        e.motif = d.motif ? '' : 'Choisissez un sujet : c\'est lui qui dit à qui part votre message.';
+        e.club = d.clubRequis && !this.etat.club ? 'Choisissez votre club : ce sujet part à son équipe.' : '';
+        e.nom = this.nom.trim() ? '' : 'Indiquez votre nom.';
+        e.courriel = !mail ? 'Indiquez votre e-mail : c\'est là qu\'on vous répond.'
+          : (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail) ? '' : 'Cette adresse e-mail semble incomplète. Exemple : prenom@exemple.ch.');
+        e.message = this.message.trim() ? '' : 'Écrivez votre message.';
+        var premier = ['motif', 'club', 'nom', 'courriel', 'message'].find(function (k) { return e[k]; });
+        if (premier) { document.getElementById(premier).focus(); return; }
+        this.envoye = true;
+        var self = this;
+        this.$nextTick(function () { self.$refs.confirmation.focus(); });
+      },
       clubRequis: function () {
         return HF.regles.destinataireContact(this.etat.contactMotif, this.etat.club).clubRequis;
       }
@@ -110,6 +158,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-10-28b"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-28d"></script>
 </body>
 </html>

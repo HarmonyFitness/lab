@@ -2561,6 +2561,9 @@ Object.assign(window.HF, (function () {
     },
     'jour-planning': function (etat, id) { etat.jourPlanning = Number(id); },
     'panneau-coach': function (etat, id) { etat.coachOuvert = (etat.coachOuvert === id) ? null : id; },
+    'reinit-filtres': function (etat) {
+      Object.keys(etat.filtres).forEach(function (k) { etat.filtres[k] = ''; });
+    },
     'faq': function (etat, id) { var n = Number(id); etat.faqOuverte = (etat.faqOuverte === n) ? null : n; },
     'finaliser': function (etat) { etat.message = 'Redirection vers le tunnel de souscription.'; },
     /* Landing de campagne : pas de barre récap, le bouton part droit au
@@ -2572,30 +2575,6 @@ Object.assign(window.HF, (function () {
       etat.message = 'Redirection vers le tunnel de souscription, avec ' +
         (p ? '« ' + p.nom + ' »' : 'l\'offre') +
         (c ? ' et ' + c.nom : '') + ' en paramètre.';
-    },
-    /* Simulation : le wireframe ne poste rien. On montre où part la demande,
-       c'est ce qui compte pour valider le dispatch. */
-    /* Simulation, comme le formulaire de contact : le wireframe ne poste
-       rien. Ce qu'on veut valider ici, c'est que la demande part au club, que
-       la date est dans la fenêtre annoncée, et que l'origine du clic est
-       transmise : sans elle, impossible de savoir quelle page génère les
-       essais. */
-    'envoyer-essai': function (etat) {
-      if (!etat.club) { etat.message = 'Choisissez d\'abord votre club.'; return; }
-      if (!etat.essaiDate) { etat.message = 'Choisissez une date indicative.'; return; }
-      var c = H.club(etat.club);
-      var obj = D.referentiels.objectifs.find(function (o) { return o.id === etat.essaiObjectif; });
-      etat.message = 'Simulation : la demande de rappel partirait à Harmony ' + c.nom +
-        ', pour le ' + etat.essaiDate +
-        (obj ? ', objectif « ' + obj.nom + ' »' : '') +
-        (etat.source ? ', origine « ' + etat.source + ' »' : '') + '.';
-    },
-    'envoyer-contact': function (etat) {
-      var d = H.regles.destinataireContact(etat.contactMotif, etat.club);
-      if (!d.motif) { etat.message = 'Choisissez d\'abord un sujet.'; return; }
-      if (d.clubRequis && !etat.club) { etat.message = 'Choisissez votre club.'; return; }
-      etat.message = 'Simulation : la demande partirait à ' + d.nom +
-        ', avec le sujet « ' + d.motif.libelle + ' ».';
     }
   };
 
@@ -3443,13 +3422,17 @@ Object.assign(window.HF.vues, (function () {
       '<a class="lien-texte" href="' + (base || '') +
       'sport/small-group-training/">Voir les Small Group Training</a>';
   }
+  /* Un résultat vide donne toujours la sortie : un bouton qui remet tous
+     les filtres et la recherche à zéro (critique du 2026-10-28). */
+  var BOUTON_REINIT = ' <button type="button" class="btn btn--tertiaire btn--petit btn--sans-fleche" ' +
+    'data-act="reinit-filtres">Réinitialiser les filtres</button>';
   function videCatalogue(etat, base) {
     return '<p class="planning__vide">' +
-      (raisonCategorie(etat, base) || 'Aucun cours ne correspond à ces filtres.') + '</p>';
+      (raisonCategorie(etat, base) || 'Aucun cours ne correspond à ces filtres.') + BOUTON_REINIT + '</p>';
   }
   function videPlanning(etat, base) {
     return '<p class="planning__vide">' +
-      (raisonCategorie(etat, base) || 'Aucune séance ne correspond à ces filtres.') + '</p>';
+      (raisonCategorie(etat, base) || 'Aucune séance ne correspond à ces filtres.') + BOUTON_REINIT + '</p>';
   }
 
   /* La ligne « ce qui l'inclut » d'une discipline, déduite des formules.
