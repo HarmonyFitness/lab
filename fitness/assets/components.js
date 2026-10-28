@@ -3289,15 +3289,18 @@ Object.assign(window.HF.vues, (function () {
       '</div>';
   }
 
-  /* Le planning n'ajoute que son filtre jour : les 4 autres sont déjà en
-     haut de page et s'appliquent ici aussi. */
+  /* Le planning du hub suit la page club (critique du 2026-10-28) : les
+     jours de la semaine en rangée, aujourd'hui choisi, les séances du jour
+     choisi en dessous. Le tableau de la semaine entière faisait 7 200 px
+     sur mobile. Les filtres du haut de page s'appliquent aussi ici. */
   function planningType(etat, base) {
     var f = etat.filtres || {};
-    var filtres = '<div class="filtres">' +
-      selectFiltre(D.referentiels.jours.map(function (j) { return { id: j, nom: j[0].toUpperCase() + j.slice(1) }; }),
-        f.jour, 'jour', 'Tous les jours') +
-      '<span class="mention">Les filtres du haut de page s\'appliquent aussi au planning.</span>' +
-      '</div>';
+    var auj = new Date(); auj.setHours(0, 0, 0, 0);
+    var idxAuj = (auj.getDay() + 6) % 7;
+    var dates = D.referentiels.jours.map(function (j, i) {
+      var d = new Date(auj); d.setDate(auj.getDate() - idxAuj + i); return d;
+    });
+    var choisi = etat.jourPlanning == null ? idxAuj : etat.jourPlanning;
 
     var visibles = D.seances.filter(function (s) {
       var co = H.cours(s.cours); if (!co) return false;
@@ -3310,42 +3313,52 @@ Object.assign(window.HF.vues, (function () {
         var cat = H.categorie(f.categorie);
         if (!cl || !cat || cat.couvre.indexOf(cl.categorie) === -1) return false;
       }
-      if (f.jour && s.jour !== f.jour) return false;
       return R.coursFiltre(co, { objectif: f.objectif, intensite: f.intensite,
         format: f.format, recherche: f.recherche });
     });
 
-    var corps = '';
-    D.referentiels.jours.forEach(function (jour) {
-      var duJour = visibles.filter(function (s) { return s.jour === jour; })
-        .sort(function (a, b) { return a.heure.localeCompare(b.heure) || a.club.localeCompare(b.club); });
-      if (!duJour.length) return;
-      corps += '<tr class="planning__jour"><td colspan="4">' + esc(jour[0].toUpperCase() + jour.slice(1)) + '</td></tr>' +
-        duJour.map(function (s) {
-          var co = H.cours(s.cours), c = H.club(s.club);
-          return '<tr><td>' + esc(s.heure) + '</td>' +
-            '<td><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a>' +
-            (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') + '</td>' +
-            '<td><a href="' + base + 'clubs/club/?club=' + c.id + '">' + esc(c.nom) + '</a></td>' +
-            '<td>' + esc(s.duree) + ' min</td></tr>';
-        }).join('');
-    });
+    var jours = '<div class="jours" role="tablist" aria-label="Jour">' +
+      D.referentiels.jours.map(function (jour, i) {
+        var n = visibles.filter(function (s) { return s.jour === jour; }).length;
+        var estAuj = i === idxAuj;
+        return '<button type="button" role="tab" class="jours__jour' +
+          (i === choisi ? ' jours__jour--choisi' : '') + (estAuj ? ' jours__jour--auj' : '') +
+          (n ? '' : ' jours__jour--vide') + '" aria-selected="' + (i === choisi) + '"' +
+          ' data-act="jour-planning" data-id="' + i + '">' +
+          '<span class="jours__nom">' + esc(estAuj ? 'Auj.' : dates[i].toLocaleDateString('fr-CH', { weekday: 'short' }).replace('.', '')) + '</span>' +
+          '<span class="jours__date">' + dates[i].getDate() + '</span></button>';
+      }).join('') + '</div>';
+
+    var duJour = visibles.filter(function (s) { return s.jour === D.referentiels.jours[choisi]; })
+      .sort(function (a, b) { return a.heure.localeCompare(b.heure) || a.club.localeCompare(b.club); });
+    var corps = duJour.map(function (s) {
+      var co = H.cours(s.cours), c = H.club(s.club);
+      return '<tr><td>' + esc(s.heure) + '</td>' +
+        '<td><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a>' +
+        (co.estExtra ? ' <span class="extra__marque">Extra</span>' : '') + '</td>' +
+        '<td><a href="' + base + 'clubs/club/?club=' + c.id + '">' + esc(c.nom) + '</a></td>' +
+        '<td>' + esc(s.duree) + ' min</td></tr>';
+    }).join('');
 
     /* Le planning mêle des séances incluses et des séances en Extra : on le
        dit une fois, en tête, plutôt que de laisser le marqueur s'expliquer
        tout seul. La ligne ne sort pas si rien n'est en Extra. */
-    var mixte = visibles.some(function (s) {
+    var mixte = duJour.some(function (s) {
       var co = H.cours(s.cours); return co && co.estExtra;
     });
+    var titreJour = dates[choisi].toLocaleDateString('fr-CH', { weekday: 'long', day: 'numeric', month: 'long' })
+      .replace(/(^|\s)1(\s)/, '$11er$2').replace(/^./, function (x) { return x.toUpperCase(); });
 
     return '<section id="planning" data-spec="B.3 > Sport > Cours collectifs (hub)">' +
-      '<h2>Planning type</h2>' + filtres +
+      '<h2>Le planning de la semaine</h2>' +
+      '<p class="mention">Dans tous nos clubs. Les filtres du haut de page s\'appliquent aussi ici.</p>' +
+      jours + '<h3 class="seances__titre">' + esc(titreJour) + '</h3>' +
       (mixte ? '<p class="mention">Inclus dans votre abonnement, sauf mention « Extra ».</p>' : '') +
       (corps
         ? '<table class="planning"><thead><tr><th>Heure</th><th>Cours</th><th>Club</th>' +
           '<th>Durée</th></tr></thead><tbody>' + corps + '</tbody></table>'
         : videPlanning(etat, base)) +
-      '<p class="mention">Les horaires de la semaine sont sur la page de chaque club.</p></section>';
+      '</section>';
   }
 
   /* Catalogue rangé par les 6 objectifs (B.3 > Cours collectifs (hub)). */
@@ -3371,7 +3384,9 @@ Object.assign(window.HF.vues, (function () {
       (groupes.length ? groupes.map(function (g) {
         return '<h3 class="h-bloc"' + (ancre(g) ? ' id="' + ancre(g) + '"' : '') + '>' +
           esc(g.objectif.nom) + aValider(g.aValider) + '</h3>' +
-          '<div class="grille grille--cartes">' + g.cours.map(function (co) {
+          /* .catalogue : sur mobile, les cartes deviennent des lignes
+             (critique du 2026-10-28 : 51 cartes faisaient 20 800 px). */
+          '<div class="grille grille--cartes catalogue">' + g.cours.map(function (co) {
             return carteCours(co, base, { club: f.club, categorie: f.categorie, sansObjectif: true });
           }).join('') + '</div>';
       }).join('') : videCatalogue(etat, base)) +

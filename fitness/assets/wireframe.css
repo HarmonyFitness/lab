@@ -1544,3 +1544,23 @@ a.carte__repere { text-decoration: none; }
   .selecteur-age .segments { display: grid; grid-template-columns: 1fr 1fr; border-radius: var(--rayon); }
   .selecteur-age .segments button { border-radius: var(--rayon-petit); padding: 6px 8px; }
 }
+
+/* Catalogue des cours sur mobile : une ligne par cours, pas une carte.
+   Cinquante et une cartes empilées faisaient 20 800 px ; en lignes, le
+   catalogue se parcourt comme une liste. Le nom du cours redevient un lien
+   souligné, la ligne entière reste cliquable, le bouton de carte n'a plus
+   lieu d'être : le lien se voit (critique du 2026-10-28). */
+@media (max-width: 560px) {
+  .grille.catalogue { display: block; border-top: 1px solid var(--line); }
+  .catalogue > .produit { background: transparent; border: 0; border-radius: 0; box-shadow: none;
+    padding: var(--e-4) 0; border-bottom: 1px solid var(--line); gap: var(--e-2); }
+  .catalogue > .produit:hover { box-shadow: none; }
+  .catalogue > .produit h4 { margin: 0; }
+  .catalogue > .produit h4 a { color: var(--lien); text-decoration: underline; text-underline-offset: 3px; }
+  .catalogue > .produit > p:not(.tags):not(.mention) { display: none; }
+  .catalogue > .produit > * { margin-top: 0; margin-bottom: 0; }
+  .catalogue > .produit > p.mention { font-size: 13px; }
+  .catalogue .tag--secondaire { display: none; }
+  .catalogue .carte__action { display: none; }
+  .catalogue > .produit--extra { border-left: 0; }
+}
