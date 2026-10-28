@@ -532,6 +532,9 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
   background: var(--surface-tint); border-radius: var(--rayon);
   padding: var(--e-4) var(--e-5); margin-top: var(--e-2); max-width: 460px;
 }
+/* Un panneau ouvert au clic n'est pas une section : son titre est un
+   paragraphe à l'allure d'un h4, pour ne pas casser le plan de titres. */
+.panneau-cat__titre { font-weight: 600; font-size: 16px; margin: 0 0 var(--e-1); }
 
 /* ------------------------------------------------------------------ */
 /* Choix du club et carte                                               */
@@ -1645,8 +1648,8 @@ a.carte__repere { text-decoration: none; }
   .catalogue > .produit { background: transparent; border: 0; border-radius: 0; box-shadow: none;
     padding: var(--e-4) 0; border-bottom: 1px solid var(--line); gap: var(--e-2); }
   .catalogue > .produit:hover { box-shadow: none; }
-  .catalogue > .produit h4 { margin: 0; }
-  .catalogue > .produit h4 a { color: var(--lien); text-decoration: underline; text-underline-offset: 3px; }
+  .catalogue > .produit :is(h3, h4) { margin: 0; }
+  .catalogue > .produit :is(h3, h4) a { color: var(--lien); text-decoration: underline; text-underline-offset: 3px; }
   .catalogue > .produit > p:not(.tags):not(.mention) { display: none; }
   .catalogue > .produit > * { margin-top: 0; margin-bottom: 0; }
   .catalogue > .produit > p.mention { font-size: 13px; }

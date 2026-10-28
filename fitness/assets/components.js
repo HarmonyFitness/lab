@@ -198,9 +198,12 @@ window.HF = (function () {
        (B.1) : chaque site n'affiche que son flux. Ici, publié, tagué
        « fitness », du plus récent au plus ancien. Un article tagué fitness
        et corpo s'affiche sur les deux sites, saisi une fois. */
+    /* Le flux du site : la verticale se lit dans la fiche site, pour que
+       le même composant serve les cinq sites. */
     articlesFitness: function () {
+      var v = (D.site && D.site.verticale) || 'fitness';
       return (D.articles || []).filter(function (a) {
-        return a.statut === 'publie' && a.verticales.indexOf('fitness') !== -1;
+        return a.statut === 'publie' && a.verticales.indexOf(v) !== -1;
       }).sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
     },
     /* Un article se cherche parmi ceux qui s'affichent : un brouillon ou une
@@ -790,6 +793,16 @@ window.HF.vues = (function () {
     var s = document.currentScript;
     return s && s.src ? new URL('.', s.src).href : 'assets/';
   })();
+  /* La racine du site, déduite de la même adresse : un composant qui
+     renvoie vers une page sans recevoir de base (panneau coach) ne devine
+     plus la profondeur de la page qui l'appelle. */
+  H.racineSite = (function () {
+    var racine = new URL('../', new URL(dossierAssets, window.location.href)).pathname;
+    var ici = new URL('.', window.location.href).pathname;
+    if (ici.indexOf(racine) !== 0) return '';
+    /* Relative, comme tous les liens du lab : un « ../ » par dossier. */
+    return ici.slice(racine.length).split('/').filter(Boolean).map(function () { return '../'; }).join('');
+  })();
 
   /* Logo du design system (couleurs figées dans le fichier), « FITNESS »
      réduit à 68 % de sa taille d'origine (Hugo, 2026-10-22). Fond clair
@@ -808,12 +821,14 @@ window.HF.vues = (function () {
      mobile : l'aria-label garde le nom. Les sites défilent dans leur propre
      bande, pour que le lien reste visible quand la ligne déborde. */
   function barreGroupe() {
-    var liens = ['Harmony', 'Fitness', 'Sports de combat', 'École de natation', 'Famille'];
+    /* Les univers et le site courant viennent de la fiche site : la barre
+       est la même sur les cinq sites, seul l'univers souligné change. */
+    var liens = D.site.groupe;
     return '<div class="barre-groupe" data-spec="B.3 > Arborescence > Barre groupe">' +
       '<div class="barre-groupe__inner">' +
       '<nav class="barre-groupe__sites" aria-label="Sites Harmony">' +
       liens.map(function (l) {
-        return '<a href="#"' + (l === 'Fitness' ? ' aria-current="true"' : '') + '>' + esc(l) + '</a>';
+        return '<a href="#"' + (l.id === D.site.verticale ? ' aria-current="true"' : '') + '>' + esc(l.nom) + '</a>';
       }).join('') + '</nav>' +
       '<a class="barre-groupe__compte" href="#" rel="noopener" aria-label="Espace membre">' +
       '<svg class="barre-groupe__icone" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
@@ -935,7 +950,7 @@ window.HF.vues = (function () {
 
     return '<header class="entete" data-spec="B.3 > Arborescence > Header">' +
       '<div class="entete__inner">' +
-      '<a class="entete__logo" href="' + base + '">' + logo('harmony-fitness-logo.svg', 'Harmony Fitness, accueil', 'entete__img') + '</a>' +
+      '<a class="entete__logo" href="' + base + '">' + logo(D.site.logo, D.site.nom + ', accueil', 'entete__img') + '</a>' +
       '<nav class="entete__nav" aria-label="Menu principal">' + nav + '</nav>' +
       '<div class="entete__actions">' +
       '<a class="entete__essai" href="' + base + 'seance-essai/">Séance d\'essai</a>' +
@@ -1015,7 +1030,7 @@ window.HF.vues = (function () {
           }).join('') +
           '</ul></div>';
       }).join('') + '</div>' +
-      '<div class="pied__bas">Mentions légales · Confidentialité · Harmony Fitness</div>' +
+      '<div class="pied__bas">Mentions légales · Confidentialité · ' + esc(D.site.nom) + '</div>' +
       '</div></footer>';
   }
 
@@ -1026,11 +1041,11 @@ window.HF.vues = (function () {
     return '<footer class="pied pied--landing" data-spec="B.3 > Tarifs et offres > Offre du moment (variante à valider)">' +
       '<div class="pied__inner"><div class="pied__bas">' +
       '<a href="' + (base || '') + 'nous-contacter/">Nous contacter</a> · ' +
-      'Mentions légales · Confidentialité · Harmony Fitness</div></div></footer>';
+      'Mentions légales · Confidentialité · ' + esc(D.site.nom) + '</div></div></footer>';
   }
 
   function filAriane(items) {
-    return '<nav class="fil">' + items.map(function (it, i) {
+    return '<nav class="fil" aria-label="Fil d\'Ariane">' + items.map(function (it, i) {
       return (i ? ' &rsaquo; ' : '') + (it.href ? '<a href="' + it.href + '">' + esc(it.nom) + '</a>' : esc(it.nom));
     }).join('') + '</nav>';
   }
@@ -1045,7 +1060,7 @@ window.HF.vues = (function () {
     var o = opts || {};
     return '<header class="entete entete--landing" data-spec="B.3 > Tarifs et offres > Offre du moment (variante à valider)">' +
       '<div class="entete__inner">' +
-      '<a class="entete__logo" href="' + (base || '') + '">' + logo('harmony-fitness-logo.svg', 'Harmony Fitness, accueil', 'entete__img') + '</a>' +
+      '<a class="entete__logo" href="' + (base || '') + '">' + logo(D.site.logo, D.site.nom + ', accueil', 'entete__img') + '</a>' +
       '<div class="entete__actions">' +
       (o.cta
         ? '<a class="btn" href="' + o.cta.href + '">' + esc(o.cta.libelle) + '</a>'
@@ -1109,7 +1124,7 @@ window.HF.vues = (function () {
   function panneauCategorie(idCat) {
     var cat = H.categorie(idCat); if (!cat) return '';
     return '<div class="panneau-cat">' +
-      '<h4>Club ' + esc(cat.nom) + '</h4>' +
+      '<p class="panneau-cat__titre">Club ' + esc(cat.nom) + '</p>' +
       '<p>' + esc(cat.promesse) + aValider(cat.promesseAValider) + '</p>' +
       '<p class="ligne-acces">' + esc(cat.ligneAcces) + '</p>' +
       '<a class="lien-texte" href="#categories">Voir les catégories de clubs</a></div>';
@@ -2009,12 +2024,12 @@ Object.assign(window.HF.vues, (function () {
 
   function panneauCoach(id) {
     var k = H.coach(id); if (!k) return '';
-    return '<div class="panneau-cat"><h4>' + esc(k.prenom) + '</h4>' +
+    return '<div class="panneau-cat"><p class="panneau-cat__titre">' + esc(k.prenom) + '</p>' +
       '<p class="mention">Intervient à : ' + k.lieux.map(function (l) {
         var c = H.club(l); return esc(c ? c.nom : l);
       }).join(', ') + '</p>' +
       (k.coachingPersonnel
-        ? '<a class="lien-texte" href="../../sport/coaching-personnel/">Coaching personnel</a>' : '') +
+        ? '<a class="lien-texte" href="' + H.racineSite + 'sport/coaching-personnel/">Coaching personnel</a>' : '') +
       '</div>';
   }
 
@@ -2393,7 +2408,7 @@ Object.assign(window.HF.vues, (function () {
     return '<section data-spec="B.3 > Accueil > cours en avant">' +
       '<h2>Des cours à votre rythme</h2>' +
       '<div class="grille grille--cartes defile-mobile">' + liste.map(function (co) {
-        return V.carteCours(co, b, { photo: true });
+        return V.carteCours(co, b, { photo: true, titre: 'h3' });
       }).join('') + '</div>' +
       '<p style="margin-top:14px"><a class="lien-texte" href="' + b +
       'sport/cours-collectifs/">Tous les cours</a></p></section>';
@@ -3665,6 +3680,7 @@ Object.assign(window.HF.vues, (function () {
      la lecture du caractère Extra au périmètre filtré. */
   function carteCours(co, base, opts) {
     var o = opts || {};
+    var titre = o.titre || 'h4';
     /* Sur la carte du cours qui EST la page de famille, la mention
        renverrait sur la carte elle-même : on l'enlève. */
     var fam = co.famille ? H.famille(co.famille) : null;
@@ -3680,8 +3696,11 @@ Object.assign(window.HF.vues, (function () {
     return '<div class="produit produit--lien' +
       (forme === 'toujours' ? ' produit--extra' : '') + '">' +
       (o.photo ? '<div class="produit__photo">' + V.blocImage('Photo cours ' + co.nom, 'large') + '</div>' : '') +
-      '<h4><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a>' +
-      (forme === 'toujours' ? ' <span class="extra__marque">Extra</span>' : '') + '</h4>' +
+      /* Le rang du titre suit le contexte : h4 sous l'objectif du catalogue
+         (h3), h3 dans un bloc qui n'a qu'un h2 au-dessus. Jamais un h4 sous
+         un h2 (critique du 2026-10-28). */
+      '<' + titre + ' class="titre-carte"><a href="' + H.lienCours(co, base) + '">' + esc(co.nom) + '</a>' +
+      (forme === 'toujours' ? ' <span class="extra__marque">Extra</span>' : '') + '</' + titre + '>' +
       attributsCours(co, { sansObjectif: !!o.sansObjectif }) +
       (forme
         ? '<p class="mention">' + (forme === 'toujours'
@@ -3708,7 +3727,7 @@ Object.assign(window.HF.vues, (function () {
     return '<section data-spec="B.3 > Sport > Fiches cours">' +
       '<h2>Dans le même objectif</h2>' +
       '<div class="grille grille--cartes catalogue">' + liste.map(function (x) {
-        return carteCours(x, base, { sansObjectif: true });
+        return carteCours(x, base, { sansObjectif: true, titre: 'h3' });
       }).join('') + '</div>' +
       '<p style="margin-top:14px"><a class="lien-texte" href="' + (base || '') +
       'sport/cours-collectifs/#objectif-' + obj.id + '">Tous les cours « ' + esc(obj.nom) + ' »</a></p>' +

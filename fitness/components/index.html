@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Composants partagés · Lab Harmony Fitness</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-28zs">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-28zu">
 </head>
 <body>
 
@@ -37,7 +37,9 @@
     <h2 id="structure" class="h-bloc">1. Structure</h2>
 
     <h3>1.1 Barre groupe et header</h3>
-    <p class="mention">B.3 &gt; Arborescence. Quatre entrées et un bouton Séance d'essai.</p>
+    <p class="mention">B.3 &gt; Arborescence. Barre groupe (cinq sites, espace membre à droite),
+      header à menu centré et déroulants, « Séance d'essai » en lien et « S'abonner » seul bouton,
+      burger en accordéon sous 1040 px.</p>
     <div x-html="HF.vues.barreGroupe()"></div>
     <div x-html="HF.vues.entete('Tarifs', '../', etat)"></div>
 
@@ -49,7 +51,7 @@
     <div x-html="HF.vues.filAriane([{nom:'Accueil',href:'#'},{nom:'Sport',href:'#'},{nom:'Cours collectifs',href:'#'},{nom:'Yoga'}])"></div>
 
     <h3 class="h-bloc">1.4 Bloc image</h3>
-    <p class="mention">CLAUDE.md : bloc gris avec une légende, jamais une vraie photo.</p>
+    <p class="mention">Emplacement photo en dégradé ardoise, légende en blanc, jamais une vraie photo.</p>
     <div class="grille grille--3">
       <div x-html="HF.vues.blocImage('Photo plateau musculation', 'large')"></div>
       <div x-html="HF.vues.blocImage('Photo cours collectif', 'large')"></div>
@@ -225,8 +227,9 @@
 
     <h3>4.1 Planning filtrable</h3>
     <p class="mention">
-      Filtres jour, objectif, intensité, format. Seuls les formats présents dans
-      le club s'affichent. Les Small Group Training portent le marqueur « Extra ».
+      Semaine lue dans Echino : les sept jours à l'horizontale, aujourd'hui
+      choisi, les cours du jour dessous. Filtres objectif, intensité, format.
+      Les Small Group Training portent le marqueur « Extra ».
     </p>
     <div x-html="HF.vues.planning(etat.club || 'meyrin', etat)"></div>
 
@@ -240,8 +243,12 @@
     <h3 class="h-bloc">4.3 FAQ contextuelle</h3>
     <div x-html="HF.vues.faq(faqExemple, etat)"></div>
 
-    <h3 class="h-bloc">4.4 Témoignages</h3>
-    <div x-html="HF.vues.temoignages(3)"></div>
+    <h3 class="h-bloc">4.4 Témoignages et note</h3>
+    <p class="mention">Variante de l'accueil : la note en phrase d'intro, puis une grande
+      citation à côté d'une photo d'ambiance sans visage. Variante simple : trois citations.</p>
+    <div x-html="HF.vues.noteAvis({ phrase: true })"></div>
+    <div x-html="HF.vues.temoignages(3, { portrait: true })"></div>
+    <div style="margin-top:24px" x-html="HF.vues.temoignages(3)"></div>
 
     <h3 class="h-bloc">4.5 Compteur d'offre</h3>
     <p class="mention">Lié à la date de fin de l'offre, gérée dans le CMS.</p>
@@ -271,6 +278,13 @@
     <div class="apercu__etiquette" style="margin-top:20px">Les Mills</div>
     <div x-html="HF.vues.blocVariantes('les-mills', '../')"></div>
 
+    <h3 class="h-bloc">4.9 Liens vers les pages de famille</h3>
+    <p class="wf-note">Il n'y a plus de bloc : une liste de quatre disciplines
+      se lisait comme l'inventaire de l'offre (Q40, puis Q46). Les pages de
+      famille se trouvent depuis les cours qui en font partie, par la mention
+      « Famille » de chaque carte du catalogue, qui est un lien, et par le fil
+      d'Ariane des fiches.</p>
+
     <h3 class="h-bloc">4.10 Teaser actualités</h3>
     <p class="mention">
       Annexe A &gt; Bloc actualités (teaser). Les trois derniers articles
@@ -287,19 +301,24 @@
       des équipements), cours en avant (drapeau <code>enAvant</code>, sinon
       les plus programmés), et « Pourquoi Harmony », partagé avec la landing.
     </p>
-    <div x-html="HF.vues.teaserTarifs(etat, '../')"></div>
+    <div x-html="HF.vues.sportEnAvant('../')"></div>
+    <div x-html="HF.vues.teaserTarifs(etat, '../')" style="margin-top:20px"></div>
     <div x-html="HF.vues.teaserOffre(etat, '../')" style="margin-top:20px"></div>
     <div x-html="HF.vues.apercuClubs(etat, '../')" style="margin-top:20px"></div>
+    <div x-html="HF.vues.objectifsCours('../')" style="margin-top:20px"></div>
     <div x-html="HF.vues.teaserBienEtre('../')" style="margin-top:20px"></div>
-    <div x-html="HF.vues.coursEnAvant(4, '../')" style="margin-top:20px"></div>
-    <div x-html="HF.vues.pourquoiHarmony()" style="margin-top:20px"></div>
+    <p class="mention" style="margin-top:20px">« Pourquoi Harmony » : sur la landing de campagne seulement depuis le 2026-10-28.</p>
+    <div x-html="HF.vues.pourquoiHarmony()"></div>
 
-    <h3 class="h-bloc">4.9 Liens vers les pages de famille</h3>
-    <p class="wf-note">Il n'y a plus de bloc : une liste de quatre disciplines
-      se lisait comme l'inventaire de l'offre (Q40, puis Q46). Les pages de
-      famille se trouvent depuis les cours qui en font partie, par la mention
-      « Famille » de chaque carte du catalogue, qui est un lien, et par le fil
-      d'Ariane des fiches.</p>
+    <h3 class="h-bloc">4.12 Stories d'une page club</h3>
+    <p class="mention">Photos et vidéos verticales qui défilent, barre de progression et nom du club en haut (Q74).</p>
+    <div x-html="HF.vues.storiesClub(HF.club(etat.club || 'meyrin'))"></div>
+
+    <h3 class="h-bloc">4.13 Gabarit de landing</h3>
+    <p class="mention">Header réduit (logo et une action), hero photo pleine largeur avec panneau, pied réduit (Q50).</p>
+    <div x-html="HF.vues.enteteLanding('../', { cta: { href: '#', libelle: 'Profiter de l\'offre' } })"></div>
+    <div x-html="HF.vues.heroLanding({ titre: '[Nom de la campagne]', texte: 'Lorem ipsum dolor sit amet.', cta: { href: '#', libelle: 'Profiter de l\'offre' } })"></div>
+    <div x-html="HF.vues.piedLanding('../')"></div>
 
     <!-- ============================================================ -->
     <h2 id="outillage" class="h-bloc">5. Outillage du wireframe</h2>
@@ -318,8 +337,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-10-28zs"></script>
-<script src="../assets/components.js?v=2026-10-28zs"></script>
+<script src="../data/data.js?v=2026-10-28zu"></script>
+<script src="../assets/components.js?v=2026-10-28zu"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('galerie', function () {
@@ -361,7 +380,7 @@ document.addEventListener('alpine:init', function () {
 });
 </script>
 <!-- Alpine 3.14.1, copie locale : les wireframes s'ouvrent sans serveur et sans réseau. -->
-<script defer src="../assets/alpine.min.js?v=2026-10-28zs"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-28zu"></script>
 
 </body>
 </html>

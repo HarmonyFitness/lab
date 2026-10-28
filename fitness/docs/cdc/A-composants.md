@@ -24,7 +24,7 @@ L'ensemble des 5 sites de l'écosystème Harmony repose sur une bibliothèque un
 
 **Déclinaisons contrôlées.**
 
-Chaque composant peut avoir des variantes visuelles ou fonctionnelles selon la verticale (couleurs de l'identité, contenus, options activables). Ces variations sont gouvernées par le design system produit par le UI / UX designer (voir A.4).
+Chaque composant peut avoir des variantes visuelles ou fonctionnelles selon la verticale (couleurs de l'identité, contenus, options activables). Ces variations sont gouvernées par le design system produit par le UI / UX designer (voir A.4). Côté contenu, les composants communs aux cinq sites (barre groupe, header, footer, gabarit de landing, actualités) lisent ce qui change d'un site à l'autre dans une fiche « site » : verticale (qui filtre les articles), nom, logo, univers de la barre groupe et univers courant. Dans les prototypes, cette fiche est la seule chose à changer pour un autre site (revue du 28 octobre 2026). Le menu et les colonnes du footer restent propres à chaque site : ce sont ses rubriques.
 
 **Composants partagés vs composants spécifiques.**
 

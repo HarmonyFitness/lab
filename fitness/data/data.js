@@ -19,6 +19,27 @@
 window.DATA = {
 
   /* ------------------------------------------------------------------ */
+  /* Le site : ce qui change d'une verticale à l'autre dans les          */
+  /* composants communs aux cinq sites (Annexe A > A.2 : barre groupe,   */
+  /* header, footer, landing, actualités). Un autre site du groupe       */
+  /* garde les composants et change cette fiche (revue du 2026-10-28).   */
+  /* ------------------------------------------------------------------ */
+  site: {
+    verticale: 'fitness',            /* tag verticale des articles (B.1) */
+    nom: 'Harmony Fitness',
+    logo: 'harmony-fitness-logo.svg',
+    /* Les cinq univers de la barre groupe, dans l'ordre de B.3. Libellés
+       de B.3 : « Sports de combat », jamais « Arts martiaux » (Q66). */
+    groupe: [
+      { id: 'harmony', nom: 'Harmony' },
+      { id: 'fitness', nom: 'Fitness' },
+      { id: 'maa', nom: 'Sports de combat' },
+      { id: 'aqua', nom: 'École de natation' },
+      { id: 'famille', nom: 'Famille' }
+    ]
+  },
+
+  /* ------------------------------------------------------------------ */
   /* Référentiels : listes fermées, partagées par toutes les collections */
   /* ------------------------------------------------------------------ */
   referentiels: {
