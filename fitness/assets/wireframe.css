@@ -882,6 +882,10 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
    propre respect de « réduire les animations ». La valeur couvre la plus
    haute des barres collantes du lab. */
 [id] { scroll-margin-top: 80px; }
+/* Défilement doux vers une ancre (onglets de la page club, catalogue par
+   objectif, Extras de Tarifs) plutôt qu'un saut sec (Hugo, 2026-10-28).
+   Coupé par « réduire les animations ». */
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 
 .barre-collante {
   position: sticky; top: 0; z-index: 40; background: var(--surface);

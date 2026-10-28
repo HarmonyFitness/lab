@@ -322,7 +322,7 @@ Footer
 - **La newsletter vit dans le footer, sur toutes les pages** (Hugo, 2026-10-22, Q63). L'annexe A la met là, B.3 la cite parmi les blocs de l'accueil : c'est le même formulaire, pas un bloc en plus. Un champ e-mail et « S'inscrire » : ici le mot est juste, on s'inscrit à une newsletter, on s'abonne à un club. Le formulaire ne part nulle part dans le lab.
 - `pied(base)` prend le même chemin relatif que `entete(...)` sur la même page. Une page qui oublie la base envoie tout le footer sur des adresses fausses, en silence.
 - Les liens de canton visent une ancre du hub, `clubs/#canton-geneve`. L'ancre est **déduite** du nom du canton (`HF.ancreCanton`), le hub la porte avec la même règle : les deux ne peuvent pas diverger.
-- `[id] { scroll-margin-top: 76px }` : un titre visé par une ancre passerait sous la barre collante. Le CSS le décale, sans JavaScript et sans casser le réglage système de réduction des animations.
+- `[id] { scroll-margin-top: 76px }` : un titre visé par une ancre passerait sous la barre collante. **Défilement doux vers les ancres** (Hugo, 2026-10-28) : `scroll-behavior: smooth` sur `html`, seulement sans « réduire les animations ». Le CSS le décale, sans JavaScript et sans casser le réglage système de réduction des animations.
 
 Composants partagés
 - Choix du club + carte : un seul composant pour /clubs, /tarifs, /offre-du-moment, /seance-essai.
