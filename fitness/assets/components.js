@@ -2280,9 +2280,14 @@ Object.assign(window.HF.vues, (function () {
       }).filter(function (g) { return g.cours.length; });
     if (!groupes.length) return '';
     return '<section data-spec="B.3 > Accueil > cours en avant (par objectif)">' +
-      '<h2>En groupe, choisissez votre objectif</h2>' +
-      '<p class="bloc__intro">Se renforcer, se dépenser, se détendre : chaque cours a son but. ' +
-      'Partez de ce que vous cherchez.</p>' +
+      /* « En groupe, choisissez votre objectif » prolongeait la carte « En
+         groupe » quand les deux blocs se suivaient. Séparés depuis le
+         2026-10-28, le titre pose sa propre question, le « pour quoi
+         faire » après le « comment » (Hugo). Le nombre est calculé, comme
+         la preuve du hero. */
+      '<h2>Quel est votre objectif ?</h2>' +
+      '<p class="bloc__intro">' + R.nbCoursCollectifs() + ' cours collectifs, en salle et dans l\'eau, ' +
+      'rangés par ce que vous venez chercher.</p>' +
       '<div class="grille grille--3 defile-mobile">' + groupes.map(function (g) {
         var noms = g.cours.slice(0, 3).map(function (c) { return c.nom; });
         return '<div class="produit produit--lien">' +
