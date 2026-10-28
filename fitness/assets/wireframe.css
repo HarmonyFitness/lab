@@ -94,7 +94,9 @@
   --cat-gym-fond: #e4e8eb;
   --cat-essential: #155e7e;
   --cat-essential-fond: #dceaf3;
-  --cat-premium: #204d6e;
+  /* Premium en Pantone 3025 C (#004f71, Hugo, 2026-10-28) : avec le bleu
+     des boutons, le label se lisait comme un bouton. */
+  --cat-premium: #004f71;
 
   /* Outillage du wireframe : vert, pointillés et police à chasse fixe. Plus
      de violet, qui est devenu la couleur des offres : on ne doit jamais
