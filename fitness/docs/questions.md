@@ -1761,6 +1761,15 @@ qu'Harmony propose ; le manifeste dit désormais une conviction : « Le sport
 doit vous faire du bien, pas vous mettre la pression. Chez Harmony, chacun
 avance à son rythme, et on est là pour que vous teniez dans la durée. »
 
+Relecture des répétitions de l'accueil, 2026-10-28 (Hugo) : l'intro des
+clubs ne redit plus « 10 clubs entre Genève et Vaud » (déjà dans la preuve
+du hero) ; celle des formules ne dit plus « choisissez » ni « prix de
+départ » (dits juste avant et juste après) ; celle des objectifs ne redit
+plus « 46 » ni « dans l'eau » ; la carte En autonomie dit « vos horaires »
+au lieu de « votre rythme » (le manifeste le dit) ; la carte Dans l'eau ne
+dit plus « Bouger » (l'objectif « Bouger mieux » le dit) ; le bien-être ne
+parle plus de la piscine, qui a sa carte. Textes rédigés, à valider.
+
 ### Q63 · Où vit la newsletter
 **Statut :** tranchée par Hugo le 2026-10-22
 **Source :** B.3 > Accueil (« newsletter » parmi les composants) contre

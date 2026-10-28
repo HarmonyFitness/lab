@@ -2163,8 +2163,9 @@ Object.assign(window.HF.vues, (function () {
     var b = base || '';
     return '<section id="clubs" data-spec="B.3 > Accueil > aperçu carte clubs">' +
       '<h2>Un club près de chez vous</h2>' +
-      '<p class="bloc__intro">' + R.nbClubs() + ' clubs entre Genève et Vaud. Choisissez celui ' +
-      'qui vous arrange, près de chez vous ou du travail.</p>' +
+      /* Relecture du 2026-10-28 : « 10 clubs entre Genève et Vaud » redisait
+         la preuve du hero, mot pour mot ou presque. */
+      '<p class="bloc__intro">Prenez celui qui vous arrange, près de chez vous ou du travail.</p>' +
       '<div class="apercu-clubs">' +
       '<div class="apercu-clubs__liste">' + R.clubsParCanton().map(function (g) {
         return '<div><h3 class="choix-club__canton">' + esc(H.libelleCanton(g.canton)) + '</h3>' +
@@ -2220,8 +2221,10 @@ Object.assign(window.HF.vues, (function () {
       .sort(function (x, y) { return x.ordre - y.ordre; });
     return '<section data-spec="B.3 > Accueil > teaser tarifs">' +
       '<h2>Une formule pour chaque envie</h2>' +
-      '<p class="bloc__intro">Du plateau seul à l\'accès complet, choisissez ce qui vous ressemble. ' +
-      'Sans club choisi, voici les prix de départ.</p>' +
+      /* Relecture du 2026-10-28 : « choisissez » suivait « Choisissez » du
+         bloc clubs, et le prix de départ se disait déjà dans « dès » et dans
+         la mention sous la liste. */
+      '<p class="bloc__intro">Du plateau seul à l\'accès complet, à vous de voir jusqu\'où aller.</p>' +
       '<div class="formules">' + formules.map(function (p) {
         var pr = R.prixMini(p, 'adulte', etat);
         /* La ligne n'est plus un lien (Hugo, 2026-10-23) : cliquable sans
@@ -2287,8 +2290,9 @@ Object.assign(window.HF.vues, (function () {
          titres de l'accueil n'en posent pas (Hugo, même jour). Le nombre
          est calculé, comme la preuve du hero. */
       '<h2>Des cours selon votre objectif</h2>' +
-      '<p class="bloc__intro">' + R.nbCoursCollectifs() + ' cours collectifs, en salle et dans l\'eau, ' +
-      'rangés par ce que vous venez chercher.</p>' +
+      /* Relecture du 2026-10-28 : le nombre est dans la preuve du hero et
+         l'eau a sa carte plus haut ; l'intro dit seulement le rangement. */
+      '<p class="bloc__intro">Tous nos cours collectifs, rangés par ce que vous venez chercher.</p>' +
       '<div class="grille grille--3 defile-mobile">' + groupes.map(function (g) {
         var noms = g.cours.slice(0, 3).map(function (c) { return c.nom; });
         return '<div class="produit produit--lien">' +
@@ -2354,8 +2358,8 @@ Object.assign(window.HF.vues, (function () {
       '<p class="bloc__intro modes-bloc__intro">En autonomie, avec un coach, en groupe ou dans l\'eau : ' +
       'passez de l\'un à l\'autre selon vos envies.</p>' +
       '<div class="grille grille--cartes defile-mobile defile-mobile--egal modes">' +
-      carte('Photo : une membre en autonomie sur le plateau, à son rythme', 'En autonomie', plateau,
-        '<p><strong>Plateau fitness</strong></p><p>Vos machines, vos charges, votre rythme.</p><p class="mention">' + plateau.inclus + '</p>', 'Découvrir le plateau') +
+      carte('Photo : une membre en autonomie sur le plateau', 'En autonomie', plateau,
+        '<p><strong>Plateau fitness</strong></p><p>Vos machines, vos charges, vos horaires.</p><p class="mention">' + plateau.inclus + '</p>', 'Découvrir le plateau') +
       carte('Photo : un coach et un membre pendant une séance', 'Accompagné', coaching,
         '<p><strong>Coaching personnel</strong></p><p>Un programme construit avec vous, et quelqu\'un pour le suivre.</p><p class="mention">' + coaching.inclus + '</p>', 'Découvrir le coaching') +
       /* En groupe : deux produits, un inclus et un payant. La carte mène
@@ -2368,7 +2372,7 @@ Object.assign(window.HF.vues, (function () {
         'Découvrir les cours') +
       carte('Photo : une membre en cours d\'aquagym, souriante', 'Dans l\'eau',
         { href: H.lienFamille(aqua, b) },
-        '<p><strong>Piscine et cours aquatiques</strong></p><p>Bouger autrement, en douceur pour le corps.</p>' +
+        '<p><strong>Piscine et cours aquatiques</strong></p><p>Un entraînement complet, en douceur pour les articulations.</p>' +
         '<p class="mention">' + V.ligneInclusion('aqua') + ' · dans ' + bassins + ' de nos ' + R.nbClubs() + ' clubs</p>',
         'Découvrir les cours aquatiques') +
       '</div></section>';
@@ -2384,7 +2388,7 @@ Object.assign(window.HF.vues, (function () {
       V.blocImage('Photo : deux membres au hammam après la séance, détendues, lumière douce', 'carre') +
       '<div class="bloc--couche__texte"><h2 class="titre-section">Du temps pour vous</h2>' +
       '<p>Récupérer compte autant que s\'entraîner. Après l\'effort, offrez-vous ' +
-      'une pause au sauna, au hammam ou quelques longueurs dans la piscine.</p>' +
+      'une pause au sauna ou au hammam.</p>' +
       V.tagsListe(espaces.map(function (e) { return e.nom; }), espaces.length) +
       '<p class="mention">Dans ' + clubs.length + ' de nos ' + R.nbClubs() + ' clubs</p>' +
       '<p class="bloc__action"><a class="btn btn--secondaire" href="' + b +
