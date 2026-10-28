@@ -158,6 +158,10 @@ h1 { font-size: 44px; line-height: 52px; font-weight: 600; letter-spacing: -.02e
 h2 { font-size: 36px; line-height: 44px; font-weight: 400; letter-spacing: -.02em; margin-bottom: .5em; }
 h3 { font-size: 20px; line-height: 28px; }
 h4 { font-size: 17px; line-height: 24px; }
+/* Un titre qui garde son rang dans le plan de la page mais la taille d'un
+   rang plus bas : jamais de niveau sauté pour une question de taille. */
+.titre-h3 { font-size: 20px; line-height: 28px; font-weight: 600; letter-spacing: 0; margin-bottom: .5em; }
+h3.titre-carte { font-size: 17px; line-height: 24px; }
 /* Le titre du hero de l'accueil, un seul par site. */
 .h-display { font-size: 60px; line-height: 64px; letter-spacing: -.025em; }
 p  { margin: 0 0 1em; }
@@ -182,6 +186,9 @@ section > h1 + p, .hero-club > div > h1 + p { font-size: 18px; line-height: 28px
    de style qui espace. Une page ne peut plus avoir 28 px ici et 44 px là
    pour la même chose. Le fil d'Ariane reste collé au hero qui le suit. */
 main > * + * { margin-top: var(--espace-section); }
+/* Sections regroupées sous un seul élément (x-if d'Alpine, qui veut une
+   racine unique) : elles gardent le rythme de la page. */
+.pile-sections > * + * { margin-top: var(--espace-section); }
 main > div:has(> .fil) + * { margin-top: var(--e-2); }
 main > .hote-collant + * { margin-top: 0; }
 /* Un sous-bloc dans une section : titre de second rang, posé à distance de
@@ -464,7 +471,8 @@ body:has(.wf-barre) .hero-accueil { height: calc(100svh - var(--haut-entetes) - 
 .pied { background: var(--surface-brand); color: rgba(255, 255, 255, .86); margin-top: var(--e-8); }
 .pied__inner { max-width: var(--large); margin: 0 auto; padding: var(--e-8) var(--gouttiere) var(--e-6); }
 .pied__cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--e-6); }
-.pied h4 { margin-bottom: .8em; color: #fff; }
+/* Titres du pied en h2 (le plan de la page ne saute pas de niveau), à la taille d'un h4. */
+.pied h2 { font-size: 17px; line-height: 24px; font-weight: 600; letter-spacing: 0; margin-bottom: .8em; color: #fff; }
 .pied li + li { margin-top: var(--e-2); }
 .pied a { color: rgba(255, 255, 255, .86); text-decoration: none; }
 .pied a:hover { color: #fff; text-decoration: underline; }
@@ -1171,7 +1179,7 @@ a.carte__repere { text-decoration: none; }
 /* Newsletter, dans le footer de toutes les pages (Annexe A). */
 .pied__news { display: grid; grid-template-columns: 1fr 1fr; gap: var(--e-6); align-items: center;
   padding-bottom: var(--e-6); margin-bottom: var(--e-6); border-bottom: 1px solid rgba(255, 255, 255, .2); }
-.pied__news h4 { margin-bottom: .3em; font-size: 24px; line-height: 32px; font-weight: 400; }
+.pied__news h2 { margin-bottom: .3em; font-size: 24px; line-height: 32px; font-weight: 400; }
 .pied__news p { margin: 0; color: rgba(255, 255, 255, .72); }
 .pied__news-champs { display: flex; gap: var(--e-2); }
 .pied__news-champs .champ { flex: 1; min-width: 0; width: auto; }
@@ -1422,7 +1430,7 @@ a.carte__repere { text-decoration: none; }
 .bloc__intro { margin: calc(-1 * var(--e-2)) 0 var(--e-5); max-width: 62ch; color: var(--ink-muted); }
 /* Seul, accompagné, en groupe : la façon de s'entraîner se lit d'abord, le
    produit ensuite. */
-.modes h4 { font-size: 24px; line-height: 30px; font-weight: 600; margin-bottom: var(--e-1); }
+.modes h3.titre-carte, .modes h4 { font-size: 24px; line-height: 30px; font-weight: 600; margin-bottom: var(--e-1); }
 /* Bien-être de l'accueil : photo moins haute, centrée sur le texte. */
 [data-spec="B.3 > Accueil > bloc bien-être"] .bloc--couche { align-items: center; }
 [data-spec="B.3 > Accueil > bloc bien-être"] .bloc--couche .img { aspect-ratio: 4 / 3; }

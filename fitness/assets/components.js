@@ -920,14 +920,14 @@ window.HF.vues = (function () {
          (Hugo, 2026-10-22, Q63). Le formulaire ne part nulle part dans le
          lab. */
       '<form class="pied__news" data-spec="Annexe A > Formulaire d\'inscription newsletter" onsubmit="return false">' +
-      '<div><h4>Newsletter</h4><p>Nouveaux cours, événements et offres, par e-mail.</p></div>' +
+      '<div><h2>Newsletter</h2><p>Nouveaux cours, événements et offres, par e-mail.</p></div>' +
       '<div class="pied__news-champs">' +
       '<label class="visuellement-cache" for="news-email">Votre adresse e-mail</label>' +
       '<input class="champ" id="news-email" type="email" placeholder="Votre adresse e-mail" autocomplete="email">' +
       '<button type="submit" class="btn">S\'inscrire</button></div>' +
       '</form>' +
       '<div class="pied__cols">' + cols.map(function (c) {
-        return '<div><h4>' + esc(c.titre) + '</h4><ul style="list-style:none;padding:0">' +
+        return '<div><h2>' + esc(c.titre) + '</h2><ul style="list-style:none;padding:0">' +
           c.liens.map(function (l) {
             return l.href
               ? '<li><a href="' + l.href + '">' + esc(l.nom) + '</a></li>'
@@ -2267,8 +2267,8 @@ Object.assign(window.HF.vues, (function () {
         var noms = g.cours.slice(0, 3).map(function (c) { return c.nom; });
         return '<div class="produit produit--lien">' +
           '<div class="produit__photo">' + V.blocImage('Photo : ' + g.objectif.nom.toLowerCase(), 'large') + '</div>' +
-          '<h4><a href="' + b + 'sport/cours-collectifs/#objectif-' + g.objectif.id + '">' +
-          esc(g.objectif.nom) + '</a></h4>' +
+          '<h3 class="titre-carte"><a href="' + b + 'sport/cours-collectifs/#objectif-' + g.objectif.id + '">' +
+          esc(g.objectif.nom) + '</a></h3>' +
           '<p class="mention"><strong>' + g.cours.length + ' cours</strong> · ' + esc(noms.join(', ')) +
           (g.cours.length > 3 ? '…' : '') + '</p>' + V.actionCarte('Voir les cours') + '</div>';
       }).join('') + '</div>' +
@@ -2311,7 +2311,7 @@ Object.assign(window.HF.vues, (function () {
     var carte = function (photo, mode, lien, corps, action) {
       return '<div class="produit produit--lien">' +
         '<div class="produit__photo">' + V.blocImage(photo, 'large') + '</div>' +
-        '<h4><a href="' + lien.href + '">' + esc(mode) + '</a></h4>' + corps +
+        '<h3 class="titre-carte"><a href="' + lien.href + '">' + esc(mode) + '</a></h3>' + corps +
         V.actionCarte(action) + '</div>';
     };
     return '<section data-spec="B.3 > Accueil > le sport (seul, accompagné, en groupe)">' +
