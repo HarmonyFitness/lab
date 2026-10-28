@@ -1981,8 +1981,16 @@ Object.assign(window.HF.vues, (function () {
     var a = D.avis || {};
     return a.source ? 'avis ' + a.source : '[source des avis]';
   }
-  function noteAvis() {
+  /* opts.phrase (accueil) : la note dite en une phrase d'intro sous le
+     titre, sans bandeau (Hugo, 2026-10-28) : l'aplat gris coupait la
+     section en deux et se lisait comme une alerte. */
+  function noteAvis(opts) {
     var a = D.avis || {};
+    if ((opts || {}).phrase) {
+      return '<p class="bloc__intro" data-spec="Annexe A > A.2 > Preuve sociale">Nos ' + R.nbClubs() +
+        ' clubs sont notés <strong class="note__forte">' + esc(noteValeur()) + '</strong> en moyenne sur ' +
+        esc(a.source || '[source des avis]') + (a.nombre ? ', ' + a.nombre + ' avis' : '') + '.</p>';
+    }
     return '<div class="note" data-spec="Annexe A > A.2 > Preuve sociale">' +
       '<div class="note__valeur">' + esc(noteValeur()) + '</div>' +
       '<div class="note__detail">Moyenne de nos ' + R.nbClubs() + ' clubs sur ' + esc(a.source || '[source des avis]') +

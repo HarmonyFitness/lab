@@ -1289,6 +1289,7 @@ a.carte__repere { text-decoration: none; }
   padding: var(--e-4) var(--e-5); }
 .note__valeur { font-size: 36px; font-weight: 400; letter-spacing: -.02em; line-height: 1; }
 .note__detail { font-size: 14px; color: var(--gris-60); }
+.note__forte { color: var(--ink); font-weight: 600; }
 
 /* Header de landing : logo et une seule action. Rien qui emmène ailleurs.
    Voir questions.md > Q50. */
@@ -1371,6 +1372,8 @@ a.carte__repere { text-decoration: none; }
   .manifeste__points h3 { font-size: 17px; line-height: 24px; }
   .manifeste__points p { font-size: 15px; }
   .temoignage-portrait { grid-template-columns: 1fr; gap: var(--e-5); }
+  /* Photo d'ambiance, plus un portrait : en largeur sur mobile (Hugo, 2026-10-28). */
+  .temoignage-portrait .img { aspect-ratio: 4 / 3; }
   .temoignage-portrait__citation { font-size: 22px; line-height: 30px; }
   /* Mobile : le texte reste sur la photo, plus haute, centré ; le voile
      assombrit la bande du milieu, où il se pose. */

@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Fitness, cours collectifs et bien-être à Genève et Vaud | Harmony</title>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/wireframe.css?v=2026-10-28zk">
+<link rel="stylesheet" href="assets/wireframe.css?v=2026-10-28zl">
 </head>
 <body>
 
@@ -99,8 +99,8 @@
          Les témoignages sont le composant partagé. -->
     <section data-spec="B.3 &gt; Accueil &gt; preuve sociale (témoignages)">
       <h2>Ce qu'en disent nos membres</h2>
-      <div style="margin-top:12px" x-html="HF.vues.noteAvis()"></div>
-      <div style="margin-top:24px" x-html="HF.vues.temoignages(3, { portrait: true })"></div>
+      <div x-html="HF.vues.noteAvis({ phrase: true })"></div>
+      <div x-html="HF.vues.temoignages(3, { portrait: true })"></div>
     </section>
 
     <!-- ====================================================== BLOC 10 -->
@@ -119,8 +119,8 @@
 
 </div>
 
-<script src="data/data.js?v=2026-10-28zk"></script>
-<script src="assets/components.js?v=2026-10-28zk"></script>
+<script src="data/data.js?v=2026-10-28zl"></script>
+<script src="assets/components.js?v=2026-10-28zl"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageAccueil', function () {
@@ -134,7 +134,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="assets/alpine.min.js?v=2026-10-28zk"></script>
+<script defer src="assets/alpine.min.js?v=2026-10-28zl"></script>
 
 </body>
 </html>
