@@ -131,7 +131,7 @@
   --e-8: 64px;
   --e-9: 96px;
 
-  --espace-section: 64px;     /* entre deux sections d'une page */
+  --espace-section: 112px;    /* entre deux sections d'une page (64 px jusqu'au 2026-10-28 : les sections ne respiraient pas, Hugo) */
   --carte-pad: 24px;          /* intérieur d'une carte ou d'un bloc */
   --gouttiere: 24px;
   --large: 1280px;
@@ -194,7 +194,7 @@ main > div:has(> .fil) + * { margin-top: var(--e-2); }
 main > .hote-collant + * { margin-top: 0; }
 /* Un sous-bloc dans une section : titre de second rang, posé à distance de
    ce qui précède sans valoir une section. */
-.h-bloc { margin-top: var(--e-6); }
+.h-bloc { margin-top: var(--e-8); }
 h2 + .grille, h2 + .mention + .grille, h3 + .grille { margin-top: var(--e-4); }
 
 /* ------------------------------------------------------------------ */
@@ -1295,7 +1295,7 @@ a.carte__repere { text-decoration: none; }
 /* ------------------------------------------------------------------ */
 @media (max-width: 760px) {
   /* Un cran de moins sur mobile, comme le dit le système. */
-  :root { --gouttiere: 16px; --espace-section: 48px; --carte-pad: 20px; }
+  :root { --gouttiere: 16px; --espace-section: 72px; --carte-pad: 20px; }
   body { font-size: 16px; }
   h1 { font-size: 32px; line-height: 40px; }
   .h-display { font-size: 40px; line-height: 46px; }
