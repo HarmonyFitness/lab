@@ -1001,14 +1001,24 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
   padding: 2px 10px; font-size: 17px; line-height: 26px;
   font-weight: 600; font-variant-numeric: tabular-nums; }
 
-/* Bandeau essai de bas de page : le premier aplat de bleu clair, texte à
-   gauche. Les arcs à droite ont été retirés (Hugo, 2026-10-23). */
-.cta-essai { position: relative; overflow: hidden; background: var(--bleu-clair);
+/* Bandeau essai de bas de page, texte à gauche. Les arcs à droite ont été
+   retirés (Hugo, 2026-10-23). Sur le bleu de marque depuis le 2026-10-28
+   (Hugo) : il partageait le bleu clair du bloc bien-être, et c'est le
+   moment de conversion de la page, il prend le contraste le plus fort.
+   Texte blanc, bouton blanc texte bleu, comme le hero et le footer. */
+.cta-essai { position: relative; overflow: hidden; background: var(--surface-brand); color: #fff;
   border-radius: var(--rayon-grand); padding: var(--e-8) var(--e-7); }
-.cta-essai h2 { margin-bottom: .3em; max-width: 18ch; }
-.cta-essai p { max-width: 46ch; }
-/* Bloc bien-être de l'accueil : même bleu clair, pour que le calme se voie. */
+.cta-essai h2 { margin-bottom: .3em; max-width: 18ch; color: #fff; }
+.cta-essai p { max-width: 46ch; color: rgba(255, 255, 255, .88); }
+.cta-essai .btn { background: #fff; color: var(--accent); border-color: #fff; }
+.cta-essai .btn:hover { background: var(--bleu-clair); border-color: var(--bleu-clair); color: var(--accent-fonce); }
+.cta-essai :focus-visible { outline-color: #fff; }
+/* Bloc bien-être de l'accueil : le bleu clair, pour que le calme se voie.
+   Plus de marge intérieure et le texte centré en hauteur face à la photo
+   (Hugo, 2026-10-28 : le texte collait en haut). */
 .bloc--clair { background: var(--bleu-clair); }
+.bloc--couche.bloc--clair { padding: var(--e-7); gap: var(--e-8); }
+.bloc--clair .bloc--couche__texte { justify-content: center; }
 
 /* Sortie vers le conseil en club. Discrète par construction : pas de cadre,
    pas de bouton, une ligne séparée par un filet. Elle existe pour qui en a
@@ -1585,4 +1595,8 @@ a.carte__repere { text-decoration: none; }
   .entete__img { height: 20px; }
   .entete__actions { gap: 4px; }
   .entete__actions .btn { padding-left: 12px; padding-right: 12px; }
+}
+
+@media (max-width: 760px) {
+  .bloc--couche.bloc--clair { padding: var(--e-5); gap: var(--e-5); }
 }
