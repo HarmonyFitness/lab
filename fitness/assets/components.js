@@ -2400,7 +2400,8 @@ Object.assign(window.HF.vues, (function () {
     var liste = R.articlesFitness().slice(0, n || 3);
     if (!liste.length) return '';
     return '<section data-spec="B.3 > Accueil > teaser actualités">' +
-      '<h2>La vie de nos clubs</h2><div class="grille grille--3">' +
+      /* Sur mobile, les articles défilent à l'horizontale (Hugo, 2026-10-28). */
+      '<h2>La vie de nos clubs</h2><div class="grille grille--3 defile-mobile defile-mobile--egal">' +
       liste.map(function (a) { return carteArticle(a, base); }).join('') + '</div>' +
       '<p style="margin-top:14px"><a class="lien-texte" href="' + (base || '') +
       'actualites/">Toutes les actualités</a></p></section>';
