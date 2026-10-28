@@ -179,8 +179,27 @@ window.HF = (function () {
     article: function (id) {
       return regles.articlesFitness().find(function (a) { return a.id === id; }) || null;
     },
+    /* « À lire aussi » (maillage interne, Hugo, 2026-10-28) : d'abord le
+       même thème, puis les articles suivants dans l'ordre, en tournant.
+       Les trois plus récents partout laissaient les anciens sans aucun lien
+       depuis un autre article. */
     autresArticles: function (id, n) {
-      return regles.articlesFitness().filter(function (a) { return a.id !== id; }).slice(0, n || 3);
+      var tous = regles.articlesFitness();
+      var a = tous.filter(function (x) { return x.id === id; })[0];
+      var i = a ? tous.map(function (x) { return x.id; }).indexOf(id) : -1;
+      var tour = tous.slice(i + 1).concat(tous.slice(0, Math.max(i, 0)));
+      var meme = a ? tour.filter(function (x) { return x.theme === a.theme; }) : [];
+      var reste = tour.filter(function (x) { return meme.indexOf(x) === -1; });
+      return meme.concat(reste).slice(0, n || 3);
+    },
+    /* Les articles qui citent un club ou un cours dans leur corps, avec la
+       notation du lab : [texte](club:id) ou [texte](cours:id). La page citée
+       renvoie à l'article : le lien va dans les deux sens. */
+    articlesQuiCitent: function (type, id) {
+      var cle = '(' + type + ':' + id + ')';
+      return regles.articlesFitness().filter(function (a) {
+        return (a.corps || []).some(function (b) { return (b.texte || '').indexOf(cle) !== -1; });
+      });
     },
     themeActu: function (id) {
       return (D.referentiels.themesActu || []).find(function (t) { return t.id === id; }) || null;
@@ -2115,10 +2134,20 @@ Object.assign(window.HF.vues, (function () {
   function autresArticles(id, n, base) {
     var liste = R.autresArticles(id, n);
     if (!liste.length) return '';
-    return '<h2>Autres actualités</h2><div class="grille grille--3">' +
+    return '<h2>À lire aussi</h2><div class="grille grille--3">' +
       liste.map(function (a) { return carteArticle(a, base); }).join('') + '</div>' +
       '<p style="margin-top:14px"><a class="lien-texte" href="' + (base || '') +
       'actualites/">Toutes les actualités</a></p>';
+  }
+
+  /* Sur une page club ou une fiche cours : les articles qui en parlent.
+     Rien quand aucun article ne la cite. */
+  function articlesQuiCitent(type, id, base, titre) {
+    var liste = R.articlesQuiCitent(type, id).slice(0, 3);
+    if (!liste.length) return '';
+    return '<section data-spec="B.3 > Actualités">' +
+      '<h2>' + esc(titre || 'Dans l\'actualité') + '</h2><div class="grille grille--3">' +
+      liste.map(function (a) { return carteArticle(a, base); }).join('') + '</div></section>';
   }
 
   /* Annexe A > Bloc actualités (teaser) : les n derniers articles et un lien
@@ -2462,7 +2491,7 @@ Object.assign(window.HF.vues, (function () {
   return {
     lignesInclusion: lignesInclusion, carteProduit: carteProduit, carteExtra: carteExtra,
     tagsListe: tagsListe,
-    carteArticle: carteArticle, listeArticles: listeArticles, enteteArticle: enteteArticle,
+    carteArticle: carteArticle, listeArticles: listeArticles, articlesQuiCitent: articlesQuiCitent, enteteArticle: enteteArticle,
     corpsArticle: corpsArticle, autresArticles: autresArticles,
     teaserActualites: teaserActualites,
     pourquoiHarmony: pourquoiHarmony, apercuClubs: apercuClubs, teaserOffre: teaserOffre,
@@ -2933,7 +2962,7 @@ Object.assign(window.HF.vues, (function () {
   }
 
   /* B.3 > Trame de la page club > 8 */
-  function equipementsBloc(c) {
+  function equipementsBloc(c, base) {
     var cat = H.categorie(c.categorie);
     var socle = R.equipementsSocle(c.categorie).map(R.equipement).filter(Boolean);
     var enPlus = R.equipementsEnPlus(c.id).map(R.equipement).filter(Boolean);
@@ -2947,21 +2976,39 @@ Object.assign(window.HF.vues, (function () {
       '<div class="grille grille--2">' +
       '<div><h3>Le socle des clubs ' + esc(cat.nom) + '</h3>' + liste(socle) + '</div>' +
       (enPlus.length ? '<div><h3>En plus à ' + esc(c.nom) + '</h3>' + liste(enPlus) + '</div>' : '') +
-      '</div></section>';
+      '</div>' +
+      /* Maillage interne (Hugo, 2026-10-28) : le plateau a sa page, chaque
+         club y renvoie depuis ce qu'il en montre. */
+      '<p><a class="lien-texte" href="' + (base || '') +
+      'sport/plateau-fitness/">Découvrir le plateau fitness</a></p></section>';
   }
 
   /* B.3 > Trame de la page club > 9 */
   function bienEtreBloc(c, base) {
+    var b = base || '';
     var espaces = R.bienEtreDuClub(c.id);
-    if (!espaces.length) return '';
+    var soins = (c.soins || []).map(function (id) {
+      return D.soins.filter(function (x) { return x.id === id; })[0];
+    }).filter(Boolean);
+    if (!espaces.length && !soins.length) return '';
     /* Les espaces en tags, la même grammaire que la ligne « Espaces
        wellness » des cartes formule : une liste à puces de cinq mots
        prenait cinq lignes pour dire ce qu'une ligne dit. */
     return '<section data-spec="B.3 > Trame de la page club > 9">' +
       '<h2>Bien-être</h2>' +
-      V.tagsListe(espaces.map(function (e) { return e.nom; }), espaces.length) +
-      '<p><a class="lien-texte" href="' + (base || '') +
-      'bien-etre/espaces/">Voir nos espaces bien-être</a></p></section>';
+      (espaces.length
+        ? V.tagsListe(espaces.map(function (e) { return e.nom; }), espaces.length) +
+          '<p><a class="lien-texte" href="' + b + 'bien-etre/espaces/">Voir nos espaces bien-être</a></p>'
+        : '') +
+      /* Les soins du club renvoient à leur page (maillage interne, Hugo,
+         2026-10-28) : sans ce lien, elle n'était liée que depuis le hub. */
+      (soins.length
+        ? '<p>Aussi à ' + esc(c.nom) + ' : ' + esc(soins.map(function (x) {
+            return x.nom.toLowerCase(); }).join(' et ')) + '.<br>' +
+          '<a class="lien-texte" href="' + b + 'bien-etre/soins/">Voir les soins</a></p>'
+        : '') +
+      '<p><a class="lien-texte" href="' + b + 'bien-etre/">Tout le bien-être chez Harmony</a></p>' +
+      '</section>';
   }
 
   /* B.3 > Trame de la page club > 10 : une carte, un lien vers le site de
@@ -3277,7 +3324,31 @@ Object.assign(window.HF.regles, (function () {
     return groupes;
   }
 
+  /* Les cours du même objectif, pour le bloc du bas de fiche (maillage
+     interne, Hugo, 2026-10-28). On part du cours suivant dans le catalogue
+     et on tourne : chaque fiche renvoie vers ses voisines, et chaque cours
+     reçoit des liens, pas seulement les premiers de la liste. */
+  function coursMemeObjectif(co, n) {
+    if (!co || !co.objectifPrincipal) return [];
+    var g = catalogueParObjectif({}).filter(function (x) {
+      return x.objectif.id === co.objectifPrincipal;
+    })[0];
+    if (!g) return [];
+    /* Par id, pas par objet : Alpine passe le cours enveloppé. Une page
+       ne sort qu'une fois : les variantes d'une famille mènent toutes à
+       la même fiche. */
+    var vus = {}; vus[H.lienCours(co).split('#')[0]] = 1;
+    var i = g.cours.map(function (x) { return x.id; }).indexOf(co.id);
+    var tour = g.cours.slice(i + 1).concat(g.cours.slice(0, Math.max(i, 0)));
+    return tour.filter(function (x) {
+      var page = H.lienCours(x).split('#')[0];
+      if (vus[page]) return false;
+      vus[page] = 1; return true;
+    }).slice(0, n || 4);
+  }
+
   return {
+    coursMemeObjectif: coursMemeObjectif,
     membresDeFamille: membresDeFamille, membresRanges: membresRanges,
     familleDuCoursGenerique: familleDuCoursGenerique,
     smallGroupTrainings: smallGroupTrainings,
@@ -3514,6 +3585,23 @@ Object.assign(window.HF.vues, (function () {
       '</div>';
   }
 
+  /* Bas de fiche cours : d'autres cours pour le même but. Le visiteur qui
+     hésite trouve une suite, et les fiches se lient entre elles au lieu de
+     ne recevoir de liens que du hub (maillage interne, Hugo, 2026-10-28). */
+  function coursMemeObjectif(co, base) {
+    var liste = R.coursMemeObjectif(co, 4);
+    if (!liste.length) return '';
+    var obj = D.referentiels.objectifs.filter(function (o) { return o.id === co.objectifPrincipal; })[0];
+    return '<section data-spec="B.3 > Sport > Fiches cours">' +
+      '<h2>Dans le même objectif</h2>' +
+      '<div class="grille grille--cartes catalogue">' + liste.map(function (x) {
+        return carteCours(x, base, { sansObjectif: true });
+      }).join('') + '</div>' +
+      '<p style="margin-top:14px"><a class="lien-texte" href="' + (base || '') +
+      'sport/cours-collectifs/#objectif-' + obj.id + '">Tous les cours « ' + esc(obj.nom) + ' »</a></p>' +
+      '</section>';
+  }
+
   /* B.3 > Catégories de clubs : "Pas de cours collectifs" en Gym, des Small
      Group Training y sont proposés en Extra. On informe, on ne laisse pas un
      "aucun résultat" sec là où il y a une raison. */
@@ -3683,7 +3771,7 @@ Object.assign(window.HF.vues, (function () {
     attributsCours: attributsCours, nomObjectif: nomObjectif,
     nomIntensite: nomIntensite, nomFormat: nomFormat,
     filtresCours: filtresCours, planningType: planningType, catalogueCours: catalogueCours,
-    carteCours: carteCours,
+    carteCours: carteCours, coursMemeObjectif: coursMemeObjectif,
     blocVariantes: blocVariantes,
     ligneInclusion: ligneInclusion, ligneExtra: ligneExtra,
     creneaux: creneaux, blocExtraDuCours: blocExtraDuCours

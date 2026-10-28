@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Séance d'essai | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-28zi">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-10-28zj">
 </head>
 <body>
 
@@ -179,7 +179,11 @@
         <p class="mention">Pour rappel, la journée d'essai est proposée au tarif de 20 CHF,
           déduits en cas de souscription à un abonnement avec engagement.</p>
         <div class="confirmation__actions">
-          <a class="btn btn--secondaire" :href="'../clubs/club/?club=' + etat.club">Découvrir le club</a>
+          <!-- Créé seulement une fois le club connu : sinon le lien pointe
+               vers ?club=null, et un robot le suit même caché. -->
+          <template x-if="etat.club">
+            <a class="btn btn--secondaire" :href="'../clubs/club/?club=' + etat.club">Découvrir le club</a>
+          </template>
           <button type="button" class="btn btn--tertiaire btn--sans-fleche" @click="envoyee = false">Modifier ma demande</button>
         </div>
       </div>
@@ -219,8 +223,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-10-28zi"></script>
-<script src="../assets/components.js?v=2026-10-28zi"></script>
+<script src="../data/data.js?v=2026-10-28zj"></script>
+<script src="../assets/components.js?v=2026-10-28zj"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageEssai', function () {
@@ -298,7 +302,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-10-28zi"></script>
+<script defer src="../assets/alpine.min.js?v=2026-10-28zj"></script>
 
 </body>
 </html>

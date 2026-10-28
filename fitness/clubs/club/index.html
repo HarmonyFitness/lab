@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Salle de sport | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-28zi">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-28zj">
 </head>
 <body>
 
@@ -78,10 +78,12 @@
         <section data-spec="B.3 &gt; Trame de la page club &gt; 7">
           <h2 x-text="'L\'équipe de ' + club.nom"></h2>
           <div x-html="HF.vues.grilleCoachs(HF.regles.coachsDuClub(club.id), etat)"></div>
+          <!-- Maillage interne (Hugo, 2026-10-28) : de l'équipe au coaching. -->
+          <p style="margin-top:14px"><a class="lien-texte" href="../../sport/coaching-personnel/">Découvrir le coaching personnel</a></p>
         </section>
 
         <!-- ================================================== BLOC 8 -->
-        <div x-html="HF.vues.equipementsBloc(club)"></div>
+        <div x-html="HF.vues.equipementsBloc(club, '../../')"></div>
 
         <!-- ================================================== BLOC 9 -->
         <div x-html="HF.vues.bienEtreBloc(club, '../../')"></div>
@@ -96,6 +98,9 @@
           <h2 class="h-bloc">Ils viennent ici</h2>
           <div x-html="HF.vues.temoignages(3)"></div>
         </section>
+
+        <!-- Les articles qui citent le club (maillage interne, Hugo, 2026-10-28). -->
+        <div x-html="HF.vues.articlesQuiCitent('club', club.id, '../../', 'Dans l\'actualité de ' + club.nom)"></div>
 
         <!-- ================================================= BLOC 12 -->
         <div x-html="HF.vues.offreDuClub(club, etat)"></div>
@@ -120,8 +125,8 @@
 
 </div>
 
-<script src="../../data/data.js?v=2026-10-28zi"></script>
-<script src="../../assets/components.js?v=2026-10-28zi"></script>
+<script src="../../data/data.js?v=2026-10-28zj"></script>
+<script src="../../assets/components.js?v=2026-10-28zj"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageClub', function () {
@@ -165,7 +170,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-10-28zi"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-28zj"></script>
 
 </body>
 </html>

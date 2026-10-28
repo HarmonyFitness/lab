@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Cours | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-28zi">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-28zj">
 </head>
 <body>
 <div x-data="page" x-init="init()">
@@ -70,6 +70,10 @@
           <div x-html="HF.vues.grilleCoachs(coachs(), etat)"></div>
         </section>
 
+        <div x-html="cours ? HF.vues.articlesQuiCitent('cours', cours.id, '../../') : ''"></div>
+
+        <div x-html="cours ? HF.vues.coursMemeObjectif(cours, '../../') : ''"></div>
+
         <section data-spec="B.3 &gt; Sport &gt; Fiches cours">
           <h2 x-text="'Questions sur ' + (estFamille ? 'cette discipline' : 'ce cours')"></h2>
           <div x-html="HF.vues.faq(faq(), etat)"></div>
@@ -85,8 +89,8 @@
     </div>
   </template>
 </div>
-<script src="../../data/data.js?v=2026-10-28zi"></script>
-<script src="../../assets/components.js?v=2026-10-28zi"></script>
+<script src="../../data/data.js?v=2026-10-28zj"></script>
+<script src="../../assets/components.js?v=2026-10-28zj"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('page', function () {
@@ -191,6 +195,6 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-10-28zi"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-28zj"></script>
 </body>
 </html>
