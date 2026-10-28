@@ -1354,6 +1354,25 @@ Object.assign(window.HF.vues, (function () {
   /* B.3 > Page Tarifs > trame > 4 : les lignes d'inclusion sont toujours
      affichées, dans le même ordre, avec "Non inclus" quand c'est le cas (Q4). */
   function lignesInclusion(p, etat) {
+    /* La formule qui comprend les Extras se dit par rapport à sa formule de
+       base (Hugo, 2026-10-28) : « Tout ce qui est inclus dans la formule
+       Premium », puis les Extras compris, un par ligne. Les mêmes six lignes
+       que Premium prenaient la hauteur de la carte pour ne rien apprendre ;
+       ce qui fait la différence, ce sont les Extras. La formule de base est
+       déduite (même catégorie, sans Extras), jamais écrite ici. */
+    var base = p.inclutExtras ? D.produits.filter(function (x) {
+      return x.type === 'formule' && x.categorie === p.categorie && !x.inclutExtras;
+    })[0] : null;
+    if (base) {
+      var compris = R.extrasRanges((etat && etat.club ? R.extrasDuClub(etat.club) : D.extras)
+        .filter(function (e) { return e.compris; }));
+      return '<ul class="produit__inclus produit__inclus--base">' +
+        '<li><span class="produit__marque">✓</span><span>Tout ce qui est inclus dans la formule <strong>' +
+        H.nomProduitHtml(base) + '</strong>, plus :</span></li>' +
+        compris.map(function (e) {
+          return '<li class="produit__extra"><span class="produit__marque">+</span><span>' + esc(e.nom) + '</span></li>';
+        }).join('') + '</ul>';
+    }
     return '<ul class="produit__inclus">' + D.referentiels.inclusions.map(function (inc) {
       var v = p.inclus ? p.inclus[inc.id] : false;
       /* Seule la ligne Extras porte un détail, et seulement quand elle est

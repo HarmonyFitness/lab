@@ -729,6 +729,10 @@ h3 .label-cat { font-size: 15px; padding: 4px 10px; }
 .produit__inclus li:last-child { border-bottom: 0; }
 /* « Non inclus » reste en retrait mais lisible : gris-60, 6:1 sur la carte teintée (3,3:1 en gris-40). */
 .produit__inclus .non { color: var(--gris-60); }
+/* Premium Platinum : la ligne « Tout Premium, plus : » puis ses Extras, sans
+   filet entre eux : ils forment un seul groupe (Hugo, 2026-10-28). */
+.produit__inclus--base .produit__extra { border-bottom: 0; padding: 3px 0 3px var(--e-4); }
+.produit__inclus--base li:first-child { border-bottom: 0; }
 .produit__marque { flex: none; width: 14px; font-weight: 700; color: var(--accent); }
 .produit__inclus .non .produit__marque { color: inherit; }
 /* Le prix est le chiffre de la carte : grand, serré, chiffres à chasse
