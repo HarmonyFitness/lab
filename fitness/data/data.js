@@ -28,6 +28,9 @@ window.DATA = {
     verticale: 'fitness',            /* tag verticale des articles (B.1) */
     nom: 'Harmony Fitness',
     logo: 'harmony-fitness-logo.svg',
+    /* Le mot du lieu dans les composants partagés : club pour Fitness,
+       bassin pour Aqua (Annexe A, Template 1 « Lieu d'exercice »). */
+    lieu: { nom: 'club', pluriel: 'clubs' },
     /* Les cinq univers de la barre groupe, dans l'ordre de B.3. Libellés
        de B.3 : « Sports de combat », jamais « Arts martiaux » (Q66). */
     groupe: [

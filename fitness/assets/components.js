@@ -632,6 +632,14 @@ window.HF = (function () {
   function texte(v, placeholder) {
     return (v === null || v === undefined || v === '') ? placeholder : v;
   }
+  /* Le mot du lieu, lu dans la fiche site : « club » sur Fitness,
+     « bassin » sur Aqua. pluriel et majuscule à la demande. */
+  function lieu(pluriel, majuscule) {
+    var l = (D.site && D.site.lieu) || { nom: 'club', pluriel: 'clubs' };
+    var m = pluriel ? l.pluriel : l.nom;
+    return majuscule ? m.charAt(0).toUpperCase() + m.slice(1) : m;
+  }
+
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
       return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
@@ -755,7 +763,7 @@ window.HF = (function () {
     promotion: promotion, engagementDefaut: engagementDefaut,
     nomProduitHtml: nomProduitHtml,
     regles: regles,
-    prixTexte: prixTexte, texte: texte, esc: esc, spec: spec, FOND_CARTE: FOND_CARTE,
+    prixTexte: prixTexte, texte: texte, esc: esc, lieu: lieu, spec: spec, FOND_CARTE: FOND_CARTE,
     aValider: aValider, position: position, positions: positions,
     lienCours: lienCours, lienFamille: lienFamille,
     famille: famille, libelleCanton: libelleCanton, ancreCanton: ancreCanton
@@ -1182,7 +1190,7 @@ window.HF.vues = (function () {
   function carte(etat, opts) {
     var o = opts || {};
     return '<div class="carte-bloc">' +
-      '<div class="carte" role="group" aria-label="Carte des ' + D.clubs.length + ' clubs">' +
+      '<div class="carte" role="group" aria-label="Carte des ' + D.clubs.length + ' ' + H.lieu(true) + '">' +
       '<div class="carte__plan">' + fondCarte() +
       D.clubs.map(function (c) {
         var cat = H.categorie(c.categorie), p = H.position(c);
@@ -1215,7 +1223,7 @@ window.HF.vues = (function () {
      /offre-du-moment et /seance-essai : seul le libellé change. */
   function choixClub(etat, opts) {
     var o = opts || {};
-    var libelle = o.libelle || 'Choisissez votre club référent';
+    var libelle = o.libelle || 'Choisissez votre ' + H.lieu() + ' référent';
     if (etat.club) return clubReplie(etat, o);
     /* sansTitre : quand le composant est déjà sous un titre de la page, il
        n'en remet pas un. Deux titres qui se suivent pour un seul bloc
@@ -1247,7 +1255,7 @@ window.HF.vues = (function () {
     var o = opts || {};
     var c = H.club(etat.club), t = H.tarif(etat.tarif);
     return '<div class="club-replie" data-spec="B.3 > Page Tarifs > Trame > 2">' +
-      '<strong>' + esc(o.libelleReplie || 'Club référent') + ' : ' + esc(c.nom) + '</strong>' +
+      '<strong>' + esc(o.libelleReplie || H.lieu(false, true) + ' référent') + ' : ' + esc(c.nom) + '</strong>' +
       badgeCategorie(c.categorie, { sansLigne: true, ouvert: etat.catOuverte === c.categorie }) +
       (o.sansTarif ? '' : '<span>· Tarif ' + esc(t.nom) + '</span>') +
       '<button type="button" class="lien-texte" data-act="modifier-club" ' +
@@ -1277,13 +1285,13 @@ window.HF.vues = (function () {
       '" data-spec="B.3 > Page Tarifs > Règles > Carte">' +
       '<div class="carte-plein__barre">' +
       '<button type="button" class="btn btn--discret btn--petit" data-act="fermer-carte">Retour</button>' +
-      '<strong>Nos clubs</strong></div>' +
+      '<strong>Nos ' + H.lieu(true) + '</strong></div>' +
       carte(etat, { mobile: true }) +
       (c ? '<div class="carte-plein__fiche"><strong>' + esc(c.nom) + '</strong> · ' +
         esc(H.categorie(c.categorie).nom) + '<br><span class="mention">' +
         esc(texte(c.adresse, '[adresse]')) + '</span><br>' +
         '<button type="button" class="btn btn--petit" data-act="choisir-club" data-id="' + c.id +
-        '" style="margin-top:8px">Choisir ce club</button></div>' : '') +
+        '" style="margin-top:8px">Choisir ce ' + H.lieu() + '</button></div>' : '') +
       '</div>';
   }
 
@@ -2009,7 +2017,7 @@ Object.assign(window.HF.vues, (function () {
       liste.map(function (k) {
         return '<button type="button" class="coach" data-act="panneau-coach" data-id="' + k.id + '"' +
           ' aria-expanded="' + (etat.coachOuvert === k.id) + '">' +
-          '<span class="coach__photo" title="' + esc('Photo : ' + k.prenom + ', coach à [club]') + '" aria-hidden="true">' +
+          '<span class="coach__photo" title="' + esc('Photo : ' + k.prenom + ', coach à [' + H.lieu() + ']') + '" aria-hidden="true">' +
           esc(k.prenom.charAt(0).toUpperCase()) + '</span>' +
           '<span class="coach__corps">' +
           '<span class="coach__prenom">' + esc(k.prenom) + '</span>' +
@@ -2055,17 +2063,17 @@ Object.assign(window.HF.vues, (function () {
     if ((opts || {}).portrait) {
       var autres = [];
       for (var j = 1; j < (n || 3); j++) {
-        autres.push('<li><div><p>« ' + txt + ' »</p><div class="temoignage__auteur">[Prénom], membre à [club]</div></div></li>');
+        autres.push('<li><div><p>« ' + txt + ' »</p><div class="temoignage__auteur">[Prénom], membre à [' + H.lieu() + ']</div></div></li>');
       }
       return '<div class="temoignage-portrait" data-spec="Annexe A > A.2 > Bloc témoignage">' +
-        V.blocImage('Photo d\'ambiance : une scène de club, sans visage reconnaissable', 'portrait') +
+        V.blocImage('Photo d\'ambiance : une scène de ' + H.lieu() + ', sans visage reconnaissable', 'portrait') +
         '<div><blockquote class="temoignage-portrait__citation">« ' + txt + ' »</blockquote>' +
-        '<div class="temoignage__auteur">[Prénom], membre à [club] depuis [année]</div>' +
+        '<div class="temoignage__auteur">[Prénom], membre à [' + H.lieu() + '] depuis [année]</div>' +
         '<ul class="voix voix--une voix--sans-visage">' + autres.join('') + '</ul></div></div>';
     }
     for (var i = 0; i < (n || 3); i++) {
       out.push('<div class="temoignage"><p>« ' + txt + ' »</p>' +
-        '<div class="temoignage__auteur">[Prénom], membre à [club]</div></div>');
+        '<div class="temoignage__auteur">[Prénom], membre à [' + H.lieu() + ']</div></div>');
     }
     return '<div class="grille grille--3" data-spec="Annexe A > A.2 > Bloc témoignage">' +
       out.join('') + '</div>';
@@ -2091,12 +2099,12 @@ Object.assign(window.HF.vues, (function () {
     var a = D.avis || {};
     if ((opts || {}).phrase) {
       return '<p class="bloc__intro" data-spec="Annexe A > A.2 > Preuve sociale">Nos ' + R.nbClubs() +
-        ' clubs sont notés <strong class="note__forte">' + esc(noteValeur()) + '</strong> en moyenne sur ' +
+        ' ' + H.lieu(true) + ' sont notés <strong class="note__forte">' + esc(noteValeur()) + '</strong> en moyenne sur ' +
         esc(a.source || '[source des avis]') + (a.nombre ? ', ' + a.nombre + ' avis' : '') + '.</p>';
     }
     return '<div class="note" data-spec="Annexe A > A.2 > Preuve sociale">' +
       '<div class="note__valeur">' + esc(noteValeur()) + '</div>' +
-      '<div class="note__detail">Moyenne de nos ' + R.nbClubs() + ' clubs sur ' + esc(a.source || '[source des avis]') +
+      '<div class="note__detail">Moyenne de nos ' + R.nbClubs() + ' ' + H.lieu(true) + ' sur ' + esc(a.source || '[source des avis]') +
       (a.nombre ? ' · ' + a.nombre + ' avis' : '') + '</div></div>';
   }
 
@@ -2562,7 +2570,7 @@ Object.assign(window.HF.vues, (function () {
     return '<section class="cta-essai" data-spec="' +
       esc(spec || 'B.3 > Page Tarifs > Trame > 6') + '">' +
       '<h2>Envie d\'essayer avant de vous décider ?</h2>' +
-      '<p>Laissez-nous vos coordonnées, le club vous rappelle pour fixer votre séance d\'essai.</p>' +
+      '<p>Laissez-nous vos coordonnées, le ' + H.lieu() + ' vous rappelle pour fixer votre séance d\'essai.</p>' +
       '<a class="btn" href="' + (base || '') + 'seance-essai/">Demander une séance d\'essai</a></section>';
   }
 
@@ -2584,7 +2592,7 @@ Object.assign(window.HF.vues, (function () {
     '<circle cx="12" cy="12" r="11" fill="rgba(255,255,255,.22)"/>' +
     '<path d="M10 8l6 4-6 4z" fill="#fff"/></svg>';
   function storiesClub(c) {
-    return '<ul class="stories" aria-label="Photos et vidéos du club">' + STORIES.map(function (st) {
+    return '<ul class="stories" aria-label="Photos et vidéos du ' + H.lieu() + '">' + STORIES.map(function (st) {
       return '<li class="story">' +
         '<div class="story__media img">' + esc(st.legende) + '</div>' +
         '<div class="story__haut"><span class="story__barre"></span>' +
