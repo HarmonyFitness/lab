@@ -227,6 +227,25 @@ window.HF = (function () {
     /* Les articles qui citent un club ou un cours dans leur corps, avec la
        notation du lab : [texte](club:id) ou [texte](cours:id). La page citée
        renvoie à l'article : le lien va dans les deux sens. */
+    /* Les clubs dont parle un article, lus dans les liens de son texte
+       (Hugo, 2026-10-29) : rien de plus à saisir. Un article qui ne cite
+       qu'un cours renvoie aux clubs où ce cours est donné, lus sur le
+       planning. Ordre de première citation, chaque club une fois. */
+    clubsDeLArticle: function (a) {
+      var txt = (a.corps || []).map(function (b) { return b.texte || ''; }).join(' ');
+      var lire = function (type) {
+        var re = new RegExp('\\(' + type + ':([a-z0-9-]+)\\)', 'g'), m, ids = [];
+        while ((m = re.exec(txt))) if (ids.indexOf(m[1]) === -1) ids.push(m[1]);
+        return ids;
+      };
+      var clubs = lire('club').map(club).filter(Boolean);
+      if (!clubs.length) {
+        lire('cours').forEach(function (id) {
+          regles.clubsDuCours(id).forEach(function (c) { if (c && clubs.indexOf(c) === -1) clubs.push(c); });
+        });
+      }
+      return clubs;
+    },
     articlesQuiCitent: function (type, id) {
       var cle = '(' + type + ':' + id + ')';
       return regles.articlesFitness().filter(function (a) {
@@ -2286,6 +2305,20 @@ Object.assign(window.HF.vues, (function () {
       'actualites/">Toutes les actualités</a></p>';
   }
 
+  /* Bas d'article : les clubs concernés, en cartes club (Hugo,
+     2026-10-29, revient sur « pas de bloc le club dont on parle » du
+     2026-10-22). Les liens dans le texte restent ; ce bloc donne la suite
+     concrète : voir le club, s'abonner. */
+  function clubsDeLArticle(a, etat, base) {
+    var liste = R.clubsDeLArticle(a);
+    if (!liste.length) return '';
+    return '<section data-spec="B.3 > Actualités > Article">' +
+      '<h2>' + (liste.length > 1 ? 'Les clubs concernés' : 'Le club concerné') + '</h2>' +
+      '<div class="grille grille--3">' + liste.map(function (c) {
+        return V.carteClub(c, etat, { base: base, source: 'article' });
+      }).join('') + '</div></section>';
+  }
+
   /* Sur une page club ou une fiche cours : les articles qui en parlent.
      Rien quand aucun article ne la cite. */
   function articlesQuiCitent(type, id, base, titre) {
@@ -2658,7 +2691,7 @@ Object.assign(window.HF.vues, (function () {
   return {
     lignesInclusion: lignesInclusion, carteProduit: carteProduit, carteExtra: carteExtra,
     tagsListe: tagsListe,
-    carteArticle: carteArticle, listeArticles: listeArticles, articlesQuiCitent: articlesQuiCitent, enteteArticle: enteteArticle,
+    carteArticle: carteArticle, listeArticles: listeArticles, articlesQuiCitent: articlesQuiCitent, clubsDeLArticle: clubsDeLArticle, enteteArticle: enteteArticle,
     corpsArticle: corpsArticle, autresArticles: autresArticles,
     teaserActualites: teaserActualites,
     pourquoiHarmony: pourquoiHarmony, apercuClubs: apercuClubs, teaserOffre: teaserOffre,

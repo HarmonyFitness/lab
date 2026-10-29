@@ -1249,7 +1249,8 @@ window.DATA = {
   /* thèmes de B.3. Les corps sont du lorem ipsum, à longueur réaliste.   */
   /*                                                                      */
   /* Les liens sont dans le texte, comme un éditeur de CMS les pose     */
-  /* (Hugo, 2026-10-22) : pas de bloc « le club dont on parle ». Notation */
+  /* (Hugo, 2026-10-22). Les clubs concernés en bas d'article se lisent    */
+  /* dans ces liens (Hugo, 2026-10-29), aucun champ en plus. Notation       */
   /* du lab : [texte](club:id), [texte](cours:id), [texte](page:chemin/), */
   /* [texte](https://…). Le CMS aura son propre sélecteur de lien.        */
   /* Pas de signature (Hugo, 2026-10-22).                                 */
