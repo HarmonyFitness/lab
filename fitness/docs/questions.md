@@ -1703,6 +1703,11 @@ d'article : il range la liste à l'œil, et il sera le premier filtre le jour
 où la liste en demande un. Hugo l'a retenu. Pas de signature d'auteur, pas de
 « par le club » : tranché aussi.
 
+Confirmé par Hugo le 2026-10-29 : **un seul thème par article**, et le mot
+reste « thème », jamais « catégorie » (réservé aux clubs). Dans le
+back-office, l'éditeur choisit la ou les verticales, un thème et le ou les
+clubs concernés.
+
 ### Q61 · L'objet lié, traduction du « CTA de retour vers la verticale »
 **Statut :** fermée le 2026-10-22, tranchée par Hugo : pas de bloc, des liens dans le texte
 **Source :** B.2 > Actualités : « CTA de retour vers la verticale concernée
