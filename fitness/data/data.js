@@ -231,7 +231,7 @@ window.DATA = {
   clubs: [
     { id: 'blandonnet', nom: 'Blandonnet', ville: 'Blandonnet', quartier: null,
       canton: 'Genève', categorie: 'essential', bassin: false,
-      adresse: null, horaires: null, tel: null, email: null,
+      adresse: null, horaires: null, tel: null, email: null, whatsapp: null,
       gps: { lat: 46.2180, lng: 6.0850 },
       equipements: ['musculation', 'cardio', 'fonctionnel', 'salle-cours', 'sauna', 'parking'],
       atouts: ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit'],
@@ -239,7 +239,7 @@ window.DATA = {
 
     { id: 'geneve-eaux-vives', nom: 'Genève · Eaux-Vives', ville: 'Genève', quartier: 'Eaux-Vives',
       canton: 'Genève', categorie: 'essential', bassin: false,
-      adresse: null, horaires: null, tel: null, email: null,
+      adresse: null, horaires: null, tel: null, email: null, whatsapp: null,
       gps: { lat: 46.2040, lng: 6.1620 },
       equipements: ['musculation', 'cardio', 'salle-cours', 'sauna'],
       atouts: ['Sed do eiusmod tempor incididunt', 'Ut labore et dolore magna'],
@@ -247,7 +247,7 @@ window.DATA = {
 
     { id: 'geneve-la-praille', nom: 'Genève · La Praille', ville: 'Genève', quartier: 'La Praille',
       canton: 'Genève', categorie: 'premium', bassin: true,
-      adresse: null, horaires: null, tel: null, email: null,
+      adresse: null, horaires: null, tel: null, email: null, whatsapp: null,
       gps: { lat: 46.1830, lng: 6.1280 },
       equipements: ['musculation', 'cardio', 'fonctionnel', 'cross', 'salle-cours', 'piscine', 'sauna', 'hammam', 'jacuzzi', 'jets', 'parking'],
       atouts: ['Ut enim ad minim veniam', 'Quis nostrud exercitation ullamco'],
@@ -255,7 +255,7 @@ window.DATA = {
 
     { id: 'geneve-paquis', nom: 'Genève · Pâquis', ville: 'Genève', quartier: 'Pâquis',
       canton: 'Genève', categorie: 'gym', bassin: false,
-      adresse: null, horaires: null, tel: null, email: null,
+      adresse: null, horaires: null, tel: null, email: null, whatsapp: null,
       gps: { lat: 46.2120, lng: 6.1480 },
       equipements: ['musculation', 'cardio', 'fonctionnel'],
       atouts: ['Duis aute irure dolor', 'Reprehenderit in voluptate velit'],
@@ -263,7 +263,7 @@ window.DATA = {
 
     { id: 'meyrin', nom: 'Meyrin', ville: 'Meyrin', quartier: null,
       canton: 'Genève', categorie: 'essential', bassin: false,
-      adresse: null, horaires: null, tel: null, email: null,
+      adresse: null, horaires: null, tel: null, email: null, whatsapp: null,
       gps: { lat: 46.2330, lng: 6.0800 },
       equipements: ['musculation', 'cardio', 'fonctionnel', 'cross', 'salle-cours', 'sauna', 'hammam', 'parking'],
       atouts: ['Excepteur sint occaecat cupidatat', 'Non proident sunt in culpa'],
@@ -272,7 +272,7 @@ window.DATA = {
 
     { id: 'versoix', nom: 'Versoix', ville: 'Versoix', quartier: null,
       canton: 'Genève', categorie: 'essential', bassin: false,
-      adresse: null, horaires: null, tel: null, email: null,
+      adresse: null, horaires: null, tel: null, email: null, whatsapp: null,
       gps: { lat: 46.2830, lng: 6.1620 },
       equipements: ['musculation', 'cardio', 'salle-cours', 'sauna', 'parking'],
       atouts: ['Qui officia deserunt mollit', 'Anim id est laborum'],
@@ -281,7 +281,7 @@ window.DATA = {
 
     { id: 'veyrier', nom: 'Veyrier', ville: 'Veyrier', quartier: null,
       canton: 'Genève', categorie: 'premium', bassin: true,
-      adresse: null, horaires: null, tel: null, email: null,
+      adresse: null, horaires: null, tel: null, email: null, whatsapp: null,
       gps: { lat: 46.1650, lng: 6.1840 },
       equipements: ['musculation', 'cardio', 'fonctionnel', 'salle-cours', 'piscine', 'sauna', 'jacuzzi', 'parking'],
       atouts: ['Lorem ipsum dolor sit amet', 'Sed ut perspiciatis unde omnis'],
@@ -290,7 +290,7 @@ window.DATA = {
 
     { id: 'denges', nom: 'Denges', ville: 'Denges', quartier: null,
       canton: 'Vaud', categorie: 'premium', bassin: true,
-      adresse: null, horaires: null, tel: null, email: null,
+      adresse: null, horaires: null, tel: null, email: null, whatsapp: null,
       gps: { lat: 46.5320, lng: 6.5350 },
       equipements: ['musculation', 'cardio', 'fonctionnel', 'cross', 'salle-cours', 'piscine', 'sauna', 'hammam', 'jets', 'parking'],
       atouts: ['Iste natus error sit voluptatem', 'Accusantium doloremque laudantium'],
@@ -299,7 +299,7 @@ window.DATA = {
 
     { id: 'gland', nom: 'Gland', ville: 'Gland', quartier: null,
       canton: 'Vaud', categorie: 'essential', bassin: false,
-      adresse: null, horaires: null, tel: null, email: null,
+      adresse: null, horaires: null, tel: null, email: null, whatsapp: null,
       gps: { lat: 46.4200, lng: 6.2680 },
       equipements: ['musculation', 'cardio', 'salle-cours', 'sauna', 'hammam', 'parking'],
       atouts: ['Totam rem aperiam eaque ipsa', 'Quae ab illo inventore veritatis'],
@@ -308,7 +308,7 @@ window.DATA = {
 
     { id: 'signy', nom: 'Signy', ville: 'Signy', quartier: null,
       canton: 'Vaud', categorie: 'essential', bassin: false,
-      adresse: null, horaires: null, tel: null, email: null,
+      adresse: null, horaires: null, tel: null, email: null, whatsapp: null,
       gps: { lat: 46.3900, lng: 6.2260 },
       equipements: ['musculation', 'cardio', 'fonctionnel', 'salle-cours', 'sauna', 'hammam', 'parking'],
       atouts: ['Et quasi architecto beatae vitae', 'Dicta sunt explicabo nemo enim'],

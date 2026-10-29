@@ -2036,7 +2036,20 @@ ligne :
 3. **Ce qui se passe au toucher** : la maquette montre la rangée, pas la
    lecture en plein écran. Lecteur sur le site, ou renvoi vers le compte
    Instagram du club s'il existe ?
+   Réglé côté maquette le 2026-10-28 (Hugo) : chaque média s'ouvre en grand
+   dans une visionneuse sur le site. Reste à dire si la vidéo s'y lit ou si
+   elle renvoie à Instagram.
 
 Côté modèle, un champ « médias » sur la fiche club (type photo ou vidéo,
 légende, durée pour une vidéo), noté en section 7.
+
+### Q75 · Canal WhatsApp de chaque club
+**Statut :** ouverte
+**Source :** Hugo, 2026-10-29. Les infos pratiques de la page club portent un
+lien « Rejoindre le canal WhatsApp », avec le logo.
+Manquent : le lien du canal de chacun des dix clubs (champ `whatsapp` de la
+fiche club, vide aujourd'hui), et à confirmer que chaque club a son canal. Si
+un club n'en a pas, la ligne doit-elle disparaître ou renvoyer à un canal
+commun ? Qui l'anime, et ce qu'on y publie (cours annulés, événements).
+**Placeholder :** le lien reste visible, sans adresse.
 

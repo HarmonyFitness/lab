@@ -1530,6 +1530,8 @@ a.carte__repere { text-decoration: none; }
 .infos__item:nth-last-child(-n+3) { border-bottom: 0; }
 .infos dt { font-size: 14px; color: var(--gris-60); margin-bottom: 2px; }
 .infos dd { margin: 0; }
+.lien-whatsapp { display: inline-flex; align-items: flex-start; gap: var(--e-2); }
+.lien-whatsapp .logo-whatsapp { flex: none; margin-top: 2px; }
 /* Cinq infos : la dernière prend la place restante de sa ligne. */
 .infos__item:last-child:nth-child(3n+2) { grid-column: span 2; border-right: 0; }
 .infos__item:nth-child(3):nth-last-child(3) { border-bottom: 1px solid var(--surface); }
