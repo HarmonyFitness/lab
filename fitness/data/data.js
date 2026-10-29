@@ -1249,15 +1249,17 @@ window.DATA = {
   /* thèmes de B.3. Les corps sont du lorem ipsum, à longueur réaliste.   */
   /*                                                                      */
   /* Les liens sont dans le texte, comme un éditeur de CMS les pose     */
-  /* (Hugo, 2026-10-22). Les clubs concernés en bas d'article se lisent    */
-  /* dans ces liens (Hugo, 2026-10-29), aucun champ en plus. Notation       */
+  /* (Hugo, 2026-10-22). Notation                                         */
   /* du lab : [texte](club:id), [texte](cours:id), [texte](page:chemin/), */
   /* [texte](https://…). Le CMS aura son propre sélecteur de lien.        */
   /* Pas de signature (Hugo, 2026-10-22).                                 */
+  /* Back-office multisite (Hugo, 2026-10-29) : l'éditeur écrit l'article, */
+  /* choisit la ou les verticales, le thème et le ou les clubs concernés   */
+  /* (champ clubs, affiché en cartes en bas d'article).                   */
   /* ------------------------------------------------------------------ */
   articles: [
     { id: 'un-sauna-a-versoix', titre: 'Un sauna à Versoix dès novembre',
-      date: '2026-10-14', verticales: ['fitness'], theme: 'vie-des-clubs', statut: 'publie',
+      date: '2026-10-14', verticales: ['fitness'], theme: 'vie-des-clubs', clubs: ['versoix'], statut: 'publie',
       photo: 'Photo sauna de Versoix',
       chapeau: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.',
       corps: [
@@ -1268,7 +1270,7 @@ window.DATA = {
         { type: 'p', texte: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.' }
       ] },
     { id: 'hiit-boxing-a-la-praille', titre: 'HIIT Boxing arrive à Genève · La Praille',
-      date: '2026-10-07', verticales: ['fitness'], theme: 'nouveau-cours', statut: 'publie',
+      date: '2026-10-07', verticales: ['fitness'], theme: 'nouveau-cours', clubs: ['geneve-la-praille'], statut: 'publie',
       photo: 'Photo cours de HIIT Boxing',
       chapeau: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.',
       corps: [
@@ -1278,7 +1280,7 @@ window.DATA = {
         { type: 'p', texte: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.' }
       ] },
     { id: 'portes-ouvertes-a-denges', titre: 'Portes ouvertes à Denges le 15 novembre',
-      date: '2026-09-30', verticales: ['fitness', 'corpo'], theme: 'evenement', statut: 'publie',
+      date: '2026-09-30', verticales: ['fitness', 'corpo'], theme: 'evenement', clubs: ['denges'], statut: 'publie',
       photo: 'Photo accueil du club de Denges',
       chapeau: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
       corps: [
@@ -1288,7 +1290,7 @@ window.DATA = {
         { type: 'p', texte: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.' }
       ] },
     { id: 'les-mills-shapes-nouveau-cours', titre: 'Les Mills Shapes, le nouveau cours à la barre',
-      date: '2026-09-22', verticales: ['fitness'], theme: 'nouveau-cours', statut: 'publie',
+      date: '2026-09-22', verticales: ['fitness'], theme: 'nouveau-cours', clubs: ['blandonnet', 'versoix', 'signy'], statut: 'publie',
       photo: 'Photo cours Les Mills Shapes',
       chapeau: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       corps: [
@@ -1298,7 +1300,7 @@ window.DATA = {
         { type: 'p', texte: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' }
       ] },
     { id: 'paquis-ouvre-plus-tot', titre: 'Genève · Pâquis ouvre plus tôt le matin',
-      date: '2026-09-15', verticales: ['fitness'], theme: 'vie-des-clubs', statut: 'publie',
+      date: '2026-09-15', verticales: ['fitness'], theme: 'vie-des-clubs', clubs: ['geneve-paquis'], statut: 'publie',
       photo: 'Photo plateau de Genève · Pâquis au petit matin',
       chapeau: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
       corps: [
@@ -1306,7 +1308,7 @@ window.DATA = {
         { type: 'p', texte: 'Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.' }
       ] },
     { id: 'ceremony-hyrox-max-deux-dates', titre: 'Ceremony Hyrox Max : deux dates en octobre',
-      date: '2026-09-08', verticales: ['fitness'], theme: 'evenement', statut: 'publie',
+      date: '2026-09-08', verticales: ['fitness'], theme: 'evenement', clubs: ['geneve-la-praille', 'meyrin'], statut: 'publie',
       photo: 'Photo séance de Ceremony Hyrox Max',
       chapeau: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.',
       corps: [
@@ -1318,10 +1320,10 @@ window.DATA = {
     /* Deux entrées qui ne s'affichent pas sur Fitness, exprès : elles
        prouvent le filtre. Une actu du groupe seul, et un brouillon. */
     { id: 'harmony-groupe-partenariat', titre: 'Harmony Groupe signe un partenariat avec [partenaire]',
-      date: '2026-10-01', verticales: ['corpo'], theme: 'vie-des-clubs', statut: 'publie',
+      date: '2026-10-01', verticales: ['corpo'], theme: 'vie-des-clubs', clubs: [], statut: 'publie',
       photo: 'Photo signature', chapeau: 'Lorem ipsum dolor sit amet.', corps: [] },
     { id: 'brouillon-aquabike', titre: 'Aquabike : de nouveaux créneaux à Veyrier',
-      date: '2026-10-20', verticales: ['fitness'], theme: 'nouveau-cours', statut: 'brouillon',
+      date: '2026-10-20', verticales: ['fitness'], theme: 'nouveau-cours', clubs: ['veyrier'], statut: 'brouillon',
       photo: 'Photo aquabike', chapeau: 'Lorem ipsum dolor sit amet.', corps: [] }
   ]
 };

@@ -227,26 +227,18 @@ window.HF = (function () {
     /* Les articles qui citent un club ou un cours dans leur corps, avec la
        notation du lab : [texte](club:id) ou [texte](cours:id). La page citée
        renvoie à l'article : le lien va dans les deux sens. */
-    /* Les clubs dont parle un article, lus dans les liens de son texte
-       (Hugo, 2026-10-29) : rien de plus à saisir. Un article qui ne cite
-       qu'un cours renvoie aux clubs où ce cours est donné, lus sur le
-       planning. Ordre de première citation, chaque club une fois. */
+    /* Les clubs concernés par un article : un champ que l'éditeur choisit
+       dans le back-office, comme la verticale et le thème (Hugo,
+       2026-10-29). Le site ne les devine pas dans le texte. */
     clubsDeLArticle: function (a) {
-      var txt = (a.corps || []).map(function (b) { return b.texte || ''; }).join(' ');
-      var lire = function (type) {
-        var re = new RegExp('\\(' + type + ':([a-z0-9-]+)\\)', 'g'), m, ids = [];
-        while ((m = re.exec(txt))) if (ids.indexOf(m[1]) === -1) ids.push(m[1]);
-        return ids;
-      };
-      var clubs = lire('club').map(club).filter(Boolean);
-      if (!clubs.length) {
-        lire('cours').forEach(function (id) {
-          regles.clubsDuCours(id).forEach(function (c) { if (c && clubs.indexOf(c) === -1) clubs.push(c); });
-        });
-      }
-      return clubs;
+      return (a.clubs || []).map(club).filter(Boolean);
     },
     articlesQuiCitent: function (type, id) {
+      /* Un club : le champ clubs de l'article, le même qui remplit le bas
+         d'article. Un cours : les liens du texte, il n'a pas de champ. */
+      if (type === 'club') {
+        return regles.articlesFitness().filter(function (a) { return (a.clubs || []).indexOf(id) !== -1; });
+      }
       var cle = '(' + type + ':' + id + ')';
       return regles.articlesFitness().filter(function (a) {
         return (a.corps || []).some(function (b) { return (b.texte || '').indexOf(cle) !== -1; });
@@ -2305,10 +2297,10 @@ Object.assign(window.HF.vues, (function () {
       'actualites/">Toutes les actualités</a></p>';
   }
 
-  /* Bas d'article : les clubs concernés, en cartes club (Hugo,
-     2026-10-29, revient sur « pas de bloc le club dont on parle » du
-     2026-10-22). Les liens dans le texte restent ; ce bloc donne la suite
-     concrète : voir le club, s'abonner. */
+  /* Bas d'article : les clubs concernés, choisis par l'éditeur, en cartes
+     club (Hugo, 2026-10-29, revient sur « pas de bloc le club dont on
+     parle » du 2026-10-22). Les liens dans le texte restent ; ce bloc
+     donne la suite concrète : voir le club, s'abonner. */
   function clubsDeLArticle(a, etat, base) {
     var liste = R.clubsDeLArticle(a);
     if (!liste.length) return '';
