@@ -203,7 +203,7 @@ main > #bloc-club + #offre-du-moment[style*="display: none"] + #abonnements { ma
 /* Sections regroupées sous un seul élément (x-if d'Alpine, qui veut une
    racine unique) : elles gardent le rythme de la page. */
 .pile-sections > * + * { margin-top: var(--espace-section); }
-main > div:has(> .fil) + * { margin-top: var(--e-2); }
+:is(main, .pile-sections) > div:has(> .fil) + * { margin-top: var(--e-2); }
 main > .hote-collant + * { margin-top: 0; }
 /* Un sous-bloc dans une section : titre de second rang, posé à distance de
    ce qui précède sans valoir une section. */
@@ -1598,6 +1598,9 @@ a.carte__repere { text-decoration: none; }
 .article-une:hover h2 a { text-decoration: underline; }
 .article-une__chapeau { font-size: 17px; line-height: 1.55; color: var(--gris-80); }
 .article__entete, .article__corps { max-width: 760px; }
+/* Le corps suit la photo de couverture : c'est le même article, pas une
+   nouvelle section (Hugo, 2026-10-29). */
+.pile-sections > .article__suite { margin-top: var(--e-6); }
 .article__entete h1 { margin-bottom: .3em; }
 .article__chapeau { font-size: 19px; line-height: 1.5; color: var(--gris-80); margin-bottom: var(--e-5); }
 .article__entete .img { aspect-ratio: 16 / 9; }

@@ -6,28 +6,21 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Article | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-29d">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-29f">
 </head>
 <body>
 
 <div x-data="pageArticle" x-init="init()" x-effect="document.title = titreOnglet()">
 
-  <!-- Outillage du wireframe, hors maquette -->
-  <div class="conteneur">
-    <p class="wf-note">
-      Article affiché :
-      <template x-for="a in HF.regles.articlesFitness()" :key="a.id">
-        <a :href="'?article=' + a.id" x-text="a.titre"
-           style="margin-right:12px" :style="a.id === id ? 'font-weight:700' : ''"></a>
-      </template>
-    </p>
-  </div>
 
   <div x-html="HF.vues.barreGroupe()"></div>
   <div x-html="HF.vues.entete('', '../../', etat)"></div>
 
   <main class="conteneur">
-
+    <!-- Une seule racine dans main : posés à nu, les deux x-if comptaient
+         comme une section avant l'article et le décalaient de 112 px
+         (Hugo, 2026-10-29). -->
+    <div>
     <template x-if="!article">
       <section>
         <div x-html="HF.vues.filAriane([{nom:'Accueil',href:'../../'},{nom:'Actualités',href:'../'},{nom:'[article introuvable]'}])"></div>
@@ -38,7 +31,7 @@
     </template>
 
     <template x-if="article">
-      <div>
+      <div class="pile-sections">
         <div x-html="HF.vues.filAriane([{nom:'Accueil',href:'../../'},{nom:'Actualités',href:'../'},{nom:article.titre}])"></div>
 
         <!-- ================================================== BLOC 1 -->
@@ -49,7 +42,7 @@
         </section>
 
         <!-- ================================================== BLOC 2 -->
-        <section data-spec="Section 7 &gt; Template 5 &gt; Corps éditorial">
+        <section class="article__suite" data-spec="Section 7 &gt; Template 5 &gt; Corps éditorial">
           <div x-html="HF.vues.corpsArticle(article, '../../')"></div>
         </section>
 
@@ -62,6 +55,7 @@
         <div x-html="HF.vues.ctaEssai('../../', 'B.3 &gt; Actualités')"></div>
       </div>
     </template>
+    </div>
 
   </main>
 
@@ -69,8 +63,8 @@
 
 </div>
 
-<script src="../../data/data.js?v=2026-10-29d"></script>
-<script src="../../assets/components.js?v=2026-10-29d"></script>
+<script src="../../data/data.js?v=2026-10-29f"></script>
+<script src="../../assets/components.js?v=2026-10-29f"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageArticle', function () {
@@ -92,7 +86,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-10-29d"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-10-29f"></script>
 
 </body>
 </html>
