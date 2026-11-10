@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Offre du moment | Harmony</title>
 <link rel="icon" href="../favicon.png">
-<link rel="stylesheet" href="../assets/wireframe.css?v=2026-11-10c">
+<link rel="stylesheet" href="../assets/wireframe.css?v=2026-11-10e">
 </head>
 <body>
 
@@ -185,8 +185,8 @@
 
 </div>
 
-<script src="../data/data.js?v=2026-11-10c"></script>
-<script src="../assets/components.js?v=2026-11-10c"></script>
+<script src="../data/data.js?v=2026-11-10e"></script>
+<script src="../assets/components.js?v=2026-11-10e"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageOffre', function () {
@@ -206,6 +206,7 @@ document.addEventListener('alpine:init', function () {
         HF.brancher(this.$el, this.etat);
         HF.brancherSelecteur(this.$el, this.etat);
         this.majTitre();
+        HF.google.lireTous();
       },
       /* Une campagne tourne dès qu'il y a l'un ou l'autre : un produit promo
          dédié, ou une remise sur des produits existants. Même règle que la
@@ -307,7 +308,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../assets/alpine.min.js?v=2026-11-10c"></script>
+<script defer src="../assets/alpine.min.js?v=2026-11-10e"></script>
 
 </body>
 </html>

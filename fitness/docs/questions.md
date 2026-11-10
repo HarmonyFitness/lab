@@ -1426,6 +1426,9 @@ d'essai.
   Maps » dans le bloc de note. Reste ouvert : le nombre d'avis (pas fourni,
   donc pas affiché) et la mise à jour en production, la note devrait se lire
   dans Google plutôt que se saisir une fois.
+  **Réglé le 2026-11-10 (Hugo)** : la note et le nombre d'avis se lisent sur
+  les dix fiches Google, en direct (4,6 / 5 sur 729 avis ce jour-là). La
+  valeur de `data.js` ne sert plus que de secours. Voir Q76.
 - **Les témoignages** : de vrais membres, avec leur club.
 
 **Le hero porte trois preuves** (Hugo, 2026-09-16 : « qu'on soit tout de suite
@@ -2077,11 +2080,20 @@ Google Cloud préparé par Fernando. Les dix fiches sont identifiées
    avis, données gardées en cache). Il faut un compte propriétaire ou
    gestionnaire des dix fiches, et l'accès à l'API demandé à Google. Qui gère
    aujourd'hui les fiches, avec quel compte ?
-3. **Deux fiches au nom à revoir** : Pâquis s'appelle « Fitness Gym by
+3. ~~Deux fiches au nom à revoir~~ : **le site garde ses noms** (Hugo,
+   2026-11-10), les noms des fiches Google ne s'affichent jamais. Pour
+   mémoire : Pâquis s'appelle « Fitness Gym by
    Harmony (GE) » (rue Jean-Charles Amat 17, à confirmer que c'est bien le
    club), La Praille « Harmony Fitness » tout court (route des Jeunes 10,
    Carouge). Les autres suivent « Harmony Fitness - [club] ».
-4. **La note de l'accueil** : 4,8 / 5 saisi le 23 octobre ; la moyenne des
-   dix fiches au 10 novembre est 4,6 (de 4,2 à Veyrier à 4,9 aux
-   Eaux-Vives). À recalculer depuis Google, ou à garder saisie ?
+4. ~~La note de l'accueil~~ : **la vraie moyenne, calculée en direct sur les
+   dix fiches** (Hugo, 2026-11-10) : 4,6 / 5 sur 729 avis au 10 novembre (de
+   4,2 à Veyrier à 4,9 aux Eaux-Vives), au lieu des 4,8 saisis le 23 octobre.
+5. **Avis de la page club** : en slider, les 5 étoiles en premier (Hugo,
+   2026-11-10). L'API ne donne que cinq avis, choisis par Google : le tri les
+   réordonne, il n'en cache aucun. La note moyenne et le lien vers tous les
+   avis restent affichés.
+
+Point 2 validé (Hugo, 2026-11-10) : Fernando lance la demande d'accès à l'API
+Google Business Profile dès maintenant.
 

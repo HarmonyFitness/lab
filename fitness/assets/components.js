@@ -2121,23 +2121,33 @@ Object.assign(window.HF.vues, (function () {
      dans l'outil qui les collecte ou ils restent en placeholder. */
   /* La note se lit dans data.js, au format suisse (4,8 / 5). Le nombre
      d'avis reste un placeholder tant qu'il n'est pas fourni. */
-  function noteValeur() {
+  /* La note se lit sur Google quand les dix fiches ont répondu
+     (Hugo, 2026-11-10), sinon la valeur de secours de data.js. */
+  function avisCourant() {
     var a = D.avis || {};
+    var m = H.google ? H.google.moyenne() : null;
+    return m ? { note: m.note, sur: 5, source: a.source || 'Google Maps', nombre: m.nombre } : a;
+  }
+  function noteValeur() {
+    var a = avisCourant();
     return a.note != null ? a.note.toLocaleString('fr-CH') + ' / ' + (a.sur || 5) : '[note] / 5';
   }
+  /* Sous la note des preuves : « 729 avis Google », le nombre se lit avec
+     la note (Hugo, 2026-11-10). */
   function noteSource() {
-    var a = D.avis || {};
-    return a.source ? 'avis ' + a.source : '[source des avis]';
+    var a = avisCourant();
+    if (!a.source) return '[source des avis]';
+    return a.nombre ? a.nombre.toLocaleString('fr-CH') + ' avis ' + a.source.replace(/ Maps$/, '') : 'avis ' + a.source;
   }
   /* opts.phrase (accueil) : la note dite en une phrase d'intro sous le
      titre, sans bandeau (Hugo, 2026-10-28) : l'aplat gris coupait la
      section en deux et se lisait comme une alerte. */
   function noteAvis(opts) {
-    var a = D.avis || {};
+    var a = avisCourant();
     if ((opts || {}).phrase) {
       return '<p class="bloc__intro" data-spec="Annexe A > A.2 > Preuve sociale">Nos ' + R.nbClubs() +
-        ' ' + H.lieu(true) + ' sont notés <strong class="note__forte">' + esc(noteValeur()) + '</strong> en moyenne sur ' +
-        esc(a.source || '[source des avis]') + (a.nombre ? ', ' + a.nombre + ' avis' : '') + '.</p>';
+        ' ' + H.lieu(true) + ' sont notés <strong class="note__forte">' + esc(noteValeur()) + '</strong> en moyenne, sur ' +
+        (a.nombre ? esc(a.nombre.toLocaleString('fr-CH')) + ' avis ' + esc((a.source || '').replace(/ Maps$/, '')) : esc(a.source || '[source des avis]')) + '.</p>';
     }
     return '<div class="note" data-spec="Annexe A > A.2 > Preuve sociale">' +
       '<div class="note__valeur">' + esc(noteValeur()) + '</div>' +
@@ -2309,10 +2319,12 @@ Object.assign(window.HF.vues, (function () {
   }
 
   /* Avis Google du club (Hugo, 2026-11-10), à la place des témoignages
-     de remplissage : la note, le nombre d'avis, trois avis dans l'ordre
-     où Google les donne (les plus utiles), et le lien vers tous les avis.
-     Google est cité comme source, l'auteur de chaque avis aussi. Sans
-     réponse de Google, les témoignages de remplissage restent. */
+     de remplissage : la note, le nombre d'avis, les cinq avis que donne
+     l'API en slider, les 5 étoiles en premier (Hugo, même jour ; à note
+     égale, l'ordre de Google), et le lien vers tous les avis. La note
+     moyenne et ce lien restent : le tri ne cache pas la réalité. Google
+     est cité comme source, l'auteur de chaque avis aussi. Sans réponse de
+     Google, les témoignages de remplissage restent. */
   function etoiles(n) {
     /* 4,5 donne 4 étoiles, pas 5 : on n'arrondit pas une note à la hausse. */
     var e = Math.round((n || 0) - 0.01);
@@ -2326,8 +2338,14 @@ Object.assign(window.HF.vues, (function () {
     return '<div class="avis-google" data-spec="B.3 > Trame de la page club > 11 (avis Google)">' +
       '<p class="avis-google__resume"><strong class="avis-google__note">' +
       esc(g.note.toLocaleString('fr-CH', { minimumFractionDigits: 1 })) + '</strong> ' + etoiles(g.note) +
-      ' <span class="mention">' + esc(String(g.nombre)) + ' avis sur Google</span></p>' +
-      '<div class="grille grille--3">' + g.avis.slice(0, 3).map(function (a) {
+      ' <span class="mention">' + esc(String(g.nombre)) + ' avis sur Google</span>' +
+      '<span class="avis-google__navs">' +
+      '<button type="button" class="avis-google__nav" aria-label="Avis précédents" onclick="HF.defiler(this, -1)">‹</button>' +
+      '<button type="button" class="avis-google__nav" aria-label="Avis suivants" onclick="HF.defiler(this, 1)">›</button>' +
+      '</span></p>' +
+      '<div class="avis-google__liste">' + g.avis.map(function (a, i) { return { a: a, i: i }; })
+        .sort(function (x, y) { return (y.a.note || 0) - (x.a.note || 0) || x.i - y.i; })
+        .map(function (x) { var a = x.a;
         return '<figure class="temoignage avis-google__avis">' + etoiles(a.note) +
           '<blockquote><p>« ' + esc(court(a.texte)) + ' »</p></blockquote>' +
           '<figcaption class="temoignage__auteur">' + esc(a.auteur) + ' · ' + esc(a.quand || '') + '</figcaption></figure>';
@@ -4264,5 +4282,28 @@ document.addEventListener('keydown', function (ev) {
     }).catch(function () { st.lieux[c.googlePlaceId] = { erreur: true }; });
   }
 
-  H.google = { lire: lire, lieu: lieu };
+  /* Toutes les fiches des clubs, pour la note moyenne (accueil, landing). */
+  function lireTous() { D.clubs.forEach(lire); }
+
+  /* Moyenne simple des notes des clubs (« moyenne de nos 10 clubs ») et
+     nombre total d'avis, une fois toutes les fiches lues ; null avant. */
+  function moyenne() {
+    var notes = D.clubs.filter(function (c) { return c.googlePlaceId; }).map(lieu);
+    if (!notes.length || notes.some(function (g) { return !g || g.note == null; })) return null;
+    var somme = notes.reduce(function (s, g) { return s + g.note; }, 0);
+    return { note: Math.round(somme / notes.length * 10) / 10,
+      nombre: notes.reduce(function (s, g) { return s + (g.nombre || 0); }, 0) };
+  }
+
+  H.google = { lire: lire, lieu: lieu, lireTous: lireTous, moyenne: moyenne };
 })();
+
+/* Flèches d'un slider : font défiler la liste voisine d'une carte. */
+window.HF.defiler = function (bouton, sens) {
+  var liste = bouton.closest('.avis-google').querySelector('.avis-google__liste');
+  var carte = liste && liste.firstElementChild;
+  if (!carte) return;
+  var pas = carte.getBoundingClientRect().width + 16;
+  var doux = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  liste.scrollBy({ left: sens * pas, behavior: doux ? 'smooth' : 'auto' });
+};

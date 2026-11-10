@@ -1544,9 +1544,24 @@ a.carte__repere { text-decoration: none; }
 .note-club__etoile, .etoiles { color: #e3a008; }
 .etoiles { letter-spacing: 1px; font-size: 15px; }
 .etoiles__vide { color: var(--line-strong); }
-.avis-google__resume { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--e-2); margin: 0 0 var(--e-5); }
+.avis-google__resume { display: flex; align-items: center; flex-wrap: wrap; gap: var(--e-2); margin: 0 0 var(--e-5); }
 .avis-google__note { font-size: 36px; line-height: 1; font-weight: 400; letter-spacing: -.02em; }
 .avis-google__avis { margin: 0; }
+/* Slider des avis : 2,5 cartes visibles sur ordinateur (la demi-carte dit
+   qu'il y en a d'autres), 86 % sur mobile ; flèches sur ordinateur. */
+.avis-google__liste { display: flex; gap: var(--e-4); overflow-x: auto; scroll-snap-type: x mandatory;
+  scrollbar-width: none; padding-bottom: var(--e-1); }
+.avis-google__liste::-webkit-scrollbar { display: none; }
+.avis-google__liste > .avis-google__avis { flex: 0 0 calc((100% - 2 * var(--e-4)) / 2.5); scroll-snap-align: start; }
+.avis-google__navs { margin-left: auto; display: flex; gap: var(--e-2); }
+.avis-google__nav { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line-strong);
+  background: var(--surface); font-size: 22px; line-height: 1; color: var(--ink); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; }
+.avis-google__nav:hover { background: var(--surface-tint); }
+@media (max-width: 760px) {
+  .avis-google__liste > .avis-google__avis { flex-basis: 86%; }
+  .avis-google__nav { display: none; }
+}
 .avis-google__avis blockquote { margin: var(--e-2) 0; }
 .avis-google__avis blockquote p { margin: 0; }
 .avis-google__pied { margin-top: var(--e-4); display: flex; flex-wrap: wrap; gap: var(--e-3); align-items: baseline; }
