@@ -1530,6 +1530,26 @@ a.carte__repere { text-decoration: none; }
 .infos__item:nth-last-child(-n+3) { border-bottom: 0; }
 .infos dt { font-size: 14px; color: var(--gris-60); margin-bottom: 2px; }
 .infos dd { margin: 0; }
+/* Google (maquette, Hugo, 2026-11-10) : horaires de la semaine repliés,
+   note du club dans le hero, avis Google à la place des témoignages. */
+.horaires { margin-top: var(--e-1); font-size: 14px; }
+.horaires summary { cursor: pointer; color: var(--lien); text-decoration: underline; text-underline-offset: 3px; }
+.horaires ul { list-style: none; padding: 0; margin: var(--e-2) 0 0; }
+.horaires li { margin: 0; padding: 1px 0; color: var(--ink-muted); }
+.horaires .horaires__jour { color: var(--ink); font-weight: 600; }
+.infos__source { margin-top: var(--e-2); }
+.hero-club__labels { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-3); }
+.note-club { font-size: 14px; color: var(--ink); text-decoration: none; }
+.note-club:hover { text-decoration: underline; }
+.note-club__etoile, .etoiles { color: #e3a008; }
+.etoiles { letter-spacing: 1px; font-size: 15px; }
+.etoiles__vide { color: var(--line-strong); }
+.avis-google__resume { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--e-2); margin: 0 0 var(--e-5); }
+.avis-google__note { font-size: 36px; line-height: 1; font-weight: 400; letter-spacing: -.02em; }
+.avis-google__avis { margin: 0; }
+.avis-google__avis blockquote { margin: var(--e-2) 0; }
+.avis-google__avis blockquote p { margin: 0; }
+.avis-google__pied { margin-top: var(--e-4); display: flex; flex-wrap: wrap; gap: var(--e-3); align-items: baseline; }
 .lien-whatsapp { display: inline-flex; align-items: flex-start; gap: var(--e-2); }
 .lien-whatsapp .logo-whatsapp { flex: none; margin-top: 2px; }
 /* Cinq infos : la dernière prend la place restante de sa ligne. */

@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Salle de sport | Harmony</title>
 <link rel="icon" href="../../favicon.png">
-<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-10-29h">
+<link rel="stylesheet" href="../../assets/wireframe.css?v=2026-11-10b">
 </head>
 <body>
 
@@ -40,7 +40,9 @@
             <div>
               <h1 x-text="'Harmony ' + club.nom"></h1>
               <p x-text="sousTitre()"></p>
-              <p x-html="HF.vues.badgeCategorie(club.categorie, { sansLigne: true, cle: 'hero', ouvert: etat.catOuverte === club.categorie + '@hero' })"></p>
+              <p class="hero-club__labels"><span x-html="HF.vues.badgeCategorie(club.categorie, { sansLigne: true, cle: 'hero', ouvert: etat.catOuverte === club.categorie + '@hero' })"></span>
+                <!-- La note Google du club, lien vers sa fiche (Hugo, 2026-11-10). -->
+                <span x-html="HF.vues.noteClub(club)"></span></p>
               <p class="mention" x-show="club.categorie === 'gym'">
                 Horaires élargis : [plage horaire Gym].
               </p>
@@ -102,8 +104,10 @@
         <section id="images" data-spec="B.3 &gt; Trame de la page club &gt; 11">
           <h2>En images</h2>
           <div x-html="HF.vues.storiesClub(club, etat)"></div>
-          <h2 class="h-bloc">Ils viennent ici</h2>
-          <div x-html="HF.vues.temoignages(3)"></div>
+          <!-- Les avis Google du club à la place des témoignages de
+               remplissage, quand Google a répondu (Hugo, 2026-11-10). -->
+          <h2 class="h-bloc">Ce qu'en disent nos membres</h2>
+          <div x-html="HF.vues.avisGoogle(club)"></div>
         </section>
 
         <!-- Les articles qui citent le club (maillage interne, Hugo, 2026-10-28). -->
@@ -132,8 +136,8 @@
 
 </div>
 
-<script src="../../data/data.js?v=2026-10-29h"></script>
-<script src="../../assets/components.js?v=2026-10-29h"></script>
+<script src="../../data/data.js?v=2026-11-10b"></script>
+<script src="../../assets/components.js?v=2026-11-10b"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageClub', function () {
@@ -146,8 +150,9 @@ document.addEventListener('alpine:init', function () {
         if (!this.etat.club) { this.etat.club = HF.data.clubs[0].id; HF.majUrl(this.etat); }
         HF.brancher(this.$el, this.etat);
         HF.brancherSelecteur(this.$el, this.etat);
-        this.$watch('etat.club', function () { this.majTitre(); }.bind(this));
+        this.$watch('etat.club', function () { this.majTitre(); HF.google.lire(this.club); }.bind(this));
         this.majTitre();
+        HF.google.lire(this.club);
       },
       /* Les onglets ne nomment que les sections présentes : pas de Cours
          dans un club Gym, pas de Bien-être dans un club qui n'a ni espace
@@ -194,7 +199,7 @@ document.addEventListener('alpine:init', function () {
   });
 });
 </script>
-<script defer src="../../assets/alpine.min.js?v=2026-10-29h"></script>
+<script defer src="../../assets/alpine.min.js?v=2026-11-10b"></script>
 
 </body>
 </html>

@@ -2058,3 +2058,28 @@ un club n'en a pas, la ligne doit-elle disparaître ou renvoyer à un canal
 commun ? Qui l'anime, et ce qu'on y publie (cours annulés, événements).
 **Placeholder :** le lien reste visible, sans adresse.
 
+### Q76 · Google Business : accès, clé et fiches des clubs
+**Statut :** ouverte (2026-11-10)
+**Source :** Hugo, la page club lit l'adresse, les horaires, la note et les
+avis sur la fiche Google de chaque club.
+
+Dans la maquette : API Places, appelée depuis la page avec une clé du projet
+Google Cloud préparé par Fernando. Les dix fiches sont identifiées
+(`googlePlaceId` des fiches club).
+
+À régler :
+1. **Restreindre la clé** au lab (sites `lab.harmony.ch/*`, API Places (New)
+   et Maps JavaScript API). Au 10 novembre elle répond depuis n'importe où :
+   elle n'est pas publiée tant que ce n'est pas fait.
+2. **En production**, le serveur lira l'API Google Business Profile (tous les
+   avis, données gardées en cache). Il faut un compte propriétaire ou
+   gestionnaire des dix fiches, et l'accès à l'API demandé à Google. Qui gère
+   aujourd'hui les fiches, avec quel compte ?
+3. **Deux fiches au nom à revoir** : Pâquis s'appelle « Fitness Gym by
+   Harmony (GE) » (rue Jean-Charles Amat 17, à confirmer que c'est bien le
+   club), La Praille « Harmony Fitness » tout court (route des Jeunes 10,
+   Carouge). Les autres suivent « Harmony Fitness - [club] ».
+4. **La note de l'accueil** : 4,8 / 5 saisi le 23 octobre ; la moyenne des
+   dix fiches au 10 novembre est 4,6 (de 4,2 à Veyrier à 4,9 aux
+   Eaux-Vives). À recalculer depuis Google, ou à garder saisie ?
+

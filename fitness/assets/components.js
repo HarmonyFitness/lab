@@ -2297,6 +2297,46 @@ Object.assign(window.HF.vues, (function () {
       'actualites/">Toutes les actualités</a></p>';
   }
 
+  /* Note Google d'un club, pour son hero : « ★ 4,5 · 75 avis Google »,
+     lien vers la fiche. Rien tant que Google n'a pas répondu. */
+  function noteClub(c) {
+    var g = H.google ? H.google.lieu(c) : null;
+    if (!g || g.note == null) return '';
+    return '<a class="note-club" href="' + esc(g.lien || '#') + '" target="_blank" rel="noopener">' +
+      '<span class="note-club__etoile" aria-hidden="true">★</span> <strong>' +
+      esc(g.note.toLocaleString('fr-CH', { minimumFractionDigits: 1 })) + '</strong> · ' +
+      esc(String(g.nombre || 0)) + ' avis Google</a>';
+  }
+
+  /* Avis Google du club (Hugo, 2026-11-10), à la place des témoignages
+     de remplissage : la note, le nombre d'avis, trois avis dans l'ordre
+     où Google les donne (les plus utiles), et le lien vers tous les avis.
+     Google est cité comme source, l'auteur de chaque avis aussi. Sans
+     réponse de Google, les témoignages de remplissage restent. */
+  function etoiles(n) {
+    /* 4,5 donne 4 étoiles, pas 5 : on n'arrondit pas une note à la hausse. */
+    var e = Math.round((n || 0) - 0.01);
+    return '<span class="etoiles" aria-label="' + e + ' sur 5">' +
+      '★★★★★'.slice(0, e) + '<span class="etoiles__vide">' + '★★★★★'.slice(e) + '</span></span>';
+  }
+  function avisGoogle(c) {
+    var g = H.google ? H.google.lieu(c) : null;
+    if (!g || !g.avis || !g.avis.length) return temoignages(3);
+    var court = function (t) { return t.length > 280 ? t.slice(0, 277).replace(/\s+\S*$/, '') + '…' : t; };
+    return '<div class="avis-google" data-spec="B.3 > Trame de la page club > 11 (avis Google)">' +
+      '<p class="avis-google__resume"><strong class="avis-google__note">' +
+      esc(g.note.toLocaleString('fr-CH', { minimumFractionDigits: 1 })) + '</strong> ' + etoiles(g.note) +
+      ' <span class="mention">' + esc(String(g.nombre)) + ' avis sur Google</span></p>' +
+      '<div class="grille grille--3">' + g.avis.slice(0, 3).map(function (a) {
+        return '<figure class="temoignage avis-google__avis">' + etoiles(a.note) +
+          '<blockquote><p>« ' + esc(court(a.texte)) + ' »</p></blockquote>' +
+          '<figcaption class="temoignage__auteur">' + esc(a.auteur) + ' · ' + esc(a.quand || '') + '</figcaption></figure>';
+      }).join('') + '</div>' +
+      '<p class="avis-google__pied"><a class="lien-texte" href="' + esc(g.lien || '#') +
+      '" target="_blank" rel="noopener">Voir tous les avis sur Google</a> ' +
+      '<span class="mention">Avis publiés sur Google.</span></p></div>';
+  }
+
   /* Bas d'article : les clubs concernés, choisis par l'éditeur, en cartes
      club (Hugo, 2026-10-29, revient sur « pas de bloc le club dont on
      parle » du 2026-10-22). Les liens dans le texte restent ; ce bloc
@@ -2683,7 +2723,8 @@ Object.assign(window.HF.vues, (function () {
   return {
     lignesInclusion: lignesInclusion, carteProduit: carteProduit, carteExtra: carteExtra,
     tagsListe: tagsListe,
-    carteArticle: carteArticle, listeArticles: listeArticles, articlesQuiCitent: articlesQuiCitent, clubsDeLArticle: clubsDeLArticle, enteteArticle: enteteArticle,
+    carteArticle: carteArticle, listeArticles: listeArticles, articlesQuiCitent: articlesQuiCitent, clubsDeLArticle: clubsDeLArticle,
+    noteClub: noteClub, avisGoogle: avisGoogle, enteteArticle: enteteArticle,
     corpsArticle: corpsArticle, autresArticles: autresArticles,
     teaserActualites: teaserActualites,
     pourquoiHarmony: pourquoiHarmony, apercuClubs: apercuClubs, teaserOffre: teaserOffre,
@@ -3104,11 +3145,23 @@ Object.assign(window.HF.vues, (function () {
   function infosPratiques(c) {
     var itineraire = 'https://www.google.com/maps/search/?api=1&query=' +
       encodeURIComponent('Harmony Fitness ' + c.nom);
+    /* Adresse et horaires lus sur la fiche Google du club quand elle a
+       répondu (Hugo, 2026-11-10) : B.3 les veut identiques à la fiche, ils
+       le sont par construction. Sinon, les emplacements. */
+    var g = H.google ? H.google.lieu(c) : null;
+    var jour = (new Date().getDay() + 6) % 7;
+    var horaires = g && g.horaires
+      ? '<strong>Aujourd\'hui</strong> ' + esc(g.horaires[jour].replace(/^[^:]+:\s*/, '')) +
+        '<details class="horaires"><summary>Toute la semaine</summary><ul>' +
+        g.horaires.map(function (h, i) {
+          return '<li' + (i === jour ? ' class="horaires__jour"' : '') + '>' + esc(h) + '</li>';
+        }).join('') + '</ul></details>'
+      : esc(texte(c.horaires, '[horaires, jours fériés compris]')) +
+        '<br><span class="mention">Ouvert aujourd\'hui jusqu\'à [heure]</span>';
     var lignes = [
-      ['Adresse', esc(texte(c.adresse, '[adresse]')) +
+      ['Adresse', esc(g && g.adresse ? g.adresse : texte(c.adresse, '[adresse]')) +
         '<br><a class="lien-texte" href="' + esc(itineraire) + '" target="_blank" rel="noopener">Itinéraire</a>'],
-      ['Horaires', esc(texte(c.horaires, '[horaires, jours fériés compris]')) +
-        '<br><span class="mention">Ouvert aujourd\'hui jusqu\'à [heure]</span>'],
+      ['Horaires', horaires],
       ['Transports', '[transports]'],
       ['Parking', c.equipements.indexOf('parking') !== -1 ? '[détail parking]' : 'Pas de parking']
     ];
@@ -3132,9 +3185,8 @@ Object.assign(window.HF.vues, (function () {
       esc(c.whatsapp || '#') + '" target="_blank" rel="noopener"' +
       (c.whatsapp ? '' : ' title="[lien du canal WhatsApp du club]"') + '>' + LOGO_WHATSAPP +
       '<span>Rejoindre le canal WhatsApp</span></a></dd></div>' +
-      /* Coordonnées strictement identiques à la fiche Google Business du
-         club (B.3) : règle de saisie, pas une phrase pour le visiteur. */
       '</dl>' +
+      (g ? '<p class="mention infos__source">Adresse et horaires : fiche Google du club.</p>' : '') +
       '</section>';
   }
 
@@ -4139,4 +4191,78 @@ document.addEventListener('keydown', function (ev) {
     verifier();
     new MutationObserver(verifier).observe(document.body, { childList: true, subtree: true });
   });
+})();
+
+/* ------------------------------------------------------------------ */
+/* Google : adresse, horaires et avis d'un club, lus en direct dans      */
+/* l'API Places (maquette, Hugo, 2026-11-10).                           */
+/* ------------------------------------------------------------------ */
+/* La page appelle HF.google.lire(club) ; le résultat va dans un store
+   Alpine, donc tout composant qui lit HF.google.lieu(club) se redessine
+   quand Google répond. Sans clé, sans réseau ou en cas d'erreur, lieu()
+   reste vide et les composants gardent leurs emplacements entre crochets.
+   La clé vient de la fiche site ; window.HF_CLE_GOOGLE sert aux tests
+   locaux, jamais au site publié. En production, le serveur lira l'API
+   Google Business Profile, une fois par jour, et le site sa copie. */
+(function () {
+  'use strict';
+  var H = window.HF, D = H.data;
+  var bibliotheque = null;
+
+  document.addEventListener('alpine:init', function () {
+    window.Alpine.store('google', { lieux: {} });
+  });
+
+  function cle() {
+    return (D.site && D.site.google && D.site.google.cle) || window.HF_CLE_GOOGLE || null;
+  }
+
+  /* La bibliothèque Places de Google, chargée une seule fois, à la demande. */
+  function placeClass() {
+    if (bibliotheque) return bibliotheque;
+    bibliotheque = new Promise(function (ok, ko) {
+      window.__hfGooglePret = function () {
+        window.google.maps.importLibrary('places').then(function (lib) { ok(lib.Place); }, ko);
+      };
+      var s = document.createElement('script');
+      s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(cle()) +
+        '&v=weekly&loading=async&language=fr&callback=__hfGooglePret';
+      s.async = true;
+      s.onerror = ko;
+      document.head.appendChild(s);
+    });
+    return bibliotheque;
+  }
+
+  function store() { return window.Alpine && window.Alpine.store('google'); }
+
+  function lieu(c) {
+    var st = store();
+    if (!c || !c.googlePlaceId || !st) return null;
+    var l = st.lieux[c.googlePlaceId];
+    return l && !l.chargement && !l.erreur ? l : null;
+  }
+
+  function lire(c) {
+    var st = store();
+    if (!c || !c.googlePlaceId || !cle() || !st || st.lieux[c.googlePlaceId]) return;
+    st.lieux[c.googlePlaceId] = { chargement: true };
+    placeClass().then(function (Place) {
+      var p = new Place({ id: c.googlePlaceId, requestedLanguage: 'fr' });
+      return p.fetchFields({ fields: ['formattedAddress', 'regularOpeningHours', 'rating',
+        'userRatingCount', 'reviews', 'googleMapsURI'] }).then(function () {
+        st.lieux[c.googlePlaceId] = {
+          adresse: (p.formattedAddress || '').replace(/, (Suisse|Switzerland)$/, ''),
+          horaires: p.regularOpeningHours ? p.regularOpeningHours.weekdayDescriptions : null,
+          note: p.rating, nombre: p.userRatingCount, lien: p.googleMapsURI,
+          avis: (p.reviews || []).map(function (r) {
+            return { note: r.rating, texte: r.text || '', quand: r.relativePublishTimeDescription,
+              auteur: r.authorAttribution ? r.authorAttribution.displayName : '' };
+          })
+        };
+      });
+    }).catch(function () { st.lieux[c.googlePlaceId] = { erreur: true }; });
+  }
+
+  H.google = { lire: lire, lieu: lieu };
 })();
