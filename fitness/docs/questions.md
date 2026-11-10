@@ -2068,9 +2068,11 @@ Google Cloud préparé par Fernando. Les dix fiches sont identifiées
 (`googlePlaceId` des fiches club).
 
 À régler :
-1. **Restreindre la clé** au lab (sites `lab.harmony.ch/*`, API Places (New)
-   et Maps JavaScript API). Au 10 novembre elle répond depuis n'importe où :
-   elle n'est pas publiée tant que ce n'est pas fait.
+1. ~~Restreindre la clé au lab~~ : fait le 10 novembre (sites
+   `lab.harmony.ch/*`, API Places (New) et Maps JavaScript API, refus vérifié
+   depuis ailleurs). La clé est dans `data.js`, les dix pages club lisent
+   Google. Ouverte en local depuis un fichier, une page n'envoie pas
+   d'adresse : Google refuse et les emplacements restent.
 2. **En production**, le serveur lira l'API Google Business Profile (tous les
    avis, données gardées en cache). Il faut un compte propriétaire ou
    gestionnaire des dix fiches, et l'accès à l'API demandé à Google. Qui gère
