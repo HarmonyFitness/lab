@@ -1,0 +1,57 @@
+# Relevé quotidien des fiches Google des clubs (Hugo, 2026-11-20).
+# Un appel par club et par jour, environ 300 par mois, au lieu d'un appel
+# par visite. Le script écrit fitness/data/google.js, que les pages lisent.
+# La clé est le secret GOOGLE_PLACES_KEY (limitée à Places API (New), avec
+# un plafond quotidien), jamais un fichier du dépôt.
+# Un commit poussé avec GITHUB_TOKEN ne relance pas les workflows : le
+# déploiement est donc lancé à la main, par workflow_dispatch.
+name: Relevé Google des clubs
+
+on:
+  schedule:
+    - cron: '17 4 * * *'   # 4 h 17 UTC, chaque jour
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: google-places
+  cancel-in-progress: false
+
+jobs:
+  releve:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Lire les fiches Google
+        id: releve
+        env:
+          GOOGLE_PLACES_KEY: ${{ secrets.GOOGLE_PLACES_KEY }}
+        run: |
+          node fitness/docs/outils/google-places.js | tee sortie.txt
+          echo "etat=$(tail -n 1 sortie.txt)" >> "$GITHUB_OUTPUT"
+          rm sortie.txt
+
+      - name: Enregistrer la copie
+        if: steps.releve.outputs.etat == 'change'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898+github-actions[bot]@users.noreply.github.com"
+          git add fitness/data/google.js
+          git commit -m "Relevé Google des clubs du $(date -u +%Y-%m-%d)"
+          git push origin HEAD:main
+
+      - name: Lancer le déploiement
+        if: steps.releve.outputs.etat == 'change'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main

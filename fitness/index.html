@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Fitness, cours collectifs et bien-être à Genève et Vaud | Harmony</title>
 <link rel="icon" href="favicon.png">
-<link rel="stylesheet" href="assets/wireframe.css?v=2026-11-10e">
+<link rel="stylesheet" href="assets/wireframe.css?v=2026-11-20a">
 </head>
 <body>
 
@@ -119,8 +119,10 @@
 
 </div>
 
-<script src="data/data.js?v=2026-11-10e"></script>
-<script src="assets/components.js?v=2026-11-10e"></script>
+<script src="data/data.js?v=2026-11-20a"></script>
+<!-- Copie Google du jour : la date dans l'adresse, pour qu'un navigateur ne garde pas celle de la veille. -->
+<script>document.write('<script src="data/google.js?v=2026-11-20a&j=' + new Date().toISOString().slice(0, 10) + '"><\/script>');</script>
+<script src="assets/components.js?v=2026-11-20a"></script>
 <script>
 document.addEventListener('alpine:init', function () {
   Alpine.data('pageAccueil', function () {
@@ -130,13 +132,12 @@ document.addEventListener('alpine:init', function () {
         HF.brancher(this.$el, this.etat);
         HF.brancherSelecteur(this.$el, this.etat);
         /* La note moyenne des clubs, lue sur Google (Hugo, 2026-11-10). */
-        HF.google.lireTous();
       }
     };
   });
 });
 </script>
-<script defer src="assets/alpine.min.js?v=2026-11-10e"></script>
+<script defer src="assets/alpine.min.js?v=2026-11-20a"></script>
 
 </body>
 </html>

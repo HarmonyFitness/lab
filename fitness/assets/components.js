@@ -4212,81 +4212,53 @@ document.addEventListener('keydown', function (ev) {
 })();
 
 /* ------------------------------------------------------------------ */
-/* Google : adresse, horaires et avis d'un club, lus en direct dans      */
-/* l'API Places (maquette, Hugo, 2026-11-10).                           */
+/* Google : adresse, horaires et avis d'un club, lus dans la copie du    */
+/* relevé quotidien (Hugo, 2026-11-20, remplace l'appel en direct).     */
 /* ------------------------------------------------------------------ */
-/* La page appelle HF.google.lire(club) ; le résultat va dans un store
-   Alpine, donc tout composant qui lit HF.google.lieu(club) se redessine
-   quand Google répond. Sans clé, sans réseau ou en cas d'erreur, lieu()
-   reste vide et les composants gardent leurs emplacements entre crochets.
-   La clé vient de la fiche site ; window.HF_CLE_GOOGLE sert aux tests
-   locaux, jamais au site publié. En production, le serveur lira l'API
-   Google Business Profile, une fois par jour, et le site sa copie. */
+/* data/google.js (window.GOOGLE_DATA) est écrit une fois par jour par
+   docs/outils/google-places.js, lancé par la tâche planifiée
+   .github/workflows/google-places.yml. Les visiteurs ne déclenchent aucun
+   appel à Google, et aucune clé n'est dans le site. Sans copie, ou sans
+   fiche pour un club, lieu() rend null et les composants gardent leurs
+   emplacements entre crochets. En production, le serveur lira l'API
+   Google Business Profile et le site sa copie, sur le même principe. */
 (function () {
   'use strict';
   var H = window.HF, D = H.data;
-  var bibliotheque = null;
 
-  document.addEventListener('alpine:init', function () {
-    window.Alpine.store('google', { lieux: {} });
-  });
+  function copie() { return (window.GOOGLE_DATA && window.GOOGLE_DATA.lieux) || {}; }
 
-  function cle() {
-    return (D.site && D.site.google && D.site.google.cle) || window.HF_CLE_GOOGLE || null;
+  /* « il y a 3 semaines », calculé à l'affichage depuis la date de
+     publication : la copie ne change pas chaque jour pour rien. */
+  function quand(date) {
+    if (!date) return '';
+    var j = Math.floor((Date.now() - new Date(date + 'T12:00:00').getTime()) / 864e5);
+    function n(x, un, plusieurs) { return 'il y a ' + (x <= 1 ? 'un' + (un === 'semaine' ? 'e ' : ' ') + un : x + ' ' + plusieurs); }
+    if (j < 1) return 'aujourd\'hui';
+    if (j < 7) return n(j, 'jour', 'jours');
+    if (j < 30) return n(Math.floor(j / 7), 'semaine', 'semaines');
+    if (j < 365) return n(Math.floor(j / 30), 'mois', 'mois');
+    return n(Math.floor(j / 365), 'an', 'ans');
   }
-
-  /* La bibliothèque Places de Google, chargée une seule fois, à la demande. */
-  function placeClass() {
-    if (bibliotheque) return bibliotheque;
-    bibliotheque = new Promise(function (ok, ko) {
-      window.__hfGooglePret = function () {
-        window.google.maps.importLibrary('places').then(function (lib) { ok(lib.Place); }, ko);
-      };
-      var s = document.createElement('script');
-      s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(cle()) +
-        '&v=weekly&loading=async&language=fr&callback=__hfGooglePret';
-      s.async = true;
-      s.onerror = ko;
-      document.head.appendChild(s);
-    });
-    return bibliotheque;
-  }
-
-  function store() { return window.Alpine && window.Alpine.store('google'); }
 
   function lieu(c) {
-    var st = store();
-    if (!c || !c.googlePlaceId || !st) return null;
-    var l = st.lieux[c.googlePlaceId];
-    return l && !l.chargement && !l.erreur ? l : null;
+    if (!c || !c.googlePlaceId) return null;
+    var l = copie()[c.googlePlaceId];
+    if (!l) return null;
+    return {
+      adresse: l.adresse, horaires: l.horaires, note: l.note, nombre: l.nombre, lien: l.lien,
+      avis: (l.avis || []).map(function (a) {
+        return { note: a.note, texte: a.texte, auteur: a.auteur, quand: quand(a.date) };
+      })
+    };
   }
 
-  function lire(c) {
-    var st = store();
-    if (!c || !c.googlePlaceId || !cle() || !st || st.lieux[c.googlePlaceId]) return;
-    st.lieux[c.googlePlaceId] = { chargement: true };
-    placeClass().then(function (Place) {
-      var p = new Place({ id: c.googlePlaceId, requestedLanguage: 'fr' });
-      return p.fetchFields({ fields: ['formattedAddress', 'regularOpeningHours', 'rating',
-        'userRatingCount', 'reviews', 'googleMapsURI'] }).then(function () {
-        st.lieux[c.googlePlaceId] = {
-          adresse: (p.formattedAddress || '').replace(/, (Suisse|Switzerland)$/, ''),
-          horaires: p.regularOpeningHours ? p.regularOpeningHours.weekdayDescriptions : null,
-          note: p.rating, nombre: p.userRatingCount, lien: p.googleMapsURI,
-          avis: (p.reviews || []).map(function (r) {
-            return { note: r.rating, texte: r.text || '', quand: r.relativePublishTimeDescription,
-              auteur: r.authorAttribution ? r.authorAttribution.displayName : '' };
-          })
-        };
-      });
-    }).catch(function () { st.lieux[c.googlePlaceId] = { erreur: true }; });
-  }
-
-  /* Toutes les fiches des clubs, pour la note moyenne (accueil, landing). */
-  function lireTous() { D.clubs.forEach(lire); }
+  /* Gardés pour les pages qui les appellent encore : la copie est déjà là. */
+  function lire() {}
+  function lireTous() {}
 
   /* Moyenne simple des notes des clubs (« moyenne de nos 10 clubs ») et
-     nombre total d'avis, une fois toutes les fiches lues ; null avant. */
+     nombre total d'avis ; null s'il manque une fiche. */
   function moyenne() {
     var notes = D.clubs.filter(function (c) { return c.googlePlaceId; }).map(lieu);
     if (!notes.length || notes.some(function (g) { return !g || g.note == null; })) return null;
@@ -4295,7 +4267,8 @@ document.addEventListener('keydown', function (ev) {
       nombre: notes.reduce(function (s, g) { return s + (g.nombre || 0); }, 0) };
   }
 
-  H.google = { lire: lire, lieu: lieu, lireTous: lireTous, moyenne: moyenne };
+  H.google = { lire: lire, lieu: lieu, lireTous: lireTous, moyenne: moyenne, releve: function () {
+    return window.GOOGLE_DATA ? window.GOOGLE_DATA.releve : null; } };
 })();
 
 /* Flèches d'un slider : font défiler la liste voisine d'une carte. */

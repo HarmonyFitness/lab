@@ -2097,3 +2097,19 @@ Google Cloud préparé par Fernando. Les dix fiches sont identifiées
 Point 2 validé (Hugo, 2026-11-10) : Fernando lance la demande d'accès à l'API
 Google Business Profile dès maintenant.
 
+6. ~~Coût des appels~~ : **relevé une fois par jour** (Hugo, 2026-11-20). Du 1er
+   au 20 novembre, 1 455 appels Place Details avec avis (palier « Enterprise +
+   Atmosphere », 1 000 gratuits par mois puis environ 25 USD les 1 000) : un
+   appel par visite de page club, dix par visite de l'accueil ou de la
+   landing. Désormais une tâche planifiée GitHub (`google-places.yml`) lit les
+   dix fiches chaque nuit avec un FieldMask réduit et écrit `data/google.js`,
+   que les pages lisent : environ 300 appels par mois. La clé du lab est
+   retirée du site ; la tâche utilise une clé serveur, secret GitHub
+   `GOOGLE_PLACES_KEY`, limitée à Places API (New) avec un plafond quotidien
+   (pas de restriction d'adresse IP possible, les machines de GitHub changent).
+   **Reste à faire** : créer cette clé et le secret, lancer le premier relevé,
+   puis supprimer l'ancienne clé du lab dans Google Cloud.
+   Attention, conditions de l'API Places : la conservation de son contenu
+   (hors identifiants) est limitée. Ce relevé reste une solution de maquette ;
+   la production lira l'API Google Business Profile (point 2).
+

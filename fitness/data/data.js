@@ -31,15 +31,6 @@ window.DATA = {
     /* Le mot du lieu dans les composants partagés : club pour Fitness,
        bassin pour Aqua (Annexe A, Template 1 « Lieu d'exercice »). */
     lieu: { nom: 'club', pluriel: 'clubs' },
-    /* Google (maquette, Hugo, 2026-11-10) : adresse, horaires et avis des
-       pages club lus en direct dans l'API Places, depuis la page. La clé
-       est restreinte au lab dans Google Cloud (sites lab.harmony.ch/*,
-       API Places et Maps JavaScript, vérifié le 2026-11-10) : publiée dans
-       la page, elle ne sert à rien ailleurs. Ouverte en local depuis un
-       fichier, la page n'envoie pas d'adresse et Google refuse : les
-       emplacements restent. En production, le serveur lira l'API Google
-       Business Profile (section 8). */
-    google: { cle: 'AIzaSyDYXtHlEvAjq4N7G0tyj3LG5BF1RiJ6aVU' },
     /* Les cinq univers de la barre groupe, dans l'ordre de B.3. Libellés
        de B.3 : « Sports de combat », jamais « Arts martiaux » (Q66). */
     groupe: [
